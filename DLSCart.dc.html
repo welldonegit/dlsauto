@@ -69,7 +69,7 @@
           <span style="font-size:15px;line-height:1.4;color:#4A5260">Разом:</span>
           <span style="font-size:24px;line-height:1.2;font-weight:600;color:#1E232B;white-space:nowrap">{{ totalText }}</span>
         </div>
-        <button disabled="{{ belowMin }}" style="margin-top:8px;width:100%;height:56px;border:none;border-radius:8px;background:{{ ctaBg }};font:inherit;font-size:16px;font-weight:600;color:{{ ctaColor }};cursor:{{ ctaCursor }};transition:background 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">Оформити замовлення</button>
+        <button disabled="{{ belowMin }}" onClick="{{ goCheckout }}" style="margin-top:8px;width:100%;height:56px;border:none;border-radius:8px;background:{{ ctaBg }};font:inherit;font-size:16px;font-weight:600;color:{{ ctaColor }};cursor:{{ ctaCursor }};transition:background 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">Оформити замовлення</button>
       </div>
     </sc-if>
   </aside>
@@ -151,6 +151,7 @@ class Component extends DCLogic {
       minReached: reached,
       progressW: Math.min(100, (total / MIN) * 100) + '%',
       progressColor: reached ? '#1F8A4C' : '#E0001B',
+      goCheckout: () => { if (reached) window.location.href = 'DLSCheckout.dc.html'; },
       ctaBg: reached ? '#E0001B' : '#E6E9EE',
       ctaColor: reached ? '#FCFCFD' : '#6B7380',
       ctaCursor: reached ? 'pointer' : 'not-allowed'
