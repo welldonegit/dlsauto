@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}input::placeholder{color:#6B7380;opacity:1}</style>
+</helmet>
+<div ref="{{ anchorRef }}" style="height:0"></div>
+
+<sc-if value="{{ isWide }}" hint-placeholder-val="{{ true }}">
+  <div style="position:{{ wrapPos }};top:{{ wrapTop }};left:0;right:0;bottom:{{ wrapBottom }};z-index:900;padding-bottom:{{ wrapPadB }};background:{{ wrapBg }};opacity:{{ op }};visibility:{{ vis }};pointer-events:{{ pe }};transition:{{ visTr }};font-family:'Golos Text',sans-serif;color:#1E232B">
+    <div ref="{{ panelRef }}" role="dialog" aria-label="Каталог" style="background:#FCFCFD;box-shadow:0 16px 24px -12px rgba(18,22,28,0.24);transform:{{ panelTf }};transition:transform 200ms cubic-bezier(0.22, 1, 0.36, 1)">
+      <div style="max-width:1312px;margin:0 auto;padding:0 {{ sidePad }};box-sizing:border-box">
+        <sc-if value="{{ hasCar }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:16px;padding:4px 8px 4px 12px;display:flex;align-items:center;gap:12px;border-radius:8px;background:#F3F5F7">
+            <span style="padding:4px 8px 4px 6px;display:flex;align-items:center;gap:6px;border-radius:8px;background:#FCFCFD"><img src="{{ carLogo }}" alt="" style="width:16px;height:16px;flex-shrink:0;object-fit:contain;display:block;filter:grayscale(1) brightness(0.35)"><span style="font-size:13px;line-height:18px;color:#4A5260;white-space:nowrap">{{ carModel }}</span></span>
+            <p style="margin:0;flex:1;min-width:0;font-size:14px;line-height:20px;color:#4A5260">Показуємо наявність для <strong style="font-weight:600;color:#1E232B">{{ carName }}</strong></p>
+            <button type="button" onClick="{{ changeCar }}" style="height:40px;padding:0 12px;border:none;background:none;font:inherit;font-size:14px;font-weight:500;color:#1E232B;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:4px;cursor:pointer" style-hover="text-decoration-color:#1E232B">Змінити</button>
+          </div>
+        </sc-if>
+
+        <div style="padding:20px 0 32px;display:grid;grid-template-columns:minmax(0,19fr) minmax(0,50fr) minmax(0,31fr);align-items:start">
+          <div style="min-width:0;padding-right:24px">
+            <p style="margin:0 0 8px;padding:0 12px;height:32px;display:flex;align-items:center;font-size:12px;line-height:16px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#4A5260">Марки</p>
+            <div style="display:flex;flex-direction:column">
+              <sc-for list="{{ brands }}" as="b" hint-placeholder-count="15">
+                <a href="{{ b.href }}" onMouseEnter="{{ b.enter }}" onFocus="{{ b.focus }}" aria-current="{{ b.current }}" style="height:32px;box-sizing:border-box;padding:0 12px;display:flex;align-items:center;gap:12px;border-radius:8px;background:{{ b.bg }};color:#1E232B;text-decoration:none;transition:background 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:-2px">
+                  <span style="width:20px;height:20px;flex-shrink:0;display:flex;align-items:center;justify-content:center"><img src="{{ b.logo }}" alt="" style="max-width:20px;max-height:20px;object-fit:contain;display:block;filter:grayscale(1) brightness(0.35)"></span>
+                  <span style="min-width:0;font-size:15px;line-height:20px;font-weight:{{ b.weight }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ b.name }}</span>
+                </a>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="min-width:0;padding:0 24px">
+            <p style="margin:0 0 8px;height:32px;display:flex;align-items:center;font-size:12px;line-height:16px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#4A5260">Моделі</p>
+            <div style="opacity:{{ ctxOp }};transition:{{ ctxTr }}">
+              <div style="min-height:{{ gridMinH }};display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));grid-auto-rows:minmax(76px, auto);gap:12px;align-content:start">
+                <sc-for list="{{ models }}" as="m" hint-placeholder-count="4">
+                  <a href="{{ m.href }}" onMouseEnter="{{ m.enter }}" onMouseLeave="{{ m.leave }}" onFocus="{{ m.enter }}" onBlur="{{ m.leave }}" style="min-width:0;box-sizing:border-box;padding:16px;display:flex;align-items:center;gap:12px;border-radius:16px;background:{{ m.bg }};color:#1E232B;text-decoration:none;transition:background 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+                    <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
+                      <span style="font-size:18px;line-height:24px;font-weight:600;text-wrap:pretty">{{ m.name }}</span>
+                      <span style="font-size:14px;line-height:20px;color:#4A5260;text-wrap:pretty">{{ m.line }}</span>
+                    </span>
+                    <span aria-hidden="true" style="width:32px;height:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:{{ m.arrowBg }};color:{{ m.arrowColor }};transition:background 150ms ease-out, color 150ms ease-out"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
+                  </a>
+                </sc-for>
+              </div>
+              <a href="{{ brandHref }}" style="margin-top:16px;display:inline-flex;font-size:14px;line-height:20px;font-weight:500;color:#1E232B;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:4px" style-hover="text-decoration-color:#1E232B">{{ brandAll }}</a>
+            </div>
+          </div>
+
+          <div style="min-width:0;padding-left:24px;border-left:1px solid #E6E9EE">
+            <div style="margin:0 0 8px;padding-left:12px;height:32px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+              <p style="margin:0;font-size:12px;line-height:16px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#4A5260">Категорії</p>
+              <button type="button" onClick="{{ close }}" aria-label="Закрити каталог" style="width:32px;height:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:transparent;color:#1E232B;cursor:pointer;transition:background 150ms ease-out" style-hover="background:#F3F5F7" style-focus="outline:2px solid #1E232B;outline-offset:2px"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+            </div>
+            <div style="display:flex;flex-direction:column">
+              <sc-for list="{{ topRows }}" as="r" hint-placeholder-count="2">
+                <a href="{{ r.href }}" style="height:32px;box-sizing:border-box;padding:0 8px 0 12px;display:flex;align-items:center;gap:8px;border-radius:8px;color:#1E232B;text-decoration:none;transition:background 150ms ease-out" style-hover="background:#F3F5F7" style-focus="outline:2px solid #1E232B;outline-offset:-2px">
+                  <span style="flex:1;min-width:0;font-size:15px;line-height:20px;font-weight:600;white-space:nowrap">{{ r.name }}</span>
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:#6B7380;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg>
+                </a>
+              </sc-for>
+              <div style="margin:8px 12px;height:1px;background:#E6E9EE"></div>
+              <sc-for list="{{ catRows }}" as="r" hint-placeholder-count="9">
+                <a href="{{ r.href }}" style="height:32px;box-sizing:border-box;padding:0 8px 0 12px;display:flex;align-items:center;gap:8px;border-radius:8px;color:#1E232B;text-decoration:none;transition:background 150ms ease-out" style-hover="background:#F3F5F7" style-focus="outline:2px solid #1E232B;outline-offset:-2px">
+                  <span style="flex:1;min-width:0;font-size:15px;line-height:20px;white-space:nowrap">{{ r.name }}</span>
+                  <span style="flex-shrink:0;font-size:14px;line-height:20px;color:#6B7380;font-variant-numeric:tabular-nums">{{ r.count }}</span>
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:#6B7380;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg>
+                </a>
+              </sc-for>
+            </div>
+            <a href="DLSCatalog.dc.html" style="margin:12px 12px 0;display:inline-flex;font-size:14px;line-height:20px;font-weight:500;color:#1E232B;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:4px" style-hover="text-decoration-color:#1E232B">Усі категорії →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+  <div ref="{{ drawerRef }}" role="dialog" aria-modal="true" aria-label="Меню" style="position:{{ drPos }};top:0;right:0;bottom:0;left:0;z-index:1100;height:{{ drH }};overflow:hidden;background:#FCFCFD;transform:{{ drTf }};visibility:{{ vis }};transition:{{ drTr }};font-family:'Golos Text',sans-serif;color:#1E232B">
+
+    <div aria-hidden="{{ s1Hidden }}" style="position:absolute;inset:0;display:flex;flex-direction:column;transform:{{ s1Tf }};transition:transform 250ms cubic-bezier(0.22, 1, 0.36, 1)">
+      <div style="flex-shrink:0;height:64px;padding:0 {{ mPadSm }};display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:8px;border-bottom:1px solid #E6E9EE">
+        <button type="button" onClick="{{ close }}" aria-label="Закрити меню" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:transparent;color:#1E232B;cursor:pointer"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+        <a href="DLSAuto Головна.dc.html" aria-label="DLSAuto — на головну" style="justify-self:center;font-size:20px;line-height:1;letter-spacing:-0.02em;color:#1E232B;text-decoration:none"><span style="font-weight:600">DLS</span><span style="font-weight:400">Auto</span></a>
+        <button type="button" onClick="{{ openSearch }}" aria-label="Пошук" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:transparent;color:#1E232B;cursor:pointer"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></button>
+      </div>
+      <nav aria-label="Меню" style="flex:1;min-height:0;overflow-y:auto;padding:0 {{ mPad }}">
+        <sc-for list="{{ mainRows }}" as="r" hint-placeholder-count="7">
+          <a href="{{ r.href }}" onClick="{{ r.click }}" style="min-height:56px;display:flex;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid #E6E9EE;font-size:17px;line-height:24px;font-weight:500;color:#1E232B;text-decoration:none" style-active="background:#F3F5F7">
+            <span>{{ r.name }}</span>
+            <sc-if value="{{ r.chev }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:#4A5260;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg></sc-if>
+          </a>
+        </sc-for>
+      </nav>
+      <div style="flex-shrink:0;padding:16px {{ mPad }} 20px;display:flex;flex-direction:column;gap:16px;border-top:1px solid #E6E9EE;background:#FCFCFD">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+          <div style="display:flex;flex-direction:column">
+            <a href="tel:+380986401357" style="font-size:18px;line-height:24px;font-weight:600;color:#1E232B;text-decoration:none">+380 98 640 13 57</a>
+            <span style="font-size:13px;line-height:18px;color:#4A5260">Пн–Сб 9:00–18:00</span>
+          </div>
+          <div style="display:flex;gap:8px">
+            <a href="#" aria-label="Telegram" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#F3F5F7"><img src="https://cdn.simpleicons.org/telegram/4A5260" width="20" height="20" alt=""></a>
+            <a href="#" aria-label="Viber" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#F3F5F7"><img src="https://cdn.simpleicons.org/viber/4A5260" width="20" height="20" alt=""></a>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;font-size:15px;line-height:20px;font-weight:500">
+          <a href="DLSFavorites.dc.html" style="min-height:44px;display:flex;align-items:center;color:#1E232B;text-decoration:none">Обране</a>
+          <span aria-hidden="true" style="color:#A9B0BB">·</span>
+          <a href="DLSCompare.dc.html" style="min-height:44px;display:flex;align-items:center;color:#1E232B;text-decoration:none">Порівняння</a>
+        </div>
+      </div>
+    </div>
+
+    <div aria-hidden="{{ s2Hidden }}" style="position:absolute;inset:0;display:flex;flex-direction:column;background:#FCFCFD;transform:{{ s2Tf }};transition:transform 250ms cubic-bezier(0.22, 1, 0.36, 1)">
+      <div style="flex-shrink:0;height:64px;padding:0 {{ mPadSm }};display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:8px;border-bottom:1px solid #E6E9EE">
+        <button type="button" onClick="{{ back }}" aria-label="Назад" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:transparent;color:#1E232B;cursor:pointer"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m15 18-6-6 6-6"></path></svg></button>
+        <p style="margin:0;justify-self:center;font-size:18px;line-height:24px;font-weight:600">Каталог</p>
+        <button type="button" onClick="{{ close }}" aria-label="Закрити меню" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:transparent;color:#1E232B;cursor:pointer"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+      </div>
+      <div style="flex:1;min-height:0;overflow-y:auto;padding:16px {{ mPad }} 32px">
+        <form role="search" action="DLSCatalog.dc.html" style="height:48px;box-sizing:border-box;padding:4px 4px 4px 0;display:flex;align-items:center;gap:8px;border-radius:8px;background:#F3F5F7">
+          <input ref="{{ searchRef }}" type="search" name="q" aria-label="Пошук у каталозі" placeholder="Назва деталі, OEM-номер або модель авто" style="flex:1;min-width:0;height:40px;box-sizing:border-box;padding:0 16px;border:none;border-radius:8px;background:transparent;font:inherit;font-size:16px;color:#1E232B" style-focus="outline:1px solid #1E232B;outline-offset:-1px">
+          <button type="submit" aria-label="Знайти" style="width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:#E6E9EE;color:#1E232B;cursor:pointer"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></button>
+        </form>
+
+        <sc-if value="{{ hasCar }}" hint-placeholder-val="{{ false }}">
+          <div style="margin-top:16px">
+            <a href="{{ carCard.href }}" style="box-sizing:border-box;padding:16px;display:flex;align-items:flex-end;gap:12px;border-radius:16px;background:#F3F5F7;color:#1E232B;text-decoration:none" style-active="background:#E6E9EE">
+                <span style="flex:1;min-width:0;display:flex;flex-direction:column">
+                  <span style="margin-bottom:8px;align-self:flex-start;padding:4px 8px 4px 6px;display:flex;align-items:center;gap:6px;border-radius:8px;background:#FCFCFD"><img src="{{ carLogo }}" alt="" style="width:16px;height:16px;object-fit:contain;display:block;filter:grayscale(1) brightness(0.35)"><span style="font-size:12px;line-height:16px;font-weight:500;color:#1E232B">Ваше авто</span></span>
+                  <span style="font-size:18px;line-height:24px;font-weight:600">{{ carCard.name }}</span>
+                  <span style="margin-top:2px;font-size:14px;line-height:20px;color:#4A5260">{{ carCard.meta }}</span>
+                  <span style="margin-top:8px;font-size:14px;line-height:20px;color:#1E232B">{{ carCard.stock }}</span>
+                </span>
+                <span aria-hidden="true" style="width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#FCFCFD;color:#1E232B"><svg viewBox="0 0 24 24" width="18" height="18" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
+              </a>
+          </div>
+        </sc-if>
+
+        <div style="margin-top:8px;display:flex;flex-direction:column">
+          <div style="border-bottom:1px solid #E6E9EE">
+            <button type="button" aria-expanded="{{ byBrandExpanded }}" onClick="{{ toggleByBrand }}" style="width:100%;min-height:56px;box-sizing:border-box;padding:8px 0;display:flex;align-items:center;gap:12px;border:none;background:transparent;font-family:inherit;text-align:left;color:#1E232B;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+              <span style="flex:1;min-width:0;font-size:18px;line-height:24px;font-weight:600">За маркою</span>
+              <span aria-hidden="true" style="width:32px;height:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#F3F5F7"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:#1E232B;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ byBrandRot }});transition:transform 250ms ease-out"><path d="m6 9 6 6 6-6"></path></svg></span>
+            </button>
+            <div style="display:grid;grid-template-rows:{{ byBrandRows }};transition:grid-template-rows 250ms ease-out">
+              <div style="min-height:0;overflow:hidden">
+                <div style="padding-bottom:8px;display:flex;flex-direction:column">
+                  <sc-for list="{{ brandAccs }}" as="g" hint-placeholder-count="15">
+                    <div>
+                      <button type="button" aria-expanded="{{ g.expanded }}" onClick="{{ g.toggle }}" style="width:100%;min-height:48px;box-sizing:border-box;padding:0 8px 0 12px;display:flex;align-items:center;gap:12px;border:none;border-radius:8px;background:{{ g.bg }};font-family:inherit;text-align:left;color:#1E232B;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:-2px">
+                        <span style="width:20px;height:20px;flex-shrink:0;display:flex;align-items:center;justify-content:center"><img src="{{ g.logo }}" alt="" style="max-width:20px;max-height:20px;object-fit:contain;display:block;filter:grayscale(1) brightness(0.35)"></span>
+                        <span style="flex:1;min-width:0;font-size:16px;line-height:22px;font-weight:{{ g.weight }}">{{ g.name }}</span>
+                        <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:#4A5260;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ g.rot }});transition:transform 250ms ease-out"><path d="m6 9 6 6 6-6"></path></svg>
+                      </button>
+                      <div style="display:grid;grid-template-rows:{{ g.rowsTrack }};transition:grid-template-rows 250ms ease-out">
+                        <div style="min-height:0;overflow:hidden">
+                          <div style="padding:8px 0 12px;display:flex;flex-direction:column;gap:8px">
+                            <sc-for list="{{ g.cards }}" as="m" hint-placeholder-count="2">
+              <a href="{{ m.href }}" style="box-sizing:border-box;padding:16px;display:flex;align-items:flex-end;gap:12px;border-radius:16px;background:#F3F5F7;color:#1E232B;text-decoration:none" style-active="background:#E6E9EE">
+                <span style="flex:1;min-width:0;display:flex;flex-direction:column">
+                  <span style="font-size:18px;line-height:24px;font-weight:600">{{ m.name }}</span>
+                  <span style="margin-top:2px;font-size:14px;line-height:20px;color:#4A5260">{{ m.meta }}</span>
+                  <span style="margin-top:8px;font-size:14px;line-height:20px;color:#1E232B">{{ m.stock }}</span>
+                </span>
+                <span aria-hidden="true" style="width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#FCFCFD;color:#1E232B"><svg viewBox="0 0 24 24" width="18" height="18" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
+              </a>
+                            </sc-for>
+                            <a href="{{ g.href }}" style="min-height:44px;padding:0 12px;display:flex;align-items:center;font-size:14px;line-height:20px;font-weight:500;color:#1E232B;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:4px">{{ g.all }}</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="border-bottom:1px solid #E6E9EE">
+            <button type="button" aria-expanded="{{ byCatExpanded }}" onClick="{{ toggleByCat }}" style="width:100%;min-height:56px;box-sizing:border-box;padding:8px 0;display:flex;align-items:center;gap:12px;border:none;background:transparent;font-family:inherit;text-align:left;color:#1E232B;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+              <span style="flex:1;min-width:0;font-size:18px;line-height:24px;font-weight:600">За категорією</span>
+              <span aria-hidden="true" style="width:32px;height:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#F3F5F7"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:#1E232B;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ byCatRot }});transition:transform 250ms ease-out"><path d="m6 9 6 6 6-6"></path></svg></span>
+            </button>
+            <div style="display:grid;grid-template-rows:{{ byCatRows }};transition:grid-template-rows 250ms ease-out">
+              <div style="min-height:0;overflow:hidden">
+                <div style="padding-bottom:12px;display:flex;flex-direction:column">
+                  <sc-for list="{{ allCatRows }}" as="r" hint-placeholder-count="11">
+                    <a href="{{ r.href }}" style="min-height:48px;padding:0 4px 0 12px;display:flex;align-items:center;gap:8px;border-radius:8px;border-top:{{ r.divider }};color:#1E232B;text-decoration:none" style-active="background:#F3F5F7">
+                      <span style="flex:1;min-width:0;font-size:16px;line-height:22px;font-weight:{{ r.weight }}">{{ r.name }}</span>
+                      <span style="flex-shrink:0;font-size:14px;line-height:20px;color:#6B7380">{{ r.count }}</span>
+                      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:#6B7380;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg>
+                    </a>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;desktop&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'mobile'&quot;},&quot;open&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;inline&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;car&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;auto&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;none&quot;,&quot;ranger&quot;,&quot;l200&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;demoBrand&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;demoScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;main&quot;,&quot;options&quot;:[&quot;main&quot;,&quot;catalog&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;demoAcc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;demoTop&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;brands&quot;,&quot;options&quot;:[&quot;brands&quot;,&quot;cats&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;mPad&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;16px&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;onClose&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
+const LOGOS = { BMW: 'bmw', Ford: 'ford', Hyundai: 'hyundai', Isuzu: 'isuzu', Jeep: 'jeep', Kia: 'kia', Mazda: 'mazda', 'Mercedes-Benz': 'mercedes', Mitsubishi: 'mitsubishi', Nissan: 'nissan', 'Peugeot / Fiat': 'peugeot', SsangYong: 'ssangyong', Toyota: 'toyota', Volkswagen: 'volkswagen', Volvo: 'volvo' };
+const DATA = [
+  ['BMW', [['X5 E53', 'Позашляховик', '', 6]]],
+  ['Ford', [['Ranger', 'Пікап', '2006–2012', 118], ['Ranger', 'Пікап', '1998–2006', 108]]],
+  ['Hyundai', [['Santa Fe I', 'Позашляховик', '2004–2010', 45], ['Terracan', 'Позашляховик', '', 13]]],
+  ['Isuzu', [['D-Max', 'Пікап', '', 2]]],
+  ['Jeep', [['Grand Cherokee WK', 'Позашляховик', '2004–2007', 81], ['Patriot / Compass', 'Позашляховик', '2011–2017', 23]]],
+  ['Kia', [['Sorento', 'Позашляховик', '2002–2014', 67]]],
+  ['Mazda', [['BT-50', 'Пікап', '2006–2012', 118], ['B2500', 'Пікап', '1998–2006', 108]]],
+  ['Mercedes-Benz', [['ML W163', 'Позашляховик', '', 52]]],
+  ['Mitsubishi', [['L200', 'Пікап', '2005–2015', 85], ['Pajero Sport I', 'Позашляховик', '1996–2008', 84], ['L200', 'Пікап', '1996–2005', 46], ['Pajero Wagon', 'Позашляховик', '', 45]]],
+  ['Nissan', [['Navara / Pathfinder R51', 'Пікап', '2005–2015', 129], ['X-Trail T30–T31', 'Позашляховик', '2000–2014', 43]]],
+  ['Peugeot / Fiat', [['Landtrek / Titano', 'Пікап', '2020–2026', 4]]],
+  ['SsangYong', [['Actyon', 'Позашляховик', '2005–2011', 28], ['Rexton', 'Позашляховик', '2001–2006', 15]]],
+  ['Toyota', [['Hilux', 'Пікап', '2005–2015', 27], ['Land Cruiser Prado 90', 'Позашляховик', '1996–2002', 13], ['RAV4 II', 'Позашляховик', '2000–2005', 13]]],
+  ['Volkswagen', [['Crafter', 'Фургон', '', 43], ['T5', 'Фургон', '2003–2009', 40], ['Touareg', 'Позашляховик', '2002–2010', 20]]],
+  ['Volvo', [['XC90', 'Позашляховик', '2002–2015', 11]]]
+];
+const CATS = [['body', 'Кузовні деталі', 290], ['susp', 'Підвіска та ходова', 210], ['elec', 'Електрика та електроніка', 180], ['salon', 'Салон', 150], ['optics', 'Оптика', 120], ['brake', 'Гальмівна система', 95], ['engine', 'Двигуни', 48], ['gear', 'КПП та роздатки', 36], ['wheel', 'Шини та диски', 18]];
+const CAT_TOTAL = CATS.reduce((a, c) => a + c[2], 0);
+const CAR_KEY = 'dlsCar';
+const enc = encodeURIComponent;
+const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? b : c; };
+const fullName = (b, m) => `${b} ${m[0]}${m[2] ? ' ' + m[2] : ''}`;
+const card = (b, m) => ({
+  name: m[0], meta: m[2] ? `${m[1]}, ${m[2]}` : m[1],
+  stock: `${m[3]} ${plural(m[3], 'деталь', 'деталі', 'деталей')} у наявності`,
+  line: `${m[2] ? `${m[1]}, ${m[2]}` : m[1]} — ${m[3]} ${plural(m[3], 'деталь', 'деталі', 'деталей')}`,
+  href: `DLSCatalog.dc.html?brand=${enc(b)}&model=${enc(m[0] + (m[2] ? ' ' + m[2] : ''))}`
+});
+const POPULAR = DATA.flatMap(([b, ms]) => ms.map(m => ({ b, m }))).sort((x, y) => y.m[3] - x.m[3]);
+
+class Component extends DCLogic {
+  state = { car: null, top: 0, brand: undefined, ctxOn: true, hoverCard: null, screen: undefined, acc: undefined, popN: 3 };
+  anchorRef = React.createRef();
+  panelRef = React.createRef();
+  drawerRef = React.createRef();
+  searchRef = React.createRef();
+
+  componentDidMount() {
+    this.onKey = e => { if (e.key === 'Escape' && this.props.open) this.close(); };
+    this.onDown = e => {
+      if (!this.props.open || this.props.inline) return;
+      const t = e.target;
+      if (t.closest && (t.closest('[data-dls-menu-toggle]') || t.closest('form[role="search"]') || t.closest('input[type="search"]'))) return;
+      const box = this.panelRef.current || this.drawerRef.current;
+      if (box && box.contains(t)) return;
+      this.close();
+    };
+    this.onPos = () => { const a = this.anchorRef.current; if (a) this.setState({ top: Math.max(0, a.getBoundingClientRect().top) }); };
+    this.onCar = () => { try { this.setState({ car: localStorage.getItem(CAR_KEY) }); } catch (_) {} };
+    document.addEventListener('keydown', this.onKey);
+    document.addEventListener('mousedown', this.onDown, true);
+    window.addEventListener('scroll', this.onPos, { passive: true });
+    window.addEventListener('resize', this.onPos);
+    window.addEventListener('dls-car-change', this.onCar);
+    window.addEventListener('storage', this.onCar);
+    this.onCar(); this.onPos();
+  }
+  componentDidUpdate(prev) {
+    if (prev.open !== this.props.open) {
+      this.onPos();
+      if (!this.props.open) { clearTimeout(this.hT); this.setState({ brand: undefined, ctxOn: true, screen: undefined }); }
+      if (!this.props.inline && this.props.device === 'mobile') document.body.style.overflow = this.props.open ? 'hidden' : '';
+    }
+  }
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.onKey);
+    document.removeEventListener('mousedown', this.onDown, true);
+    window.removeEventListener('scroll', this.onPos);
+    window.removeEventListener('resize', this.onPos);
+    window.removeEventListener('dls-car-change', this.onCar);
+    window.removeEventListener('storage', this.onCar);
+    clearTimeout(this.hT); clearTimeout(this.fT);
+  }
+  close() { this.props.onClose && this.props.onClose(); }
+  pick(name, now) {
+    clearTimeout(this.hT);
+    const go = () => {
+      if (this.curBrand === name) return;
+      this.setState({ ctxOn: false });
+      clearTimeout(this.fT);
+      this.fT = setTimeout(() => this.setState({ brand: name, ctxOn: true }), 150);
+    };
+    if (now) go(); else this.hT = setTimeout(go, 120);
+  }
+
+  renderVals() {
+    const p = this.props, s = this.state;
+    const device = p.device || 'desktop';
+    const inline = !!p.inline, open = !!p.open, shown = inline || open;
+    const isMobile = device === 'mobile';
+
+    const carKey = p.car === 'none' ? null : p.car === 'ranger' ? 'Ford Ranger 2006–2012' : p.car === 'l200' ? 'Mitsubishi L200 2005–2015' : s.car;
+    let carBrand = null, carModel = '', carTotal = 0;
+    if (carKey) for (const [b, ms] of DATA) for (const m of ms) if (fullName(b, m) === carKey) { carBrand = b; carModel = m[0] + (m[2] ? ' ' + m[2] : ''); carTotal = m[3]; }
+    const hasCar = !!carBrand;
+    const q = hasCar ? `&car=${enc(carKey)}` : '';
+
+    const active = s.brand !== undefined ? s.brand : (p.demoBrand || carBrand || 'Mitsubishi');
+    this.curBrand = active;
+    const brands = DATA.map(([name]) => {
+      const a = name === active;
+      return {
+        name, logo: `assets/logos/${LOGOS[name]}.svg`, href: `DLSCatalog.dc.html?brand=${enc(name)}`,
+        bg: a ? '#F3F5F7' : 'transparent', weight: a ? 600 : 400, current: a ? 'true' : undefined,
+        enter: () => this.pick(name), focus: () => this.pick(name, true)
+      };
+    });
+    const ab = DATA.find(d => d[0] === active);
+    const total = ab[1].reduce((a, m) => a + m[3], 0);
+    const models = ab[1].map((m, i) => {
+      const h = s.hoverCard === i;
+      return {
+        ...card(active, m),
+        bg: h ? '#E6E9EE' : '#F3F5F7', arrowBg: h ? '#1E232B' : '#FCFCFD', arrowColor: h ? '#FCFCFD' : '#1E232B',
+        enter: () => this.setState({ hoverCard: i }),
+        leave: () => this.setState(st => (st.hoverCard === i ? { hoverCard: null } : null))
+      };
+    });
+
+    const catCount = n => String(hasCar ? Math.max(1, Math.round(carTotal * n / CAT_TOTAL)) : n);
+    const topRows = [
+      { name: 'Новинки', href: `DLSCatalog.dc.html?sort=new${q}` },
+      { name: 'Популярне', href: `DLSCatalog.dc.html?sort=popular${q}` }
+    ];
+    const catRows = CATS.map(([key, name, n]) => ({ name, count: catCount(n), href: `DLSCatalog.dc.html?cat=${key}${q}` }));
+
+    const screen = s.screen !== undefined ? s.screen : (p.demoScreen || 'main');
+    const goCatalog = e => { e && e.preventDefault(); this.setState({ screen: 'catalog' }); };
+    const mainRows = [
+      { name: 'Каталог', href: 'DLSCatalog.dc.html', chev: true, click: goCatalog },
+      { name: 'Акції', href: 'DLSCatalog.dc.html?promo=1', chev: false },
+      { name: 'Нові надходження', href: 'DLSCatalog.dc.html?sort=new', chev: false },
+      { name: 'Оплата і доставка', href: '#', chev: false },
+      { name: 'Гарантія та повернення', href: '#', chev: false },
+      { name: 'Про компанію', href: '#', chev: false },
+      { name: 'Контакти', href: '#', chev: true }
+    ];
+    const accOpen = s.acc !== undefined ? s.acc : (p.demoAcc || carBrand || null);
+    const top = s.top2 !== undefined ? s.top2 : (p.demoTop || 'brands');
+    const brandAccs = DATA.map(([b, ms]) => {
+      const ex = accOpen === b;
+      return {
+        name: b, logo: `assets/logos/${LOGOS[b]}.svg`, cards: ms.map(m => card(b, m)),
+        expanded: ex ? 'true' : 'false', rot: ex ? '180deg' : '0deg', rowsTrack: ex ? '1fr' : '0fr', bg: ex ? '#F3F5F7' : 'transparent', weight: ex ? 600 : 500,
+        toggle: () => this.setState({ acc: ex ? null : b }),
+        all: `Усі деталі ${b} (${ms.reduce((a, m) => a + m[3], 0)}) →`, href: `DLSCatalog.dc.html?brand=${enc(b)}`
+      };
+    });
+    let carCard = { name: '', meta: '', stock: '', href: '#' };
+    if (hasCar) { const cm = DATA.find(d => d[0] === carBrand)[1].find(m => fullName(carBrand, m) === carKey); carCard = { ...card(carBrand, cm), name: `${carBrand} ${cm[0]}` }; }
+    const allCatRows = [...topRows.map(r => ({ ...r, count: '', weight: 600, divider: 'none' })), ...catRows.map((r, i) => ({ ...r, weight: 400, divider: i === 0 ? '1px solid #E6E9EE' : 'none' }))];
+
+    return {
+      anchorRef: this.anchorRef, panelRef: this.panelRef, drawerRef: this.drawerRef, searchRef: this.searchRef,
+      isWide: !isMobile, isMobile,
+      sidePad: device === 'desktop' ? '64px' : '32px',
+      wrapPos: inline ? 'relative' : 'fixed',
+      wrapTop: inline ? 'auto' : s.top + 'px',
+      wrapBottom: inline ? 'auto' : '0',
+      wrapPadB: inline ? '64px' : '0',
+      wrapBg: inline ? '#B2B3B5' : 'rgba(18,22,28,0.3)',
+      op: shown ? 1 : 0, vis: shown ? 'visible' : 'hidden', pe: shown ? 'auto' : 'none',
+      visTr: shown ? 'opacity 200ms ease-out, visibility 0s linear 0s' : 'opacity 200ms ease-out, visibility 0s linear 200ms',
+      panelTf: shown ? 'translateY(0)' : 'translateY(-8px)',
+      hasCar, carName: carKey || '', carModel, carLogo: carBrand ? `assets/logos/${LOGOS[carBrand]}.svg` : '',
+      changeCar: () => { this.close(); window.scrollTo({ top: 0, behavior: 'smooth' }); },
+      brands, models,
+      cardH: device === 'desktop' ? '136px' : '148px',
+      gridMinH: device === 'desktop' ? '164px' : '196px',
+      brandHref: `DLSCatalog.dc.html?brand=${enc(active)}`,
+      brandAll: `Усі деталі ${active} (${total}) →`,
+      ctxOp: s.ctxOn ? 1 : 0, ctxTr: 'opacity 150ms ease-out',
+      topRows, catRows,
+      close: () => this.close(),
+      drPos: inline ? 'relative' : 'fixed',
+      drH: inline ? '100%' : 'auto',
+      drTf: shown ? 'translateX(0)' : 'translateX(100%)',
+      drTr: shown ? 'transform 300ms cubic-bezier(0.22, 1, 0.36, 1), visibility 0s linear 0s' : 'transform 250ms ease-in, visibility 0s linear 250ms',
+      mPad: p.mPad || '16px', mPadSm: p.mPad === '32px' ? '24px' : '8px',
+      s1Tf: screen === 'catalog' ? 'translateX(-30%)' : 'translateX(0)',
+      s2Tf: screen === 'catalog' ? 'translateX(0)' : 'translateX(100%)',
+      s1Hidden: screen === 'catalog' ? 'true' : 'false', s2Hidden: screen === 'catalog' ? 'false' : 'true',
+      mainRows,
+      openSearch: () => { this.setState({ screen: 'catalog' }); setTimeout(() => this.searchRef.current && this.searchRef.current.focus(), 260); },
+      back: () => this.setState({ screen: 'main' }),
+      brandAccs, allCatRows, carCard,
+      byBrandExpanded: top === 'brands' ? 'true' : 'false', byBrandRot: top === 'brands' ? '180deg' : '0deg', byBrandRows: top === 'brands' ? '1fr' : '0fr',
+      byCatExpanded: top === 'cats' ? 'true' : 'false', byCatRot: top === 'cats' ? '180deg' : '0deg', byCatRows: top === 'cats' ? '1fr' : '0fr',
+      toggleByBrand: () => this.setState({ top2: top === 'brands' ? null : 'brands' }),
+      toggleByCat: () => this.setState({ top2: top === 'cats' ? null : 'cats' })
+    };
+  }
+}
+</script>
+</body>
+</html>
