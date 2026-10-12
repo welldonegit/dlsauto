@@ -48,7 +48,7 @@
     <div style="max-width:1312px;margin:0 auto;padding:0 64px;height:80px;display:flex;align-items:center;gap:32px">
       <a href="DLSAuto Головна.dc.html" aria-label="DLSAuto — на головну" style="font-size:28px;line-height:1;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-decoration:none">DLSAuto</a>
       <nav>
-        <a href="DLSCatalog.dc.html" style="height:48px;padding:0 24px 0 16px;display:flex;align-items:center;gap:8px;border:none;border-radius:8px;text-decoration:none;box-sizing:border-box;background-color:#E0001B;background-image:radial-gradient(circle, #C00017 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;font:inherit;font-size:16px;font-weight:600;color:#FCFCFD;cursor:pointer;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%"><svg viewBox="0 0 24 24" width="20" height="20" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>Каталог</a>
+        <button type="button" data-dls-menu-toggle="true" onClick="{{ toggleMenu }}" aria-haspopup="dialog" aria-expanded="{{ menuExpanded }}" style="height:48px;padding:0 16px;display:flex;align-items:center;gap:8px;border:none;border-radius:8px;box-sizing:border-box;background-color:#E0001B;background-image:radial-gradient(circle, #C00017 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;font:inherit;font-size:16px;font-weight:600;color:#FCFCFD;cursor:pointer;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%"><svg viewBox="0 0 24 24" width="20" height="20" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>Каталог<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ menuRot }});transition:transform 200ms ease"><path d="m7 10 5 5 5-5"></path></svg></button>
       </nav>
       <div style="flex:1;min-width:0;display:flex;align-items:center;gap:16px">
         <form role="search" style="flex:1;min-width:0;height:48px;box-sizing:border-box;padding:4px 4px 4px 0;display:flex;align-items:center;gap:8px;border-radius:8px;background:#F3F5F7">
@@ -65,6 +65,9 @@
       </div>
     </div>
   </div>
+  <sc-if value="{{ menuV1 }}" hint-placeholder-val="{{ false }}"><dc-import name="DLSMegaMenu" device="desktop" open="{{ menuOpen }}" inline="{{ menuInline }}" demo-hover="{{ menuDemo }}" on-close="{{ closeMenu }}" car="{{ menuCar }}" hint-size="100%,0px"></dc-import></sc-if>
+  <sc-if value="{{ menuV2 }}" hint-placeholder-val="{{ false }}"><dc-import name="DLSMegaMenu2" device="desktop" open="{{ menuOpen }}" inline="{{ menuInline }}" on-close="{{ closeMenu }}" car="{{ menuCar }}" hint-size="100%,0px"></dc-import></sc-if>
+  <sc-if value="{{ menuV3 }}" hint-placeholder-val="{{ true }}"><dc-import name="DLSMegaMenu3" device="desktop" open="{{ menuOpen }}" inline="{{ menuInline }}" on-close="{{ closeMenu }}" car="{{ menuCar }}" hint-size="100%,0px"></dc-import></sc-if>
   <sc-if value="{{ showHero }}" hint-placeholder-val="{{ true }}">
   <div style="position:relative;background:#12161C url(uploads/hero2.jpg) right center / cover no-repeat">
     <div style="position:absolute;inset:0;background:rgba(18,22,28,0.6)"></div>
@@ -122,7 +125,7 @@
   </div>
   <div style="background:#FCFCFD;border-radius:16px 16px 0 0">
     <div style="padding:0 32px;height:80px;display:flex;align-items:center;gap:16px">
-      <button aria-label="Меню" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:#F3F5F7;color:#1E232B;cursor:pointer"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg></button>
+      <button type="button" aria-label="Меню" data-dls-menu-toggle="true" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:#F3F5F7;color:#1E232B;cursor:pointer"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg></button>
       <a href="DLSAuto Головна.dc.html" aria-label="DLSAuto — на головну" style="font-size:28px;line-height:1;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-decoration:none">DLSAuto</a>
       <div style="margin-left:auto;display:flex;align-items:center;gap:16px">
         <button style="height:48px;padding:0 24px;border:1px solid #E0001B;border-radius:8px;font:inherit;font-size:16px;font-weight:600;color:#E0001B;cursor:pointer;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%">Замовити дзвінок</button>
@@ -141,6 +144,9 @@
       </form>
     </div>
   </div>
+  <sc-if value="{{ menuV1 }}" hint-placeholder-val="{{ false }}"><dc-import name="DLSMegaMenu" device="{{ tabletMenuDevice }}" open="{{ menuOpen }}" inline="{{ menuInline }}" m-pad="32px" on-close="{{ closeMenu }}" car="{{ menuCar }}" hint-size="100%,0px"></dc-import></sc-if>
+  <sc-if value="{{ menuV2 }}" hint-placeholder-val="{{ false }}"><dc-import name="DLSMegaMenu2" device="{{ tabletMenuDevice }}" open="{{ menuOpen }}" inline="{{ menuInline }}" m-pad="32px" on-close="{{ closeMenu }}" car="{{ menuCar }}" hint-size="100%,0px"></dc-import></sc-if>
+  <sc-if value="{{ menuV3 }}" hint-placeholder-val="{{ true }}"><dc-import name="DLSMegaMenu3" device="{{ tabletMenuDevice }}" open="{{ menuOpen }}" inline="{{ menuInline }}" m-pad="32px" on-close="{{ closeMenu }}" car="{{ menuCar }}" hint-size="100%,0px"></dc-import></sc-if>
   <sc-if value="{{ showHero }}" hint-placeholder-val="{{ true }}">
   <div style="position:relative;background:#12161C url(uploads/hero2.jpg) 70% center / cover no-repeat">
     <div style="position:absolute;inset:0;background:rgba(18,22,28,0.6)"></div>
@@ -180,7 +186,7 @@
   </div>
   <div style="background:#FCFCFD;border-radius:16px 16px 0 0">
     <div style="padding:0 16px;height:64px;display:flex;align-items:center;gap:12px">
-      <button aria-label="Меню" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:#F3F5F7;color:#1E232B;cursor:pointer"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg></button>
+      <button type="button" aria-label="Меню" data-dls-menu-toggle="true" onClick="{{ toggleMenu }}" aria-expanded="{{ menuExpanded }}" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:#F3F5F7;color:#1E232B;cursor:pointer"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg></button>
       <a href="DLSAuto Головна.dc.html" aria-label="DLSAuto — на головну" style="font-size:20px;line-height:1;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-decoration:none">DLSAuto</a>
       <a href="#" onClick="{{ openCart }}" aria-label="{{ cartAria }}" style="margin-left:auto;position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#F3F5F7;color:#1E232B">
         <svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
@@ -190,6 +196,9 @@
       <a href="DLSCompare.dc.html" aria-label="{{ cmpAria }}" style="position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#F3F5F7;color:#1E232B"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg><span aria-hidden="true" style="position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;display:{{ cmpBadgeDisplay }};align-items:center;justify-content:center;border-radius:9px;background:#E0001B;color:#FCFCFD;font-size:11px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;animation:{{ cmpBadgeAnim }}">{{ cmpCount }}</span></a>
     </div>
   </div>
+  <sc-if value="{{ menuV1 }}" hint-placeholder-val="{{ false }}"><dc-import name="DLSMegaMenu" device="mobile" open="{{ menuOpen }}" on-close="{{ closeMenu }}" car="{{ menuCar }}" hint-size="100%,0px"></dc-import></sc-if>
+  <sc-if value="{{ menuV2 }}" hint-placeholder-val="{{ false }}"><dc-import name="DLSMegaMenu2" device="mobile" open="{{ menuOpen }}" on-close="{{ closeMenu }}" car="{{ menuCar }}" hint-size="100%,0px"></dc-import></sc-if>
+  <sc-if value="{{ menuV3 }}" hint-placeholder-val="{{ true }}"><dc-import name="DLSMegaMenu3" device="mobile" open="{{ menuOpen }}" on-close="{{ closeMenu }}" car="{{ menuCar }}" hint-size="100%,0px"></dc-import></sc-if>
   <sc-if value="{{ showHero }}" hint-placeholder-val="{{ true }}">
   <div style="position:relative;background:#12161C url(uploads/hero2.jpg) 65% center / cover no-repeat">
     <div style="position:absolute;inset:0;background:rgba(18,22,28,0.6)"></div>
@@ -239,7 +248,7 @@
 </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:720},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;},&quot;demoSuggest&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;hero&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:720},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;},&quot;demoSuggest&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;hero&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;demoMenu&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;off&quot;,&quot;options&quot;:[&quot;off&quot;,&quot;default&quot;,&quot;Mitsubishi&quot;,&quot;Оптика&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;menuVariant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;v3&quot;,&quot;options&quot;:[&quot;v1&quot;,&quot;v2&quot;,&quot;v3&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;menuCar&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;auto&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;none&quot;,&quot;ranger&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;menuDevice&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;laptop&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;string&quot;}}">
 const BRANDS = {
   'Ford': ['Ranger', 'F-150', 'Explorer', 'Maverick'],
   'Toyota': ['Hilux', 'Land Cruiser 200', 'Land Cruiser Prado 150', 'Tundra', 'Tacoma'],
@@ -348,7 +357,16 @@ class Component extends DCLogic {
     const fc = s.favCount ?? 0;
     const tst = s.toast;
     const tOn = !!s.toastOn;
+    const demoMenu = p.demoMenu && p.demoMenu !== 'off' ? p.demoMenu : null;
+    const menuOpen = s.menuOpen ?? !!demoMenu;
     return {
+      menuV1: p.menuVariant === 'v1', menuV2: p.menuVariant === 'v2', menuV3: (p.menuVariant || 'v3') === 'v3', menuCar: p.menuCar || 'auto',
+      menuOpen, menuInline: !!demoMenu && s.menuOpen === undefined,
+      menuDemo: demoMenu === 'Mitsubishi' || demoMenu === 'Оптика' ? demoMenu : 'немає',
+      menuExpanded: menuOpen ? 'true' : 'false', menuRot: menuOpen ? '180deg' : '0deg',
+      toggleMenu: () => this.setState({ menuOpen: !menuOpen }),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      tabletMenuDevice: p.menuDevice || (vw >= 1024 ? 'laptop' : 'mobile'),
       showHero: this.props.hero ?? true,
       favCount: fc,
       cartCount: s.cartCount ?? 0,

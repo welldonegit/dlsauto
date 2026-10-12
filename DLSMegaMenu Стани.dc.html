@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;background:#E6E9EE;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+</helmet>
+<section style="padding:64px;display:flex;flex-direction:column;gap:48px">
+  <h1 style="margin:0;font-size:40px;line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Мега-меню каталогу — варіант 3: марки, моделі, категорії</h1>
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <div id="3a" data-screen-label="Меню v3 — без авто" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">3a — Десктоп, авто не обрано (Mitsubishi за замовчуванням)</p>
+      <div style="width:1440px;overflow:hidden;border-radius:16px;background:#12161C">
+        <dc-import name="DLSHeaderHero" hero="{{ false }}" device="desktop" demo-menu="default" menu-variant="v3" menu-car="none" hint-size="1440px,900px"></dc-import>
+      </div>
+    </div>
+    <div id="3b" data-screen-label="Меню v3 — Ford Ranger" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">3b — Десктоп, обрано Ford Ranger 2006–2012</p>
+      <div style="width:1440px;overflow:hidden;border-radius:16px;background:#12161C">
+        <dc-import name="DLSHeaderHero" hero="{{ false }}" device="desktop" demo-menu="default" menu-variant="v3" menu-car="ranger" hint-size="1440px,960px"></dc-import>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <div id="3c" data-screen-label="Меню v3 — 768 екран 1" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">3c — 768, екран 1</p>
+      <div style="width:768px;height:1024px;overflow:hidden;border-radius:16px;background:#FCFCFD">
+        <dc-import name="DLSMegaMenu3" device="mobile" open="{{ true }}" inline="{{ true }}" m-pad="32px" car="none" style="display:block;height:100%" hint-size="768px,1024px"></dc-import>
+      </div>
+    </div>
+    <div id="3d" data-screen-label="Меню v3 — 390 екран 1" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">3d — 390, екран 1</p>
+      <div style="width:390px;height:844px;overflow:hidden;border-radius:16px;background:#FCFCFD">
+        <dc-import name="DLSMegaMenu3" device="mobile" open="{{ true }}" inline="{{ true }}" car="none" style="display:block;height:100%" hint-size="390px,844px"></dc-import>
+      </div>
+    </div>
+    <div id="3e" data-screen-label="Меню v3 — 390 Каталог" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">3e — 390, екран 2 «Каталог»</p>
+      <div style="width:390px;height:844px;overflow:hidden;border-radius:16px;background:#FCFCFD">
+        <dc-import name="DLSMegaMenu3" device="mobile" open="{{ true }}" inline="{{ true }}" car="none" demo-screen="catalog" style="display:block;height:100%" hint-size="390px,844px"></dc-import>
+      </div>
+    </div>
+    <div id="3f" data-screen-label="Меню v3 — 390 Каталог, Mitsubishi" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">3f — 390, «Каталог», обрано Ford Ranger</p>
+      <div style="width:390px;height:844px;overflow:hidden;border-radius:16px;background:#FCFCFD">
+        <dc-import name="DLSMegaMenu3" device="mobile" open="{{ true }}" inline="{{ true }}" car="ranger" demo-screen="catalog" style="display:block;height:100%" hint-size="390px,844px"></dc-import>
+      </div>
+    </div>
+  </div>
+</section>
+<section style="padding:64px;display:flex;flex-direction:column;gap:48px">
+  <h1 style="margin:0;font-size:40px;line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Мега-меню каталогу — варіант 2: плитки + індекс авто</h1>
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <div id="2a" data-screen-label="Меню v2 — без авто" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">2a — Десктоп, авто не обрано</p>
+      <div style="width:1440px;overflow:hidden;border-radius:16px;background:#12161C">
+        <dc-import name="DLSHeaderHero" hero="{{ false }}" device="desktop" demo-menu="default" menu-variant="v2" menu-car="none" hint-size="1440px,900px"></dc-import>
+      </div>
+    </div>
+    <div id="2b" data-screen-label="Меню v2 — Ford Ranger" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">2b — Десктоп, обрано Ford Ranger 2006–2012</p>
+      <div style="width:1440px;overflow:hidden;border-radius:16px;background:#12161C">
+        <dc-import name="DLSHeaderHero" hero="{{ false }}" device="desktop" demo-menu="default" menu-variant="v2" menu-car="ranger" hint-size="1440px,950px"></dc-import>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <div id="2c" data-screen-label="Меню v2 — 1024" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">2c — 1024, категорії 5+4, індекс 3 колонки</p>
+      <div style="width:1024px;overflow:hidden;border-radius:16px;background:#12161C">
+        <dc-import name="DLSHeaderHero" hero="{{ false }}" device="tablet" menu-device="laptop" demo-menu="default" menu-variant="v2" menu-car="none" hint-size="1024px,1100px"></dc-import>
+      </div>
+    </div>
+    <div id="2d" data-screen-label="Меню v2 — 768" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">2d — 768, бургер</p>
+      <div style="width:768px;height:1024px;overflow:hidden;border-radius:16px;background:#FCFCFD">
+        <dc-import name="DLSMegaMenu2" device="mobile" open="{{ true }}" inline="{{ true }}" m-pad="32px" car="none" style="display:block;height:100%" hint-size="768px,1024px"></dc-import>
+      </div>
+    </div>
+    <div id="2e" data-screen-label="Меню v2 — 390" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">2e — 390, обрано Ford Ranger, акордеон Ford відкрито</p>
+      <div style="width:390px;height:844px;overflow:hidden;border-radius:16px;background:#FCFCFD">
+        <dc-import name="DLSMegaMenu2" device="mobile" open="{{ true }}" inline="{{ true }}" car="ranger" style="display:block;height:100%" hint-size="390px,844px"></dc-import>
+      </div>
+    </div>
+  </div>
+</section>
+<section style="padding:64px;display:flex;flex-direction:column;gap:48px">
+  <h1 style="margin:0;font-size:40px;line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Мега-меню каталогу — варіант 1: три колонки</h1>
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <div id="1a" data-screen-label="Меню — за замовчуванням" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">1a — Десктоп, за замовчуванням</p>
+      <div style="width:1440px;height:814px;overflow:hidden;border-radius:16px;background:#12161C">
+        <dc-import name="DLSHeaderHero" hero="{{ false }}" device="desktop" demo-menu="default" menu-variant="v1" hint-size="1440px,814px"></dc-import>
+      </div>
+    </div>
+    <div id="1b" data-screen-label="Меню — hover Mitsubishi" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">1b — Десктоп, hover на Mitsubishi</p>
+      <div style="width:1440px;height:814px;overflow:hidden;border-radius:16px;background:#12161C">
+        <dc-import name="DLSHeaderHero" hero="{{ false }}" device="desktop" demo-menu="Mitsubishi" menu-variant="v1" hint-size="1440px,814px"></dc-import>
+      </div>
+    </div>
+    <div id="1c" data-screen-label="Меню — hover Оптика" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">1c — Десктоп, hover на Оптика</p>
+      <div style="width:1440px;height:814px;overflow:hidden;border-radius:16px;background:#12161C">
+        <dc-import name="DLSHeaderHero" hero="{{ false }}" device="desktop" demo-menu="Оптика" menu-variant="v1" hint-size="1440px,814px"></dc-import>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;flex-wrap:wrap;gap:48px;align-items:flex-start">
+    <div id="1d" data-screen-label="Меню — 1024" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">1d — 1024, дві колонки</p>
+      <div style="width:1024px;height:878px;overflow:hidden;border-radius:16px;background:#12161C">
+        <dc-import name="DLSHeaderHero" hero="{{ false }}" device="tablet" menu-device="laptop" demo-menu="default" menu-variant="v1" hint-size="1024px,878px"></dc-import>
+      </div>
+    </div>
+    <div id="1e" data-screen-label="Меню — 768" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">1e — 768, бургер</p>
+      <div style="width:768px;height:1024px;overflow:hidden;border-radius:16px;background:#FCFCFD">
+        <dc-import name="DLSMegaMenu" device="mobile" open="{{ true }}" inline="{{ true }}" m-pad="32px" demo-mobile-open="cats" style="display:block;height:100%" hint-size="768px,1024px"></dc-import>
+      </div>
+    </div>
+    <div id="1f" data-screen-label="Меню — 390" style="display:flex;flex-direction:column;gap:16px">
+      <p style="margin:0;font-size:16px;font-weight:600;color:#1E232B">1f — 390, марки з моделями</p>
+      <div style="width:390px;height:844px;overflow:hidden;border-radius:16px;background:#FCFCFD">
+        <dc-import name="DLSMegaMenu" device="mobile" open="{{ true }}" inline="{{ true }}" demo-mobile-open="brands" demo-mobile-brand="Mitsubishi" style="display:block;height:100%" hint-size="390px,844px"></dc-import>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>
+</body>
+</html>
