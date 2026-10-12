@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+</helmet>
+<section aria-labelledby="rec-title" data-screen-label="Може знадобитися" style="overflow-x:clip;background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <h2 id="rec-title" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Може знадобитися</h2>
+    <div style="margin-top:32px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-bottom:1px solid #E6E9EE">
+      <div role="tablist" aria-label="Рекомендації" style="min-width:0;display:flex;gap:32px;overflow-x:auto;scrollbar-width:none">
+        <sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="2">
+          <button role="tab" id="{{ tb.tabId }}" aria-controls="{{ tb.panelId }}" aria-selected="{{ tb.active }}" tabindex="{{ tb.tabIndex }}" onClick="{{ tb.select }}" style="flex-shrink:0;margin-bottom:-1px;padding:12px 0;display:flex;align-items:baseline;gap:6px;border:none;border-bottom:2px solid {{ tb.line }};background:none;font:inherit;font-size:16px;line-height:24px;font-weight:{{ tb.weight }};color:{{ tb.color }};white-space:nowrap;cursor:pointer;transition:border-color 200ms ease-out, color 200ms ease-out" style-hover="color:#1E232B" style-focus="outline:none"><span>{{ tb.label }}</span><span style="font-weight:500;color:#4A5260">{{ tb.count }}</span></button>
+        </sc-for>
+      </div>
+      <sc-if value="{{ showArrows }}" hint-placeholder-val="{{ true }}">
+        <div style="flex-shrink:0;padding-bottom:8px;display:flex;gap:8px">
+          <button aria-label="Попередні" onClick="{{ scrollPrev }}" disabled="{{ atStart }}" style="width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #CDD2DA;border-radius:50%;background:#FCFCFD;color:{{ prevColor }};cursor:{{ prevCursor }};transition:border-color 150ms ease-out" style-hover="border-color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m15 18-6-6 6-6"></path></svg></button>
+          <button aria-label="Наступні" onClick="{{ scrollNext }}" disabled="{{ atEnd }}" style="width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #CDD2DA;border-radius:50%;background:#FCFCFD;color:{{ nextColor }};cursor:{{ nextCursor }};transition:border-color 150ms ease-out" style-hover="border-color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg></button>
+        </div>
+      </sc-if>
+    </div>
+
+    <div style="margin-top:32px;display:grid">
+      <div role="tabpanel" id="rec-p0" aria-labelledby="rec-t0" aria-hidden="{{ p0Hidden }}" style="grid-area:1 / 1;min-width:0;display:grid;grid-template-columns:{{ donorCols }};gap:{{ gap }};align-items:stretch;opacity:{{ p0Op }};visibility:{{ p0Vis }};transition:{{ p0Tr }}">
+        <article aria-label="Авто-донор" style="min-width:0;box-sizing:border-box;padding:16px;display:grid;grid-template-columns:{{ dcCols }};grid-template-rows:{{ dcRows }};column-gap:{{ dcColGap }};border:1px solid #E6E9EE;border-radius:16px;background:#FFFFFF">
+          <img src="assets/donor-ranger.jpg" alt="Ford Ranger 2009 у цеху" style="grid-row:{{ dcPhotoRow }};aspect-ratio:{{ dcRatio }};width:100%;height:auto;display:block;object-fit:cover;border-radius:8px;background:#E6E9EE">
+          <div style="min-width:0;padding-top:{{ dcInfoTop }};display:flex;flex-direction:column">
+            <h3 style="margin:0;font-size:16px;line-height:22px;font-weight:600;color:#1E232B">Ford Ranger 2.5 TDCi</h3>
+            <p style="margin:4px 0 0;font-size:14px;line-height:20px;color:#4A5260">2009 рік</p>
+            <dl style="margin:12px 0 0;display:flex;flex-direction:column;font-size:14px;line-height:20px">
+              <div style="padding:8px 0;display:flex;justify-content:space-between;gap:12px;border-top:1px solid #E6E9EE"><dt style="color:#4A5260">Пробіг</dt><dd style="margin:0;color:#1E232B;text-align:right;white-space:nowrap">186 000 км</dd></div>
+              <div style="padding:8px 0;display:flex;justify-content:space-between;gap:12px;border-top:1px solid #E6E9EE;border-bottom:1px solid #E6E9EE"><dt style="color:#4A5260">Деталей у наявності</dt><dd style="margin:0;color:#1E232B;text-align:right;white-space:nowrap">42</dd></div>
+            </dl>
+          </div>
+          <a href="#" style="grid-column:{{ dcBtnCol }};margin-top:{{ dcBtnTop }};align-self:end;height:48px;box-sizing:border-box;padding:0 16px;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:8px;font-size:16px;font-weight:600;color:#E0001B;text-decoration:none;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">Усі деталі з цього авто</a>
+        </article>
+        <div ref="{{ ref0 }}" onScroll="{{ onScroll }}" style="min-width:0;align-self:start;margin:-24px -24px -168px;padding:24px 24px 168px;scroll-padding:0 24px;display:flex;gap:{{ gap }};overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none">
+          <sc-for list="{{ donorItems }}" as="c" hint-placeholder-count="4">
+            <div style="position:relative;z-index:1;flex:0 0 {{ cardBasis }};width:{{ cardBasis }};min-width:0;display:flex;scroll-snap-align:start" style-hover="z-index:3">
+              <dc-import name="DLSProductCard" style="width:100%;height:100%" item-id="{{ c.id }}" donor="{{ c.donor }}" model="{{ c.model }}" brand="{{ c.brand }}" part-name="{{ c.name }}" oem="{{ c.oem }}" price="{{ c.price }}" popular="{{ false }}" fits="{{ c.fits }}" specs="{{ c.specs }}" photos="{{ c.photos }}" photo-src="{{ c.photo }}" hint-size="224px,480px"></dc-import>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div role="tabpanel" id="rec-p1" aria-labelledby="rec-t1" aria-hidden="{{ p1Hidden }}" style="grid-area:1 / 1;min-width:0;opacity:{{ p1Op }};visibility:{{ p1Vis }};transition:{{ p1Tr }}">
+        <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 24px">
+          <p style="margin:0;min-width:0;font-size:16px;line-height:1.5;color:#4A5260;text-wrap:pretty">Такі самі деталі з інших авто — порівняйте стан і ціну</p>
+          <sc-if value="{{ cmpNotAll }}" hint-placeholder-val="{{ true }}">
+            <button type="button" onClick="{{ compareAll }}" style="flex-shrink:0;height:48px;box-sizing:border-box;padding:0 24px;display:flex;align-items:center;border:1px solid #E0001B;border-radius:8px;font-family:inherit;font-size:16px;font-weight:600;color:#E0001B;white-space:nowrap;cursor:pointer;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">Порівняти всі</button>
+          </sc-if>
+          <sc-if value="{{ cmpAll }}" hint-placeholder-val="{{ false }}">
+            <a href="DLSCompare.dc.html" style="flex-shrink:0;height:48px;box-sizing:border-box;padding:0 24px;display:flex;align-items:center;gap:8px;border:1px solid #E0001B;border-radius:8px;font-size:16px;font-weight:600;color:#E0001B;text-decoration:none;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg>Відкрити порівняння</a>
+          </sc-if>
+        </div>
+        <div style="min-width:0;margin:0 -24px -168px;padding:24px 24px 168px;scroll-padding:0 24px;display:flex;gap:{{ gap }};overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none">
+          <sc-for list="{{ altItems }}" as="c" hint-placeholder-count="3">
+            <div style="position:relative;z-index:1;flex:0 0 224px;width:224px;min-width:0;display:flex;scroll-snap-align:start" style-hover="z-index:3">
+              <dc-import name="DLSProductCard" style="width:100%;height:100%" item-id="{{ c.id }}" donor="{{ c.donor }}" model="{{ c.model }}" brand="{{ c.brand }}" part-name="{{ c.name }}" oem="{{ c.oem }}" price="{{ c.price }}" note="{{ c.note }}" popular="{{ false }}" fits="{{ c.fits }}" specs="{{ c.specs }}" photos="{{ c.photos }}" photo-src="{{ c.photo }}" hint-size="224px,500px"></dc-import>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <sc-if value="{{ showCarTab }}" hint-placeholder-val="{{ false }}">
+        <div role="tabpanel" id="rec-p2" aria-labelledby="rec-t2" aria-hidden="{{ p2Hidden }}" style="grid-area:1 / 1;min-width:0;opacity:{{ p2Op }};visibility:{{ p2Vis }};transition:{{ p2Tr }}">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 24px">
+            <span title="{{ carFull }}" style="max-width:100%;box-sizing:border-box;padding:4px 8px 4px 6px;display:flex;align-items:center;gap:6px;border-radius:8px;background:#FFFFFF">
+              <img src="{{ carLogo }}" alt="" style="width:16px;height:16px;flex-shrink:0;object-fit:contain;display:block">
+              <span style="min-width:0;font-size:13px;line-height:18px;color:#4A5260;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ carFull }}</span>
+            </span>
+            <a href="#" style="font-size:16px;line-height:24px;font-weight:600;color:#1E232B;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:4px;transition:text-decoration-color 150ms ease-out" style-hover="text-decoration-color:#1E232B" style-focus="outline:2px solid #1E232B;outline-offset:2px">{{ carLink }}</a>
+          </div>
+          <div ref="{{ ref2 }}" onScroll="{{ onScroll }}" style="min-width:0;margin:0 -24px -168px;padding:24px 24px 168px;scroll-padding:0 24px;display:flex;gap:{{ gap }};overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none">
+            <sc-for list="{{ carItems }}" as="c" hint-placeholder-count="4">
+              <div style="position:relative;z-index:1;flex:0 0 {{ carBasis }};width:{{ carBasis }};min-width:0;display:flex;scroll-snap-align:start" style-hover="z-index:3">
+                <dc-import name="DLSProductCard" style="width:100%;height:100%" item-id="{{ c.id }}" donor="{{ c.donor }}" model="{{ c.model }}" brand="{{ c.brand }}" part-name="{{ c.name }}" oem="{{ c.oem }}" price="{{ c.price }}" popular="{{ false }}" fits="{{ c.fits }}" specs="{{ c.specs }}" photos="{{ c.photos }}" photo-src="{{ c.photo }}" hint-size="224px,480px"></dc-import>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;},&quot;car&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Mitsubishi L200 2005–2015&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const DONOR = 'Ford Ranger 2006–2012';
+const CUR = { id: 'UR56-51-040', name: 'Фара ліва галоген', oem: 'UR56-51-040', donor: DONOR, model: 'Ranger 2006–2012', brand: 'ford', price: '4 500 ₴', photo: 'assets/part-hub.webp' };
+const A = 'assets/part-hub.webp', B = 'assets/part-pickup-hub.jpg';
+const SP = (a, b) => [['Стан', 'Б/в, оригінал'], [a, b], ['Авто-донор', 'Ranger 2.5 TDCi, 2009'], ['Пробіг донора', '186 000 км']];
+const DONOR_ITEMS = [
+  ['UR56-51-030', 'Фара права галоген', '4 500 ₴', A, SP('Сторона', 'Права')],
+  ['UR56-50-710', 'Решітка радіатора', '2 200 ₴', B, SP('Колір', 'Чорний')],
+  ['UR56-50-031', 'Бампер передній', '5 900 ₴', A, SP('Колір', 'Під фарбування')],
+  ['UR56-52-211', 'Крило переднє ліве', '3 800 ₴', B, SP('Сторона', 'Ліва')],
+  ['UR56-52-310', 'Капот', '6 400 ₴', A, SP('Колір', 'Сріблястий')],
+  ['UR56-51-120', 'Повторювач повороту лівий', '450 ₴', B, SP('Сторона', 'Ліва')]
+].map(([oem, name, price, photo, specs]) => ({ id: oem, oem, name, price, photo, specs, donor: DONOR, model: 'Ranger 2006–2012', brand: 'ford', photos: 6 }));
+const ALT_ITEMS = [
+  ['alt-ranger-241', DONOR, 'Ranger 2006–2012', 'ford', '3 900 ₴', '241 000 км', B],
+  ['alt-bt50-163', 'Mazda BT-50 2006–2012', 'BT-50 2006–2012', 'mazda', '4 200 ₴', '163 000 км', A],
+  ['alt-ranger-128', DONOR, 'Ranger 2006–2012', 'ford', '4 800 ₴', '128 000 км', B]
+].map(([id, donor, model, brand, price, km, photo]) => ({
+  id, oem: 'UR56-51-040', name: 'Фара ліва галоген', donor, model, brand, price, photo, photos: 5,
+  note: `Пробіг донора ${km}`, specs: [['Стан', 'Б/в, оригінал'], ['Сторона', 'Ліва'], ['Тип', 'Галоген'], ['Пробіг донора', km]]
+}));
+const CAR_PARTS = [
+  ['MN184022', 'Амортизатор задній', '1 400 ₴', B], ['8100A512', 'Щиток приладів', '2 600 ₴', A], ['6400A123', 'Бампер передній у зборі', '6 800 ₴', B],
+  ['7632A123', 'Дзеркало ліве з підігрівом', '1 900 ₴', A], ['MR992375', 'Ресора задня', '3 400 ₴', B], ['8301A706', 'Фара права', '3 600 ₴', A]
+];
+const SLUG = { 'mercedes-benz': 'mercedes', 'peugeot': 'peugeot' };
+const FADE = 200;
+
+class Component extends DCLogic {
+  state = { vw: null, tab: 0, atStart: true, atEnd: false, tick: 0 };
+  ref0 = React.createRef();
+  ref2 = React.createRef();
+
+  componentDidMount() {
+    this.onResize = () => { this.setState({ vw: window.innerWidth }); this.syncEdges(); };
+    window.addEventListener('resize', this.onResize);
+    const hook = () => {
+      if (!window.DLSCompare) { this.retry = setTimeout(hook, 200); return; }
+      this.unsub = window.DLSCompare.subscribe(() => this.setState(s => ({ tick: s.tick + 1 })));
+      this.setState(s => ({ tick: s.tick + 1 }));
+    };
+    hook();
+    requestAnimationFrame(() => this.syncEdges());
+  }
+  componentDidUpdate(_, prev) { if (prev.tab !== this.state.tab) this.syncEdges(); }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); this.unsub && this.unsub(); clearTimeout(this.retry); }
+
+  activeRef() { return this.state.tab === 2 ? this.ref2 : this.ref0; }
+  syncEdges() {
+    const el = this.activeRef().current;
+    if (!el) return;
+    const atStart = el.scrollLeft <= 2, atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2;
+    if (atStart !== this.state.atStart || atEnd !== this.state.atEnd) this.setState({ atStart, atEnd });
+  }
+
+  renderVals() {
+    const s = this.state;
+    const vw = s.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1280 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const d = device === 'desktop', lap = device === 'laptop', tab = device === 'tablet', m = device === 'mobile';
+    const side = this.props.device ? (d ? 64 : m ? 16 : 32) : (vw >= 1360 ? 64 : m ? 16 : 32);
+    const sectionPad = (this.props.device ? d : vw >= 1360) ? 100 : 75;
+    const gap = 24;
+
+    const car = (this.props.car || '').trim();
+    const showCarTab = !!car && car !== DONOR;
+    const active = s.tab === 2 && !showCarTab ? 0 : s.tab;
+    const carShort = car.replace(/\s+\d{4}–\d{4}$/, '');
+    const brandWord = car.split(' ')[0].toLowerCase();
+    const carModel = car.split(' ').slice(1).join(' ');
+
+    const C = typeof window !== 'undefined' ? window.DLSCompare : null;
+    const altAll = [CUR, ...ALT_ITEMS];
+    const cmpAll = !!C && altAll.every(it => C.has(it.id));
+
+    const tabDefs = [['Ще з цього авто', '42'], ['Альтернативи', String(ALT_ITEMS.length)]];
+    if (showCarTab) tabDefs.push(['На ваше авто', '85']);
+    const panel = i => {
+      const on = i === active;
+      return { op: on ? 1 : 0, vis: on ? 'visible' : 'hidden', hidden: !on, tr: `opacity ${FADE}ms ease-out, visibility 0s linear ${on ? 0 : FADE}ms` };
+    };
+    const p0 = panel(0), p1 = panel(1), p2 = panel(2);
+    const sliderTab = active === 0 || active === 2;
+    const step = () => { const el = this.activeRef().current; const c = el && el.firstElementChild; return c ? c.getBoundingClientRect().width + gap : 248; };
+
+    return {
+      pad: `0 ${side}px ${sectionPad}px`,
+      h2Size: d ? '40px' : m ? '24px' : '28px',
+      gap: `${gap}px`,
+      tabs: tabDefs.map(([label, count], i) => ({
+        label, count, active: i === active, tabId: `rec-t${i}`, panelId: `rec-p${i}`, tabIndex: i === active ? 0 : -1,
+        line: i === active ? '#E0001B' : 'transparent', color: i === active ? '#1E232B' : '#4A5260', weight: i === active ? 600 : 500,
+        select: () => this.setState({ tab: i })
+      })),
+      showArrows: sliderTab && (d || lap),
+      atStart: s.atStart, atEnd: s.atEnd,
+      prevColor: s.atStart ? '#A9B0BB' : '#1E232B', prevCursor: s.atStart ? 'default' : 'pointer',
+      nextColor: s.atEnd ? '#A9B0BB' : '#1E232B', nextCursor: s.atEnd ? 'default' : 'pointer',
+      scrollPrev: () => this.activeRef().current?.scrollBy({ left: -step(), behavior: 'smooth' }),
+      scrollNext: () => this.activeRef().current?.scrollBy({ left: step(), behavior: 'smooth' }),
+      onScroll: () => this.syncEdges(),
+      ref0: this.ref0, ref2: this.ref2,
+
+      p0Op: p0.op, p0Vis: p0.vis, p0Hidden: p0.hidden, p0Tr: p0.tr,
+      p1Op: p1.op, p1Vis: p1.vis, p1Hidden: p1.hidden, p1Tr: p1.tr,
+      p2Op: p2.op, p2Vis: p2.vis, p2Hidden: p2.hidden, p2Tr: p2.tr,
+
+      donorCols: d ? 'minmax(0, 1fr) minmax(0, 4fr)' : 'minmax(0, 1fr)',
+      dcCols: d ? 'minmax(0, 1fr)' : m ? '112px minmax(0, 1fr)' : lap ? '280px minmax(0, 1fr)' : '224px minmax(0, 1fr)',
+      dcRows: d ? 'auto auto 1fr' : 'auto 1fr',
+      dcColGap: d ? '0' : '16px',
+      dcPhotoRow: d ? 'auto' : m ? 'auto' : '1 / span 2',
+      dcRatio: m ? '1 / 1' : '4 / 3',
+      dcInfoTop: d ? '16px' : '0',
+      dcBtnCol: d ? 'auto' : m ? '1 / -1' : '2',
+      dcBtnTop: d ? '16px' : m ? '16px' : '12px',
+      cardBasis: '224px',
+      carBasis: '224px',
+      
+      donorItems: DONOR_ITEMS.map(it => ({ ...it, fits: false })),
+      altItems: ALT_ITEMS.map(it => ({ ...it, fits: false })),
+      cmpAll, cmpNotAll: !cmpAll,
+      compareAll: () => { if (!C) return; altAll.forEach(it => C.set(it, true)); },
+
+      showCarTab,
+      carFull: car, carLogo: `assets/logos/${SLUG[brandWord] || brandWord}.svg`,
+      carLink: `Усі деталі на ${carShort} (85) →`,
+      carItems: CAR_PARTS.map(([oem, name, price, photo]) => ({
+        id: oem, oem, name, price, photo, photos: 5, donor: car, model: carModel, brand: SLUG[brandWord] || brandWord, fits: true,
+        specs: [['Стан', 'Б/в, оригінал'], ['Авто-донор', car], ['Перевірка', 'На стенді'], ['Гарантія', '14 днів']]
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

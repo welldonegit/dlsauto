@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>DLSAuto — Обране</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;background:#F6F6F6;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+<script src="./dls-fav.js"></script>
+<script src="./dls-cart.js"></script>
+</helmet>
+<dc-import name="DLSHeaderHero" hero="{{ false }}" hint-size="100%,168px"></dc-import>
+<main data-screen-label="Обране" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <nav aria-label="Хлібні крихти" style="display:flex;align-items:center;gap:8px;font-size:14px;line-height:20px;color:#4A5260">
+      <a href="DLSAuto Головна.dc.html" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B">Головна</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page" style="color:#1E232B">Обране</span>
+    </nav>
+    <div style="margin-top:16px;display:flex;flex-direction:{{ headDir }};justify-content:space-between;align-items:{{ headAlign }};gap:24px">
+      <h1 style="margin:0;display:flex;align-items:baseline;gap:12px;font-size:{{ h1Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Обране<sc-if value="{{ hasItems }}" hint-placeholder-val="{{ true }}"><span style="font-weight:400;color:#6B7380">({{ count }})</span></sc-if></h1>
+      <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:{{ actionsDir }};align-items:{{ actionsAlign }};gap:{{ actionsGap }}">
+          <button type="button" onClick="{{ addAll }}" disabled="{{ allInCart }}" style="height:48px;box-sizing:border-box;padding:0 24px;display:flex;align-items:center;justify-content:center;border:1px solid {{ addAllBorder }};border-radius:8px;font-family:inherit;font-size:16px;font-weight:600;color:{{ addAllColor }};white-space:nowrap;cursor:{{ addAllCursor }};background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 150ms ease-out, border-color 150ms ease-out" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">{{ addAllText }}</button>
+          <button type="button" onClick="{{ clearAll }}" style="height:{{ clearH }};padding:0 4px;border:none;background:transparent;font-family:inherit;font-size:14px;line-height:20px;font-weight:500;color:#4A5260;cursor:pointer;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:4px;transition:color 150ms ease-out, text-decoration-color 150ms ease-out" style-hover="color:#1E232B;text-decoration-color:#1E232B" style-focus="outline:2px solid #1E232B;outline-offset:2px">Очистити список</button>
+        </div>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ true }}">
+      <div style="margin-top:{{ gridTop }};border:1px solid #E6E9EE;border-radius:16px;background:#FFFFFF;overflow:hidden">
+        <div style="display:grid;grid-template-columns:{{ cols }}">
+          <sc-for list="{{ cards }}" as="c" hint-placeholder-count="5">
+            <div style="min-width:0;padding:{{ cellPad }};display:flex;flex-direction:column;opacity:{{ c.op }};transform:{{ c.scale }};transition:opacity 200ms ease-out, transform 200ms ease-out">
+              <div style="position:relative;aspect-ratio:1 / 1;overflow:hidden;border-radius:8px;background:#F3F5F7">
+                <img src="{{ c.photoSrc }}" alt="{{ c.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:{{ c.photoOp }}">
+                <sc-if value="{{ c.sold }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:8px;left:8px;padding:2px 8px;border-radius:8px;background:#1E232B;font-size:14px;line-height:20px;font-weight:500;color:#FCFCFD">Продано</span></sc-if>
+                <button onClick="{{ c.unfav }}" aria-label="Прибрати з обраного" aria-pressed="true" style="position:absolute;top:8px;right:8px;width:32px;height:32px;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:#FFFFFF;color:#E0001B;cursor:pointer;box-shadow:0 1px 3px rgba(18,22,28,0.12);transition:background 150ms ease-out" style-hover="background:#E6E9EE" style-focus="outline:2px solid #1E232B;outline-offset:2px"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:#E0001B;stroke:#E0001B;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg></button>
+              </div>
+              <span title="{{ c.donor }}" style="margin-top:16px;align-self:flex-start;max-width:100%;box-sizing:border-box;padding:4px 8px 4px 6px;display:flex;align-items:center;gap:6px;border-radius:8px;background:#F3F5F7">
+                <img src="{{ c.logo }}" alt="" style="width:16px;height:16px;flex-shrink:0;object-fit:contain;display:block">
+                <span style="min-width:0;font-size:13px;line-height:18px;color:#4A5260;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.model }}</span>
+              </span>
+              <p style="margin:8px 0 0;min-height:44px;font-size:16px;line-height:22px;font-weight:600;color:#1E232B;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden"><a href="#" style="color:inherit;text-decoration:none">{{ c.name }}</a></p>
+              <p style="margin:4px 0 0;font-size:13px;line-height:18px;color:#4A5260;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Артикул: OEM {{ c.oem }}</p>
+              <div style="margin-top:auto;padding-top:12px">
+                <sc-if value="{{ c.notSold }}" hint-placeholder-val="{{ true }}"><p style="margin:0;font-size:20px;line-height:1.2;font-weight:600;letter-spacing:-0.01em;color:#1E232B;white-space:nowrap">{{ c.price }}</p></sc-if>
+                <sc-if value="{{ c.sold }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:14px;line-height:24px;color:#4A5260">Деталі вже немає</p></sc-if>
+              </div>
+              <sc-if value="{{ c.notSold }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ c.addToCart }}" disabled="{{ c.inCart }}" style="margin-top:16px;width:100%;height:48px;box-sizing:border-box;padding:0 12px;display:flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:8px;font-family:inherit;font-size:16px;font-weight:600;color:{{ c.cartColor }};cursor:{{ c.cartCursor }};white-space:nowrap;background-color:{{ c.cartBg }};background-image:radial-gradient(circle, {{ c.cartRipple }} 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), background-color 150ms ease-out, color 150ms ease-out" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+                  <sc-if value="{{ c.inCart }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg></sc-if>
+                  <span>{{ c.cartText }}</span>
+                </button>
+              </sc-if>
+              <sc-if value="{{ c.sold }}" hint-placeholder-val="{{ false }}">
+                <a href="#" aria-label="{{ c.similarAria }}" style="margin-top:16px;width:100%;height:48px;box-sizing:border-box;padding:0 12px;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:8px;font-size:16px;font-weight:600;color:#E0001B;text-decoration:none;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">Знайти схожу</a>
+              </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+      <div style="margin:0 auto;padding:{{ emptyPad }};max-width:480px;display:flex;flex-direction:column;align-items:center;text-align:center">
+        <svg viewBox="0 0 24 24" width="48" height="48" aria-hidden="true" style="fill:none;stroke:#6B7380;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg>
+        <p style="margin:24px 0 0;font-size:18px;line-height:1.4;font-weight:600;color:#1E232B">В обраному поки порожньо</p>
+        <p style="margin:8px 0 0;font-size:15px;line-height:1.5;color:#4A5260;text-wrap:pretty">Натискайте серце на картці товару — деталь збережеться тут</p>
+        <a href="DLSCatalog.dc.html" style="margin-top:32px;height:48px;box-sizing:border-box;padding:0 32px;display:flex;align-items:center;border-radius:8px;font-size:16px;font-weight:600;color:#FCFCFD;text-decoration:none;white-space:nowrap;background-color:#E0001B;background-image:radial-gradient(circle, #C00017 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">До каталогу</a>
+      </div>
+    </sc-if>
+  </div>
+
+  <sc-if value="{{ showMore }}" hint-placeholder-val="{{ true }}">
+    <section aria-labelledby="fav-more-title" data-screen-label="Ще на ваше авто" style="padding-top:{{ moreTop }}">
+      <div style="max-width:1312px;margin:0 auto;padding:{{ moreHeadPad }};display:flex;justify-content:space-between;align-items:flex-end;gap:24px">
+        <div style="min-width:0">
+          <h2 id="fav-more-title" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Ще на ваше авто</h2>
+          <p style="margin:8px 0 0;display:flex;align-items:center;gap:8px;font-size:16px;line-height:1.5;color:#4A5260"><img src="{{ moreLogo }}" alt="" style="width:20px;height:20px;object-fit:contain;display:block"><span>{{ moreCar }}</span></p>
+        </div>
+        <sc-if value="{{ showArrows }}" hint-placeholder-val="{{ true }}">
+          <div style="flex-shrink:0;display:flex;gap:8px">
+            <button aria-label="Попередні" onClick="{{ scrollPrev }}" disabled="{{ atStart }}" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;border:1px solid #CDD2DA;border-radius:50%;background:#FCFCFD;color:{{ prevColor }};cursor:{{ prevCursor }};transition:border-color 150ms ease-out" style-hover="border-color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m15 18-6-6 6-6"></path></svg></button>
+            <button aria-label="Наступні" onClick="{{ scrollNext }}" disabled="{{ atEnd }}" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;border:1px solid #CDD2DA;border-radius:50%;background:#FCFCFD;color:{{ nextColor }};cursor:{{ nextCursor }};transition:border-color 150ms ease-out" style-hover="border-color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg></button>
+          </div>
+        </sc-if>
+      </div>
+      <div ref="{{ scrollRef }}" onScroll="{{ onScroll }}" style="margin:{{ scrollMargin }};padding:{{ scrollPad }};scroll-padding-left:{{ scrollSide }};display:flex;align-items:stretch;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none">
+        <sc-for list="{{ more }}" as="c" hint-placeholder-count="6">
+          <div style="position:relative;z-index:1;flex:0 0 {{ moreW }};width:{{ moreW }};min-width:0;display:flex;scroll-snap-align:start" style-hover="z-index:3">
+            <dc-import name="DLSProductCard" style="width:100%;height:100%" donor="{{ c.donor }}" model="{{ c.model }}" brand="{{ c.brand }}" part-name="{{ c.name }}" oem="{{ c.oem }}" price="{{ c.price }}" specs="{{ c.specs }}" photos="{{ c.photos }}" photo-src="{{ c.photo }}" hint-size="100%,520px"></dc-import>
+          </div>
+        </sc-for>
+      </div>
+    </section>
+  </sc-if>
+
+  <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+    <dc-import name="DLSNewArrivals" hint-size="100%,820px"></dc-import>
+  </sc-if>
+</main>
+<dc-import name="DLSFooter" hint-size="100%,1100px"></dc-import>
+<dc-import name="DLSCart" hint-size="0px,0px"></dc-import>
+
+<div role="status" aria-live="polite" style="position:fixed;z-index:60;right:{{ toastSide }};bottom:{{ toastBottom }};left:{{ toastLeft }};max-width:420px;margin-left:auto;padding:12px 12px 12px 16px;box-sizing:border-box;display:flex;align-items:center;gap:16px;border-radius:8px;background:#1E232B;color:#FCFCFD;font-family:'Golos Text',sans-serif;font-size:14px;line-height:20px;box-shadow:0 12px 32px rgba(18,22,28,0.16);opacity:{{ toastOp }};transform:{{ toastT }};pointer-events:{{ toastEvents }};transition:opacity 200ms ease-out, transform 200ms ease-out">
+  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg>
+  <span style="flex:1;min-width:0">{{ toastText }}</span>
+  <sc-if value="{{ toastHasUndo }}" hint-placeholder-val="{{ false }}">
+    <button type="button" onClick="{{ toastUndo }}" style="flex-shrink:0;height:32px;padding:0 12px;border:1px solid rgba(252,252,253,0.4);border-radius:8px;background:transparent;font-family:inherit;font-size:14px;font-weight:600;color:#FCFCFD;cursor:pointer;transition:border-color 150ms ease-out" style-hover="border-color:#FCFCFD">Повернути</button>
+  </sc-if>
+  <button type="button" aria-label="Закрити" onClick="{{ toastClose }}" style="flex-shrink:0;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:transparent;color:#CDD2DA;cursor:pointer" style-hover="color:#FCFCFD"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;},&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;live&quot;,&quot;list&quot;,&quot;empty&quot;],&quot;default&quot;:&quot;live&quot;,&quot;tsType&quot;:&quot;'live'|'list'|'empty'&quot;}}">
+const CATALOG = [
+  { id: 'UR56-51-040', donor: 'Ford Ranger 2006–2012', model: 'Ranger 2006–2012', brand: 'ford', name: 'Фара ліва галоген', price: '4 500 ₴', photos: 6, specs: [['Стан', 'Б/в, оригінал'], ['Сторона', 'Ліва'], ['Тип лампи', 'Галоген H4'], ['Коректор', 'Електричний']] },
+  { id: 'MN184022', donor: 'Mitsubishi L200 2005–2015', model: 'L200 2005–2015', brand: 'mitsubishi', name: 'Амортизатор задній', price: '1 400 ₴', photos: 5, specs: [['Стан', 'Б/в, оригінал'], ['Вісь', 'Задня'], ['Тип', 'Газомасляний'], ['Гарантія', '14 днів']] },
+  { id: '10102-EB3A0', donor: 'Nissan Navara 2005–2015', model: 'Navara 2005–2015', brand: 'nissan', name: 'Двигун 2.5 dCi YD25', price: '85 000 ₴', photos: 12, specs: [['Стан', 'Б/в, перевірений'], ['Об’єм', '2.5 л'], ['Паливо', 'Дизель'], ['Пробіг', '148 000 км']] },
+  { id: '8100A512', donor: 'Mitsubishi L200 2005–2015', model: 'L200 2005–2015', brand: 'mitsubishi', name: 'Щиток приладів', price: '2 600 ₴', photos: 4, photo: 'assets/cat-electric.jpg', specs: [['Стан', 'Б/в, оригінал'], ['Тип', 'Аналоговий'], ['Пробіг', '186 000 км'], ['Гарантія', '14 днів']] },
+  { id: '55156452AF', donor: 'Jeep Grand Cherokee 2004–2007', model: 'Grand Cherokee 2004–2007', brand: 'jeep', name: 'Дзеркало праве з підігрівом', price: '', photos: 5, sold: true, specs: [['Стан', 'Б/в, оригінал'], ['Сторона', 'Права'], ['Підігрів', 'Так'], ['Складання', 'Електричне']] }
+];
+const SEED = CATALOG.map(c => c.id);
+const SEED_KEY = 'dls_fav_seeded';
+const MORE = {
+  'Mitsubishi L200 2005–2015': [
+    ['Бампер передній у зборі', '6400A123', '6 800 ₴', 8, [['Стан', 'Б/в, оригінал'], ['Комплектація', 'З решіткою'], ['Колір', 'Під фарбування'], ['Парктроніки', 'Ні']]],
+    ['Борт задній Warrior', '5805A123', '7 200 ₴', 6, [['Стан', 'Б/в, оригінал'], ['Комплектація', 'З ручкою'], ['Колір', 'Чорний'], ['Стоп-сигнал', 'Так']], 'assets/cat-body.jpg'],
+    ['Фара права', '8301A136', '4 200 ₴', 5, [['Стан', 'Б/в, оригінал'], ['Сторона', 'Права'], ['Тип лампи', 'Галоген H4'], ['Коректор', 'Електричний']]],
+    ['Важіль передній нижній лівий', '4013A225', '2 100 ₴', 4, [['Стан', 'Б/в, оригінал'], ['Сторона', 'Ліва'], ['Сайлентблоки', 'Цілі'], ['Кульова', 'Так']], 'assets/cat-suspension.jpg'],
+    ['КПП механічна 5 ст.', '2500A219', '24 000 ₴', 9, [['Стан', 'Б/в, перевірена'], ['Тип', 'Механіка, 5 ст.'], ['Привід', 'Повний'], ['Двигун', '2.5 DI-D 4D56']], 'assets/cat-gearbox.jpg'],
+    ['Генератор 2.5 DI-D', '1800A007', '5 500 ₴', 4, [['Стан', 'Б/в, перевірений'], ['Струм', '100 A'], ['Двигун', '2.5 DI-D 4D56'], ['Гарантія', '14 днів']]]
+  ]
+};
+const LOGO_BY_DONOR = d => `assets/logos/${(CATALOG.find(c => c.donor === d) || {}).brand || 'mitsubishi'}.svg`;
+const CAR_KEY = 'dlsCar';
+const STEP = 24;
+
+class Component extends DCLogic {
+  state = { vw: null, tick: 0, leaving: {}, toast: null, atStart: true, atEnd: false };
+  scrollRef = React.createRef();
+
+  componentDidMount() {
+    this.onResize = () => { this.setState({ vw: window.innerWidth }); this.syncEdges(); };
+    window.addEventListener('resize', this.onResize);
+    this.hook();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    this.unsubFav && this.unsubFav(); this.unsubCart && this.unsubCart();
+    clearTimeout(this.retry); clearTimeout(this.toastTimer);
+  }
+  hook() {
+    const F = window.DLSFav, C = window.DLSCart;
+    if (!F || !C) { this.retry = setTimeout(() => this.hook(), 150); return; }
+    const shared = new URLSearchParams(location.search).get('fav');
+    if (shared) shared.split(',').map(decodeURIComponent).filter(Boolean).forEach(id => F.set({ id }, true, true));
+    try {
+      if (!localStorage.getItem(SEED_KEY)) { CATALOG.forEach(c => F.set({ ...c }, true, true)); localStorage.setItem(SEED_KEY, '1'); }
+    } catch (_) {}
+    this.unsubFav = F.subscribe(() => this.setState(s => ({ tick: s.tick + 1 })));
+    this.unsubCart = C.subscribe(e => { if (e.type === 'add' || e.type === 'remove') this.setState(s => ({ tick: s.tick + 1 })); });
+    this.setState(s => ({ tick: s.tick + 1 }), () => this.syncEdges());
+  }
+  syncEdges() {
+    const el = this.scrollRef.current; if (!el) return;
+    const atStart = el.scrollLeft <= 2, atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2;
+    if (atStart !== this.state.atStart || atEnd !== this.state.atEnd) this.setState({ atStart, atEnd });
+  }
+  showToast(text, undo) {
+    clearTimeout(this.toastTimer);
+    this.setState({ toast: { text, undo, on: true } });
+    this.toastTimer = setTimeout(() => this.setState(s => ({ toast: s.toast && { ...s.toast, on: false } })), 5000);
+  }
+  items() {
+    const F = window.DLSFav;
+    if (this.props.state === 'empty') return [];
+    if (!F) return this.props.state === 'list' ? CATALOG : [];
+    const byId = id => CATALOG.find(c => c.id === id);
+    return F.ids().map(id => {
+      const base = byId(id) || {};
+      const saved = F.get(id) || {};
+      const c = { ...saved, ...base, id };
+      if (!c.name) return null;
+      if (!c.photo && saved.photo && saved.photo !== 'assets/part-hub.webp') c.photo = saved.photo;
+      if (!c.specs) c.specs = [['Стан', 'Б/в, оригінал'], ['Гарантія', '14 днів']];
+      if (!c.model) c.model = c.donor || '';
+      if (!c.brand) c.brand = (c.donor || '').split(' ')[0].toLowerCase();
+      return c;
+    }).filter(Boolean);
+  }
+  remove(item) {
+    this.setState(s => ({ leaving: { ...s.leaving, [item.id]: true } }));
+    setTimeout(() => {
+      window.DLSFav && window.DLSFav.set({ id: item.id, name: item.name }, false, true);
+      this.setState(s => { const l = { ...s.leaving }; delete l[item.id]; return { leaving: l }; });
+      this.showToast('Видалено з обраного', () => { window.DLSFav && window.DLSFav.set({ id: item.id, name: item.name }, true, true); });
+    }, 200);
+  }
+  cartItem(c) {
+    return { id: c.id, name: c.name, donor: c.donor, oem: c.id, price: parseInt(String(c.price).replace(/\D/g, ''), 10) || 0, photo: c.photo || 'assets/part-hub.webp' };
+  }
+  renderVals() {
+    const s = this.state;
+    const vw = s.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const d = device === 'desktop', m = device === 'mobile';
+    const k = d ? 4 : device === 'laptop' ? 3 : 2;
+    const pad = d ? 64 : m ? 16 : 32;
+    const sectionPad = d ? 100 : 75;
+    const items = this.items();
+    const C = typeof window !== 'undefined' ? window.DLSCart : null;
+    const available = items.filter(c => !c.sold);
+    const allInCart = available.length > 0 && !!C && available.every(c => C.has(c.id));
+
+    let car = null;
+    try { car = localStorage.getItem(CAR_KEY); } catch (_) {}
+    if (!car || !MORE[car]) {
+      const tally = {};
+      items.forEach(c => { tally[c.donor] = (tally[c.donor] || 0) + 1; });
+      car = Object.keys(tally).find(dn => tally[dn] >= 2 && MORE[dn]) || null;
+    }
+    const moreW = d ? 'calc((min(100vw, 1440px) - 128px - 72px) / 4)' : device === 'laptop' ? 'calc((100vw - 64px - 48px) / 3)' : device === 'tablet' ? 'calc((100vw - 64px - 24px) / 2)' : '72vw';
+    const more = car ? MORE[car].map(([name, oem, price, photos, specs, photo]) => ({ name, oem, price, photos, specs, photo, donor: car, model: car.replace(/^\S+\s/, ''), brand: 'mitsubishi' })) : [];
+    const side = `max(${pad}px, calc((100% - 1312px) / 2))`;
+    const bottom = 168;
+    const t = s.toast;
+
+    return {
+      pad: `${m ? 16 : 24}px ${pad}px 0`,
+      headDir: m ? 'column' : 'row', headAlign: m ? 'stretch' : 'center',
+      h1Size: d ? '40px' : m ? '28px' : '32px',
+      h2Size: d ? '32px' : m ? '24px' : '28px',
+      actionsDir: m ? 'column' : 'row', actionsAlign: m ? 'stretch' : 'center', actionsGap: m ? '8px' : '24px',
+      clearH: m ? '44px' : '48px',
+      count: String(items.length), hasItems: items.length > 0, isEmpty: items.length === 0,
+      allInCart,
+      addAllText: allInCart ? 'Усе вже в кошику' : 'Додати все в кошик',
+      addAllBorder: allInCart ? '#CDD2DA' : '#E0001B', addAllColor: allInCart ? '#6B7380' : '#E0001B', addAllCursor: allInCart ? 'default' : 'pointer',
+      addAll: () => { if (!C || allInCart) return; available.forEach(c => C.add(this.cartItem(c), true)); C.open(); },
+      clearAll: () => {
+        const F = window.DLSFav; if (!F) return;
+        const ids = items.map(c => c.id);
+        ids.forEach(id => F.set({ id }, false, true));
+        this.showToast('Список очищено', () => ids.forEach(id => F.set({ id }, true, true)));
+      },
+      copyLink: () => {
+        const url = `${location.origin}${location.pathname}?fav=${items.map(c => encodeURIComponent(c.id)).join(',')}`;
+        const done = () => this.showToast('Посилання скопійовано');
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(url).then(done, () => { this.fallbackCopy(url); done(); });
+        else { this.fallbackCopy(url); done(); }
+      },
+      gridTop: m ? '24px' : '48px',
+      cols: `repeat(${k}, minmax(0, 1fr))`,
+      cellPad: m ? '16px 8px' : '24px 16px',
+      cards: items.map(c => {
+        const out = !!s.leaving[c.id];
+        const inCart = !!(C && C.has(c.id));
+        return {
+          ...c, oem: c.id, sold: !!c.sold, notSold: !c.sold,
+          photoSrc: c.photo || 'assets/part-hub.webp', photoOp: c.sold ? 0.5 : 1,
+          logo: `assets/logos/${c.brand || 'mitsubishi'}.svg`,
+          op: out ? 0 : 1, scale: out ? 'scale(0.96)' : 'none',
+          unfav: () => this.remove(c),
+          inCart, cartText: inCart ? 'У кошику' : 'В кошик',
+          cartBg: inCart ? '#E6E9EE' : '#E0001B', cartColor: inCart ? '#6B7380' : '#FCFCFD',
+          cartRipple: inCart ? 'rgba(0,0,0,0)' : '#C00017', cartCursor: inCart ? 'default' : 'pointer',
+          addToCart: () => { if (C && !C.has(c.id)) C.add(this.cartItem(c)); },
+          similarAria: `Знайти схожу: ${c.name}, ${c.donor}`
+        };
+      }),
+      emptyPad: m ? '48px 0 75px' : '64px 0 100px',
+      showMore: items.length > 0 && more.length > 0,
+      moreTop: m ? '48px' : '64px',
+      moreCar: car || '', moreLogo: car ? LOGO_BY_DONOR(car) : '',
+      moreHeadPad: `0 ${pad}px`,
+      moreW, more,
+      showArrows: !m,
+      atStart: s.atStart, atEnd: s.atEnd,
+      prevColor: s.atStart ? '#A9B0BB' : '#1E232B', prevCursor: s.atStart ? 'default' : 'pointer',
+      nextColor: s.atEnd ? '#A9B0BB' : '#1E232B', nextCursor: s.atEnd ? 'default' : 'pointer',
+      scrollPrev: () => { const el = this.scrollRef.current; el && el.scrollBy({ left: -(el.firstElementChild?.offsetWidth || 300) - STEP, behavior: 'smooth' }); },
+      scrollNext: () => { const el = this.scrollRef.current; el && el.scrollBy({ left: (el.firstElementChild?.offsetWidth || 300) + STEP, behavior: 'smooth' }); },
+      scrollRef: this.scrollRef, onScroll: () => this.syncEdges(),
+      scrollSide: side,
+      scrollPad: `24px ${side} ${bottom}px`,
+      scrollMargin: `${(m ? 32 : 48) - 24}px 0 ${sectionPad - bottom}px`,
+      toastText: t ? t.text : '', toastHasUndo: !!(t && t.undo),
+      toastOp: t && t.on ? 1 : 0, toastT: t && t.on ? 'none' : 'translateY(8px)', toastEvents: t && t.on ? 'auto' : 'none',
+      toastSide: m ? '16px' : '24px', toastBottom: m ? '16px' : '24px', toastLeft: m ? '16px' : 'auto',
+      toastUndo: () => { t && t.undo && t.undo(); clearTimeout(this.toastTimer); this.setState(st => ({ toast: st.toast && { ...st.toast, on: false } })); },
+      toastClose: () => { clearTimeout(this.toastTimer); this.setState(st => ({ toast: st.toast && { ...st.toast, on: false } })); }
+    };
+  }
+  fallbackCopy(text) {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+    document.body.appendChild(ta); ta.select();
+    try { document.execCommand('copy'); } catch (_) {}
+    ta.remove();
+  }
+}
+</script>
+</body>
+</html>

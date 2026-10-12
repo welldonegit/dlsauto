@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}input::placeholder{color:#6B7380;opacity:1}@keyframes uspIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}@media (prefers-reduced-motion:reduce){*{animation:none!important}}@keyframes dlsBadgeIn{from{opacity:0;transform:scale(0.6)}to{opacity:1;transform:scale(1)}}@keyframes dlsBadgeBumpA{0%{transform:scale(1)}40%{transform:scale(1.2)}100%{transform:scale(1)}}@keyframes dlsBadgeBumpB{0%{transform:scale(1)}40%{transform:scale(1.2)}100%{transform:scale(1)}}</style>
+<script src="./dls-fav.js"></script>
+<script src="./dls-cart.js"></script>
+<script src="./dls-compare.js"></script>
+</helmet>
+<div style="font-family:'Golos Text',sans-serif;background:#12161C;color:#1E232B;width:100%">
+
+<sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+  <div style="max-width:1312px;margin:0 auto;padding:0 64px;height:40px;display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:24px;font-size:14px;line-height:20px;color:#CDD2DA">
+    <nav style="display:flex;gap:16px">
+      <a href="#" style="color:#CDD2DA;text-decoration:none" style-hover="color:#FCFCFD">Про нас</a>
+      <a href="#" style="color:#CDD2DA;text-decoration:none" style-hover="color:#FCFCFD">Гарантія та повернення</a>
+      <a href="#" style="color:#CDD2DA;text-decoration:none" style-hover="color:#FCFCFD">Контакти</a>
+    </nav>
+    <div aria-live="polite" style="height:20px;overflow:hidden;text-align:center;color:#FCFCFD">{{ usp }}</div>
+    <div style="display:flex;align-items:center;justify-content:flex-end;gap:16px">
+      <span>Пн–Сб 9:00–18:00</span>
+      <a href="tel:+380986401357" style="color:#FCFCFD;font-weight:500;text-decoration:none">+380 98 640 13 57</a>
+      <div style="display:flex;gap:8px">
+        <a href="#" aria-label="Telegram" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center"><img src="https://cdn.simpleicons.org/telegram/CDD2DA" width="16" height="16" alt=""></a>
+        <a href="#" aria-label="Viber" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center"><img src="https://cdn.simpleicons.org/viber/CDD2DA" width="16" height="16" alt=""></a>
+      </div>
+      <div style="position:relative">
+        <button aria-label="Мова" aria-haspopup="listbox" onClick="{{ toggleLang }}" onBlur="{{ closeLang }}" style="height:24px;padding:0;display:flex;align-items:center;gap:4px;border:none;background:none;font:inherit;font-size:14px;font-weight:500;color:#CDD2DA;cursor:pointer" style-hover="color:#FCFCFD"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>{{ lang }}</button>
+        <sc-if value="{{ langOpen }}" hint-placeholder-val="{{ false }}">
+          <div role="listbox" style="position:absolute;z-index:10;top:32px;right:0;width:96px;padding:8px 0;background:#FCFCFD;border-radius:8px;box-shadow:0 8px 24px rgba(18,22,28,0.16)">
+            <sc-for list="{{ langs }}" as="l" hint-placeholder-count="2">
+              <div role="option" onMouseDown="{{ l.pick }}" style="height:40px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:{{ l.weight }};color:#1E232B;cursor:pointer" style-hover="background:#F3F5F7">{{ l.code }}<sc-if value="{{ l.active }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg></sc-if></div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+  <div style="background:#FCFCFD;border-radius:16px 16px 0 0">
+    <div style="max-width:1312px;margin:0 auto;padding:0 64px;height:80px;display:flex;align-items:center;gap:32px">
+      <a href="DLSAuto Головна.dc.html" aria-label="DLSAuto — на головну" style="font-size:28px;line-height:1;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-decoration:none">DLSAuto</a>
+      <nav>
+        <button aria-haspopup="true" style="height:48px;padding:0 24px 0 16px;display:flex;align-items:center;gap:8px;border:none;border-radius:8px;background-color:#E0001B;background-image:radial-gradient(circle, #C00017 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;font:inherit;font-size:16px;font-weight:600;color:#FCFCFD;cursor:pointer;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%"><svg viewBox="0 0 24 24" width="20" height="20" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg>Каталог</button>
+      </nav>
+      <div style="flex:1;min-width:0;display:flex;align-items:center;gap:16px">
+        <form role="search" style="flex:1;min-width:0;height:48px;box-sizing:border-box;padding:4px 4px 4px 0;display:flex;align-items:center;gap:8px;border-radius:8px;background:#F3F5F7">
+          <input type="search" aria-label="Пошук запчастин" placeholder="Пошук запчастин" style="flex:1;min-width:0;height:40px;box-sizing:border-box;padding:0 16px;border:none;border-radius:8px;background:transparent;font:inherit;font-size:16px;color:#1E232B" style-focus="outline:1px solid #1E232B;outline-offset:-1px">
+          <button type="submit" aria-label="Знайти" style="width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:#E6E9EE;color:#1E232B;cursor:pointer" style-hover="background:#CDD2DA"><svg viewBox="0 0 24 24" width="20" height="20" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></button>
+        </form>
+        <button style="height:48px;padding:0 24px;border:1px solid #E0001B;border-radius:8px;font:inherit;font-size:16px;font-weight:600;color:#E0001B;cursor:pointer;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%">Замовити дзвінок</button>
+        <a href="DLSCompare.dc.html" aria-label="{{ cmpAria }}" style="position:relative;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#F3F5F7;color:#1E232B" style-hover="background:#E6E9EE"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg><span aria-hidden="true" style="position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;display:{{ cmpBadgeDisplay }};align-items:center;justify-content:center;border-radius:9px;background:#E0001B;color:#FCFCFD;font-size:11px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;animation:{{ cmpBadgeAnim }}">{{ cmpCount }}</span></a>
+        <a href="DLSFavorites.dc.html" aria-label="{{ favAria }}" style="position:relative;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#F3F5F7;color:#1E232B" style-hover="background:#E6E9EE"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg><span aria-hidden="true" style="position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;display:{{ favBadgeDisplay }};align-items:center;justify-content:center;border-radius:9px;background:#E0001B;color:#FCFCFD;font-size:11px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;animation:{{ favBadgeAnim }}">{{ favCount }}</span></a>
+        <a href="#" onClick="{{ openCart }}" aria-label="{{ cartAria }}" style="position:relative;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#F3F5F7;color:#1E232B" style-hover="background:#E6E9EE">
+          <svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
+          <span aria-hidden="true" style="position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;display:{{ cartBadgeDisplay }};align-items:center;justify-content:center;border-radius:9px;background:#E0001B;color:#FCFCFD;font-size:11px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;animation:{{ cartBadgeAnim }}">{{ cartCount }}</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <sc-if value="{{ showHero }}" hint-placeholder-val="{{ true }}">
+  <div style="position:relative;background:#12161C url(uploads/hero2.jpg) right center / cover no-repeat">
+    <div style="position:absolute;inset:0;background:rgba(18,22,28,0.6)"></div>
+    <div style="position:relative;max-width:1312px;margin:0 auto;padding:96px 64px">
+      <h1 style="margin:0;max-width:960px;font-size:56px;line-height:1.1;font-weight:600;letter-spacing:-0.02em;color:#FCFCFD;text-wrap:balance">Б/в запчастини, які підійдуть з першого разу</h1>
+      <p style="margin:16px 0 0;max-width:640px;font-size:20px;line-height:1.5;color:#E6E9EE;text-wrap:pretty">Фото реальної деталі, відмітки дефектів, відправка Новою поштою в день замовлення</p>
+      <div style="max-width:1088px;margin-top:48px">
+          <div style="display:flex;gap:8px">
+            <div style="flex:1;display:flex;height:56px;background:#FCFCFD;border-radius:8px;outline:2px solid {{ capsuleRingColor }};outline-offset:{{ capsuleRingOffset }};transition:outline-color 520ms cubic-bezier(0.22, 1, 0.36, 1), outline-offset 520ms cubic-bezier(0.22, 1, 0.36, 1)">
+              <div style="position:relative;width:240px;border-radius:8px 0 0 8px">{{ brandSelect }}<span style="position:absolute;right:16px;top:16px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:#F3F5F7;pointer-events:none"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:#1E232B;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ brandRot }});transition:transform 200ms ease"><path d="m7 10 5 5 5-5"></path></svg></span></div>
+              <div style="position:relative;width:240px;border-left:1px solid #E6E9EE;background:{{ modelBg }}">{{ modelSelect }}<span style="position:absolute;right:16px;top:16px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:{{ modelChipBg }};pointer-events:none"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:{{ modelChevron }};stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ modelRot }});transition:transform 200ms ease"><path d="m7 10 5 5 5-5"></path></svg></span></div>
+              <div style="position:relative;flex:1;border-left:1px solid #E6E9EE">
+                <input type="text" aria-label="Деталь" autocomplete="off" placeholder="Що шукаєте? Наприклад, фара ліва" value="{{ query }}" onChange="{{ onQuery }}" onFocus="{{ onDetailFocus }}" onBlur="{{ onBlur }}" style="width:100%;height:56px;box-sizing:border-box;padding:0 16px;border:none;border-radius:0 8px 8px 0;background:transparent;font:inherit;font-size:16px;color:#1E232B;outline:none">
+                <sc-if value="{{ showSuggest }}" hint-placeholder-val="{{ false }}">
+                  <div role="listbox" style="position:absolute;z-index:5;top:64px;left:0;right:0;padding:8px 0;background:#FCFCFD;border-radius:8px;box-shadow:0 8px 24px rgba(18,22,28,0.16)">
+                    <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="3">
+                      <div role="option" onMouseDown="{{ s.pick }}" onMouseEnter="{{ s.hover }}" style="height:48px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:16px;color:#1E232B;background:{{ s.bg }};cursor:pointer"><span>{{ s.pre }}<b style="font-weight:600">{{ s.match }}</b>{{ s.post }}</span><span style="color:#6B7380">{{ s.count }}</span></div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+            </div>
+            <button style="height:56px;padding:0 32px;border:none;border-radius:8px;background-color:#E0001B;background-image:radial-gradient(circle, #B80016 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;font:inherit;font-size:16px;font-weight:600;color:#FCFCFD;cursor:pointer;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #FCFCFD;outline-offset:2px">Знайти деталь</button>
+          </div>
+        <div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:16px;font-size:14px;line-height:20px">
+          <span style="color:#CDD2DA">Популярні марки:</span>
+          <sc-for list="{{ popular }}" as="b" hint-placeholder-count="8"><a href="#" style="color:#FCFCFD;text-decoration:underline;text-decoration-color:#6B7380;text-underline-offset:4px" style-hover="text-decoration-color:#FCFCFD">{{ b }}</a></sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+</sc-if>
+
+<sc-if value="{{ isTablet }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:0 32px;height:40px;display:flex;align-items:center;justify-content:space-between;gap:24px;font-size:14px;line-height:20px;color:#FCFCFD">
+    <div aria-live="polite" style="height:20px;overflow:hidden">{{ usp }}</div>
+    <div style="display:flex;align-items:center;gap:16px">
+      <a href="tel:+380986401357" style="color:#FCFCFD;font-weight:500;text-decoration:none">+380 98 640 13 57</a>
+      <div style="display:flex;gap:8px">
+        <a href="#" aria-label="Telegram" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center"><img src="https://cdn.simpleicons.org/telegram/CDD2DA" width="16" height="16" alt=""></a>
+        <a href="#" aria-label="Viber" style="width:24px;height:24px;display:flex;align-items:center;justify-content:center"><img src="https://cdn.simpleicons.org/viber/CDD2DA" width="16" height="16" alt=""></a>
+      </div>
+      <div style="position:relative">
+        <button aria-label="Мова" aria-haspopup="listbox" onClick="{{ toggleLang }}" onBlur="{{ closeLang }}" style="height:24px;padding:0;display:flex;align-items:center;gap:4px;border:none;background:none;font:inherit;font-size:14px;font-weight:500;color:#CDD2DA;cursor:pointer" style-hover="color:#FCFCFD"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"></path><path d="M2 12h20"></path></svg>{{ lang }}</button>
+        <sc-if value="{{ langOpen }}" hint-placeholder-val="{{ false }}">
+          <div role="listbox" style="position:absolute;z-index:10;top:32px;right:0;width:96px;padding:8px 0;background:#FCFCFD;border-radius:8px;box-shadow:0 8px 24px rgba(18,22,28,0.16)">
+            <sc-for list="{{ langs }}" as="l" hint-placeholder-count="2">
+              <div role="option" onMouseDown="{{ l.pick }}" style="height:40px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;font-size:14px;font-weight:{{ l.weight }};color:#1E232B;cursor:pointer" style-hover="background:#F3F5F7">{{ l.code }}<sc-if value="{{ l.active }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg></sc-if></div>
+            </sc-for>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+  <div style="background:#FCFCFD;border-radius:16px 16px 0 0">
+    <div style="padding:0 32px;height:80px;display:flex;align-items:center;gap:16px">
+      <button aria-label="Меню" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:#F3F5F7;color:#1E232B;cursor:pointer"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg></button>
+      <a href="DLSAuto Головна.dc.html" aria-label="DLSAuto — на головну" style="font-size:28px;line-height:1;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-decoration:none">DLSAuto</a>
+      <div style="margin-left:auto;display:flex;align-items:center;gap:16px">
+        <button style="height:48px;padding:0 24px;border:1px solid #E0001B;border-radius:8px;font:inherit;font-size:16px;font-weight:600;color:#E0001B;cursor:pointer;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%">Замовити дзвінок</button>
+        <a href="#" onClick="{{ openCart }}" aria-label="{{ cartAria }}" style="position:relative;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#F3F5F7;color:#1E232B">
+          <svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
+          <span aria-hidden="true" style="position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;display:{{ cartBadgeDisplay }};align-items:center;justify-content:center;border-radius:9px;background:#E0001B;color:#FCFCFD;font-size:11px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;animation:{{ cartBadgeAnim }}">{{ cartCount }}</span>
+        </a>
+        <a href="DLSFavorites.dc.html" aria-label="{{ favAria }}" style="position:relative;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#F3F5F7;color:#1E232B" style-hover="background:#E6E9EE"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg><span aria-hidden="true" style="position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;display:{{ favBadgeDisplay }};align-items:center;justify-content:center;border-radius:9px;background:#E0001B;color:#FCFCFD;font-size:11px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;animation:{{ favBadgeAnim }}">{{ favCount }}</span></a>
+        <a href="DLSCompare.dc.html" aria-label="{{ cmpAria }}" style="position:relative;width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#F3F5F7;color:#1E232B" style-hover="background:#E6E9EE"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg><span aria-hidden="true" style="position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;display:{{ cmpBadgeDisplay }};align-items:center;justify-content:center;border-radius:9px;background:#E0001B;color:#FCFCFD;font-size:11px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;animation:{{ cmpBadgeAnim }}">{{ cmpCount }}</span></a>
+      </div>
+    </div>
+    <div style="padding:0 32px 16px">
+      <form role="search" style="height:48px;box-sizing:border-box;padding:4px 4px 4px 0;display:flex;align-items:center;gap:8px;border-radius:8px;background:#F3F5F7">
+        <input type="search" aria-label="Пошук запчастин" placeholder="Пошук запчастин" style="flex:1;min-width:0;height:40px;box-sizing:border-box;padding:0 16px;border:none;border-radius:8px;background:transparent;font:inherit;font-size:16px;color:#1E232B" style-focus="outline:1px solid #1E232B;outline-offset:-1px">
+        <button type="submit" aria-label="Знайти" style="width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:#E6E9EE;color:#1E232B;cursor:pointer"><svg viewBox="0 0 24 24" width="20" height="20" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></button>
+      </form>
+    </div>
+  </div>
+  <sc-if value="{{ showHero }}" hint-placeholder-val="{{ true }}">
+  <div style="position:relative;background:#12161C url(uploads/hero2.jpg) 70% center / cover no-repeat">
+    <div style="position:absolute;inset:0;background:rgba(18,22,28,0.6)"></div>
+    <div style="position:relative;padding:64px 32px">
+      <h1 style="margin:0;max-width:640px;font-size:40px;line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#FCFCFD;text-wrap:balance">Б/в запчастини, які підійдуть з першого разу</h1>
+      <p style="margin:16px 0 0;max-width:560px;font-size:18px;line-height:1.5;color:#E6E9EE;text-wrap:pretty">Фото реальної деталі, відмітки дефектів, відправка Новою поштою в день замовлення</p>
+      <div style="max-width:704px;margin-top:48px">
+          <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);background:#FCFCFD;border-radius:8px;outline:2px solid {{ capsuleRingColor }};outline-offset:{{ capsuleRingOffset }};transition:outline-color 520ms cubic-bezier(0.22, 1, 0.36, 1), outline-offset 520ms cubic-bezier(0.22, 1, 0.36, 1)">
+            <div style="position:relative;border-radius:8px 0 0 0">{{ brandSelect }}<span style="position:absolute;right:16px;top:16px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:#F3F5F7;pointer-events:none"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:#1E232B;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ brandRot }});transition:transform 200ms ease"><path d="m7 10 5 5 5-5"></path></svg></span></div>
+            <div style="position:relative;border-left:1px solid #E6E9EE;border-radius:0 8px 0 0;background:{{ modelBg }}">{{ modelSelect }}<span style="position:absolute;right:16px;top:16px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:{{ modelChipBg }};pointer-events:none"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:{{ modelChevron }};stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ modelRot }});transition:transform 200ms ease"><path d="m7 10 5 5 5-5"></path></svg></span></div>
+            <div style="position:relative;grid-column:1 / -1;border-top:1px solid #E6E9EE">
+              <input type="text" aria-label="Деталь" autocomplete="off" placeholder="Що шукаєте? Наприклад, фара ліва" value="{{ query }}" onChange="{{ onQuery }}" onFocus="{{ onDetailFocus }}" onBlur="{{ onBlur }}" style="width:100%;height:56px;box-sizing:border-box;padding:0 16px;border:none;border-radius:0 0 8px 8px;background:transparent;font:inherit;font-size:16px;color:#1E232B;outline:none">
+              <sc-if value="{{ showSuggest }}" hint-placeholder-val="{{ false }}">
+                <div role="listbox" style="position:absolute;z-index:5;top:64px;left:0;right:0;padding:8px 0;background:#FCFCFD;border-radius:8px;box-shadow:0 8px 24px rgba(18,22,28,0.16)">
+                  <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="3">
+                    <div role="option" onMouseDown="{{ s.pick }}" onMouseEnter="{{ s.hover }}" style="height:48px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:16px;color:#1E232B;background:{{ s.bg }};cursor:pointer"><span>{{ s.pre }}<b style="font-weight:600">{{ s.match }}</b>{{ s.post }}</span><span style="color:#6B7380">{{ s.count }}</span></div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+          <button style="margin-top:8px;height:56px;padding:0 32px;border:none;border-radius:8px;background-color:#E0001B;background-image:radial-gradient(circle, #B80016 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;font:inherit;font-size:16px;font-weight:600;color:#FCFCFD;cursor:pointer;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%">Знайти деталь</button>
+        <div style="margin:16px -32px 0;padding:0 32px;display:flex;gap:16px;overflow-x:auto;scrollbar-width:none;font-size:14px;line-height:20px;white-space:nowrap">
+          <span style="height:44px;display:flex;align-items:center;flex-shrink:0;color:#CDD2DA">Популярні марки:</span>
+          <sc-for list="{{ popular }}" as="b" hint-placeholder-count="8"><a href="#" style="height:44px;display:flex;align-items:center;flex-shrink:0;color:#FCFCFD;text-decoration:underline;text-decoration-color:#6B7380;text-underline-offset:4px">{{ b }}</a></sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+</sc-if>
+
+<sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+  <div style="padding:0 16px;height:48px;display:flex;align-items:center;justify-content:space-between;font-size:14px;line-height:20px;color:#CDD2DA">
+    <span>Пн–Сб 9:00–18:00</span>
+    <a href="tel:+380986401357" style="height:48px;display:flex;align-items:center;color:#FCFCFD;font-weight:500;text-decoration:none">+380 98 640 13 57</a>
+  </div>
+  <div style="background:#FCFCFD;border-radius:16px 16px 0 0">
+    <div style="padding:0 16px;height:64px;display:flex;align-items:center;gap:12px">
+      <button aria-label="Меню" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:#F3F5F7;color:#1E232B;cursor:pointer"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h16"></path></svg></button>
+      <a href="DLSAuto Головна.dc.html" aria-label="DLSAuto — на головну" style="font-size:20px;line-height:1;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-decoration:none">DLSAuto</a>
+      <a href="#" onClick="{{ openCart }}" aria-label="{{ cartAria }}" style="margin-left:auto;position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#F3F5F7;color:#1E232B">
+        <svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="8" cy="21" r="1"></circle><circle cx="19" cy="21" r="1"></circle><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path></svg>
+        <span aria-hidden="true" style="position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;display:{{ cartBadgeDisplay }};align-items:center;justify-content:center;border-radius:9px;background:#E0001B;color:#FCFCFD;font-size:11px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;animation:{{ cartBadgeAnim }}">{{ cartCount }}</span>
+      </a>
+      <a href="DLSFavorites.dc.html" aria-label="{{ favAria }}" style="position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#F3F5F7;color:#1E232B"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg><span aria-hidden="true" style="position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;display:{{ favBadgeDisplay }};align-items:center;justify-content:center;border-radius:9px;background:#E0001B;color:#FCFCFD;font-size:11px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;animation:{{ favBadgeAnim }}">{{ favCount }}</span></a>
+      <a href="DLSCompare.dc.html" aria-label="{{ cmpAria }}" style="position:relative;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#F3F5F7;color:#1E232B"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg><span aria-hidden="true" style="position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;box-sizing:border-box;display:{{ cmpBadgeDisplay }};align-items:center;justify-content:center;border-radius:9px;background:#E0001B;color:#FCFCFD;font-size:11px;line-height:1;font-weight:600;font-variant-numeric:tabular-nums;animation:{{ cmpBadgeAnim }}">{{ cmpCount }}</span></a>
+    </div>
+  </div>
+  <sc-if value="{{ showHero }}" hint-placeholder-val="{{ true }}">
+  <div style="position:relative;background:#12161C url(uploads/hero2.jpg) 65% center / cover no-repeat">
+    <div style="position:absolute;inset:0;background:rgba(18,22,28,0.6)"></div>
+    <div style="position:relative;padding:48px 16px">
+      <h1 style="margin:0;font-size:32px;line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#FCFCFD;text-wrap:balance">Б/в запчастини, які підійдуть з першого разу</h1>
+      <p style="margin:12px 0 0;font-size:16px;line-height:1.5;color:#E6E9EE;text-wrap:pretty">Фото реальної деталі, відмітки дефектів, відправка Новою поштою в день замовлення</p>
+      <div style="margin-top:32px">
+          <div style="background:#FCFCFD;border-radius:8px;outline:2px solid {{ capsuleRingColor }};outline-offset:{{ capsuleRingOffset }};transition:outline-color 520ms cubic-bezier(0.22, 1, 0.36, 1), outline-offset 520ms cubic-bezier(0.22, 1, 0.36, 1)">
+            <div style="position:relative;border-radius:8px 8px 0 0">{{ brandSelect }}<span style="position:absolute;right:16px;top:16px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:#F3F5F7;pointer-events:none"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:#1E232B;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ brandRot }});transition:transform 200ms ease"><path d="m7 10 5 5 5-5"></path></svg></span></div>
+            <div style="position:relative;border-top:1px solid #E6E9EE;background:{{ modelBg }}">{{ modelSelect }}<span style="position:absolute;right:16px;top:16px;width:24px;height:24px;display:flex;align-items:center;justify-content:center;border-radius:4px;background:{{ modelChipBg }};pointer-events:none"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:{{ modelChevron }};stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ modelRot }});transition:transform 200ms ease"><path d="m7 10 5 5 5-5"></path></svg></span></div>
+            <div style="position:relative;border-top:1px solid #E6E9EE">
+              <input type="text" aria-label="Деталь" autocomplete="off" placeholder="Що шукаєте? Наприклад, фара ліва" value="{{ query }}" onChange="{{ onQuery }}" onFocus="{{ onDetailFocus }}" onBlur="{{ onBlur }}" style="width:100%;height:56px;box-sizing:border-box;padding:0 16px;border:none;border-radius:0 0 8px 8px;background:transparent;font:inherit;font-size:16px;color:#1E232B;outline:none">
+              <sc-if value="{{ showSuggest }}" hint-placeholder-val="{{ false }}">
+                <div role="listbox" style="position:absolute;z-index:5;top:64px;left:0;right:0;padding:8px 0;background:#FCFCFD;border-radius:8px;box-shadow:0 8px 24px rgba(18,22,28,0.16)">
+                  <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="3">
+                    <div role="option" onMouseDown="{{ s.pick }}" onMouseEnter="{{ s.hover }}" style="min-height:48px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:16px;color:#1E232B;background:{{ s.bg }};cursor:pointer"><span>{{ s.pre }}<b style="font-weight:600">{{ s.match }}</b>{{ s.post }}</span><span style="color:#6B7380">{{ s.count }}</span></div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+          <button style="margin-top:8px;width:100%;height:56px;padding:0 32px;border:none;border-radius:8px;background:#E0001B;font:inherit;font-size:16px;font-weight:600;color:#FCFCFD;cursor:pointer">Знайти деталь</button>
+        <div style="margin:16px -16px 0;padding:0 16px;display:flex;gap:16px;overflow-x:auto;scrollbar-width:none;font-size:14px;line-height:20px;white-space:nowrap">
+          <span style="height:44px;display:flex;align-items:center;flex-shrink:0;color:#CDD2DA">Популярні марки:</span>
+          <sc-for list="{{ popular }}" as="b" hint-placeholder-count="8"><a href="#" style="height:44px;display:flex;align-items:center;flex-shrink:0;color:#FCFCFD;text-decoration:underline;text-decoration-color:#6B7380;text-underline-offset:4px">{{ b }}</a></sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+  </sc-if>
+</sc-if>
+
+
+<div role="status" aria-live="polite" style="position:fixed;right:24px;bottom:24px;z-index:1000;width:360px;max-width:calc(100vw - 32px);box-sizing:border-box;padding:16px 48px 16px 16px;display:flex;gap:12px;background:#FFFFFF;border-radius:16px;box-shadow:0 12px 32px rgba(18,22,28,0.16);font-family:'Golos Text',sans-serif;color:#1E232B;opacity:{{ toastOp }};transform:{{ toastT }};pointer-events:{{ toastEvents }};visibility:{{ toastVis }};transition:{{ toastTr }}">
+  <sc-if value="{{ toastThumb }}" hint-placeholder-val="{{ false }}">
+    <img src="{{ toastPhoto }}" alt="" style="width:48px;height:48px;flex-shrink:0;border-radius:8px;object-fit:cover;background:#F3F5F7;display:block">
+  </sc-if>
+  <div style="flex:1;min-width:0">
+    <p style="margin:0;font-size:14px;line-height:20px;font-weight:600;color:#1E232B">{{ toastTitle }}</p>
+    <p style="margin:2px 0 0;font-size:13px;line-height:18px;color:#4A5260;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ toastName }}</p>
+    <div style="margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:16px">
+      <a href="#" onClick="{{ toastLink }}" style="font-size:13px;line-height:18px;font-weight:600;color:#1E232B;text-decoration:underline;text-underline-offset:3px" style-hover="color:#4A5260">{{ toastLinkText }}</a>
+      <button onClick="{{ toastUndo }}" style="padding:0;border:none;background:none;font:inherit;font-size:13px;line-height:18px;color:#4A5260;cursor:pointer" style-hover="color:#1E232B">Скасувати</button>
+    </div>
+  </div>
+  <button onClick="{{ toastClose }}" aria-label="Закрити" style="position:absolute;top:8px;right:8px;width:32px;height:32px;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:transparent;color:#4A5260;cursor:pointer" style-hover="background:#F3F5F7;color:#1E232B"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:720},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;},&quot;demoSuggest&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;hero&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const BRANDS = {
+  'Ford': ['Ranger', 'F-150', 'Explorer', 'Maverick'],
+  'Toyota': ['Hilux', 'Land Cruiser 200', 'Land Cruiser Prado 150', 'Tundra', 'Tacoma'],
+  'Mitsubishi': ['L200', 'Pajero Sport', 'Pajero Wagon', 'Outlander'],
+  'Nissan': ['Navara', 'Pathfinder', 'Patrol', 'X-Trail'],
+  'Jeep': ['Wrangler', 'Grand Cherokee', 'Cherokee', 'Compass', 'Gladiator'],
+  'Dodge': ['RAM 1500', 'Durango', 'Nitro'],
+  'Volkswagen': ['Amarok', 'Touareg'],
+  'Mercedes-Benz': ['X-Class', 'G-Class', 'GLE', 'ML'],
+  'Isuzu': ['D-Max', 'MU-X'],
+  'Land Rover': ['Defender', 'Discovery', 'Range Rover Sport']
+};
+const POPULAR = ['Ford', 'Toyota', 'Mitsubishi', 'Nissan', 'Jeep', 'Dodge', 'Volkswagen', 'Mercedes-Benz'];
+const PARTS = [
+  ['Фара ліва', 3], ['Фара права', 1], ['Фара протитуманна ліва', 2], ['Фаркоп', 4],
+  ['Бампер передній', 5], ['Бампер задній', 2], ['Дзеркало бокове ліве', 3], ['Дзеркало бокове праве', 2],
+  ['Капот', 2], ['Крило переднє ліве', 1], ['Ліхтар задній лівий', 2], ['Радіатор охолодження', 4],
+  ['Решітка радіатора', 3], ['Стартер', 2], ['Генератор', 3], ['Турбіна', 1], ['Роздавальна коробка', 2]
+];
+const RING = '2px solid #1E232B';
+const USP = ['Відправляємо в день замовлення', 'Гарантія до 60 днів'];
+
+class Component extends DCLogic {
+  state = { tab: null, brand: '', model: '', query: null, seg: undefined, active: 0, usp: 0 };
+
+  componentDidMount() {
+    this.hookFav();
+    this.hookCart();
+    this.hookCmp();
+    this.uspTimer = setInterval(() => this.setState(s => ({ usp: (s.usp + 1) % USP.length })), 4000);
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { this.cmpUnsub && this.cmpUnsub(); clearTimeout(this.cmpRetry); this.favUnsub && this.favUnsub(); this.cartUnsub && this.cartUnsub(); clearTimeout(this.cartRetry); clearTimeout(this.toastTimer); clearTimeout(this.favRetry); clearInterval(this.uspTimer); window.removeEventListener('resize', this.onResize); }
+
+  hookFav() {
+    const S = window.DLSFav;
+    if (!S) { this.favRetry = setTimeout(() => this.hookFav(), 200); return; }
+    this.setState({ favCount: S.count() });
+    this.favUnsub = S.subscribe(e => {
+      const c = S.count();
+      this.setState(s => ({ favCount: c, favAnim: s.favCount === 0 ? 'in' : (s.favAnim === 'a' ? 'b' : 'a') }));
+      if (e.silent) { this.hideToast(); return; }
+      clearTimeout(this.toastTimer);
+      this.setState({ toast: { kind: 'fav', type: e.type, item: e.item }, toastOn: true });
+      this.toastTimer = setTimeout(() => this.hideToast(), e.type === 'add' ? 4000 : 2500);
+    });
+  }
+  hookCart() {
+    const C = window.DLSCart;
+    if (!C) { this.cartRetry = setTimeout(() => this.hookCart(), 200); return; }
+    this.setState({ cartCount: C.count() });
+    this.cartUnsub = C.subscribe(e => {
+      if (e.type !== 'add' && e.type !== 'remove') return;
+      const c = C.count();
+      this.setState(s => ({ cartCount: c, cartAnim: s.cartCount === 0 ? 'in' : (s.cartAnim === 'a' ? 'b' : 'a') }));
+      if (e.silent) { if (this.state.toast?.kind === 'cart') this.hideToast(); return; }
+      if (e.type !== 'add') return;
+      clearTimeout(this.toastTimer);
+      this.setState({ toast: { kind: 'cart', type: 'add', item: e.item }, toastOn: true });
+      this.toastTimer = setTimeout(() => this.hideToast(), 4000);
+    });
+  }
+  hookCmp() {
+    const S = window.DLSCompare;
+    if (!S) { this.cmpRetry = setTimeout(() => this.hookCmp(), 200); return; }
+    this.setState({ cmpCount: S.count() });
+    this.cmpUnsub = S.subscribe(e => {
+      const c = S.count();
+      this.setState(s => ({ cmpCount: c, cmpAnim: s.cmpCount === 0 ? 'in' : (s.cmpAnim === 'a' ? 'b' : 'a') }));
+      if (e.silent) { if (this.state.toast?.kind === 'cmp') this.hideToast(); return; }
+      clearTimeout(this.toastTimer);
+      this.setState({ toast: { kind: 'cmp', type: e.type, item: e.item }, toastOn: true });
+      this.toastTimer = setTimeout(() => this.hideToast(), e.type === 'add' ? 4000 : 2500);
+    });
+  }
+  hideToast() { clearTimeout(this.toastTimer); this.setState({ toastOn: false }); }
+
+  mkSelect(value, onChange, placeholder, opts, disabled, label, seg) {
+    const h = React.createElement;
+    return h('select', {
+      value, onChange, disabled, 'aria-label': label,
+      onFocus: () => this.setState({ seg }), onBlur: () => this.setState({ seg: null }),
+      style: { appearance: 'none', WebkitAppearance: 'none', width: '100%', height: 56, padding: '0 48px 0 16px', border: 'none', background: 'transparent', fontFamily: 'inherit', fontSize: 16, color: value ? '#1E232B' : (disabled ? '#A9B0BB' : '#6B7380'), cursor: disabled ? 'not-allowed' : 'pointer', outline: 'none' }
+    }, [h('option', { key: '_', value: '', disabled: true }, placeholder), ...opts.map(o => h('option', { key: o, value: o }, o))]);
+  }
+
+  renderVals() {
+    const p = this.props, s = this.state;
+    const vw = s.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = p.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const query = s.query ?? (p.demoSuggest ? 'Фара' : '');
+    const seg = s.seg === undefined ? (p.demoSuggest ? 'detail' : null) : s.seg;
+    const q = query.trim().toLowerCase();
+    const matches = q.length >= 2 ? PARTS.filter(([n]) => n.toLowerCase().includes(q)).slice(0, 6) : [];
+    const suggestions = matches.map(([name, count], i) => {
+      const at = name.toLowerCase().indexOf(q);
+      return {
+        pre: name.slice(0, at), match: name.slice(at, at + q.length), post: name.slice(at + q.length),
+        count: '(' + count + ')', bg: i === s.active ? '#F3F5F7' : 'transparent',
+        pick: e => { e.preventDefault(); this.setState({ query: name, seg: null }); },
+        hover: () => this.setState({ active: i })
+      };
+    });
+    const hasBrand = !!s.brand;
+    const fc = s.favCount ?? 0;
+    const tst = s.toast;
+    const tOn = !!s.toastOn;
+    return {
+      showHero: this.props.hero ?? true,
+      favCount: fc,
+      cartCount: s.cartCount ?? 0,
+      cartAria: (s.cartCount ?? 0) ? `Кошик, ${s.cartCount}` : 'Кошик',
+      cartBadgeDisplay: (s.cartCount ?? 0) ? 'flex' : 'none',
+      cartBadgeAnim: s.cartAnim === 'in' ? 'dlsBadgeIn 250ms ease-out' : s.cartAnim === 'a' ? 'dlsBadgeBumpA 250ms ease-out' : s.cartAnim === 'b' ? 'dlsBadgeBumpB 250ms ease-out' : 'none',
+      openCart: e => { e.preventDefault(); window.DLSCart && window.DLSCart.open(); },
+      toastLinkText: tst?.kind === 'cart' ? 'Відкрити кошик' : tst?.kind === 'cmp' ? 'Перейти до порівняння' : 'Перейти в обране',
+      cmpCount: s.cmpCount ?? 0,
+      cmpAria: (s.cmpCount ?? 0) ? `Порівняння, ${s.cmpCount}` : 'Порівняння',
+      cmpBadgeDisplay: (s.cmpCount ?? 0) ? 'flex' : 'none',
+      cmpBadgeAnim: s.cmpAnim === 'in' ? 'dlsBadgeIn 250ms ease-out' : s.cmpAnim === 'a' ? 'dlsBadgeBumpA 250ms ease-out' : s.cmpAnim === 'b' ? 'dlsBadgeBumpB 250ms ease-out' : 'none',
+      toastLink: e => { e.preventDefault(); this.hideToast(); if (tst?.kind === 'cart') { window.DLSCart && window.DLSCart.open(); } else { window.location.href = tst?.kind === 'cmp' ? 'DLSCompare.dc.html' : 'DLSFavorites.dc.html'; } },
+      favAria: fc ? `Обране, ${fc}` : 'Обране',
+      favBadgeDisplay: fc ? 'flex' : 'none',
+      favBadgeAnim: s.favAnim === 'in' ? 'dlsBadgeIn 250ms ease-out' : s.favAnim === 'a' ? 'dlsBadgeBumpA 250ms ease-out' : s.favAnim === 'b' ? 'dlsBadgeBumpB 250ms ease-out' : 'none',
+      toastOp: tOn ? 1 : 0,
+      toastT: tOn ? 'translateY(0)' : 'translateY(12px)',
+      toastEvents: tOn ? 'auto' : 'none',
+      toastVis: tst ? 'visible' : 'hidden',
+      toastTr: tOn ? 'opacity 250ms ease-out, transform 250ms ease-out' : 'opacity 200ms ease-out, transform 0ms linear 200ms',
+      toastThumb: !!tst && tst.type === 'add',
+      toastPhoto: tst?.item?.photo || 'assets/part-hub.webp',
+      toastTitle: tst?.kind === 'cart' ? 'Додано в кошик' : tst?.kind === 'cmp' ? (tst?.type === 'remove' ? 'Прибрано з порівняння' : 'Додано до порівняння') : tst?.type === 'remove' ? 'Видалено з обраного' : 'Додано в обране',
+      toastName: tst?.item?.name ?? '',
+      toastClose: () => this.hideToast(),
+      toastUndo: () => { if (!tst) return; if (tst.kind === 'cart') { window.DLSCart && window.DLSCart.remove(tst.item.id, true); this.hideToast(); } else if (tst.kind === 'cmp') { window.DLSCompare && window.DLSCompare.set(tst.item, tst.type !== 'add', true); } else if (window.DLSFav) window.DLSFav.set(tst.item, tst.type !== 'add', true); },
+      isDesktop: device === 'desktop', isTablet: device === 'tablet', isMobile: device === 'mobile',
+      brandSelect: this.mkSelect(s.brand, e => this.setState({ brand: e.target.value, model: '' }), 'Оберіть марку', Object.keys(BRANDS), false, 'Марка', 'brand'),
+      modelSelect: this.mkSelect(s.model, e => this.setState({ model: e.target.value }), 'Оберіть модель', BRANDS[s.brand] || [], !hasBrand, 'Модель', 'model'),
+      modelBg: hasBrand ? 'transparent' : '#F3F5F7',
+      modelChevron: hasBrand ? '#1E232B' : '#A9B0BB',
+      brandRing: seg === 'brand' ? RING : 'none',
+      modelRing: seg === 'model' ? RING : 'none',
+      detailRing: seg === 'detail' ? RING : 'none',
+      capsuleRingColor: seg ? 'rgba(252, 252, 253, 1)' : 'rgba(252, 252, 253, 0)',
+      capsuleRingOffset: seg ? '2px' : '8px',
+      brandRot: seg === 'brand' ? '180deg' : '0deg',
+      modelRot: seg === 'model' ? '180deg' : '0deg',
+      modelChipBg: hasBrand ? '#F3F5F7' : '#E6E9EE',
+      lang: s.lang || 'UA',
+      langOpen: !!s.langOpen,
+      toggleLang: () => this.setState(st => ({ langOpen: !st.langOpen })),
+      closeLang: () => this.setState({ langOpen: false }),
+      langs: ['UA', 'RU'].map(code => ({ code, active: (s.lang || 'UA') === code, weight: (s.lang || 'UA') === code ? 600 : 400, pick: e => { e.preventDefault(); this.setState({ lang: code, langOpen: false }); } })),
+      query,
+      onQuery: e => this.setState({ query: e.target.value, seg: 'detail', active: 0 }),
+      onDetailFocus: () => this.setState({ seg: 'detail' }),
+      onBlur: () => this.setState({ seg: null }),
+      showSuggest: seg === 'detail' && suggestions.length > 0,
+      suggestions,
+      popular: POPULAR,
+      usp: React.createElement('span', { key: s.usp, style: { display: 'block', animation: 'uspIn 400ms ease-out' } }, USP[s.usp])
+    };
+  }
+}
+</script>
+</body>
+</html>

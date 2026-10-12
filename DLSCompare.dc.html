@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>DLSAuto — Порівняння деталей</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;background:#F6F6F6;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+<script src="./dls-cart.js"></script>
+<script src="./dls-compare.js"></script>
+</helmet>
+<sc-if value="{{ withHeader }}" hint-placeholder-val="{{ true }}">
+  <dc-import name="DLSHeaderHero" hero="{{ false }}" hint-size="100%,168px"></dc-import>
+</sc-if>
+<main data-screen-label="Порівняння" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <nav aria-label="Хлібні крихти" style="display:flex;align-items:center;gap:8px;font-size:14px;line-height:20px;color:#4A5260">
+      <a href="DLSAuto Головна.dc.html" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B">Головна</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page" style="color:#1E232B">Порівняння</span>
+    </nav>
+    <div style="margin-top:16px;display:flex;flex-direction:{{ headDir }};justify-content:space-between;align-items:{{ headAlign }};gap:24px">
+      <h1 style="margin:0;font-size:{{ h1Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Порівняння деталей</h1>
+      <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;gap:24px;flex-wrap:wrap">
+          <button role="switch" aria-checked="{{ diffOnly }}" onClick="{{ toggleDiff }}" style="padding:0;display:flex;align-items:center;gap:12px;border:none;background:none;font:inherit;font-size:16px;line-height:24px;color:#1E232B;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:4px;border-radius:8px">
+            <span aria-hidden="true" style="position:relative;width:44px;height:24px;flex-shrink:0;border-radius:12px;background:{{ trackBg }};transition:background 200ms ease-out"><span style="position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#FFFFFF;box-shadow:0 1px 3px rgba(18,22,28,0.24);transform:{{ knobT }};transition:transform 200ms ease-out"></span></span>
+            Показувати лише відмінності
+          </button>
+          <button onClick="{{ clearAll }}" style="padding:0;border:none;background:none;font:inherit;font-size:16px;line-height:24px;color:#4A5260;cursor:pointer" style-hover="color:#1E232B">Очистити все</button>
+        </div>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ true }}">
+      <div role="tablist" aria-label="Категорії порівняння" style="margin-top:32px;display:flex;gap:32px;border-bottom:1px solid #E6E9EE">
+        <sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="2">
+          <button role="tab" aria-selected="{{ tb.active }}" onClick="{{ tb.select }}" style="margin-bottom:-1px;padding:12px 0;border:none;border-bottom:2px solid {{ tb.line }};background:none;font:inherit;font-size:16px;line-height:24px;font-weight:{{ tb.weight }};color:{{ tb.color }};cursor:pointer;transition:border-color 200ms ease-out, color 200ms ease-out" style-hover="color:#1E232B">{{ tb.label }}</button>
+        </sc-for>
+      </div>
+
+      <div style="margin-top:24px;overflow-x:{{ tableOverflow }};border:1px solid #E6E9EE;border-radius:16px;background:#FFFFFF;scrollbar-width:thin">
+        <div style="min-width:{{ tableMin }}">
+          <div aria-hidden="{{ compactHidden }}" style="position:sticky;top:0;z-index:4;height:0">
+            <div style="display:grid;grid-template-columns:{{ cols }};background:#FFFFFF;border-bottom:1px solid #E6E9EE;box-shadow:0 4px 16px rgba(18,22,28,0.08);opacity:{{ compactOp }};transform:{{ compactT }};pointer-events:{{ compactEvents }};transition:opacity 200ms ease-out, transform 200ms ease-out">
+              <div style="position:sticky;left:0;z-index:1;background:#FFFFFF;padding:12px 16px;display:flex;align-items:center;font-size:14px;line-height:20px;color:#4A5260">{{ tabLabel }}</div>
+              <sc-for list="{{ heads }}" as="h" hint-placeholder-count="4">
+                <div style="min-width:0;padding:12px 16px;display:flex;align-items:center;gap:12px">
+                  <sc-if value="{{ h.isItem }}" hint-placeholder-val="{{ true }}">
+                    <img src="{{ h.photo }}" alt="" style="width:40px;height:40px;flex-shrink:0;border-radius:8px;object-fit:cover;background:#F3F5F7;display:block">
+                    <div style="min-width:0">
+                      <p style="margin:0;font-size:14px;line-height:20px;font-weight:600;color:#1E232B;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ h.name }}</p>
+                      <p style="margin:0;font-size:14px;line-height:20px;color:#4A5260;white-space:nowrap">{{ h.priceText }}</p>
+                    </div>
+                  </sc-if>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div ref="{{ headRef }}" style="display:grid;grid-template-columns:{{ cols }};border-bottom:1px solid #E6E9EE">
+            <div style="position:sticky;left:0;z-index:2;background:#FFFFFF"></div>
+            <sc-for list="{{ heads }}" as="h" hint-placeholder-count="4">
+              <div style="min-width:0;padding:24px 16px;display:flex;flex-direction:column">
+                <sc-if value="{{ h.isItem }}" hint-placeholder-val="{{ true }}">
+                  <div style="position:relative;aspect-ratio:1 / 1;overflow:hidden;border-radius:8px;background:#F3F5F7">
+                    <img src="{{ h.photo }}" alt="{{ h.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+                    <button onClick="{{ h.remove }}" aria-label="Прибрати з порівняння" style="position:absolute;top:8px;right:8px;width:32px;height:32px;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:#FFFFFF;color:#1E232B;cursor:pointer;box-shadow:0 1px 3px rgba(18,22,28,0.12)" style-hover="background:#E6E9EE" style-focus="outline:2px solid #1E232B;outline-offset:2px"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+                  </div>
+                  <span title="{{ h.donor }}" style="margin-top:16px;align-self:flex-start;max-width:100%;box-sizing:border-box;padding:4px 8px 4px 6px;display:flex;align-items:center;gap:6px;border-radius:8px;background:#F3F5F7">
+                    <img src="{{ h.logo }}" alt="" style="width:16px;height:16px;flex-shrink:0;object-fit:contain;display:block">
+                    <span style="min-width:0;font-size:13px;line-height:18px;color:#4A5260;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ h.model }}</span>
+                  </span>
+                  <p style="margin:8px 0 0;min-height:44px;font-size:16px;line-height:22px;font-weight:600;color:#1E232B;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ h.name }}</p>
+                  <div style="margin-top:8px;display:flex;align-items:center;flex-wrap:wrap;gap:8px">
+                    <span style="font-size:20px;line-height:1.2;font-weight:600;letter-spacing:-0.01em;color:#1E232B;white-space:nowrap">{{ h.priceText }}</span>
+                    <sc-if value="{{ h.lowest }}" hint-placeholder-val="{{ false }}">
+                      <span style="padding:2px 8px;border-radius:8px;background:#E7F4EC;font-size:13px;line-height:18px;font-weight:500;color:#1F8A4C">Найнижча</span>
+                    </sc-if>
+                  </div>
+                  <button onClick="{{ h.addToCart }}" disabled="{{ h.inCart }}" style="margin-top:16px;width:100%;height:48px;display:flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:8px;background:{{ h.cartBg }};font:inherit;font-size:16px;font-weight:600;color:{{ h.cartColor }};cursor:{{ h.cartCursor }};transition:background 150ms ease-out, color 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+                    <sc-if value="{{ h.inCart }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg></sc-if>
+                    {{ h.cartText }}
+                  </button>
+                </sc-if>
+                <sc-if value="{{ h.isAdd }}" hint-placeholder-val="{{ false }}">
+                  <a href="#" style="flex:1;min-height:320px;box-sizing:border-box;padding:24px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;border:1px dashed #CDD2DA;border-radius:16px;color:#4A5260;text-decoration:none;transition:border-color 150ms ease-out, color 150ms ease-out" style-hover="border-color:#1E232B;color:#1E232B">
+                    <span aria-hidden="true" style="width:48px;height:48px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#F3F5F7"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg></span>
+                    <span style="font-size:14px;line-height:20px">Додати деталь</span>
+                  </a>
+                </sc-if>
+              </div>
+            </sc-for>
+          </div>
+
+          <sc-for list="{{ rows }}" as="r" hint-placeholder-count="11">
+            <div style="display:grid;grid-template-rows:{{ r.gridRows }};opacity:{{ r.op }};transition:grid-template-rows 200ms ease-out, opacity 200ms ease-out">
+              <div style="min-height:0;overflow:clip">
+                <div style="display:grid;grid-template-columns:{{ cols }};background:{{ r.bg }};border-bottom:1px solid {{ r.border }}">
+                  <div style="position:sticky;left:0;z-index:1;padding:16px;background:{{ r.bg }};box-shadow:1px 0 0 #E6E9EE;font-size:14px;line-height:22px;font-weight:600;color:#4A5260">{{ r.label }}</div>
+                  <sc-for list="{{ r.cells }}" as="v" hint-placeholder-count="4">
+                    <div style="min-width:0;padding:16px;font-size:15px;line-height:22px;color:#1E232B;text-wrap:pretty">
+                      <sc-if value="{{ v.isText }}" hint-placeholder-val="{{ true }}">{{ v.text }}</sc-if>
+                      <sc-if value="{{ v.isYes }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="20" height="20" role="img" aria-label="Є" style="display:block;fill:none;stroke:#1F8A4C;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg></sc-if>
+                      <sc-if value="{{ v.isNo }}" hint-placeholder-val="{{ false }}"><span aria-label="Немає" style="color:#6B7380">—</span></sc-if>
+                      <sc-if value="{{ v.isStock }}" hint-placeholder-val="{{ false }}"><span style="display:flex;align-items:center;gap:8px"><span aria-hidden="true" style="width:8px;height:8px;flex-shrink:0;border-radius:50%;background:#1F8A4C"></span>{{ v.text }}</span></sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+      <div style="margin-top:32px;padding:96px 24px;display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center;border:1px solid #E6E9EE;border-radius:16px;background:#FFFFFF">
+        <svg viewBox="0 0 24 24" width="48" height="48" aria-hidden="true" style="fill:none;stroke:#6B7380;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg>
+        <p style="margin:8px 0 0;font-size:16px;line-height:1.5;color:#1E232B">Ви ще нічого не додали до порівняння</p>
+        <p style="margin:0;max-width:420px;font-size:14px;line-height:1.5;color:#4A5260;text-wrap:pretty">Натисніть іконку ваг на картці товару — порівнюйте до 4 деталей однієї категорії</p>
+        <a href="DLSCatalog.dc.html" style="margin-top:12px;height:48px;box-sizing:border-box;padding:0 24px;display:flex;align-items:center;border:1px solid #E0001B;border-radius:8px;font-size:16px;font-weight:600;color:#E0001B;text-decoration:none;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%">До каталогу</a>
+      </div>
+    </sc-if>
+  </div>
+</main>
+<sc-if value="{{ withFooter }}" hint-placeholder-val="{{ true }}">
+  <dc-import name="DLSFooter" hint-size="100%,1100px"></dc-import>
+  <dc-import name="DLSCart" hint-size="0px,0px"></dc-import>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;},&quot;diffOnly&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;empty&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;withFooter&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const PHOTO = 'assets/part-hub.webp';
+const TABS = [
+  { key: 'lights', name: 'Фари', items: [
+    { id: 'cmp-ur56-1', brand: 'ford', donor: 'Ford Ranger 2006–2012', model: 'Ranger 2006–2012', name: 'Фара ліва галоген', price: 4500, oem: 'UR56-51-040', side: 'Ліва', cond: 'Скло без тріщин, кріплення цілі, дрібні подряпини на корпусі позначені', km: '186 000 км', warranty: '14 днів', check: 'Візуальний огляд, перевірка на авто', photos: '6 фото', video: true, stock: 'В наявності', cat: 'Оптика' },
+    { id: 'cmp-ur56-2', brand: 'ford', donor: 'Ford Ranger 2006–2012', model: 'Ranger 2006–2012', name: 'Фара ліва галоген', price: 3900, oem: 'UR56-51-040', side: 'Ліва', cond: 'Одне зламане вушко кріплення, позначено маркером, скло без дефектів', km: '241 000 км', warranty: '14 днів', check: 'Візуальний огляд', photos: '5 фото', video: false, stock: 'В наявності', cat: 'Оптика' },
+    { id: 'cmp-ur56-3', brand: 'mazda', donor: 'Mazda BT-50 2006–2012', model: 'BT-50 2006–2012', name: 'Фара ліва галоген', price: 4200, oem: 'UR56-51-040', side: 'Ліва', cond: 'Помутніння скла легке, корпус без пошкоджень', km: '163 000 км', warranty: '14 днів', check: 'Візуальний огляд, перевірка на авто', photos: '8 фото', video: true, stock: 'В наявності', cat: 'Оптика' }
+  ] },
+  { key: 'shocks', name: 'Амортизатори', items: [
+    { id: 'cmp-mn184022', brand: 'mitsubishi', donor: 'Mitsubishi L200 2005–2015', model: 'L200 2005–2015', name: 'Амортизатор задній', price: 1400, oem: 'MN184022', side: 'Лівий', cond: 'Без підтікань, пильник цілий', km: '172 000 км', warranty: '14 днів', check: 'На стенді', photos: '6 фото', video: true, stock: 'В наявності', cat: 'Підвіска та ходова' },
+    { id: 'cmp-56210', brand: 'nissan', donor: 'Nissan Navara / Pathfinder R51 2005–2015', model: 'Navara 2005–2015', name: 'Амортизатор задній', price: 1600, oem: '56210-EB30A', side: 'Правий', cond: 'Без підтікань, сліди корозії на кронштейні позначені', km: '205 000 км', warranty: '14 днів', check: 'Візуальний огляд', photos: '4 фото', video: false, stock: 'В наявності', cat: 'Підвіска та ходова' }
+  ] }
+];
+const ROWS = [
+  ['Авто-донор', 'donor'], ['Артикул OEM', 'oem'], ['Сторона', 'side'], ['Стан', 'cond'], ['Пробіг донора', 'km'],
+  ['Гарантія', 'warranty'], ['Перевірка', 'check'], ['Відео перевірки', 'video'], ['Наявність', 'stock'], ['Категорія', 'cat']
+];
+const CAT_RULES = [[/фар|ліхтар|оптик/i, 'lights', 'Фари', 'Оптика'], [/амортиз/i, 'shocks', 'Амортизатори', 'Підвіска та ходова']];
+const specOf = (specs, k) => { const r = (specs || []).find(x => (Array.isArray(x) ? x[0] : x.k) === k); return r ? (Array.isArray(r) ? r[1] : r.v) : '—'; };
+function storeItems() {
+  const S = window.DLSCompare; if (!S) return [];
+  return S.ids().map(id => {
+    const x = S.get(id); if (!x || !x.name) return null;
+    const rule = CAT_RULES.find(r => r[0].test(x.name));
+    return {
+      id: 'st-' + id, storeId: id, brand: x.brand || 'mitsubishi', donor: x.donor || '—', model: x.model || x.donor || '', name: x.name,
+      price: parseInt(String(x.price || '0').replace(/\D/g, ''), 10) || 0, oem: x.oem || id, photo: x.photo,
+      side: specOf(x.specs, 'Сторона'), cond: specOf(x.specs, 'Стан'), km: specOf(x.specs, 'Пробіг'), warranty: '14 днів',
+      check: specOf(x.specs, 'Перевірка'), photos: (x.photos || 6) + ' фото', video: false, stock: 'В наявності',
+      cat: rule ? rule[3] : 'Інше', tabKey: rule ? rule[1] : 'other', tabName: rule ? rule[2] : 'Інші деталі'
+    };
+  }).filter(Boolean);
+}
+const fmt = n => n.toLocaleString('uk-UA').replace(/\u00a0|,/g, ' ') + ' ₴';
+
+class Component extends DCLogic {
+  state = { vw: null, tab: 0, removed: {}, diff: null, cleared: false, compact: false, tick: 0 };
+  headRef = React.createRef();
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    this.onScroll = () => {
+      const el = this.headRef.current;
+      if (!el) return;
+      const r = el.getBoundingClientRect();
+      const c = r.bottom < 0;
+      if (c !== this.state.compact) this.setState({ compact: c });
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    const hook = () => { if (window.DLSCart && window.DLSCompare) { this.unsub = window.DLSCart.subscribe(() => this.setState(s => ({ tick: s.tick + 1 }))); this.unsubCmp = window.DLSCompare.subscribe(() => this.setState(s => ({ tick: s.tick + 1 }))); this.setState(s => ({ tick: s.tick + 1 })); } else this.retry = setTimeout(hook, 200); };
+    hook();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('scroll', this.onScroll);
+    this.unsub && this.unsub(); this.unsubCmp && this.unsubCmp(); clearTimeout(this.retry);
+  }
+  renderVals() {
+    const s = this.state;
+    const vw = s.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const d = device === 'desktop';
+    const m = device === 'mobile';
+    const diffOnly = s.diff ?? !!this.props.diffOnly;
+    const forcedEmpty = !!this.props.empty || s.cleared;
+    const added = typeof window !== 'undefined' ? storeItems() : [];
+    const merged = TABS.map(t => ({ ...t, items: [...added.filter(a => a.tabKey === t.key && !t.items.some(x => x.oem === a.oem)), ...t.items] }));
+    const other = added.filter(a => a.tabKey === 'other');
+    if (other.length) merged.push({ key: 'other', name: 'Інші деталі', items: other });
+    const tabs = merged.map(t => ({ ...t, items: forcedEmpty ? [] : t.items.filter(x => !s.removed[x.id]).slice(0, 4) })).filter(t => t.items.length);
+    const tabIdx = Math.min(s.tab, Math.max(0, tabs.length - 1));
+    const cur = tabs[tabIdx];
+    const items = cur ? cur.items : [];
+    const C = typeof window !== 'undefined' ? window.DLSCart : null;
+    const min = items.length > 1 ? Math.min(...items.map(x => x.price)) : null;
+
+    const heads = items.map(x => {
+      const inCart = !!(C && C.has(x.storeId || x.id));
+      return {
+        isItem: true, isAdd: false, ...x, photo: x.photo || PHOTO, logo: `assets/logos/${x.brand}.svg`,
+        priceText: fmt(x.price), lowest: x.price === min,
+        inCart, cartText: inCart ? 'У кошику' : 'В кошик',
+        cartBg: inCart ? '#E6E9EE' : '#E0001B', cartColor: inCart ? '#6B7380' : '#FCFCFD', cartCursor: inCart ? 'default' : 'pointer',
+        addToCart: () => { if (C && !inCart) C.add({ id: x.storeId || x.id, name: x.name, donor: x.donor, oem: x.oem, price: x.price, photo: x.photo || PHOTO }); },
+        remove: () => { if (x.storeId && window.DLSCompare) window.DLSCompare.set({ id: x.storeId }, false, true); this.setState(st => ({ removed: { ...st.removed, [x.id]: true } })); }
+      };
+    });
+    while (heads.length < 4) heads.push({ isItem: false, isAdd: heads.length === items.length });
+
+    const rows = ROWS.map(([label, key]) => {
+      const vals = items.map(x => x[key]);
+      const differs = items.length > 1 && new Set(vals.map(String)).size > 1;
+      const hidden = diffOnly && !differs;
+      const cells = vals.map(v => key === 'video'
+        ? { isText: false, isYes: !!v, isNo: !v, isStock: false }
+        : key === 'stock' ? { isText: false, isYes: false, isNo: false, isStock: true, text: v }
+        : { isText: true, isYes: false, isNo: false, isStock: false, text: v });
+      while (cells.length < 4) cells.push({ isText: true, isYes: false, isNo: false, isStock: false, text: '' });
+      return {
+        label, cells,
+        bg: differs ? '#F3F5F7' : '#FFFFFF',
+        border: '#E6E9EE',
+        gridRows: hidden ? '0fr' : '1fr',
+        op: hidden ? 0 : 1
+      };
+    });
+
+    const compact = d && s.compact && items.length > 0;
+    return {
+      pad: d ? '32px 64px 100px' : device === 'tablet' ? '24px 32px 75px' : '16px 16px 75px',
+      headDir: m ? 'column' : 'row',
+      headAlign: m ? 'flex-start' : 'flex-end',
+      h1Size: d ? '40px' : device === 'tablet' ? '28px' : '24px',
+      hasItems: items.length > 0,
+      isEmpty: items.length === 0,
+      diffOnly,
+      trackBg: diffOnly ? '#1E232B' : '#CDD2DA',
+      knobT: diffOnly ? 'translateX(20px)' : 'translateX(0)',
+      toggleDiff: () => this.setState({ diff: !diffOnly }),
+      clearAll: () => { const S = window.DLSCompare; if (S) S.ids().forEach(id => S.set({ id }, false, true)); this.setState({ cleared: true }); },
+      tabs: tabs.map((t, i) => ({
+        label: `${t.name} (${t.items.length})`, active: i === tabIdx,
+        line: i === tabIdx ? '#E0001B' : 'transparent',
+        color: i === tabIdx ? '#1E232B' : '#4A5260',
+        weight: i === tabIdx ? 600 : 500,
+        select: () => this.setState({ tab: i })
+      })),
+      tabLabel: cur ? `${cur.name} (${cur.items.length})` : '',
+      cols: m ? '128px repeat(4, minmax(220px, 1fr))' : '200px repeat(4, minmax(240px, 1fr))',
+      tableMin: m ? '1008px' : '1160px',
+      tableOverflow: d ? 'clip' : 'auto',
+      headRef: this.headRef,
+      compactOp: compact ? 1 : 0,
+      compactT: compact ? 'translateY(0)' : 'translateY(-8px)',
+      compactEvents: compact ? 'auto' : 'none',
+      compactHidden: !compact,
+      heads, rows,
+      withFooter: this.props.withFooter ?? true,
+      withHeader: this.props.withFooter ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>

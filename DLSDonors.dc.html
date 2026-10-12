@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+</helmet>
+<section aria-labelledby="donors-title" data-screen-label="Авто на розборці" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <h2 id="donors-title" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Підбір за моделлю</h2>
+    <p style="margin:{{ subMargin }};max-width:640px;font-size:{{ subSize }};line-height:1.5;color:#4A5260;text-wrap:pretty">Понад 1200 деталей у наявності. Оберіть своє авто — покажемо тільки те, що на нього підійде</p>
+    <div style="margin-top:{{ headGap }};display:grid;grid-template-columns:{{ cols }};gap:16px">
+      <sc-for list="{{ cards }}" as="c" hint-placeholder-count="16">
+        <div style="padding:16px;display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #E6E9EE;border-radius:16px">
+          <div style="aspect-ratio:4 / 3;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#F3F5F7;color:#1E232B">
+            <sc-if value="{{ c.isWheel }}" hint-placeholder-val="{{ false }}">
+              <svg viewBox="0 0 24 24" width="48" height="48" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="1.5"></circle><path d="M12 6v4.5"></path><path d="m17.7 10.1-4.3 1.4"></path><path d="m15.5 16.9-2.6-3.7"></path><path d="m8.5 16.9 2.6-3.7"></path><path d="m6.3 10.1 4.3 1.4"></path></svg>
+            </sc-if>
+            <sc-if value="{{ c.isBrand }}" hint-placeholder-val="{{ true }}">
+              <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;gap:16px">
+                <sc-for list="{{ c.logos }}" as="lg" hint-placeholder-count="1">
+                  <img src="{{ lg.src }}" alt="{{ lg.alt }}" style="width:{{ c.logoSize }};height:{{ c.logoSize }};object-fit:contain;display:block">
+                </sc-for>
+                <sc-if value="{{ c.hasWordmark }}" hint-placeholder-val="{{ false }}">
+                  <span style="font-size:24px;line-height:28px;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;color:#1E232B">{{ c.brand }}</span>
+                </sc-if>
+              </div>
+            </sc-if>
+          </div>
+          <h3 style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0">{{ c.brand }}</h3>
+          <sc-if value="{{ c.isWheel }}" hint-placeholder-val="{{ false }}">
+            <p aria-hidden="true" style="margin:16px 0 0;font-size:18px;line-height:1.4;font-weight:600;color:#1E232B">{{ c.brand }}</p>
+          </sc-if>
+          <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ c.models }}" as="m" hint-placeholder-count="2">
+              <a href="#" aria-label="{{ m.label }}" style="min-height:40px;box-sizing:border-box;padding:8px 12px;display:flex;align-items:center;gap:8px;border:1px solid {{ m.border }};border-radius:8px;background:#FCFCFD;text-decoration:none;color:#1E232B;transition:border-color 150ms ease-out" style-hover="border-color:#4A5260">
+                <span style="flex:1;min-width:0;font-size:12px;line-height:16px;text-align:center;text-wrap:balance">{{ m.name }}</span>
+                <span style="flex-shrink:0;font-size:12px;line-height:16px;color:#6B7380">{{ m.count }}</span>
+              </a>
+            </sc-for>
+          </div>
+          <sc-if value="{{ c.showAll }}" hint-placeholder-val="{{ false }}">
+            <a href="#" aria-label="{{ c.allLabel }}" style="margin-top:auto;padding-top:16px;display:flex;align-items:center;justify-content:center;gap:4px;font-size:16px;line-height:24px;font-weight:500;color:#E0001B;text-decoration:none;transition:color 150ms ease-out" style-hover="color:#B80016">Дивитись усі<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg></a>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+    <p style="margin:48px 0 0;font-size:16px;line-height:1.5;color:#4A5260;text-align:center;text-wrap:balance">Не знайшли свою модель? Асортимент постійно поповнюється — <a href="#" style="color:#1E232B;font-weight:500;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:4px" style-hover="text-decoration-color:#1E232B">запитати менеджера</a></p>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1600},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;},&quot;demoHover&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const LOGOS = { Isuzu:['isuzu'], SsangYong:['ssangyong'], Mitsubishi:['mitsubishi'], Ford:['ford'], Nissan:['nissan'], Mazda:['mazda'], Jeep:['jeep'], Volkswagen:['volkswagen'], Kia:['kia'], Hyundai:['hyundai'], 'Mercedes-Benz':['mercedes'], Toyota:['toyota'], Volvo:['volvo'], BMW:['bmw'], 'Peugeot / Fiat':['peugeot','fiat'] };
+const DONORS = [
+  ['Mitsubishi', [['L200 2005–2015', 85], ['Pajero Sport I 1996–2008', 84], ['L200 1996–2005', 46], ['Pajero Wagon', 45]]],
+  ['Ford', [['Ranger / Mazda BT-50 2006–2012', 118], ['Ranger / Mazda B2500 1998–2006', 108]]],
+  ['Nissan', [['Navara / Pathfinder R51 2005–2015', 129], ['X-Trail T30–T31 2000–2014', 43]]],
+  ['Mazda', [['BT-50 / Ford Ranger 2006–2012', 118], ['B2500 / Ford Ranger 1998–2006', 108]]],
+  ['Jeep', [['Grand Cherokee WK 2004–2007', 81], ['Patriot / Compass 2011–2017', 23]]],
+  ['Volkswagen', [['Crafter', 43], ['T5 2003–2009', 40], ['Touareg 2002–2010', 20]]],
+  ['Kia', [['Sorento 2002–2014', 67]]],
+  ['Hyundai', [['Santa Fe I 2004–2010', 45], ['Terracan', 13]]],
+  ['Mercedes-Benz', [['ML W163', 52]]],
+  ['Toyota', [['Hilux 2005–2015', 27], ['RAV4 II 2000–2005', 13], ['Land Cruiser Prado 90 1996–2002', 13]]],
+  ['SsangYong', [['Actyon 2005–2011', 28], ['Rexton 2001–2006', 15]]],
+  ['Volvo', [['XC90 2002–2015', 11]]],
+  ['BMW', [['X5 E53', 6]]],
+  ['Peugeot / Fiat', [['Landtrek / Titano 2020–2026', 4]]],
+  ['Isuzu', [['D-Max', 2]]]
+];
+
+class Component extends DCLogic {
+  state = { vw: null };
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const m = device === 'mobile';
+    const demoHover = this.props.demoHover ?? false;
+    const cards = DONORS.map(([brand, models], i) => ({
+      brand,
+      isWheel: false,
+      isBrand: true,
+      logos: (LOGOS[brand] || []).map(s => ({ src: `assets/logos/${s}.svg`, alt: `Логотип ${s}` })),
+      hasWordmark: !LOGOS[brand],
+      logoSize: (LOGOS[brand] || []).length > 1 ? '30%' : '45%',
+      showAll: models.length >= 3,
+      allLabel: `Дивитись усі деталі ${brand}`,
+      models: models.slice(0, 3).map(([name, count], j) => ({
+        name, count: String(count),
+        label: `${brand} ${name}, деталей: ${count}`,
+        border: demoHover && i === 0 && j === 0 ? '#4A5260' : '#E6E9EE'
+      }))
+    }));
+    return {
+      pad: device === 'desktop' ? '0 64px 100px' : device === 'tablet' ? '0 32px 75px' : '0 16px 75px',
+      h2Size: device === 'desktop' ? '40px' : device === 'tablet' ? '28px' : '24px',
+      subSize: m ? '16px' : '18px',
+      subMargin: m ? '12px 0 0' : '16px 0 0',
+      headGap: m ? '32px' : '48px',
+      cols: device === 'desktop' ? 'repeat(4, minmax(0, 1fr))' : device === 'tablet' ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)',
+      cards
+    };
+  }
+}
+</script>
+</body>
+</html>

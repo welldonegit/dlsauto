@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+</helmet>
+<section aria-labelledby="videos-title" data-screen-label="Відео перевірок" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ headPad }};display:flex;flex-direction:{{ headDir }};justify-content:space-between;align-items:flex-start;gap:24px">
+    <div style="min-width:0">
+      <h2 id="videos-title" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Перевіряємо перед продажем</h2>
+      <p style="margin:{{ subMargin }};max-width:640px;font-size:{{ subSize }};line-height:1.5;color:#4A5260;text-wrap:pretty">Знімаємо запуск двигунів, роботу агрегатів і стан деталей.</p>
+    </div>
+  </div>
+  <div ref="{{ scrollRef }}" onScroll="{{ onScroll }}" style="margin-top:{{ headGap }};padding:0 {{ side }} {{ bottomPad }};scroll-padding-left:{{ side }};display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none">
+    <sc-for list="{{ cards }}" as="c" hint-placeholder-count="5">
+      <article onMouseEnter="{{ c.enter }}" onMouseLeave="{{ c.leave }}" style="position:relative;flex:0 0 {{ cardW }};aspect-ratio:4 / 5;overflow:hidden;border-radius:16px;background:#1E232B;scroll-snap-align:start">
+        <video ref="{{ c.vref }}" src="{{ c.src }}" aria-label="{{ c.frame }}" muted="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" preload="metadata" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"></video>
+        <div aria-hidden="true" style="position:absolute;left:0;right:0;bottom:0;height:33%;background:linear-gradient(to top, rgba(18,22,28,0.64), rgba(18,22,28,0));pointer-events:none"></div>
+        <span style="position:absolute;top:12px;left:12px;padding:4px 8px;border-radius:8px;background:rgba(18,22,28,0.64);font-size:12px;line-height:16px;font-weight:500;color:#FCFCFD">{{ c.badge }}</span>
+        <span aria-label="{{ c.durLabel }}" style="position:absolute;top:12px;right:12px;padding:4px 8px;border-radius:8px;background:rgba(18,22,28,0.64);font-size:12px;line-height:16px;font-weight:500;font-variant-numeric:tabular-nums;color:#FCFCFD;opacity:{{ c.durOp }};transform:{{ c.durT }};transition:{{ c.tDur }}">{{ c.dur }}</span>
+        <button onClick="{{ c.toggle }}" aria-label="{{ c.playLabel }}" aria-pressed="{{ c.on }}" style="position:absolute;top:50%;left:50%;width:56px;height:56px;margin:-28px 0 0 -28px;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:rgba(252,252,253,0.88);color:#1E232B;cursor:pointer;opacity:{{ c.playOp }};transform:{{ c.playT }};transition:{{ c.tPlay }}" style-focus="outline:2px solid #FCFCFD;outline-offset:2px"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="margin-left:3px;fill:currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.52.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5Z"></path></svg></button>
+      </article>
+    </sc-for>
+  </div>
+  <div style="max-width:1312px;margin:0 auto;padding:{{ arrowsPad }};display:flex;justify-content:flex-end;gap:8px">
+    <sc-if value="{{ showArrows }}" hint-placeholder-val="{{ true }}">
+        <button aria-label="Попередні відео" onClick="{{ scrollPrev }}" disabled="{{ atStart }}" style="width:48px;height:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #CDD2DA;border-radius:50%;background:#FCFCFD;color:{{ prevColor }};cursor:{{ prevCursor }};transition:border-color 150ms ease-out" style-hover="border-color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m15 18-6-6 6-6"></path></svg></button>
+        <button aria-label="Наступні відео" onClick="{{ scrollNext }}" disabled="{{ atEnd }}" style="width:48px;height:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #CDD2DA;border-radius:50%;background:#FCFCFD;color:{{ nextColor }};cursor:{{ nextCursor }};transition:border-color 150ms ease-out" style-hover="border-color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg></button>
+      </sc-if>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:760},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;}}">
+const VIDEOS = [
+  ['assets/videos/video1.mp4', 'Двигун на стенді з підключеними датчиками, крупно', 'Запуск двигуна', '0:58', [['Двигун 2.5 dCi Nissan Navara', '85 000 ₴']]],
+  ['assets/videos/video2.mp4', 'АКПП на стенді, крупно вал', 'Тест на стенді', '0:42', [['КПП автоматична Mitsubishi Pajero Sport', '22 400 ₴']]],
+  ['assets/videos/video3.mp4', 'Механік тримає фару, білим маркером обведена подряпина', 'Огляд деталі', '0:24', [['Фара ліва Ford Ranger', '4 500 ₴'], ['Фара права Ford Ranger', '4 500 ₴']]],
+  ['assets/videos/video4.mp4', 'Перевірка стартера на столі з проводами', 'Тест на стенді', '0:31', [['Стартер Mitsubishi L200', '3 800 ₴']]],
+  ['assets/videos/video5.mp4', 'Бампер на підлозі цеху, видно маркування дефектів', 'Огляд деталі', '0:19', [['Бампер передній Mitsubishi L200', '6 800 ₴']]]
+];
+const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const tr = (props, ms, delay = 0) => props.map(p => `${p} ${ms}ms ${EASE} ${delay}ms`).join(', ');
+
+class Component extends DCLogic {
+  state = { vw: null, hovered: null, tapped: null, tip: null, atStart: true, atEnd: false };
+  scrollRef = React.createRef();
+  vids = {};
+
+  componentDidMount() {
+    this.onResize = () => { this.setState({ vw: window.innerWidth }); this.syncEdges(); };
+    window.addEventListener('resize', this.onResize);
+    this.syncEdges();
+    this.blobUrls = [];
+    VIDEOS.forEach(([src], i) => {
+      fetch(src).then(r => r.ok ? r.blob() : null).then(b => {
+        if (!b || this.unmounted) return;
+        const url = URL.createObjectURL(b);
+        this.blobUrls.push(url);
+        this.setState(s => ({ blobs: { ...(s.blobs || {}), [i]: url } }));
+      }).catch(() => {});
+    });
+  }
+  componentWillUnmount() {
+    this.unmounted = true;
+    window.removeEventListener('resize', this.onResize);
+    (this.blobUrls || []).forEach(u => URL.revokeObjectURL(u));
+  }
+  componentDidUpdate() {
+    const on = this.state.hovered ?? this.state.tapped;
+    Object.entries(this.vids).forEach(([i, v]) => {
+      if (!v) return;
+      if (Number(i) === on) { if (v.paused) v.play().catch(() => {}); }
+      else if (!v.paused) { v.pause(); v.currentTime = 0; }
+    });
+  }
+  syncEdges() {
+    const el = this.scrollRef.current;
+    if (!el) return;
+    const atStart = el.scrollLeft <= 4, atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 4;
+    if (atStart !== this.state.atStart || atEnd !== this.state.atEnd) this.setState({ atStart, atEnd });
+  }
+
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const m = device === 'mobile';
+    const pad = device === 'desktop' ? 64 : device === 'tablet' ? 32 : 16;
+    const sectionPad = device === 'desktop' ? 100 : 75;
+    const cardW = device === 'desktop' ? 296 : device === 'tablet' ? 256 : 240;
+    const on = this.state.hovered ?? this.state.tapped;
+    const s = this.state;
+
+    const cards = VIDEOS.map(([src, frame, badge, dur, items], i) => {
+      const act = on === i;
+      const [mm, ss] = dur.split(':');
+      return {
+        src: s.blobs && s.blobs[i] ? s.blobs[i] + '#t=0.1' : undefined, frame: `Відео перевірки: ${frame.toLowerCase()}`, badge, dur, on: act,
+        durLabel: `Тривалість ${Number(mm) ? mm + ' хв ' : ''}${Number(ss)} с`,
+        playLabel: act ? 'Зупинити відео' : 'Відтворити відео без звуку',
+        vref: (el) => {
+          this.vids[i] = el;
+          if (el) { el.muted = true; el.defaultMuted = true; el.loop = true; el.playsInline = true; el.setAttribute('playsinline', ''); el.setAttribute('muted', ''); }
+        },
+        playOp: act ? 0 : 1, playT: act ? 'scale(0.88)' : 'scale(1)',
+        tPlay: tr(['opacity', 'transform'], act ? 320 : 420),
+        durOp: act ? 1 : 0, durT: act ? 'translateY(0)' : 'translateY(-4px)',
+        tDur: tr(['opacity', 'transform'], act ? 420 : 200, act ? 120 : 0),
+        enter: () => this.setState({ hovered: i }),
+        leave: () => this.setState({ hovered: null, tip: null }),
+        toggle: () => this.setState(st => ({ tapped: st.tapped === i ? null : i, hovered: st.tapped === i ? null : st.hovered })),
+        items: items.map(([name, price], j) => {
+          const key = `${i}-${j}`, t = s.tip === key;
+          return {
+            name, price, aria: `${name}, ${price}`,
+            tipOp: t ? 1 : 0, tipT: t ? 'translateY(0)' : 'translateY(4px)',
+            tTip: tr(['opacity', 'transform'], t ? 320 : 160),
+            enter: () => this.setState({ tip: key }),
+            leave: () => this.setState({ tip: null })
+          };
+        })
+      };
+    });
+
+    return {
+      headPad: `0 ${pad}px`,
+      headDir: m ? 'column' : 'row',
+      h2Size: device === 'desktop' ? '40px' : device === 'tablet' ? '28px' : '24px',
+      subSize: m ? '16px' : '18px',
+      subMargin: m ? '12px 0 0' : '16px 0 0',
+      headGap: m ? '32px' : '48px',
+      side: `max(${pad}px, calc((100% - 1312px) / 2))`,
+      bottomPad: m ? `${sectionPad}px` : '0px',
+      arrowsPad: m ? '0' : `24px ${pad}px ${sectionPad}px`,
+      cardW: cardW + 'px',
+      showArrows: !m,
+      atStart: s.atStart, atEnd: s.atEnd,
+      prevColor: s.atStart ? '#A9B0BB' : '#1E232B', prevCursor: s.atStart ? 'default' : 'pointer',
+      nextColor: s.atEnd ? '#A9B0BB' : '#1E232B', nextCursor: s.atEnd ? 'default' : 'pointer',
+      scrollPrev: () => this.scrollRef.current?.scrollBy({ left: -(cardW + 16), behavior: 'smooth' }),
+      scrollNext: () => this.scrollRef.current?.scrollBy({ left: cardW + 16, behavior: 'smooth' }),
+      scrollRef: this.scrollRef,
+      onScroll: () => this.syncEdges(),
+      cards
+    };
+  }
+}
+</script>
+</body>
+</html>

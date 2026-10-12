@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}input::placeholder{color:#6B7380;opacity:1}</style>
+</helmet>
+<footer data-screen-label="Футер" style="font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="background:#FCFCFD">
+    <div style="max-width:1312px;margin:0 auto;padding:{{ topPad }}">
+      <sc-if value="{{ notMobile }}" hint-placeholder-val="{{ true }}">
+        <div style="display:grid;grid-template-columns:{{ topCols }};gap:48px 24px">
+          <div style="display:flex;flex-direction:column;align-items:flex-start;gap:24px">
+          <a href="DLSAuto Головна.dc.html" aria-label="DLSAuto — на головну" style="font-size:48px;line-height:1;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-decoration:none">DLSAuto</a>
+          <div style="margin-left:-10px;display:flex;gap:8px">
+          <a href="#" aria-label="Telegram" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px" style-hover="background:#E6E9EE"><img src="https://cdn.simpleicons.org/telegram/1E232B" width="24" height="24" alt=""></a>
+          <a href="#" aria-label="Viber" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px" style-hover="background:#E6E9EE"><img src="https://cdn.simpleicons.org/viber/1E232B" width="24" height="24" alt=""></a>
+          <a href="#" aria-label="TikTok" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px" style-hover="background:#E6E9EE"><img src="https://cdn.simpleicons.org/tiktok/1E232B" width="24" height="24" alt=""></a>
+        </div>
+        </div>
+          <div style="display:grid;grid-template-columns:{{ linkCols }};gap:48px 24px">
+            <sc-for list="{{ cols }}" as="c" hint-placeholder-count="4">
+              <nav aria-label="{{ c.title }}" style="display:flex;flex-direction:column;gap:24px">
+                <p style="margin:0;font-size:16px;line-height:24px;font-weight:600;color:#1E232B">{{ c.title }}</p>
+                <div style="display:flex;flex-direction:column;gap:12px">
+                  <sc-for list="{{ c.items }}" as="it" hint-placeholder-count="6"><a href="#" style="font-size:16px;line-height:24px;color:#4A5260;text-decoration:none" style-hover="color:#1E232B">{{ it }}</a></sc-for>
+                </div>
+              </nav>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:24px">
+          <a href="DLSAuto Головна.dc.html" aria-label="DLSAuto — на головну" style="font-size:40px;line-height:1;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-decoration:none">DLSAuto</a>
+          <div style="margin-left:-10px;display:flex;gap:8px">
+          <a href="#" aria-label="Telegram" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px" style-hover="background:#E6E9EE"><img src="https://cdn.simpleicons.org/telegram/1E232B" width="24" height="24" alt=""></a>
+          <a href="#" aria-label="Viber" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px" style-hover="background:#E6E9EE"><img src="https://cdn.simpleicons.org/viber/1E232B" width="24" height="24" alt=""></a>
+          <a href="#" aria-label="TikTok" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px" style-hover="background:#E6E9EE"><img src="https://cdn.simpleicons.org/tiktok/1E232B" width="24" height="24" alt=""></a>
+        </div>
+        </div>
+        <div style="margin-top:32px;border-top:1px solid #CDD2DA">
+          <sc-for list="{{ cols }}" as="c" hint-placeholder-count="4">
+            <nav aria-label="{{ c.title }}" style="border-bottom:1px solid #CDD2DA">
+              <button aria-expanded="{{ c.open }}" onClick="{{ c.toggle }}" style="width:100%;height:56px;padding:0;display:flex;align-items:center;justify-content:space-between;border:none;background:none;font:inherit;font-size:16px;font-weight:600;color:#1E232B;cursor:pointer">{{ c.title }}<svg viewBox="0 0 24 24" width="20" height="20" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ c.rot }});transition:transform 280ms ease-out"><path d="m6 9 6 6 6-6"></path></svg></button>
+              <div style="display:grid;grid-template-rows:{{ c.rows }};opacity:{{ c.op }};transition:grid-template-rows 280ms ease-out, opacity 280ms ease-out">
+                <div style="overflow:hidden;min-height:0">
+                  <div style="padding:0 0 16px;display:flex;flex-direction:column">
+                    <sc-for list="{{ c.items }}" as="it" hint-placeholder-count="6"><a href="#" style="min-height:44px;display:flex;align-items:center;font-size:16px;line-height:24px;color:#4A5260;text-decoration:none">{{ it }}</a></sc-for>
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </sc-for>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+
+  <div style="background:#F3F5F7">
+    <div style="max-width:1312px;margin:0 auto;padding:{{ lowPad }}">
+      <div style="padding:{{ cardPad }};display:grid;grid-template-columns:{{ cardCols }};align-items:center;gap:24px 48px;background:#FCFCFD;border-radius:16px">
+        <div>
+          <h3 style="margin:0;font-size:18px;line-height:1.4;font-weight:600;color:#1E232B">Потрібна консультація?</h3>
+          <p style="margin:8px 0 0;max-width:480px;font-size:16px;line-height:1.5;color:#4A5260;text-wrap:pretty">Залиште номер — передзвонимо протягом 15 хвилин у робочий час, допоможемо перевірити сумісність і підкажемо наявність</p>
+        </div>
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ onSubmit }}" novalidate="" style="display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;flex-direction:{{ formDir }};gap:8px">
+              <input type="tel" inputmode="numeric" autocomplete="tel" aria-label="Номер телефону" placeholder="+380 __ ___ __ __" value="{{ phone }}" onChange="{{ onPhone }}" style="flex:1 0 auto;min-width:0;height:48px;box-sizing:border-box;padding:0 16px;border:none;border-radius:8px;background:#F3F5F7;font:inherit;font-size:16px;color:#1E232B;outline:{{ phoneOutline }};outline-offset:-1px" style-focus="outline:1px solid #1E232B;outline-offset:-1px">
+              <button type="submit" style="height:48px;padding:0 24px;flex-shrink:0;border:none;border-radius:8px;background-color:#E0001B;background-image:radial-gradient(circle, #B80016 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;font:inherit;font-size:16px;font-weight:600;color:#FCFCFD;cursor:pointer;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">Замовити дзвінок</button>
+            </div>
+            <p style="margin:0;font-size:14px;line-height:20px;color:#6B7380">Дзвонимо лише щодо вашого запиту</p>
+            <sc-if value="{{ hasErr }}" hint-placeholder-val="{{ false }}">
+              <p role="alert" style="margin:0;font-size:14px;line-height:20px;color:#C62828">{{ err }}</p>
+            </sc-if>
+          </form>
+        </sc-if>
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <p role="status" style="margin:0;display:flex;align-items:center;gap:8px;font-size:16px;line-height:24px;color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" style="flex-shrink:0;fill:none;stroke:#1F8A4C;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg>Дякуємо! Передзвонимо на {{ phone }} протягом 15 хвилин у робочий час.</p>
+        </sc-if>
+      </div>
+
+      <div style="margin-top:{{ stripGap }};padding:24px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 24px;border-top:1px solid #CDD2DA;border-bottom:1px solid #CDD2DA">
+        <a href="#" style="font-size:18px;line-height:1.5;color:#4A5260;text-decoration:none;text-wrap:pretty" style-hover="color:#1E232B">Ремонтуєте авто клієнтів? Зв'яжіться з нами — для СТО є окремі умови на доставку та ціни →</a>
+      </div>
+
+      <div style="padding:24px 0 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;font-size:14px;line-height:20px;color:#4A5260">
+        <span>© 2026 DLSAuto</span>
+        <div style="display:flex;flex-wrap:wrap;gap:12px 24px">
+          <a href="#" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B">Політика конфіденційності</a>
+          <a href="#" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B">Публічна оферта</a>
+          <a href="#" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B">Умови повернення</a>
+          <a href="https://well-done.com.ua/" target="_blank" rel="noopener" aria-label="Створено з душею — welldone" style="display:flex;align-items:center;gap:8px;color:#4A5260;text-decoration:none;transition:opacity 150ms ease-out" style-hover="opacity:0.7">Створено з душею<img src="assets/welldone-logo.svg" alt="welldone" style="height:16px;width:auto;display:block"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1100},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;}}">
+const COLS = [
+  ['Каталог', ['Двигуни', 'КПП та роздатки', 'Підвіска та ходова', 'Кузовні деталі', 'Оптика', 'Салон', 'Електрика та електроніка', 'Гальмівна система', 'Шини та диски', 'Усі категорії']],
+  ['Марки', ['Mitsubishi', 'Ford', 'Nissan', 'Mazda', 'Jeep', 'Volkswagen', 'Toyota', 'Hyundai', 'Kia', 'Усі марки']],
+  ['Покупцям', ['Як підібрати запчастину', 'Оплата і доставка', 'Гарантія та повернення', 'Часті питання', 'Відгуки', 'Умови для СТО']],
+  ['Компанія', ['Про компанію', 'Вакансії', 'Контакти', 'Prom.ua', 'OLX']]
+];
+
+function formatPhone(raw) {
+  let d = raw.replace(/\D/g, '');
+  if (d.startsWith('380')) d = d.slice(3);
+  else if (d.startsWith('0')) d = d.slice(1);
+  d = d.slice(0, 9);
+  if (!d) return '';
+  const parts = [d.slice(0, 2), d.slice(2, 5), d.slice(5, 7), d.slice(7, 9)].filter(Boolean);
+  return '+380 ' + parts.join(' ');
+}
+
+class Component extends DCLogic {
+  state = { vw: null, open: {}, phone: '', agree: false, err: '', sent: false };
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+
+  renderVals() {
+    const s = this.state;
+    const vw = s.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const d = device === 'desktop', m = device === 'mobile';
+    const digits = s.phone.replace(/\D/g, '').length;
+    return {
+      notMobile: !m, isMobile: m,
+      topPad: d ? '96px 64px 64px' : device === 'tablet' ? '64px 32px 48px' : '48px 16px 32px',
+      lowPad: d ? '64px 64px 32px' : device === 'tablet' ? '48px 32px 32px' : '32px 16px 24px',
+      topCols: d ? 'minmax(0,4fr) minmax(0,8fr)' : 'minmax(0,1fr)',
+      linkCols: d ? 'repeat(4, minmax(0,1fr))' : 'repeat(2, minmax(0,1fr))',
+      cardCols: d ? 'minmax(0,1fr) minmax(0,1fr)' : 'minmax(0,1fr)',
+      cardPad: d ? '48px' : m ? '24px' : '32px',
+      formDir: m ? 'column' : 'row',
+      stripGap: d ? '48px' : '32px',
+      cols: COLS.map(([title, items], i) => {
+        const open = !!s.open[i];
+        return {
+          title, items, open,
+          rows: open ? '1fr' : '0fr', op: open ? 1 : 0, rot: open ? '180deg' : '0deg',
+          toggle: () => this.setState(st => ({ open: { ...st.open, [i]: !st.open[i] } }))
+        };
+      }),
+      phone: s.phone,
+      onPhone: e => this.setState({ phone: formatPhone(e.target.value), err: '' }),
+      agree: s.agree,
+      onAgree: e => this.setState({ agree: e.target.checked, err: '' }),
+      phoneOutline: s.err && digits < 12 ? '1px solid #C62828' : 'none',
+      err: s.err, hasErr: !!s.err,
+      notSent: !s.sent, sent: s.sent,
+      onSubmit: e => {
+        e.preventDefault();
+        if (digits < 12) return this.setState({ err: 'Введіть номер телефону повністю' });
+        this.setState({ sent: true, err: '' });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

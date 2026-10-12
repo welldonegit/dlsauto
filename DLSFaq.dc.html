@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+</helmet>
+<section aria-labelledby="faq-title" data-screen-label="FAQ" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <h2 id="faq-title" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Часті питання</h2>
+    <p style="margin:{{ subMargin }};max-width:640px;font-size:{{ subSize }};line-height:1.5;color:#4A5260">Відповідаємо на те, що запитують перед замовленням</p>
+    <div style="margin-top:{{ headGap }};display:flex;flex-wrap:wrap;align-items:flex-start;gap:{{ cardGap }} 24px">
+      <sc-for list="{{ columns }}" as="col" hint-placeholder-count="2">
+        <div style="flex:1 1 480px;min-width:0;display:flex;flex-direction:column;gap:{{ cardGap }}">
+          <sc-for list="{{ col.items }}" as="f" hint-placeholder-count="3">
+            <div style="background:#FFFFFF;border:1px solid {{ f.border }};border-radius:16px;transition:border-color 200ms ease-out">
+              <h3 style="margin:0">
+                <button id="{{ f.btnId }}" aria-expanded="{{ f.open }}" aria-controls="{{ f.panelId }}" onClick="{{ f.toggle }}" style="width:100%;padding:{{ cardPad }};display:flex;align-items:center;gap:{{ iconGap }};border:none;background:none;font:inherit;text-align:left;color:#1E232B;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:-2px;border-radius:16px">
+                  <span style="width:{{ iconBox }};height:{{ iconBox }};flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#F3F5F7;color:#E0001B"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><path d="M12 17h.01"></path></svg></span>
+                  <span style="flex:1;min-width:0;min-height:2.8em;display:flex;align-items:center;font-size:{{ qSize }};line-height:1.4;font-weight:600;text-wrap:pretty">{{ f.q }}</span>
+                  <span style="width:32px;height:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#F3F5F7;color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ f.rot }});transition:transform 280ms ease-out"><path d="m6 9 6 6 6-6"></path></svg></span>
+                </button>
+              </h3>
+              <div id="{{ f.panelId }}" role="region" aria-labelledby="{{ f.btnId }}" style="display:grid;grid-template-rows:{{ f.rows }};opacity:{{ f.op }};transition:grid-template-rows 280ms ease-out, opacity 280ms ease-out">
+                <div style="overflow:hidden;min-height:0">
+                  <p style="margin:0;padding:{{ answerPad }};max-width:640px;font-size:16px;line-height:1.6;color:#4A5260;text-wrap:pretty">{{ f.a }}</p>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:760},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;}}">
+const FAQ = [
+  ['Як зрозуміти, що запчастина підійде на моє авто?', 'Оберіть марку й модель у пошуку — ми покажемо тільки ті деталі, що знято з такого ж авто. Якщо є сумніви, надішліть менеджеру фото вашої деталі та каталожний номер: перевіримо сумісність за TecDoc протягом кількох хвилин. Якщо деталь все ж не підійде — обміняємо або повернемо гроші.'],
+  ['Чи потрібна передплата?', 'Для невеликих деталей можлива оплата при отриманні. Для габаритних і дорогих позицій (двигуни, КПП, кузовні елементи) просимо передплату [XX]% — вони відправляються окремим транспортом, і це наша страховка від невикуплених відправлень. Оплатити можна карткою через monoPay, усі деталі замовлення підтверджуємо письмово до оплати.'],
+  ['Яка гарантія на б/в запчастини?', 'Залежить від категорії: на більшість деталей — 14 днів на перевірку, на двигуни, КПП та агрегати — 30 днів, на відновлені запчастини — до 60 днів. Поверненню не підлягають частини кузова, що ріжуться під замовлення (чверті, частини бамперів тощо) — це вказано в картці такого товару.'],
+  ['У якому стані деталі? Чи побачу я дефекти заздалегідь?', 'Усі запчастини знято з авто, яке ми придбали й розібрали самі. Перед продажем деталь перевіряємо на стенді або на автомобілі, а всі дефекти позначаємо білим маркером, щоб вони були видні на фото. У картці — фото саме цієї деталі, не каталожна картинка. Відео перевірки й пробіг авто-донора надішле менеджер за запитом.'],
+  ['Як швидко відправите замовлення?', 'Замовлення, підтверджені до [15:00], відправляємо того ж дня Новою поштою або Delivery. Габаритні деталі — протягом 1–2 днів. Для СТО по Дніпру є доставка власним транспортом.'],
+  ['Чи можна забрати самовивозом і подивитися деталь перед покупкою?', 'Так, більшість клієнтів забирають замовлення самі. Ми за адресою [адреса], працюємо [графік]. Напишіть або зателефонуйте перед приїздом — відкладемо деталь і підготуємо її до огляду.']
+];
+
+class Component extends DCLogic {
+  state = { open: {}, vw: null };
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const m = device === 'mobile';
+    const iconBox = m ? 40 : 48, cardPad = m ? 16 : 24, iconGap = m ? 12 : 16;
+    const item = (i) => {
+      const open = !!this.state.open[i];
+      return {
+        q: FAQ[i][0], a: FAQ[i][1], open,
+        btnId: 'faq-q' + i, panelId: 'faq-a' + i,
+        rows: open ? '1fr' : '0fr', op: open ? 1 : 0, rot: open ? '180deg' : '0deg',
+        border: open ? '#CDD2DA' : '#E6E9EE',
+        toggle: () => this.setState(s => ({ open: { ...s.open, [i]: !s.open[i] } }))
+      };
+    };
+    return {
+      pad: device === 'desktop' ? '0 64px 100px' : device === 'tablet' ? '0 32px 75px' : '0 16px 75px',
+      h2Size: device === 'desktop' ? '40px' : device === 'tablet' ? '28px' : '24px',
+      subSize: m ? '16px' : '18px',
+      subMargin: m ? '12px 0 0' : '16px 0 0',
+      headGap: m ? '32px' : '48px',
+      cardGap: m ? '12px' : '16px',
+      cardPad: cardPad + 'px', iconGap: iconGap + 'px', iconBox: iconBox + 'px',
+      qSize: m ? '16px' : '18px',
+      answerPad: `0 ${cardPad}px ${cardPad}px ${cardPad + iconBox + iconGap}px`,
+      columns: [{ items: [0, 1, 2].map(item) }, { items: [3, 4, 5].map(item) }]
+    };
+  }
+}
+</script>
+</body>
+</html>

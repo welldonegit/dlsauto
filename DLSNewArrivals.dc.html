@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}@property --dlsA{syntax:'<angle>';inherits:false;initial-value:0deg}@keyframes dlsSpin{to{--dlsA:360deg}}</style>
+</helmet>
+<section aria-labelledby="arrivals-title" data-screen-label="Нові надходження" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ headPad }};display:flex;flex-direction:{{ headDir }};justify-content:space-between;align-items:flex-start;gap:24px">
+    <div style="min-width:0">
+      <h2 id="arrivals-title" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Нові надходження</h2>
+    </div>
+    <div style="flex-shrink:0;display:flex;align-items:center;gap:8px">
+      <a href="#" style="height:48px;box-sizing:border-box;padding:0 24px;display:flex;align-items:center;border:1px solid #E0001B;border-radius:8px;font-size:16px;font-weight:600;color:#E0001B;text-decoration:none;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%">Усі надходження</a>
+    </div>
+  </div>
+  <div ref="{{ scrollRef }}" onScroll="{{ onScroll }}" style="margin:{{ scrollMargin }};padding:{{ scrollPad }};scroll-padding-left:{{ scrollSide }};display:flex;align-items:stretch;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none">
+    <sc-for list="{{ cards }}" as="c" hint-placeholder-count="6">
+      <div style="position:relative;z-index:{{ c.z }};flex:0 0 224px;width:224px;min-width:0;display:flex;scroll-snap-align:start" style-hover="z-index:3">
+            <dc-import name="DLSProductCard" style="width:100%;height:100%" donor="{{ c.donor }}" model="{{ c.model }}" brand="{{ c.brand }}" part-name="{{ c.name }}" oem="{{ c.oem }}" price="{{ c.price }}" old-price="{{ c.oldPrice }}" popular="{{ c.popular }}" fits="{{ c.fits }}" favorite="{{ c.favorite }}" specs="{{ c.specs }}" photos="{{ c.photos }}" demo-hover="{{ c.demo }}" hint-size="224px,520px"></dc-import>
+          </div>
+    </sc-for>
+  </div>
+  <div style="position:relative;z-index:2;max-width:1312px;margin:0 auto;padding:{{ arrowsPad }};display:flex;justify-content:flex-end;gap:8px">
+    <sc-if value="{{ showArrows }}" hint-placeholder-val="{{ true }}">
+        <button aria-label="Попередні" onClick="{{ scrollPrev }}" disabled="{{ atStart }}" style="width:48px;height:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #CDD2DA;border-radius:50%;background:#FCFCFD;color:{{ prevColor }};cursor:{{ prevCursor }};transition:border-color 150ms ease-out" style-hover="border-color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m15 18-6-6 6-6"></path></svg></button>
+        <button aria-label="Наступні" onClick="{{ scrollNext }}" disabled="{{ atEnd }}" style="width:48px;height:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #CDD2DA;border-radius:50%;background:#FCFCFD;color:{{ nextColor }};cursor:{{ nextCursor }};transition:border-color 150ms ease-out" style-hover="border-color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg></button>
+      </sc-if>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:820},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;},&quot;demoHover&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const ITEMS = [
+  ['Ford Ranger / Mazda BT-50 2006–2012', 'Фара ліва галоген', 'UR56-51-040', '4 500 ₴', null, 6],
+  ['Mitsubishi L200 2005–2015', 'Бампер передній у зборі', '6400A123', '6 800 ₴', null, 8],
+  ['Nissan Navara / Pathfinder R51 2005–2015', 'Двигун 2.5 dCi YD25', '10102-EB3A0', '85 000 ₴', null, 12],
+  ['Mitsubishi Pajero Sport I 1996–2008', 'КПП автоматична 4 ст.', 'MR453580', '22 400 ₴', '28 000 ₴', 9],
+  ['Jeep Grand Cherokee WK 2004–2007', 'Дзеркало праве з підігрівом', '55156452AF', '2 900 ₴', null, 5],
+  ['Kia Sorento 2002–2014', 'Радіатор охолодження 2.5 CRDi', '25310-3E350', '3 200 ₴', null, 4]
+];
+const SPECS = [
+  [['Стан', 'Б/в, оригінал'], ['Сторона', 'Ліва'], ['Тип лампи', 'Галоген H4'], ['Коректор', 'Електричний']],
+  [['Стан', 'Б/в, оригінал'], ['Комплектація', 'З решіткою'], ['Колір', 'Під фарбування'], ['Парктроніки', 'Ні']],
+  [['Стан', 'Б/в, перевірений'], ['Об’єм', '2.5 л'], ['Паливо', 'Дизель'], ['Пробіг', '148 000 км']],
+  [['Стан', 'Б/в, перевірена'], ['Тип', 'Автомат, 4 ст.'], ['Привід', 'Повний'], ['Двигун', '3.0 V6 6G72']],
+  [['Стан', 'Б/в, оригінал'], ['Сторона', 'Права'], ['Підігрів', 'Так'], ['Складання', 'Електричне']],
+  [['Стан', 'Б/в, оригінал'], ['Матеріал', 'Алюміній'], ['Двигун', '2.5 CRDi'], ['КПП', 'Механіка / автомат']]
+];
+const STEP = 224 + 24;
+const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const tr = (props, ms, delay = 0) => props.map(p => `${p} ${ms}ms ${EASE} ${delay}ms`).join(', ');
+
+class Component extends DCLogic {
+  state = { vw: null, hovered: null, photo: {}, atStart: true, atEnd: false };
+  scrollRef = React.createRef();
+
+  componentDidMount() {
+    this.onResize = () => { this.setState({ vw: window.innerWidth }); this.syncEdges(); };
+    window.addEventListener('resize', this.onResize);
+    this.syncEdges();
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+
+  syncEdges() {
+    const el = this.scrollRef.current;
+    if (!el) return;
+    const atStart = el.scrollLeft <= 2, atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2;
+    if (atStart !== this.state.atStart || atEnd !== this.state.atEnd) this.setState({ atStart, atEnd });
+  }
+
+  frame() {
+    const mask = 'linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)';
+    return React.createElement('span', { 'aria-hidden': true, style: {
+      position: 'absolute', inset: 0, padding: 2, boxSizing: 'border-box', borderRadius: 8, pointerEvents: 'none',
+      background: 'conic-gradient(from var(--dlsA), rgba(224,0,27,0) 0deg, rgba(224,0,27,0) 144deg, #E0001B 360deg)',
+      WebkitMask: mask, WebkitMaskComposite: 'xor', mask, maskComposite: 'exclude',
+      animation: 'dlsSpin 3.5s linear infinite'
+    } });
+  }
+
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const m = device === 'mobile';
+    const pad = device === 'desktop' ? 64 : device === 'tablet' ? 32 : 16;
+    const sectionPad = device === 'desktop' ? 100 : 75;
+    const headGap = m ? 32 : 48;
+    const side = `max(${pad}px, calc((100% - 1312px) / 2))`;
+    const bottom = Math.max(168, sectionPad);
+    const demo = (this.props.demoHover ?? false) ? 1 : null;
+    const active = this.state.hovered ?? demo;
+
+    const BRANDS = ['ford', 'mitsubishi', 'nissan', 'mitsubishi', 'jeep', 'kia'];
+    const SHORT = ['Ranger 2006–2012', 'L200 2005–2015', 'Navara 2005–2015', 'Pajero Sport 1996–2008', 'Grand Cherokee 2004–2007', 'Sorento 2002–2014'];
+    const cards = ITEMS.map(([donor, name, oem, price, oldPrice, photos], i) => ({
+      donor, name, oem, price, oldPrice, photos,
+      model: SHORT[i], brand: BRANDS[i],
+      popular: false, fits: false, favorite: false,
+      specs: SPECS[i],
+      demo: demo === i,
+      z: oldPrice ? 2 : 1
+    }));
+
+    const s = this.state;
+    return {
+      headPad: `0 ${pad}px`,
+      headDir: m ? 'column' : 'row',
+      h2Size: device === 'desktop' ? '40px' : device === 'tablet' ? '28px' : '24px',
+      subSize: m ? '16px' : '18px',
+      subMargin: m ? '12px 0 0' : '16px 0 0',
+      showArrows: !m,
+      atStart: s.atStart, atEnd: s.atEnd,
+      prevColor: s.atStart ? '#A9B0BB' : '#1E232B', prevCursor: s.atStart ? 'default' : 'pointer',
+      nextColor: s.atEnd ? '#A9B0BB' : '#1E232B', nextCursor: s.atEnd ? 'default' : 'pointer',
+      scrollPrev: () => this.scrollRef.current?.scrollBy({ left: -STEP, behavior: 'smooth' }),
+      scrollNext: () => this.scrollRef.current?.scrollBy({ left: STEP, behavior: 'smooth' }),
+      scrollRef: this.scrollRef,
+      onScroll: () => this.syncEdges(),
+      scrollSide: side,
+      scrollPad: `24px ${side} ${bottom}px`,
+      scrollMargin: `${headGap - 24}px 0 ${(m ? sectionPad : 24) - bottom}px`,
+      arrowsPad: m ? '0' : `0 ${pad}px ${sectionPad}px`,
+      cards
+    };
+  }
+}
+</script>
+</body>
+</html>

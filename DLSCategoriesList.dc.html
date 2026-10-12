@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+</helmet>
+<section aria-labelledby="cats-list-title" data-screen-label="Категорії — зі списком підкатегорій" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <div style="display:flex;flex-direction:{{ headDir }};justify-content:space-between;align-items:flex-start;gap:24px">
+      <div style="min-width:0">
+        <h2 id="cats-list-title" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Категорії запчастин</h2>
+      </div>
+      <a href="#" style="flex-shrink:0;height:48px;box-sizing:border-box;padding:0 24px;display:flex;align-items:center;border:1px solid #E0001B;border-radius:8px;font-size:16px;font-weight:600;color:#E0001B;text-decoration:none;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%">Усі категорії</a>
+    </div>
+    <div style="margin-top:{{ headGap }};display:grid;grid-template-columns:{{ cols }};gap:{{ gap }}">
+      <sc-for list="{{ cards }}" as="c" hint-placeholder-count="9">
+        <article onMouseEnter="{{ c.enter }}" onMouseLeave="{{ c.leave }}" aria-labelledby="{{ c.id }}" style="min-width:0;padding:8px;display:flex;flex-direction:column;gap:8px;border:1px solid #E6E9EE;border-radius:16px;background:#FFFFFF;box-shadow:{{ c.shadow }};transition:box-shadow 250ms ease-out">
+          <div style="display:grid;grid-template-columns:minmax(0, 1fr) {{ photoW }};gap:16px;align-items:start">
+            <div style="min-width:0;padding:16px 0 0 16px">
+              <h3 id="{{ c.id }}" style="margin:0;font-size:{{ titleSize }};line-height:1.2;font-weight:600;letter-spacing:-0.01em;color:#1E232B;text-wrap:balance">{{ c.name }}</h3>
+              <p style="margin:8px 0 0;font-size:13px;line-height:18px;color:#4A5260">{{ c.count }}</p>
+            </div>
+            <div style="position:relative;aspect-ratio:1 / 1;overflow:hidden;border-radius:12px;background:#FFFFFF;border:1px solid #E6E9EE">
+              <img src="{{ c.src }}" alt="{{ c.photo }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:{{ c.imgDisplay }};transform:{{ c.imgT }};transition:transform 250ms ease-out">
+              <div style="position:absolute;inset:0;padding:8px;display:{{ c.phDisplay }};align-items:center;justify-content:center;font-size:12px;line-height:16px;color:#6B7380;text-align:center;text-wrap:balance">Фото: {{ c.photo }}</div>
+            </div>
+          </div>
+          <ul style="flex:1;margin:0;padding:12px;list-style:none;display:flex;flex-direction:column;border-radius:12px;background:#F3F5F7">
+            <sc-for list="{{ c.subs }}" as="s" hint-placeholder-count="4">
+              <li>
+                <a href="#" style="min-height:40px;box-sizing:border-box;padding:8px;display:flex;align-items:center;gap:8px;border-radius:8px;font-size:16px;line-height:22px;color:{{ s.color }};font-weight:{{ s.weight }};text-decoration:none;transition:background 150ms ease-out, color 150ms ease-out" style-hover="background:#E6E9EE;color:#1E232B" style-focus="outline:2px solid #1E232B;outline-offset:-2px">
+                  <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                  <span style="min-width:0">{{ s.label }}</span>
+                </a>
+              </li>
+            </sc-for>
+          </ul>
+          <a href="#" aria-label="{{ c.ctaAria }}" style="height:48px;box-sizing:border-box;padding:0 24px;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:8px;font-size:16px;font-weight:600;color:#E0001B;text-decoration:none;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">До каталогу</a>
+        </article>
+      </sc-for>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1400},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
+const CATS = [
+  ['Кузовні деталі', '290 деталей', 'передній бампер', ['Бампери', 'Капоти та крила', 'Двері']],
+  ['Підвіска та ходова', '210 деталей', 'амортизатор із пружиною', ['Амортизатори', 'Важелі', 'Ступиці']],
+  ['Електрика та електроніка', '180 деталей', 'блок керування двигуном', ['Блоки керування', 'Генератори та стартери', 'Проводка']],
+  ['Салон', '150 деталей', 'водійське сидіння', ['Сидіння', 'Панелі приладів', 'Оббивка дверей']],
+  ['Оптика', '120 деталей', 'фара в зборі', ['Фари', 'Задні ліхтарі', 'Протитуманні фари']],
+  ['Гальмівна система', '95 деталей', 'супорт із диском', ['Супорти', 'Гальмівні диски', 'Блоки ABS']],
+  ['Двигуни', '48 деталей', 'двигун на підставці', ['Двигуни в зборі', 'Головки блоку', 'Навісне обладнання']],
+  ['КПП та роздатки', '36 деталей', 'автоматична КПП', ['АКПП', 'МКПП', 'Роздавальні коробки']],
+  ['Шини та диски', '18 деталей', 'литий диск із шиною', ['Литі диски', 'Шини', 'Комплекти коліс']]
+];
+// Фото деталей на білому фоні за порядком карток; null — плейсхолдер з описом
+const TMP = 'assets/part-pickup-hub.jpg';
+const OVR = { 0: 'assets/cat-body.jpg', 1: 'assets/cat-suspension.jpg', 2: 'assets/cat-electric.jpg', 6: 'assets/cat-engine.jpg', 7: 'assets/cat-gearbox.jpg', 8: 'assets/cat-wheels.jpg' };
+const PHOTOS = CATS.map((_, i) => OVR[i] || TMP);
+
+class Component extends DCLogic {
+  state = { vw: null, hover: null };
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const d = device === 'desktop', m = device === 'mobile';
+    const k = d || device === 'laptop' ? 3 : device === 'tablet' ? 2 : 1;
+    const cards = CATS.map(([name, count, photo, subs], i) => {
+      const h = this.state.hover === i;
+      return {
+        id: `cat-list-${i}`, name, count, photo,
+        src: PHOTOS[i] || undefined,
+        imgDisplay: PHOTOS[i] ? 'block' : 'none', phDisplay: PHOTOS[i] ? 'none' : 'flex',
+        imgT: h ? 'scale(1.04)' : 'scale(1)',
+        shadow: h ? '0 4px 16px rgba(18,22,28,0.08)' : 'none',
+        subs: [...subs.map(label => ({ label, color: '#4A5260', weight: 400 })), { label: 'Переглянути всі товари', color: '#1E232B', weight: 500 }],
+        ctaAria: `До каталогу: ${name}`,
+        enter: () => this.setState({ hover: i }),
+        leave: () => this.setState(s => (s.hover === i ? { hover: null } : null))
+      };
+    });
+    return {
+      pad: d ? '0 64px 100px' : m ? '0 16px 75px' : '0 32px 75px',
+      headDir: m ? 'column' : 'row',
+      h2Size: d ? '40px' : m ? '24px' : '28px',
+      subSize: m ? '16px' : '18px',
+      subMargin: m ? '12px 0 0' : '16px 0 0',
+      headGap: m ? '32px' : '48px',
+      cols: `repeat(${k}, minmax(0, 1fr))`,
+      gap: m ? '12px' : '16px',
+      titleSize: m ? '20px' : '24px',
+      photoW: m ? '112px' : k === 3 && !d ? '120px' : '144px',
+      cards
+    };
+  }
+}
+</script>
+</body>
+</html>

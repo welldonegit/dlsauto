@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}@keyframes dlsQvPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.35;transform:scale(0.8)}}</style>
+<script src="./dls-fav.js"></script>
+<script src="./dls-cart.js"></script>
+</helmet>
+<sc-if value="{{ mounted }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ close }}" data-screen-label="Швидкий перегляд" style="position:fixed;inset:0;z-index:200;display:flex;align-items:{{ alignY }};justify-content:center;padding:{{ overlayPad }};box-sizing:border-box;background:rgba(18,22,28,0.5);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);opacity:{{ overlayOp }};transition:opacity 250ms ease-out;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div role="dialog" aria-modal="true" aria-labelledby="qv-title" onClick="{{ stop }}" style="position:relative;width:{{ modalW }};max-width:100%;height:{{ modalH }};max-height:{{ modalMaxH }};box-sizing:border-box;display:flex;flex-direction:column;border-radius:{{ modalRadius }};background:#FFFFFF;box-shadow:0 12px 32px rgba(18,22,28,0.16);transform:{{ modalT }};opacity:{{ modalOp }};transition:transform 250ms ease-out, opacity 250ms ease-out">
+    <button type="button" ref="{{ closeRef }}" onClick="{{ close }}" aria-label="Закрити" style="position:absolute;z-index:3;top:{{ closeTop }};right:{{ closeRight }};width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:#FFFFFF;color:#1E232B;cursor:pointer;box-shadow:0 1px 3px rgba(18,22,28,0.16);transition:background 150ms ease-out" style-hover="background:#E6E9EE" style-focus="outline:2px solid #FCFCFD;outline-offset:2px"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+    <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+      <div aria-hidden="true" style="flex-shrink:0;padding-top:8px;display:flex;justify-content:center"><span style="width:40px;height:4px;border-radius:999px;background:#CDD2DA"></span></div>
+    </sc-if>
+    <div style="flex:1;min-height:0;overflow-y:{{ outerScroll }};overscroll-behavior:contain;border-radius:{{ modalRadius }}">
+      <div style="padding:{{ pad }};display:grid;grid-template-columns:{{ cols }};gap:32px;align-items:start">
+
+        <div style="min-width:0">
+          <div onMouseEnter="{{ photoEnter }}" onMouseLeave="{{ photoLeave }}" style="position:relative;aspect-ratio:1 / 1;overflow:hidden;border-radius:16px;background:#F3F5F7">
+            <sc-if value="{{ slideIsPhoto }}" hint-placeholder-val="{{ true }}">
+              <img src="{{ slideSrc }}" alt="{{ slideAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block">
+            </sc-if>
+            <sc-if value="{{ slideIsVideo }}" hint-placeholder-val="{{ false }}">
+              <video src="{{ videoSrc }}" controls="{{ true }}" playsInline="{{ true }}" muted="{{ true }}" preload="metadata" aria-label="Відео перевірки деталі" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;background:#12161C"></video>
+            </sc-if>
+            <span style="position:absolute;top:12px;left:12px;padding:4px 10px;border-radius:8px;background:#1E232B;font-size:13px;line-height:18px;font-weight:500;color:#FCFCFD">Фото реальної деталі</span>
+            <span style="position:absolute;right:12px;bottom:12px;padding:4px 10px;border-radius:8px;background:rgba(18,22,28,0.6);font-size:13px;line-height:18px;font-weight:500;color:#FCFCFD;font-variant-numeric:tabular-nums">{{ counter }}</span>
+            <button type="button" aria-label="Попереднє фото" onClick="{{ prev }}" style="position:absolute;top:50%;left:12px;width:40px;height:40px;margin-top:-20px;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:#FCFCFD;color:#1E232B;cursor:pointer;box-shadow:0 1px 3px rgba(18,22,28,0.16);opacity:{{ arrowsOp }};transform:{{ arrL }};transition:opacity 200ms ease-out, transform 200ms ease-out" style-focus="opacity:1;outline:2px solid #1E232B;outline-offset:2px"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m15 18-6-6 6-6"></path></svg></button>
+            <button type="button" aria-label="Наступне фото" onClick="{{ next }}" style="position:absolute;top:50%;right:12px;width:40px;height:40px;margin-top:-20px;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:#FCFCFD;color:#1E232B;cursor:pointer;box-shadow:0 1px 3px rgba(18,22,28,0.16);opacity:{{ arrowsOp }};transform:{{ arrR }};transition:opacity 200ms ease-out, transform 200ms ease-out" style-focus="opacity:1;outline:2px solid #1E232B;outline-offset:2px"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg></button>
+          </div>
+          <div role="tablist" aria-label="Фото деталі" style="margin-top:12px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none">
+            <sc-for list="{{ thumbs }}" as="t" hint-placeholder-count="6">
+              <button type="button" role="tab" aria-selected="{{ t.active }}" aria-label="{{ t.aria }}" onClick="{{ t.pick }}" style="position:relative;width:64px;height:64px;flex-shrink:0;padding:0;box-sizing:border-box;overflow:hidden;border:2px solid {{ t.border }};border-radius:8px;background:#F3F5F7;cursor:pointer;transition:border-color 150ms ease-out" style-hover="border-color:{{ t.hoverBorder }}" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+                <img src="{{ t.src }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;opacity:{{ t.imgOp }}">
+                <sc-if value="{{ t.isVideo }}" hint-placeholder-val="{{ false }}">
+                  <span style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:rgba(18,22,28,0.55);color:#FCFCFD">
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:currentColor;stroke:none"><path d="M8 5.5v13a1 1 0 0 0 1.5.86l10.5-6.5a1 1 0 0 0 0-1.72L9.5 4.64A1 1 0 0 0 8 5.5Z"></path></svg>
+                    <span style="font-size:11px;line-height:14px;font-weight:500">Відео</span>
+                  </span>
+                </sc-if>
+              </button>
+            </sc-for>
+          </div>
+          <p style="margin:12px 0 0;display:flex;align-items:flex-start;gap:8px;font-size:13px;line-height:18px;color:#4A5260;text-wrap:pretty">
+            <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;margin-top:1px;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round"><path d="m9 11-6 6v3h9l3-3"></path><path d="m22 12-4.6 4.6a2 2 0 0 1-2.8 0l-5.2-5.2a2 2 0 0 1 0-2.8L14 4"></path></svg>
+            <span>Дефекти позначені білим маркером і видні на фото</span>
+          </p>
+        </div>
+
+        <div style="min-width:0;max-height:{{ rightMaxH }};overflow-y:{{ rightScroll }};overscroll-behavior:contain;padding-right:{{ rightPadR }};scrollbar-width:thin">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding-right:{{ titlePadR }}">
+            <span title="{{ donor }}" style="max-width:100%;box-sizing:border-box;padding:4px 8px 4px 6px;display:flex;align-items:center;gap:6px;border-radius:8px;background:#F3F5F7">
+              <img src="{{ logoSrc }}" alt="" style="width:16px;height:16px;flex-shrink:0;object-fit:contain;display:block">
+              <span style="min-width:0;font-size:13px;line-height:18px;color:#4A5260;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ donor }}</span>
+            </span>
+            <sc-if value="{{ fits }}" hint-placeholder-val="{{ false }}">
+              <span style="padding:4px 8px 4px 6px;display:flex;align-items:center;gap:6px;border-radius:8px;background:#E7F4EC">
+                <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:#1F8A4C;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>
+                <span style="font-size:13px;line-height:18px;font-weight:500;color:#1F8A4C">Підходить на ваше авто</span>
+              </span>
+            </sc-if>
+          </div>
+          <h2 id="qv-title" style="margin:16px 0 0;font-size:{{ h2Size }};line-height:1.2;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-wrap:balance">{{ name }}</h2>
+          <div style="margin-top:8px;display:flex;flex-wrap:wrap;align-items:center;column-gap:12px;row-gap:4px;font-size:14px;line-height:20px;color:#4A5260">
+            <span>OEM {{ oem }}</span>
+            <span aria-hidden="true" style="width:1px;height:14px;background:#CDD2DA"></span>
+            <span>Код: {{ code }}</span>
+            <button type="button" onClick="{{ copy }}" style="margin-left:auto;height:28px;padding:0 4px;display:flex;align-items:center;gap:4px;border:none;background:transparent;font-family:inherit;font-size:13px;line-height:18px;font-weight:500;color:{{ copyColor }};cursor:pointer;transition:color 150ms ease-out" style-hover="color:#1E232B" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+              <sc-if value="{{ notCopied }}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><rect x="8" y="8" width="14" height="14" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg></sc-if>
+              <sc-if value="{{ copied }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg></sc-if>
+              <span>{{ copyText }}</span>
+            </button>
+          </div>
+          <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:8px">
+            <span style="padding:6px 10px;display:flex;align-items:center;gap:6px;border-radius:8px;background:#F3F5F7;font-size:13px;line-height:18px;color:#1E232B"><span aria-hidden="true" style="width:8px;height:8px;flex-shrink:0;border-radius:50%;background:#1F8A4C;animation:dlsQvPulse 1.8s ease-in-out infinite"></span>{{ stock }}</span>
+            <span style="padding:6px 10px;display:flex;align-items:center;gap:6px;border-radius:8px;background:#F3F5F7;font-size:13px;line-height:18px;color:#1E232B"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:#4A5260;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1Z"></path></svg>Гарантія 14 днів</span>
+            <span style="padding:6px 10px;display:flex;align-items:center;gap:6px;border-radius:8px;background:#F3F5F7;font-size:13px;line-height:18px;color:#1E232B"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:#4A5260;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg>Перевірено на авто</span>
+          </div>
+          <div style="margin-top:24px;display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+            <sc-if value="{{ hasOld }}" hint-placeholder-val="{{ false }}">
+              <span style="font-size:16px;line-height:1.2;color:#4A5260;text-decoration:line-through;white-space:nowrap">{{ oldPrice }}</span>
+            </sc-if>
+            <span style="font-size:32px;line-height:1.1;font-weight:700;letter-spacing:-0.02em;color:#1E232B;white-space:nowrap">{{ price }}</span>
+            <sc-if value="{{ hasOld }}" hint-placeholder-val="{{ false }}">
+              <span style="padding:2px 8px;border-radius:8px;background:#E0001B;font-size:14px;line-height:20px;font-weight:600;color:#FCFCFD">{{ discount }}</span>
+            </sc-if>
+          </div>
+          <sc-if value="{{ inlineActions }}" hint-placeholder-val="{{ true }}">
+            <div style="margin-top:20px;display:flex;gap:8px">
+              <button type="button" onClick="{{ addToCart }}" disabled="{{ inCart }}" style="flex:1;min-width:0;height:56px;box-sizing:border-box;padding:0 24px;display:flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:8px;font-family:inherit;font-size:16px;font-weight:600;color:{{ cartColor }};cursor:{{ cartCursor }};white-space:nowrap;background-color:{{ cartBg }};background-image:radial-gradient(circle, {{ cartRipple }} 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), background-color 150ms ease-out, color 150ms ease-out" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+                <sc-if value="{{ inCart }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg></sc-if>
+                <span>{{ cartText }}</span>
+              </button>
+              <button type="button" onClick="{{ toggleFav }}" aria-label="{{ favLabel }}" aria-pressed="{{ fav }}" style="width:56px;height:56px;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:8px;color:#E0001B;cursor:pointer;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="fill:{{ favFill }};stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:fill 200ms ease-out"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg></button>
+              <button type="button" onClick="{{ toggleCmp }}" aria-label="{{ cmpLabel }}" aria-pressed="{{ cmp }}" style="width:56px;height:56px;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:8px;color:#E0001B;cursor:pointer;background-color:{{ cmpBg }};background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), background-color 150ms ease-out" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg></button>
+            </div>
+          </sc-if>
+          <div aria-hidden="true" style="margin:24px 0;height:1px;background:#E6E9EE"></div>
+          <h3 style="margin:0;font-size:15px;line-height:22px;font-weight:600;color:#1E232B">Стан деталі</h3>
+          <p style="margin:8px 0 0;padding:{{ condPad }};border:{{ condBorder }};border-radius:8px;background:{{ condBg }};font-size:15px;line-height:1.5;color:#1E232B;text-wrap:pretty">{{ condition }}</p>
+          <dl style="margin:24px 0 0;display:flex;flex-direction:column">
+            <sc-for list="{{ specs }}" as="sp" hint-placeholder-count="6">
+              <div style="padding:10px 0;display:flex;justify-content:space-between;align-items:baseline;gap:16px;border-bottom:1px solid #E6E9EE;font-size:14px;line-height:20px">
+                <dt style="flex-shrink:0;color:#4A5260">{{ sp.k }}</dt>
+                <dd style="margin:0;min-width:0;color:#1E232B;text-align:right;text-wrap:pretty">{{ sp.v }}</dd>
+              </div>
+            </sc-for>
+          </dl>
+          <ul style="margin:24px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:13px;line-height:18px;color:#4A5260">
+            <li style="display:flex;align-items:center;gap:8px"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg>Відправка в день замовлення</li>
+            <li style="display:flex;align-items:center;gap:8px"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"></path><path d="M8 16H3v5"></path></svg>Обмін або повернення, якщо не підійшла</li>
+            <li style="display:flex;align-items:center;gap:8px"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round"><rect x="2" y="5" width="20" height="14" rx="2"></rect><path d="M2 10h20"></path></svg>Оплата при отриманні або monoPay</li>
+          </ul>
+          <a href="#" style="margin-top:24px;display:inline-flex;font-size:15px;line-height:22px;font-weight:600;color:#E0001B;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:4px;transition:text-decoration-color 150ms ease-out" style-hover="text-decoration-color:#E0001B" style-focus="outline:2px solid #1E232B;outline-offset:2px">Більше інформації на сторінці товару →</a>
+          <div aria-hidden="true" style="height:{{ tailSpace }}"></div>
+        </div>
+      </div>
+
+      <sc-if value="{{ stickyActions }}" hint-placeholder-val="{{ false }}">
+        <div style="position:sticky;bottom:0;z-index:2;padding:16px 24px;display:flex;gap:8px;border-top:1px solid #E6E9EE;background:#FFFFFF">
+          <button type="button" onClick="{{ addToCart }}" disabled="{{ inCart }}" style="flex:1;min-width:0;height:56px;box-sizing:border-box;padding:0 24px;display:flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:8px;font-family:inherit;font-size:16px;font-weight:600;color:{{ cartColor }};cursor:{{ cartCursor }};white-space:nowrap;background-color:{{ cartBg }};background-image:radial-gradient(circle, {{ cartRipple }} 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), background-color 150ms ease-out, color 150ms ease-out" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+            <sc-if value="{{ inCart }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg></sc-if>
+            <span>{{ cartText }}</span>
+          </button>
+          <button type="button" onClick="{{ toggleFav }}" aria-label="{{ favLabel }}" aria-pressed="{{ fav }}" style="width:56px;height:56px;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:8px;background:transparent;color:#E0001B;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:2px"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="fill:{{ favFill }};stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg></button>
+          <button type="button" onClick="{{ toggleCmp }}" aria-label="{{ cmpLabel }}" aria-pressed="{{ cmp }}" style="width:56px;height:56px;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:8px;background:{{ cmpBg }};color:#E0001B;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:2px"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg></button>
+        </div>
+      </sc-if>
+    </div>
+  </div>
+</div>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;demoOpen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;},&quot;fits&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;promo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;critical&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const PHOTOS = ['assets/part-hub.webp', 'assets/part-pickup-hub.jpg', null, 'assets/part-hub.webp', 'assets/part-pickup-hub.jpg', 'assets/part-hub.webp'];
+const DEMO = {
+  id: 'UR56-51-040', name: 'Фара ліва галоген', oem: 'UR56-51-040', code: 'DLS-04512',
+  donor: 'Ford Ranger / Mazda BT-50 2006–2012', brand: 'ford', price: '4 500 ₴', oldPrice: '',
+  stock: 'В наявності, 1 шт', video: 'assets/videos/video1.mp4', videoAt: 2, photos: PHOTOS,
+  condition: 'Скло без тріщин і помутніння. Кріплення цілі. Дрібні подряпини на корпусі — позначені маркером, на роботу не впливають.',
+  critical: false,
+  specs: [['Сторона', 'Ліва'], ['Тип', 'Галоген, з коректором'], ['Авто-донор', 'Ford Ranger 2.5 TDCi, 2009'], ['Пробіг донора', '186 000 км'], ['Перевірка', 'На авто, 28.09.2026'], ['Категорія', 'Оптика']]
+};
+const GENERIC_COND = 'Деталь перевірена, кріплення цілі. Дрібні сліди експлуатації позначені маркером на фото, на роботу не впливають.';
+const CAR_KEY = 'dlsCar';
+const priceNum = s => parseInt(String(s || '0').replace(/\D/g, ''), 10) || 0;
+
+class Component extends DCLogic {
+  state = { vw: null, mounted: false, shown: false, item: DEMO, idx: 0, hoverPhoto: false, copied: false, cmp: {}, tick: 0 };
+  closeRef = React.createRef();
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    this.onKey = e => { if (e.key === 'Escape' && this.state.mounted) this.close(); };
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('keydown', this.onKey);
+    window.DLSQuickView = { open: item => this.open(item), close: () => this.close() };
+    const hook = () => {
+      if (!window.DLSFav || !window.DLSCart) { this.retry = setTimeout(hook, 150); return; }
+      this.u1 = window.DLSFav.subscribe(() => this.setState(s => ({ tick: s.tick + 1 })));
+      this.u2 = window.DLSCart.subscribe(e => { if (e.type === 'add' || e.type === 'remove') this.setState(s => ({ tick: s.tick + 1 })); });
+    };
+    hook();
+    if (this.props.demoOpen) this.open(null);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('keydown', this.onKey);
+    this.u1 && this.u1(); this.u2 && this.u2();
+    clearTimeout(this.retry); clearTimeout(this.closeT); clearTimeout(this.copyT);
+    document.body.style.overflow = '';
+    if (window.DLSQuickView && window.DLSQuickView.close) delete window.DLSQuickView;
+  }
+  open(item) {
+    clearTimeout(this.closeT);
+    this.lastFocus = document.activeElement;
+    const it = item ? this.fromCard(item) : DEMO;
+    this.setState({ mounted: true, shown: false, item: it, idx: 0, copied: false }, () => {
+      requestAnimationFrame(() => requestAnimationFrame(() => { this.setState({ shown: true }); this.closeRef.current && this.closeRef.current.focus({ preventScroll: true }); }));
+    });
+    document.body.style.overflow = 'hidden';
+  }
+  close() {
+    this.setState({ shown: false });
+    this.closeT = setTimeout(() => { this.setState({ mounted: false }); document.body.style.overflow = ''; this.lastFocus && this.lastFocus.focus && this.lastFocus.focus({ preventScroll: true }); }, 250);
+  }
+  fromCard(c) {
+    if (c.id === DEMO.id || c.oem === DEMO.oem) return { ...DEMO, oldPrice: c.oldPrice || '', price: c.price || DEMO.price };
+    const n = String(c.oem || c.id || '').replace(/\D/g, '').slice(-5).padStart(5, '0');
+    const specs = (c.specs || []).map(s => Array.isArray(s) ? s : [s.k, s.v]).filter(s => s[0] !== 'Стан');
+    const photo = c.photo || 'assets/part-hub.webp';
+    return {
+      id: c.id || c.oem, name: c.name, oem: c.oem || c.id, code: `DLS-${n}`,
+      donor: c.donor || '', brand: c.brand || 'mitsubishi', price: c.price || '', oldPrice: c.oldPrice || '',
+      stock: c.oldPrice ? 'Залишок: 5 шт' : 'В наявності, 1 шт',
+      video: 'assets/videos/video1.mp4', videoAt: 2,
+      photos: [photo, 'assets/part-pickup-hub.jpg', null, photo, 'assets/part-pickup-hub.jpg', photo],
+      condition: GENERIC_COND, critical: false,
+      specs: [...specs, ['Авто-донор', c.donor || '—']]
+    };
+  }
+  renderVals() {
+    const s = this.state;
+    const it = s.item;
+    const vw = s.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1024 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const d = device === 'desktop', t = device === 'tablet', m = device === 'mobile';
+    const total = it.photos.length;
+    const idx = s.idx;
+    const isVideo = idx === it.videoAt;
+    const go = n => this.setState({ idx: (n + total) % total });
+    const F = typeof window !== 'undefined' ? window.DLSFav : null;
+    const C = typeof window !== 'undefined' ? window.DLSCart : null;
+    const fav = !!(F && F.has(it.id));
+    const inCart = !!(C && C.has(it.id));
+    const cmp = !!s.cmp[it.id];
+    let car = null; try { car = localStorage.getItem(CAR_KEY); } catch (_) {}
+    const fits = this.props.fits ?? !!car;
+    const critical = this.props.critical ?? it.critical;
+    const promo = this.props.promo ? true : !!it.oldPrice;
+    const oldPrice = it.oldPrice || (this.props.promo ? '5 600 ₴' : '');
+    const disc = promo ? Math.round((1 - priceNum(it.price) / priceNum(oldPrice)) * 100) : 0;
+    const firstPhoto = it.photos.find(Boolean);
+
+    return {
+      mounted: s.mounted,
+      overlayOp: s.shown ? 1 : 0,
+      modalOp: s.shown ? 1 : 0,
+      modalT: m ? (s.shown ? 'translateY(0)' : 'translateY(100%)') : (s.shown ? 'scale(1)' : 'scale(0.96)'),
+      alignY: m ? 'flex-end' : 'center',
+      overlayPad: m ? '24px 0 0' : d ? '32px 72px' : '32px',
+      modalW: d ? '1040px' : t ? 'calc(100vw - 64px)' : '100%',
+      modalH: m ? '100%' : 'auto',
+      modalMaxH: m ? '100%' : 'calc(100vh - 64px)',
+      modalRadius: m ? '16px 16px 0 0' : '16px',
+      closeTop: d ? '0px' : m ? '20px' : '16px',
+      closeRight: d ? '-56px' : m ? '16px' : '16px',
+      outerScroll: d ? 'hidden' : 'auto',
+      pad: d ? '32px' : m ? '16px 16px 24px' : '24px',
+      cols: d ? 'minmax(0, 1fr) minmax(0, 1fr)' : 'minmax(0, 1fr)',
+      rightMaxH: d ? 'calc(100vh - 64px - 64px)' : 'none',
+      rightScroll: d ? 'auto' : 'visible',
+      rightPadR: d ? '8px' : '0',
+      titlePadR: d ? '0' : '0',
+      tailSpace: d ? '0px' : '0px',
+      isMobile: m,
+      h2Size: d ? '28px' : '24px',
+      stop: e => e.stopPropagation(),
+      close: () => this.close(),
+      closeRef: this.closeRef,
+
+      slideIsPhoto: !isVideo, slideIsVideo: isVideo,
+      slideSrc: it.photos[idx] || firstPhoto, slideAlt: `${it.name} — фото ${idx + 1} з ${total}`,
+      videoSrc: it.video,
+      counter: `${idx + 1} / ${total}`,
+      arrowsOp: s.hoverPhoto || m ? 1 : 0,
+      arrL: s.hoverPhoto || m ? 'none' : 'translateX(-6px)',
+      arrR: s.hoverPhoto || m ? 'none' : 'translateX(6px)',
+      photoEnter: () => this.setState({ hoverPhoto: true }),
+      photoLeave: () => this.setState({ hoverPhoto: false }),
+      prev: () => go(idx - 1), next: () => go(idx + 1),
+      thumbs: it.photos.map((p, i) => {
+        const v = i === it.videoAt;
+        return {
+          src: p || firstPhoto, isVideo: v, active: i === idx, imgOp: 1,
+          aria: v ? 'Відео перевірки' : `Фото ${i + 1}`,
+          border: i === idx ? '#1E232B' : 'transparent', hoverBorder: i === idx ? '#1E232B' : '#CDD2DA',
+          pick: () => go(i)
+        };
+      }),
+
+      donor: it.donor, logoSrc: `assets/logos/${it.brand}.svg`, fits,
+      name: it.name, oem: it.oem, code: it.code,
+      copied: s.copied, notCopied: !s.copied,
+      copyText: s.copied ? 'Скопійовано' : 'Скопіювати', copyColor: s.copied ? '#1F8A4C' : '#4A5260',
+      copy: () => {
+        const txt = it.oem;
+        const done = () => { clearTimeout(this.copyT); this.setState({ copied: true }); this.copyT = setTimeout(() => this.setState({ copied: false }), 2000); };
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, done); else done();
+      },
+      stock: it.stock,
+      price: it.price, hasOld: promo, oldPrice, discount: `−${disc}%`,
+
+      inlineActions: !t, stickyActions: t,
+      inCart, cartText: inCart ? 'У кошику' : 'В кошик',
+      cartBg: inCart ? '#E6E9EE' : '#E0001B', cartColor: inCart ? '#6B7380' : '#FCFCFD',
+      cartRipple: inCart ? 'rgba(0,0,0,0)' : '#C00017', cartCursor: inCart ? 'default' : 'pointer',
+      addToCart: () => { if (C && !C.has(it.id)) C.add({ id: it.id, name: it.name, donor: it.donor, oem: it.oem, price: priceNum(it.price), photo: firstPhoto }); },
+      fav, favFill: fav ? '#E0001B' : 'none', favLabel: fav ? 'Прибрати з обраного' : 'Додати в обране',
+      toggleFav: () => { F && F.set({ id: it.id, name: it.name, photo: firstPhoto, donor: it.donor, model: it.donor, brand: it.brand, price: it.price, oldPrice: it.oldPrice }, !fav); },
+      cmp, cmpBg: cmp ? 'rgba(224,0,27,0.08)' : 'transparent', cmpLabel: cmp ? 'Прибрати з порівняння' : 'Додати до порівняння',
+      toggleCmp: () => this.setState(st => ({ cmp: { ...st.cmp, [it.id]: !st.cmp[it.id] } })),
+
+      condition: it.condition,
+      condPad: critical ? '12px 16px' : '0',
+      condBorder: critical ? '1px solid #E0001B' : 'none',
+      condBg: critical ? 'rgba(224,0,27,0.04)' : 'transparent',
+      specs: it.specs.map(([k, v]) => ({ k, v }))
+    };
+  }
+}
+</script>
+</body>
+</html>

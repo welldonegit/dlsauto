@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+<script src="./image-slot.js"></script>
+</helmet>
+<section aria-label="Послуги DLSAuto" data-screen-label="Послуги" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }};display:grid;grid-template-columns:{{ cols }};grid-template-rows:{{ rows }};gap:{{ gap }}">
+    <article style="position:relative;grid-column:{{ rightCol }};grid-row:{{ rightRow }};min-height:{{ cardMin }};min-width:0;overflow:hidden;border-radius:16px;background:#2A303A">
+      <div style="position:absolute;inset:0">
+        <image-slot id="svc-razborka" shape="rect" src="./assets/service-razborka.jpg" placeholder="Авто після ДТП на евакуаторі або в цеху, вид збоку"></image-slot>
+      </div>
+      <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg, rgba(18,22,28,0.85) 0%, rgba(18,22,28,0.6) 45%, rgba(18,22,28,0) 85%)"></div>
+      <div style="position:relative;height:100%;box-sizing:border-box;padding:{{ cardPad }};display:flex;flex-direction:column;align-items:flex-start;gap:24px;pointer-events:none">
+        <div style="margin-top:auto;max-width:{{ textMax }}">
+          <h3 style="margin:0;font-size:{{ h3Size }};line-height:1.2;font-weight:600;letter-spacing:-0.01em;color:#FCFCFD;text-wrap:balance">Викуповуємо авто на розбірку</h3>
+          <p style="margin:12px 0 0;font-size:16px;line-height:1.5;color:rgba(252,252,253,0.85);text-wrap:pretty">Биті, після ДТП, з несправним двигуном — оцінимо за фото за годину, заберемо самі по Дніпру та області</p>
+        </div>
+        <a href="#" style="pointer-events:auto;height:48px;box-sizing:border-box;padding:0 24px;width:{{ btnW }};display:flex;align-items:center;justify-content:center;border-radius:8px;background:#FCFCFD;font-size:16px;font-weight:600;color:#1E232B;text-decoration:none;white-space:nowrap;transition:background 150ms ease-out" style-hover="background:#E6E9EE;color:#1E232B">Оцінити авто</a>
+      </div>
+    </article>
+    <article style="position:relative;grid-column:1;grid-row:1;min-height:{{ cardMin }};min-width:0;overflow:hidden;border-radius:16px;background:#2A303A">
+      <div style="position:absolute;inset:0">
+        <image-slot id="svc-import" shape="rect" src="./assets/service-import-red.jpg" placeholder="Пікап на платформі автовоза або в порту"></image-slot>
+      </div>
+      <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg, rgba(18,22,28,0.85) 0%, rgba(18,22,28,0.6) 45%, rgba(18,22,28,0) 85%)"></div>
+      <div style="position:relative;height:100%;box-sizing:border-box;padding:{{ cardPad }};display:flex;flex-direction:column;align-items:flex-start;gap:24px;pointer-events:none">
+        <div style="max-width:{{ textMax }}">
+          <h3 style="margin:0;font-size:{{ h3Size }};line-height:1.2;font-weight:600;letter-spacing:-0.01em;color:#FCFCFD;text-wrap:balance">Пригон авто з США та Європи</h3>
+          <p style="margin:12px 0 0;font-size:16px;line-height:1.5;color:rgba(252,252,253,0.85);text-wrap:pretty">Підбір на аукціонах, доставка, розмитнення — під ключ, з фіксованою вартістю послуг</p>
+        </div>
+        <a href="#" style="margin-top:auto;pointer-events:auto;height:48px;box-sizing:border-box;padding:0 24px;width:{{ btnW }};display:flex;align-items:center;justify-content:center;border-radius:8px;background:#FCFCFD;font-size:16px;font-weight:600;color:#1E232B;text-decoration:none;white-space:nowrap;transition:background 150ms ease-out" style-hover="background:#E6E9EE;color:#1E232B">Розрахувати вартість</a>
+      </div>
+    </article>
+    <article style="position:relative;grid-column:1;grid-row:2;min-height:{{ cardMin }};min-width:0;overflow:hidden;border-radius:16px;background:#2A303A">
+      <div style="position:absolute;inset:0">
+        <image-slot id="svc-sto" shape="rect" src="./assets/service-sto.jpg" placeholder="Підйомник з пікапом у боксі, механік внизу"></image-slot>
+      </div>
+      <div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg, rgba(18,22,28,0.85) 0%, rgba(18,22,28,0.6) 45%, rgba(18,22,28,0) 85%)"></div>
+      <div style="position:relative;height:100%;box-sizing:border-box;padding:{{ cardPad }};display:flex;flex-direction:column;align-items:flex-start;gap:24px;pointer-events:none">
+        <div style="max-width:{{ textMax }}">
+          <h3 style="margin:0;font-size:{{ h3Size }};line-height:1.2;font-weight:600;letter-spacing:-0.01em;color:#FCFCFD;text-wrap:balance">Ремонт у власному сервісі</h3>
+          <p style="margin:12px 0 0;font-size:16px;line-height:1.5;color:rgba(252,252,253,0.85);text-wrap:pretty">Діагностика, ходова, двигуни та агрегати. Ставимо деталі з нашої розборки — дешевше й з гарантією</p>
+        </div>
+        <a href="#" style="margin-top:auto;pointer-events:auto;height:48px;box-sizing:border-box;padding:0 24px;width:{{ btnW }};display:flex;align-items:center;justify-content:center;border-radius:8px;background:#FCFCFD;font-size:16px;font-weight:600;color:#1E232B;text-decoration:none;white-space:nowrap;transition:background 150ms ease-out" style-hover="background:#E6E9EE;color:#1E232B">Записатись</a>
+      </div>
+    </article>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:720},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;}}">
+class Component extends DCLogic {
+  state = { vw: null };
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const m = device === 'mobile';
+    const d = device === 'desktop';
+    return {
+      pad: d ? '0 64px 100px' : device === 'tablet' ? '0 32px 75px' : '0 16px 75px',
+      cols: m ? 'minmax(0, 1fr)' : 'repeat(2, minmax(0, 1fr))',
+      rows: m ? 'auto' : 'repeat(2, minmax(0, auto))',
+      rightCol: m ? '1' : '2',
+      rightRow: m ? '3' : '1 / span 2',
+      gap: m ? '16px' : '24px',
+      cardMin: d ? '296px' : device === 'tablet' ? '280px' : '360px',
+      cardPad: d ? '48px' : device === 'tablet' ? '32px' : '24px',
+      textMax: m ? '100%' : '60%',
+      h3Size: m ? '24px' : '28px',
+      btnW: m ? '100%' : 'auto'
+    };
+  }
+}
+</script>
+</body>
+</html>
