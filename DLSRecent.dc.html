@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+</helmet>
+<sc-if value="{{ show }}" hint-placeholder-val="{{ true }}">
+<section aria-labelledby="recent-title" data-screen-label="Ви дивилися" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ headPad }};display:flex;justify-content:space-between;align-items:center;gap:24px">
+    <h2 id="recent-title" style="margin:0;min-width:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Ви дивилися</h2>
+    <sc-if value="{{ showArrows }}" hint-placeholder-val="{{ true }}">
+      <div style="flex-shrink:0;display:flex;align-items:center;gap:8px">
+        <button aria-label="Попередні" onClick="{{ scrollPrev }}" disabled="{{ atStart }}" style="width:48px;height:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #CDD2DA;border-radius:50%;background:#FCFCFD;color:{{ prevColor }};cursor:{{ prevCursor }};transition:border-color 150ms ease-out" style-hover="border-color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m15 18-6-6 6-6"></path></svg></button>
+        <button aria-label="Наступні" onClick="{{ scrollNext }}" disabled="{{ atEnd }}" style="width:48px;height:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #CDD2DA;border-radius:50%;background:#FCFCFD;color:{{ nextColor }};cursor:{{ nextCursor }};transition:border-color 150ms ease-out" style-hover="border-color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg></button>
+      </div>
+    </sc-if>
+  </div>
+  <div ref="{{ scrollRef }}" onScroll="{{ onScroll }}" style="margin:{{ scrollMargin }};padding:{{ scrollPad }};scroll-padding-left:{{ scrollSide }};display:flex;align-items:stretch;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none">
+    <sc-for list="{{ cards }}" as="c" hint-placeholder-count="6">
+      <div style="position:relative;z-index:1;flex:0 0 224px;width:224px;min-width:0;display:flex;scroll-snap-align:start" style-hover="z-index:3">
+        <dc-import name="DLSProductCard" style="width:100%;height:100%" donor="{{ c.donor }}" model="{{ c.model }}" brand="{{ c.brand }}" part-name="{{ c.name }}" oem="{{ c.oem }}" price="{{ c.price }}" old-price="{{ c.oldPrice }}" popular="{{ c.popular }}" fits="{{ c.fits }}" favorite="{{ c.favorite }}" specs="{{ c.specs }}" photos="{{ c.photos }}" hint-size="224px,520px"></dc-import>
+      </div>
+    </sc-for>
+  </div>
+</section>
+</sc-if>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:820},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;},&quot;history&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;demo&quot;,&quot;cookie&quot;,&quot;empty&quot;],&quot;default&quot;:&quot;demo&quot;,&quot;tsType&quot;:&quot;'demo'|'cookie'|'empty'&quot;},&quot;currentId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const CATALOG = {
+  'MN184022': ['Mitsubishi L200 2005–2015', 'L200 2005–2015', 'mitsubishi', 'Амортизатор задній', '1 400 ₴', 5, [['Стан', 'Б/в, оригінал'], ['Вісь', 'Задня'], ['Тип', 'Масляний'], ['Пробіг донора', '164 000 км']]],
+  '10102-EB3A0': ['Nissan Navara 2005–2015', 'Navara 2005–2015', 'nissan', 'Двигун 2.5 dCi YD25', '85 000 ₴', 12, [['Стан', 'Б/в, перевірений'], ['Об’єм', '2.5 л'], ['Паливо', 'Дизель'], ['Пробіг', '148 000 км']]],
+  '8100A512': ['Mitsubishi L200 2005–2015', 'L200 2005–2015', 'mitsubishi', 'Щиток приладів', '2 600 ₴', 6, [['Стан', 'Б/в, перевірений'], ['Шкала', 'Км/год'], ['Тахометр', 'Так'], ['Пробіг донора', '201 000 км']]],
+  '55156452AF': ['Jeep Grand Cherokee 2004–2007', 'Grand Cherokee 2004–2007', 'jeep', 'Дзеркало праве з підігрівом', '2 900 ₴', 5, [['Стан', 'Б/в, оригінал'], ['Сторона', 'Права'], ['Підігрів', 'Так'], ['Складання', 'Електричне']]],
+  '25310-3E350': ['Kia Sorento 2002–2014', 'Sorento 2002–2014', 'kia', 'Радіатор охолодження 2.5 CRDi', '3 200 ₴', 4, [['Стан', 'Б/в, оригінал'], ['Матеріал', 'Алюміній'], ['Двигун', '2.5 CRDi'], ['КПП', 'Механіка / автомат']]],
+  'MR580741': ['Mitsubishi Pajero Sport 1996–2008', 'Pajero Sport 1996–2008', 'mitsubishi', 'Роздатка Super Select', '16 500 ₴', 8, [['Стан', 'Б/в, перевірена'], ['Тип', 'Super Select 4WD'], ['Двигун', '3.0 V6 6G72'], ['Пробіг донора', '172 000 км']]]
+};
+const DEMO = ['MN184022', '10102-EB3A0', '8100A512', '55156452AF', '25310-3E350', 'MR580741'];
+const COOKIE = 'dlsRecent', MAX = 12;
+const STEP = 224 + 24;
+const readIds = () => {
+  try { const m = document.cookie.match(/(?:^|; )dlsRecent=([^;]*)/); return m ? JSON.parse(decodeURIComponent(m[1])) : []; } catch (_) { return []; }
+};
+const writeIds = ids => { try { document.cookie = `${COOKIE}=${encodeURIComponent(JSON.stringify(ids))}; max-age=${60 * 60 * 24 * 90}; path=/; SameSite=Lax`; } catch (_) {} };
+
+class Component extends DCLogic {
+  state = { vw: null, atStart: true, atEnd: false, ids: null };
+  scrollRef = React.createRef();
+
+  componentDidMount() {
+    const cur = this.props.currentId;
+    const prev = readIds().filter(id => id !== cur);
+    this.setState({ ids: prev.slice(0, MAX) });
+    if (cur) writeIds([cur, ...prev].slice(0, MAX + 1));
+    this.onResize = () => { this.setState({ vw: window.innerWidth }); this.syncEdges(); };
+    window.addEventListener('resize', this.onResize);
+    requestAnimationFrame(() => this.syncEdges());
+  }
+  componentDidUpdate() { this.syncEdges(); }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+
+  syncEdges() {
+    const el = this.scrollRef.current;
+    if (!el) return;
+    const atStart = el.scrollLeft <= 2, atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2;
+    if (atStart !== this.state.atStart || atEnd !== this.state.atEnd) this.setState({ atStart, atEnd });
+  }
+
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const m = device === 'mobile';
+    const pad = device === 'desktop' ? 64 : device === 'tablet' ? 32 : 16;
+    const sectionPad = device === 'desktop' ? 100 : 75;
+    const headGap = m ? 32 : 48;
+    const side = `max(${pad}px, calc((100% - 1312px) / 2))`;
+    const bottom = Math.max(168, sectionPad);
+
+    const mode = this.props.history ?? 'demo';
+    const cur = this.props.currentId;
+    const source = mode === 'empty' ? [] : mode === 'cookie' ? (this.state.ids ?? []) : DEMO;
+    const cards = source.filter(id => id !== cur && CATALOG[id]).slice(0, MAX).map(id => {
+      const [donor, model, brand, name, price, photos, specs] = CATALOG[id];
+      return { donor, model, brand, name, oem: id, price, oldPrice: null, photos, specs, popular: false, fits: false, favorite: false };
+    });
+
+    const s = this.state;
+    return {
+      show: cards.length > 0,
+      headPad: `0 ${pad}px`,
+      h2Size: device === 'desktop' ? '40px' : device === 'tablet' ? '28px' : '24px',
+      showArrows: !m && cards.length > 1,
+      atStart: s.atStart, atEnd: s.atEnd,
+      prevColor: s.atStart ? '#A9B0BB' : '#1E232B', prevCursor: s.atStart ? 'default' : 'pointer',
+      nextColor: s.atEnd ? '#A9B0BB' : '#1E232B', nextCursor: s.atEnd ? 'default' : 'pointer',
+      scrollPrev: () => this.scrollRef.current?.scrollBy({ left: -STEP, behavior: 'smooth' }),
+      scrollNext: () => this.scrollRef.current?.scrollBy({ left: STEP, behavior: 'smooth' }),
+      scrollRef: this.scrollRef,
+      onScroll: () => this.syncEdges(),
+      scrollSide: side,
+      scrollPad: `24px ${side} ${bottom}px`,
+      scrollMargin: `${headGap - 24}px 0 ${sectionPad - bottom}px`,
+      cards
+    };
+  }
+}
+</script>
+</body>
+</html>

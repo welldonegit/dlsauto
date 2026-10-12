@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>DLSAuto — Оформлення замовлення</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;background:#FFFFFF;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}textarea,input,select{font-family:inherit}</style>
+</helmet>
+<dc-import name="DLSHeaderHero" hero="{{ false }}" hint-size="100%,168px"></dc-import>
+
+<main data-screen-label="Оформлення замовлення" style="font-family:'Golos Text',sans-serif;color:#1E232B;background:#FFFFFF">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pagePad }};display:grid;grid-template-columns:{{ cols }};justify-content:space-between;align-items:start;row-gap:32px">
+
+    <form onSubmit="{{ onSubmit }}" novalidate="" style="order:{{ formOrder }};min-width:0;display:flex;flex-direction:column;gap:{{ sectionGap }}">
+      <section aria-labelledby="co-contacts" style="display:flex;flex-direction:column;gap:24px">
+        <h2 id="co-contacts" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Контактні дані</h2>
+        <div ref="{{ fName.ref }}">
+          <div style="position:relative;height:48px;box-sizing:border-box;border:1px solid {{ fName.border }};border-radius:8px;background:#F3F5F7;transition:border-color 150ms ease-out">
+            <label for="co-name" style="position:absolute;left:16px;top:{{ fName.lTop }};font-size:{{ fName.lSize }};line-height:1.2;color:#6B7380;pointer-events:none;transition:top 150ms ease-out, font-size 150ms ease-out">Ім'я та прізвище*</label>
+            <input id="co-name" autocomplete="name" value="{{ fName.value }}" onChange="{{ fName.onChange }}" onFocus="{{ fName.onFocus }}" onBlur="{{ fName.onBlur }}" style="width:100%;height:100%;box-sizing:border-box;padding:18px 16px 4px;border:none;outline:none;background:transparent;font-size:16px;line-height:20px;color:#1E232B">
+          </div>
+          <sc-if value="{{ fName.hasErr }}" hint-placeholder-val="{{ false }}"><p style="margin:4px 0 0;font-size:13px;line-height:18px;color:#E0001B">Заповніть це поле</p></sc-if>
+        </div>
+        <div style="display:grid;grid-template-columns:{{ pairCols }};gap:16px;align-items:start">
+          <div ref="{{ fPhone.ref }}">
+            <div style="position:relative;height:48px;box-sizing:border-box;border:1px solid {{ fPhone.border }};border-radius:8px;background:#F3F5F7;transition:border-color 150ms ease-out">
+              <label for="co-phone" style="position:absolute;left:16px;top:{{ fPhone.lTop }};font-size:{{ fPhone.lSize }};line-height:1.2;color:#6B7380;pointer-events:none;transition:top 150ms ease-out, font-size 150ms ease-out">Телефон*</label>
+              <input id="co-phone" ref="{{ fPhone.inputRef }}" type="tel" inputmode="tel" autocomplete="tel" value="{{ fPhone.value }}" onChange="{{ fPhone.onChange }}" onKeyDown="{{ fPhone.onKeyDown }}" onFocus="{{ fPhone.onFocus }}" onClick="{{ fPhone.onClick }}" onBlur="{{ fPhone.onBlur }}" style="width:100%;height:100%;box-sizing:border-box;padding:18px 16px 4px;border:none;outline:none;background:transparent;font-size:16px;line-height:20px;color:#1E232B">
+            </div>
+            <sc-if value="{{ fPhone.hasErr }}" hint-placeholder-val="{{ false }}"><p style="margin:4px 0 0;font-size:13px;line-height:18px;color:#E0001B">Заповніть це поле</p></sc-if>
+            <p style="margin:4px 0 0;font-size:13px;line-height:18px;color:#4A5260">Зателефонуємо для підтвердження замовлення</p>
+          </div>
+          <div>
+            <div style="position:relative;height:48px;box-sizing:border-box;border:1px solid {{ fEmail.border }};border-radius:8px;background:#F3F5F7;transition:border-color 150ms ease-out">
+              <label for="co-email" style="position:absolute;left:16px;top:{{ fEmail.lTop }};font-size:{{ fEmail.lSize }};line-height:1.2;color:#6B7380;pointer-events:none;transition:top 150ms ease-out, font-size 150ms ease-out">Email</label>
+              <input id="co-email" type="email" autocomplete="email" value="{{ fEmail.value }}" onChange="{{ fEmail.onChange }}" onFocus="{{ fEmail.onFocus }}" onBlur="{{ fEmail.onBlur }}" style="width:100%;height:100%;box-sizing:border-box;padding:18px 16px 4px;border:none;outline:none;background:transparent;font-size:16px;line-height:20px;color:#1E232B">
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section aria-labelledby="co-delivery" style="display:flex;flex-direction:column;gap:24px">
+        <h2 id="co-delivery" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Доставка</h2>
+        <div role="radiogroup" aria-labelledby="co-delivery" style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ deliveries }}" as="c" hint-placeholder-count="3">
+            <div style="display:flex;flex-direction:column">
+              <button type="button" role="radio" aria-checked="{{ c.active }}" onClick="{{ c.select }}" style="width:100%;box-sizing:border-box;padding:16px;display:grid;grid-template-columns:{{ cardCols }};align-items:center;column-gap:12px;row-gap:4px;border:1px solid {{ c.border }};border-radius:8px;background:{{ c.bg }};box-shadow:{{ c.ring }};font:inherit;text-align:left;color:#1E232B;cursor:pointer;transition:border-color 150ms ease-out, background 150ms ease-out, box-shadow 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+                <span aria-hidden="true" style="width:20px;height:20px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border:{{ c.radioBorder }};border-radius:50%;background:#FFFFFF;transition:border 150ms ease-out"><span style="width:10px;height:10px;border-radius:50%;background:#1E232B;transform:{{ c.dotT }};transition:transform 150ms ease-out"></span></span>
+                <span aria-hidden="true" style="width:24px;height:24px;display:flex;color:#1E232B">
+                  <sc-if value="{{ c.isNp }}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path><path d="M12 22V12"></path><path d="m3.3 7 8.7 5 8.7-5"></path></svg></sc-if>
+                  <sc-if value="{{ c.isDel }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg></sc-if>
+                  <sc-if value="{{ c.isPick }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"></path><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"></path><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"></path></svg></sc-if>
+                </span>
+                <span style="min-width:0;display:flex;flex-direction:column">
+                  <span style="font-size:16px;line-height:24px;font-weight:600;color:#1E232B">{{ c.name }}</span>
+                  <span style="font-size:14px;line-height:20px;color:#4A5260;text-wrap:pretty">{{ c.cond }}</span>
+                </span>
+                <span style="grid-column:{{ priceCol }};justify-self:{{ priceJustify }};font-size:14px;line-height:20px;font-weight:500;color:#1E232B;text-align:right;white-space:nowrap">{{ c.price }}</span>
+              </button>
+              <div style="display:grid;grid-template-rows:{{ c.rows }};visibility:{{ c.vis }};transition:grid-template-rows 200ms ease-out, visibility 200ms">
+                <div style="min-height:0;overflow:{{ c.ovf }}">
+                  <sc-if value="{{ c.isNp }}" hint-placeholder-val="{{ true }}">
+                    <div style="padding-top:24px;display:flex;flex-direction:column;gap:16px">
+                      <h3 style="margin:0;font-size:18px;line-height:24px;font-weight:600;letter-spacing:-0.01em;color:#1E232B">Вкажіть адресу доставки</h3>
+                      <div style="position:relative">
+                        <button type="button" aria-haspopup="listbox" aria-expanded="{{ npTypeOpen }}" onClick="{{ toggleType }}" onBlur="{{ closeDd }}" style="position:relative;width:100%;height:56px;box-sizing:border-box;padding:0 48px 0 16px;border-radius:8px;font-size:16px;line-height:20px;text-align:left;font-family:inherit;outline:none;transition:background-color 150ms ease-out, border-color 150ms ease-out;border:1px solid {{ npTypeBorder }};background:{{ npTypeBg }};color:#1E232B;cursor:pointer">{{ npTypeLabel }}</button>
+                        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="position:absolute;right:16px;top:17px;pointer-events:none;fill:none;stroke:#1E232B;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ npTypeRot }});transition:transform 150ms ease-out"><path d="m6 9 6 6 6-6"></path></svg>
+                        <sc-if value="{{ npTypeOpen }}" hint-placeholder-val="{{ false }}">
+                            <ul role="listbox" style="position:absolute;z-index:6;top:60px;left:0;right:0;margin:0;padding:0;list-style:none;background:#FFFFFF;border:1px solid #E6E9EE;border-radius:8px;overflow:hidden;box-shadow:0 12px 32px rgba(18,22,28,0.16)">
+                              <sc-for list="{{ npTypes }}" as="o" hint-placeholder-count="3">
+                                <li role="option" aria-selected="{{ o.sel }}" onMouseDown="{{ o.pick }}" style="padding:14px 16px;font-size:16px;line-height:20px;background:{{ o.bg }};color:{{ o.color }};cursor:pointer" style-hover="background:{{ o.hoverBg }}">{{ o.label }}</li>
+                              </sc-for>
+                            </ul>
+                        </sc-if>
+                      </div>
+                      <div ref="{{ c.cityRef }}" style="position:relative">
+                        <input id="{{ c.cityId }}" autocomplete="off" role="combobox" aria-label="Місто" aria-expanded="{{ showNpSugg }}" placeholder="Оберіть місто" value="{{ fCity.value }}" onChange="{{ fCity.onChange }}" onFocus="{{ fCity.onFocus }}" onBlur="{{ fCity.onBlur }}" style="position:relative;width:100%;height:56px;box-sizing:border-box;padding:0 48px 0 16px;border-radius:8px;font-size:16px;line-height:20px;text-align:left;font-family:inherit;outline:none;transition:background-color 150ms ease-out, border-color 150ms ease-out;border:1px solid {{ npCityBorder }};background:{{ npCityBg }};color:#1E232B">
+                        <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="position:absolute;right:16px;top:17px;pointer-events:none;fill:none;stroke:#1E232B;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ npCityRot }});transition:transform 150ms ease-out"><path d="m6 9 6 6 6-6"></path></svg>
+                        <sc-if value="{{ showNpSugg }}" hint-placeholder-val="{{ false }}">
+                            <ul role="listbox" style="position:absolute;z-index:6;top:60px;left:0;right:0;max-height:280px;overflow-y:auto;margin:0;padding:0;list-style:none;background:#FFFFFF;border:1px solid #E6E9EE;border-radius:8px;box-shadow:0 12px 32px rgba(18,22,28,0.16)">
+                              <sc-for list="{{ npSugg }}" as="sg" hint-placeholder-count="4">
+                                <li role="option" onMouseDown="{{ sg.pick }}" style="padding:14px 16px;font-size:16px;line-height:20px;background:{{ sg.bg }};color:{{ sg.color }};cursor:pointer" style-hover="background:{{ sg.hoverBg }}">{{ sg.label }}</li>
+                              </sc-for>
+                            </ul>
+                        </sc-if>
+                        <sc-if value="{{ fCity.hasErr }}" hint-placeholder-val="{{ false }}"><p style="margin:4px 0 0;font-size:13px;line-height:18px;color:#E0001B">Заповніть це поле</p></sc-if>
+                      </div>
+                      <div ref="{{ c.branchRef }}" style="position:relative">
+                        <sc-if value="{{ npPoint }}" hint-placeholder-val="{{ true }}">
+                          <div style="position:relative">
+                            <button type="button" aria-haspopup="listbox" aria-expanded="{{ npBranchOpen }}" disabled="{{ branchDisabled }}" onClick="{{ toggleBranch }}" onBlur="{{ closeDd }}" style="position:relative;width:100%;height:56px;box-sizing:border-box;padding:0 48px 0 16px;border-radius:8px;font-size:16px;line-height:20px;text-align:left;font-family:inherit;outline:none;transition:background-color 150ms ease-out, border-color 150ms ease-out;border:1px solid {{ npBranchBorder }};background:{{ npBranchBg }};color:{{ npBranchColor }};opacity:{{ branchOp }};cursor:{{ branchCursor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ npBranchLabel }}</button>
+                            <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="position:absolute;right:16px;top:17px;pointer-events:none;fill:none;stroke:#1E232B;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ npBranchRot }});transition:transform 150ms ease-out"><path d="m6 9 6 6 6-6"></path></svg>
+                            <sc-if value="{{ npBranchOpen }}" hint-placeholder-val="{{ false }}">
+                                <ul role="listbox" style="position:absolute;z-index:6;top:60px;left:0;right:0;margin:0;padding:0;list-style:none;background:#FFFFFF;border:1px solid #E6E9EE;border-radius:8px;overflow:hidden;box-shadow:0 12px 32px rgba(18,22,28,0.16)">
+                              <sc-for list="{{ npBranches }}" as="o" hint-placeholder-count="3">
+                                <li role="option" aria-selected="{{ o.sel }}" onMouseDown="{{ o.pick }}" style="padding:14px 16px;font-size:16px;line-height:20px;background:{{ o.bg }};color:{{ o.color }};cursor:pointer" style-hover="background:{{ o.hoverBg }}">{{ o.label }}</li>
+                              </sc-for>
+                            </ul>
+                            </sc-if>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ npDoor }}" hint-placeholder-val="{{ false }}">
+                          <input id="{{ c.branchId }}" autocomplete="street-address" aria-label="Адреса" placeholder="Вулиця, будинок, квартира" value="{{ fBranch.value }}" onChange="{{ fBranch.onChange }}" onFocus="{{ fBranch.onFocus }}" onBlur="{{ fBranch.onBlur }}" style="position:relative;width:100%;height:56px;box-sizing:border-box;padding:0 48px 0 16px;border-radius:8px;font-size:16px;line-height:20px;text-align:left;font-family:inherit;outline:none;transition:background-color 150ms ease-out, border-color 150ms ease-out;padding:0 16px;border:1px solid {{ npDoorBorder }};background:#FFFFFF;color:#1E232B">
+                        </sc-if>
+                        <sc-if value="{{ fBranch.hasErr }}" hint-placeholder-val="{{ false }}"><p style="margin:4px 0 0;font-size:13px;line-height:18px;color:#E0001B">Заповніть це поле</p></sc-if>
+                      </div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ c.isDel }}" hint-placeholder-val="{{ false }}">
+                    <div style="padding-top:16px;display:grid;grid-template-columns:{{ pairCols }};gap:16px;align-items:start">
+                      <div ref="{{ c.cityRef }}" style="position:relative">
+                        <div style="position:relative;height:48px;box-sizing:border-box;border:1px solid {{ fCity.border }};border-radius:8px;background:#F3F5F7;transition:border-color 150ms ease-out">
+                          <label for="{{ c.cityId }}" style="position:absolute;left:16px;top:{{ fCity.lTop }};font-size:{{ fCity.lSize }};line-height:1.2;color:#6B7380;pointer-events:none;transition:top 150ms ease-out, font-size 150ms ease-out">Місто*</label>
+                          <input id="{{ c.cityId }}" autocomplete="off" role="combobox" aria-expanded="{{ showSugg }}" value="{{ fCity.value }}" onChange="{{ fCity.onChange }}" onFocus="{{ fCity.onFocus }}" onBlur="{{ fCity.onBlur }}" style="width:100%;height:100%;box-sizing:border-box;padding:18px 16px 4px;border:none;outline:none;background:transparent;font-size:16px;line-height:20px;color:#1E232B">
+                        </div>
+                        <sc-if value="{{ showSugg }}" hint-placeholder-val="{{ false }}">
+                          <ul role="listbox" style="position:absolute;z-index:5;top:52px;left:0;right:0;margin:0;padding:4px;list-style:none;background:#FFFFFF;border:1px solid #E6E9EE;border-radius:8px;box-shadow:0 12px 32px rgba(18,22,28,0.16)">
+                            <sc-for list="{{ sugg }}" as="sg" hint-placeholder-count="4">
+                              <li role="option" onMouseDown="{{ sg.pick }}" style="padding:10px 12px;border-radius:8px;font-size:16px;line-height:20px;color:#1E232B;cursor:pointer" style-hover="background:#F3F5F7">{{ sg.name }}</li>
+                            </sc-for>
+                          </ul>
+                        </sc-if>
+                        <sc-if value="{{ fCity.hasErr }}" hint-placeholder-val="{{ false }}"><p style="margin:4px 0 0;font-size:13px;line-height:18px;color:#E0001B">Заповніть це поле</p></sc-if>
+                      </div>
+                      <div ref="{{ c.branchRef }}">
+                        <div style="position:relative;height:48px;box-sizing:border-box;border:1px solid {{ fBranch.border }};border-radius:8px;background:#F3F5F7;opacity:{{ branchOp }};transition:border-color 150ms ease-out, opacity 150ms ease-out">
+                          <label for="{{ c.branchId }}" style="position:absolute;left:16px;top:{{ fBranch.lTop }};font-size:{{ fBranch.lSize }};line-height:1.2;color:#6B7380;pointer-events:none;transition:top 150ms ease-out, font-size 150ms ease-out">Відділення*</label>
+                          <select id="{{ c.branchId }}" disabled="{{ branchDisabled }}" value="{{ fBranch.value }}" onChange="{{ fBranch.onChange }}" onFocus="{{ fBranch.onFocus }}" onBlur="{{ fBranch.onBlur }}" style="width:100%;height:100%;box-sizing:border-box;padding:18px 40px 4px 16px;border:none;outline:none;background:transparent;font-size:16px;line-height:20px;color:#1E232B;appearance:none;-webkit-appearance:none;cursor:{{ branchCursor }}">
+                            <option value="" disabled="{{ true }}" hidden="{{ true }}"></option>
+                            <sc-for list="{{ branches }}" as="br" hint-placeholder-count="3">
+                              <option value="{{ br }}">{{ br }}</option>
+                            </sc-for>
+                          </select>
+                          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="position:absolute;right:12px;top:14px;pointer-events:none;fill:none;stroke:#4A5260;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m6 9 6 6 6-6"></path></svg>
+                        </div>
+                        <sc-if value="{{ fBranch.hasErr }}" hint-placeholder-val="{{ false }}"><p style="margin:4px 0 0;font-size:13px;line-height:18px;color:#E0001B">Заповніть це поле</p></sc-if>
+                      </div>
+                    </div>
+                  </sc-if>
+                  <sc-if value="{{ c.isPick }}" hint-placeholder-val="{{ false }}">
+                    <p style="margin:0;padding-top:16px;font-size:14px;line-height:1.5;color:#1E232B">Відкладемо деталь на 3 дні. Підготуємо до огляду перед оплатою.</p>
+                  </sc-if>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </section>
+
+      <section aria-labelledby="co-payment" style="display:flex;flex-direction:column;gap:24px">
+        <h2 id="co-payment" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Оплата</h2>
+        <div role="radiogroup" aria-labelledby="co-payment" style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ payments }}" as="c" hint-placeholder-count="2">
+            <button type="button" role="radio" aria-checked="{{ c.active }}" aria-disabled="{{ c.disabled }}" onClick="{{ c.select }}" style="width:100%;box-sizing:border-box;padding:16px;display:grid;grid-template-columns:20px 24px minmax(0,1fr);align-items:center;column-gap:12px;border:1px solid {{ c.border }};border-radius:8px;background:{{ c.bg }};box-shadow:{{ c.ring }};font:inherit;text-align:left;color:#1E232B;cursor:{{ c.cursor }};opacity:{{ c.op }};transition:border-color 150ms ease-out, background 150ms ease-out, box-shadow 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+              <span aria-hidden="true" style="width:20px;height:20px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border:{{ c.radioBorder }};border-radius:50%;background:#FFFFFF;transition:border 150ms ease-out"><span style="width:10px;height:10px;border-radius:50%;background:#1E232B;transform:{{ c.dotT }};transition:transform 150ms ease-out"></span></span>
+              <span aria-hidden="true" style="width:24px;height:24px;display:flex;color:#1E232B">
+                <sc-if value="{{ c.isCard }}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><rect width="20" height="14" x="2" y="5" rx="2"></rect><path d="M2 10h20"></path></svg></sc-if>
+                <sc-if value="{{ c.isCod }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><rect width="20" height="12" x="2" y="6" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg></sc-if>
+                <sc-if value="{{ c.isPart }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M19 5 5 19"></path><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg></sc-if>
+              </span>
+              <span style="min-width:0;display:flex;flex-direction:column">
+                <span style="font-size:16px;line-height:24px;font-weight:600;color:#1E232B">{{ c.name }}</span>
+                <span style="font-size:14px;line-height:20px;color:#4A5260;text-wrap:pretty">{{ c.cond }}</span>
+                <sc-if value="{{ c.disabled }}" hint-placeholder-val="{{ false }}"><span style="margin-top:4px;font-size:13px;line-height:18px;color:#4A5260">Недоступно для габаритних деталей</span></sc-if>
+              </span>
+            </button>
+          </sc-for>
+        </div>
+      </section>
+
+      <section aria-labelledby="co-comment" style="display:flex;flex-direction:column;gap:24px">
+        <h2 id="co-comment" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Коментар до замовлення</h2>
+        <div style="position:relative;box-sizing:border-box;border:1px solid {{ fComment.border }};border-radius:8px;background:#F3F5F7;transition:border-color 150ms ease-out">
+          <label for="co-comment-f" style="position:absolute;left:16px;top:{{ fComment.lTopArea }};font-size:{{ fComment.lSize }};line-height:1.2;color:#6B7380;pointer-events:none;transition:top 150ms ease-out, font-size 150ms ease-out">Побажання до доставки, запитання про деталь</label>
+          <textarea id="co-comment-f" rows="3" value="{{ fComment.value }}" onChange="{{ fComment.onChange }}" onFocus="{{ fComment.onFocus }}" onBlur="{{ fComment.onBlur }}" style="display:block;width:100%;box-sizing:border-box;padding:24px 16px 12px;border:none;outline:none;background:transparent;font-size:16px;line-height:24px;color:#1E232B;resize:vertical"></textarea>
+        </div>
+      </section>
+
+      <sc-if value="{{ single }}" hint-placeholder-val="{{ false }}">
+        <div ref="{{ agreeRefB }}" style="display:flex;flex-direction:column;gap:16px">
+          <label style="display:flex;align-items:flex-start;gap:12px;font-size:14px;line-height:20px;color:#1E232B;cursor:pointer">
+            <input type="checkbox" checked="{{ agree }}" onChange="{{ toggleAgree }}" style="position:absolute;opacity:0;width:1px;height:1px">
+            <span aria-hidden="true" style="width:20px;height:20px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border:1px solid {{ agreeBorder }};border-radius:4px;background:{{ agreeBg }};color:#FCFCFD;transition:background 150ms ease-out, border-color 150ms ease-out"><svg viewBox="0 0 24 24" width="14" height="14" style="opacity:{{ agreeTick }};fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+            <span>Погоджуюсь з <a href="#" style="color:#1E232B;text-decoration:underline;text-underline-offset:3px">умовами оформлення</a> та <a href="#" style="color:#1E232B;text-decoration:underline;text-underline-offset:3px">обробкою персональних даних</a></span>
+          </label>
+          <sc-if value="{{ agreeErr }}" hint-placeholder-val="{{ false }}"><p style="margin:-8px 0 0 32px;font-size:13px;line-height:18px;color:#E0001B">Підтвердіть згоду, щоб оформити замовлення</p></sc-if>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ trust }}" as="tr" hint-placeholder-count="3">
+              <span style="display:flex;align-items:center;gap:8px;font-size:13px;line-height:18px;color:#4A5260"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="{{ tr.d }}"></path><path d="{{ tr.d2 }}"></path></svg>{{ tr.text }}</span>
+            </sc-for>
+          </div>
+          <sc-if value="{{ done }}" hint-placeholder-val="{{ false }}"><p role="status" style="margin:0;font-size:14px;line-height:20px;font-weight:500;color:#1F8A4C">Дякуємо! Замовлення прийнято — зателефонуємо для підтвердження.</p></sc-if>
+        </div>
+      </sc-if>
+    </form>
+
+    <aside aria-label="Ваше замовлення" style="order:{{ sumOrder }};position:{{ sumPos }};top:24px;min-width:0;box-sizing:border-box;padding:{{ sumPad }};border:1px solid #E6E9EE;border-radius:16px;background:#FFFFFF">
+      <sc-if value="{{ twoCol }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:baseline;gap:8px">
+          <h2 style="margin:0;font-size:20px;line-height:1.3;font-weight:600;color:#1E232B">Ваше замовлення</h2>
+          <span style="font-size:20px;line-height:1.3;color:#4A5260">({{ count }})</span>
+        </div>
+      </sc-if>
+      <sc-if value="{{ single }}" hint-placeholder-val="{{ false }}">
+        <button type="button" aria-expanded="{{ sumOpen }}" onClick="{{ toggleSum }}" style="width:100%;padding:0;display:flex;align-items:center;gap:8px;border:none;background:none;font:inherit;color:#1E232B;cursor:pointer;text-align:left">
+          <span style="font-size:18px;line-height:1.3;font-weight:600">Ваше замовлення</span>
+          <span style="font-size:18px;line-height:1.3;color:#4A5260">({{ count }})</span>
+          <span style="margin-left:auto;font-size:18px;line-height:1.3;font-weight:600;white-space:nowrap">{{ totalText }}</span>
+          <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:#1E232B;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:{{ chevT }};transition:transform 200ms ease-out"><path d="m6 9 6 6 6-6"></path></svg>
+        </button>
+      </sc-if>
+      <div style="display:grid;grid-template-rows:{{ sumRows }};transition:grid-template-rows 200ms ease-out">
+        <div style="min-height:0;overflow:{{ c.ovf }}">
+          <div style="margin-top:16px;border-top:1px solid #E6E9EE"></div>
+          <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+            <p style="margin:0;padding:24px 0;font-size:15px;line-height:1.5;color:#4A5260">У кошику поки порожньо</p>
+          </sc-if>
+          <sc-for list="{{ items }}" as="it" hint-placeholder-count="2">
+            <div style="padding:16px 0;display:flex;gap:12px;border-bottom:1px solid #E6E9EE">
+              <img src="{{ it.photo }}" alt="" style="width:64px;height:64px;flex-shrink:0;border-radius:8px;object-fit:cover;background:#F3F5F7;display:block">
+              <div style="flex:1;min-width:0">
+                <p style="margin:0;font-size:15px;line-height:20px;font-weight:600;color:#1E232B;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ it.name }}</p>
+                <p style="margin:2px 0 0;font-size:13px;line-height:18px;color:#4A5260">{{ it.donor }}</p>
+                <button type="button" onClick="{{ it.remove }}" style="margin-top:4px;padding:0;border:none;background:none;font:inherit;font-size:13px;line-height:18px;color:#4A5260;cursor:pointer" style-hover="color:#1E232B">Видалити</button>
+              </div>
+              <span style="flex-shrink:0;font-size:15px;line-height:20px;font-weight:600;color:#1E232B;white-space:nowrap">{{ it.priceText }}</span>
+            </div>
+          </sc-for>
+          <div style="padding:16px 0;display:flex;flex-direction:column;gap:8px;border-bottom:1px solid #E6E9EE">
+            <div style="display:flex;justify-content:space-between;gap:16px;font-size:15px;line-height:22px"><span style="color:#4A5260">Товари</span><span style="color:#1E232B;white-space:nowrap">{{ totalText }}</span></div>
+            <div style="display:flex;justify-content:space-between;gap:16px;font-size:15px;line-height:22px"><span style="color:#4A5260">Доставка</span><span style="color:#1E232B;text-align:right">{{ shipText }}</span></div>
+            <sc-if value="{{ isPartial }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;justify-content:space-between;gap:16px;font-size:15px;line-height:22px"><span style="color:#4A5260">Передплата</span><span style="color:#1E232B;text-align:right">[XX]% від суми</span></div>
+            </sc-if>
+          </div>
+          <div style="padding-top:16px;display:flex;align-items:baseline;justify-content:space-between;gap:16px">
+            <span style="font-size:18px;line-height:1.3;font-weight:600;color:#1E232B">Разом</span>
+            <span style="font-size:24px;line-height:1.2;font-weight:600;letter-spacing:-0.01em;color:#1E232B;white-space:nowrap">{{ totalText }}</span>
+          </div>
+        </div>
+      </div>
+      <sc-if value="{{ twoCol }}" hint-placeholder-val="{{ true }}">
+        <div ref="{{ agreeRefA }}" style="margin-top:24px;display:flex;flex-direction:column;gap:16px">
+          <button type="button" onClick="{{ onSubmit }}" aria-disabled="{{ cantSubmit }}" style="width:100%;height:56px;border:none;border-radius:8px;background:{{ ctaBg }};font:inherit;font-size:16px;font-weight:600;color:{{ ctaColor }};cursor:pointer;transition:background 150ms ease-out, color 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">Підтвердити замовлення</button>
+          <label style="display:flex;align-items:flex-start;gap:12px;font-size:14px;line-height:20px;color:#1E232B;cursor:pointer">
+            <input type="checkbox" checked="{{ agree }}" onChange="{{ toggleAgree }}" style="position:absolute;opacity:0;width:1px;height:1px">
+            <span aria-hidden="true" style="width:20px;height:20px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border:1px solid {{ agreeBorder }};border-radius:4px;background:{{ agreeBg }};color:#FCFCFD;transition:background 150ms ease-out, border-color 150ms ease-out"><svg viewBox="0 0 24 24" width="14" height="14" style="opacity:{{ agreeTick }};fill:none;stroke:currentColor;stroke-width:3;stroke-linecap:round;stroke-linejoin:round"><path d="M20 6 9 17l-5-5"></path></svg></span>
+            <span>Погоджуюсь з <a href="#" style="color:#1E232B;text-decoration:underline;text-underline-offset:3px">умовами оформлення</a> та <a href="#" style="color:#1E232B;text-decoration:underline;text-underline-offset:3px">обробкою персональних даних</a></span>
+          </label>
+          <sc-if value="{{ agreeErr }}" hint-placeholder-val="{{ false }}"><p style="margin:-8px 0 0 32px;font-size:13px;line-height:18px;color:#E0001B">Підтвердіть згоду, щоб оформити замовлення</p></sc-if>
+          <sc-if value="{{ done }}" hint-placeholder-val="{{ false }}"><p role="status" style="margin:0;font-size:14px;line-height:20px;font-weight:500;color:#1F8A4C">Дякуємо! Замовлення прийнято — зателефонуємо для підтвердження.</p></sc-if>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ trust }}" as="tr" hint-placeholder-count="3">
+              <span style="display:flex;align-items:center;gap:8px;font-size:13px;line-height:18px;color:#4A5260"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="{{ tr.d }}"></path><path d="{{ tr.d2 }}"></path></svg>{{ tr.text }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+    </aside>
+  </div>
+</main>
+
+<sc-if value="{{ single }}" hint-placeholder-val="{{ false }}">
+  <div style="position:fixed;left:0;right:0;bottom:0;z-index:50;padding:12px {{ barSide }} calc(12px + env(safe-area-inset-bottom));background:#FFFFFF;box-shadow:0 -4px 16px rgba(18,22,28,0.08);font-family:'Golos Text',sans-serif">
+    <button type="button" onClick="{{ onSubmit }}" aria-disabled="{{ cantSubmit }}" style="width:100%;height:56px;border:none;border-radius:8px;background:{{ ctaBg }};font:inherit;font-size:16px;font-weight:600;color:{{ ctaColor }};cursor:pointer;transition:background 150ms ease-out, color 150ms ease-out">Підтвердити замовлення</button>
+  </div>
+</sc-if>
+<dc-import name="DLSFooter" hint-size="100%,1100px"></dc-import>
+<dc-import name="DLSCart" hint-size="0px,0px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;wide&quot;,&quot;mid&quot;,&quot;tab&quot;,&quot;mob&quot;],&quot;tsType&quot;:&quot;'wide'|'mid'|'tab'|'mob'|undefined&quot;},&quot;cart&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;default&quot;,&quot;bulky&quot;],&quot;default&quot;:&quot;default&quot;,&quot;tsType&quot;:&quot;'default'|'bulky'&quot;}}">
+const PHOTO = 'assets/part-hub.webp';
+const CARTS = {
+  default: [
+    { id: 'UR56-51-040', name: 'Фара ліва галоген', donor: 'Ford Ranger 2006–2012', price: 4500, bulky: false },
+    { id: 'MN184022', name: 'Амортизатор задній', donor: 'Mitsubishi L200 2005–2015', price: 1800, bulky: false }
+  ],
+  bulky: [
+    { id: 'UR56-51-040', name: 'Фара ліва галоген', donor: 'Ford Ranger 2006–2012', price: 4500, bulky: false },
+    { id: 'UR58-50-031', name: 'Бампер передній', donor: 'Ford Ranger / Mazda BT-50 2006–2012', price: 5900, bulky: true }
+  ]
+};
+const CITIES = ['Дніпро', 'Київ', 'Харків', 'Одеса', 'Львів', 'Запоріжжя', 'Кривий Ріг', 'Полтава', 'Вінниця', 'Черкаси', 'Кам\u2019янське', 'Павлоград', 'Нікополь'];
+const NP_TYPES = [['branch', 'на відділення'], ['door', 'до дверей'], ['locker', 'на поштомат']];
+const NP_BRANCHES = ['Відділення №1, вул. Центральна, 12', 'Відділення №4, просп. Перемоги, 38', 'Відділення №7, вул. Шевченка, 91', 'Відділення №15, вул. Січеславська Набережна, 29'];
+const NP_LOCKERS = ['Поштомат №1205, ТЦ «Мост-Сіті»', 'Поштомат №3318, вул. Яворницького, 50', 'Поштомат №4120, АТБ, просп. Слобожанський, 31'];
+const BRANCHES = ['Відділення №1, вул. Центральна, 12', 'Відділення №4, просп. Перемоги, 38', 'Відділення №7, вул. Шевченка, 91', 'Поштомат №1205, ТЦ «Мост-Сіті»'];
+const TRUST = [
+  { text: 'Відправка в день підтвердження', d: 'M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2M15 18H9M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14', d2: 'M7 18a2 2 0 1 0 0-.01M17 18a2 2 0 1 0 0-.01' },
+  { text: 'Гарантія до 60 днів', d: 'M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z', d2: 'm9 12 2 2 4-4' },
+  { text: 'Обмін або повернення, якщо не підійшла', d: 'M9 14 4 9l5-5', d2: 'M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11' }
+];
+const PHONE_MASK = '+38 (___) ___ __ __';
+const maskPhone = d => { let i = 0; return PHONE_MASK.replace(/_/g, () => (i < d.length ? d[i++] : '_')); };
+const phoneCaret = d => { if (!d.length) return PHONE_MASK.indexOf('_'); let n = 0; for (let p = 0; p < PHONE_MASK.length; p++) if (PHONE_MASK[p] === '_' && ++n === d.length) return p + 1; return PHONE_MASK.length; };
+const fmt = n => n.toLocaleString('uk-UA').replace(/\u00a0|,/g, ' ') + ' ₴';
+
+class Component extends DCLogic {
+  state = {
+    vw: null, focus: null, errs: {}, agree: false, done: false, sumOpen: false,
+    v: { name: '', phone: '', email: '', city: '', branch: '', comment: '', vin: '' },
+    citySel: false, npType: 'branch', dd: null, delivery: 'np', pay: 'card', removed: {}
+  };
+  fieldRefs = { name: React.createRef(), phone: React.createRef(), city_np: React.createRef(), branch_np: React.createRef(), city_del: React.createRef(), branch_del: React.createRef(), agreeA: React.createRef(), agreeB: React.createRef() };
+  phoneInput = React.createRef();
+  placePhoneCaret() {
+    requestAnimationFrame(() => { const el = this.phoneInput.current; if (el && document.activeElement === el) { const p = phoneCaret(this.state.v.phone); el.setSelectionRange(p, p); } });
+  }
+  phoneField() {
+    const f = this.field('phone');
+    const d = this.state.v.phone;
+    const shown = this.state.focus === 'phone' || d.length > 0;
+    return {
+      ...f,
+      inputRef: this.phoneInput,
+      value: shown ? maskPhone(d) : '',
+      onChange: e => {
+        let x = e.target.value.replace(/\D/g, '');
+        if (x.startsWith('38')) x = x.slice(2);
+        else if (x.startsWith('8') && x.length > 10) x = x.slice(1);
+        this.setVal('phone', x.slice(0, 10));
+        this.placePhoneCaret();
+      },
+      onKeyDown: e => {
+        if (e.key === 'Backspace' || e.key === 'Delete') {
+          e.preventDefault();
+          this.setVal('phone', this.state.v.phone.slice(0, -1));
+          this.placePhoneCaret();
+        }
+      },
+      onFocus: () => { this.setState({ focus: 'phone' }); this.placePhoneCaret(); },
+      onClick: () => this.placePhoneCaret()
+    };
+  }
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+
+  setVal(k, val, extra) {
+    this.setState(s => ({ v: { ...s.v, [k]: val }, errs: { ...s.errs, [k]: false }, done: false, ...(extra || {}) }));
+  }
+  field(k) {
+    const s = this.state;
+    const val = s.v[k];
+    const up = s.focus === k || !!val;
+    const err = !!s.errs[k];
+    return {
+      value: val,
+      onChange: e => {
+        const x = e.target.value;
+        if (k === 'city') this.setVal('city', x, { citySel: false, v: { ...this.state.v, city: x, branch: '' } });
+        else this.setVal(k, x);
+      },
+      onFocus: () => this.setState({ focus: k }),
+      onBlur: () => this.setState(st => (st.focus === k ? { focus: null } : null)),
+      lTop: up ? '6px' : '14px',
+      lTopArea: up ? '6px' : '14px',
+      lSize: up ? '12px' : '16px',
+      border: err ? '#E0001B' : (s.focus === k ? '#1E232B' : 'transparent'),
+      hasErr: err,
+      ref: this.fieldRefs[k]
+    };
+  }
+  missing() {
+    const s = this.state;
+    const post = s.delivery !== 'pickup';
+    const m = [];
+    if (!s.v.name.trim()) m.push('name');
+    if (s.v.phone.length < 10) m.push('phone');
+    if (post && !s.citySel) m.push('city');
+    if (post && !s.v.branch) m.push('branch');
+    if (!s.agree) m.push('agree');
+    return m;
+  }
+  submit(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    const miss = this.missing();
+    if (!miss.length) { this.setState({ errs: {}, done: true }); return; }
+    const errs = {}; miss.forEach(k => { errs[k] = true; });
+    this.setState({ errs, done: false }, () => {
+      const k = miss[0];
+      const suffix = this.state.delivery === 'delivery' ? '_del' : '_np';
+      const single = this.layout() === 'tab' || this.layout() === 'mob';
+      const ref = k === 'agree' ? (single ? this.fieldRefs.agreeB : this.fieldRefs.agreeA)
+        : (k === 'city' || k === 'branch') ? this.fieldRefs[k + suffix] : this.fieldRefs[k];
+      const el = ref && ref.current;
+      if (el) {
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 96, behavior: 'smooth' });
+        const f = el.querySelector('input,select');
+        if (f && k !== 'agree') setTimeout(() => f.focus({ preventScroll: true }), 350);
+      }
+    });
+  }
+  layout() {
+    const forced = this.props.layout;
+    if (forced) return forced;
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    return vw >= 1280 ? 'wide' : vw >= 1024 ? 'mid' : vw >= 768 ? 'tab' : 'mob';
+  }
+
+  renderVals() {
+    const s = this.state;
+    const L = this.layout();
+    const wide = L === 'wide', mid = L === 'mid', tab = L === 'tab', mob = L === 'mob';
+    const single = tab || mob;
+    const cart = (CARTS[this.props.cart] || CARTS.default).filter(x => !s.removed[x.id]);
+    const total = cart.reduce((a, x) => a + x.price, 0);
+    const bulky = cart.some(x => x.bulky);
+    let pay = s.pay;
+    if (bulky && pay === 'cod') pay = 'partial';
+    if (!bulky && pay === 'partial') pay = 'card';
+    const post = s.delivery !== 'pickup';
+
+    const radio = (active, disabled) => ({
+      active,
+      border: active ? '#1E232B' : '#E6E9EE',
+      ring: active ? 'inset 0 0 0 1px #1E232B' : 'none',
+      bg: active ? '#F6F6F6' : '#FFFFFF',
+      radioBorder: active ? '6px solid #1E232B' : '1px solid #CDD2DA',
+      dotT: 'scale(0)',
+      cursor: disabled ? 'not-allowed' : 'pointer',
+      op: disabled ? 0.5 : 1,
+      disabled: !!disabled
+    });
+    const DEL = [
+      ['np', 'Нова пошта', 'У відділення або поштомат, 1–2 дні', 'за тарифами перевізника'],
+      ['delivery', 'Delivery', 'У відділення, 1–3 дні. Для габаритних деталей', 'за тарифами перевізника'],
+      ['pickup', 'Самовивіз', 'Дніпро, [адреса], Пн–Сб 9:00–18:00', 'безкоштовно']
+    ];
+    const deliveries = DEL.map(([key, name, cond, price]) => {
+      const a = s.delivery === key;
+      const suf = key === 'delivery' ? '_del' : '_np';
+      return {
+        ...radio(a), key, name, cond, price,
+        isNp: key === 'np', isDel: key === 'delivery', isPick: key === 'pickup', isPost: key !== 'pickup',
+        rows: a ? '1fr' : '0fr', vis: a ? 'visible' : 'hidden',
+        ovf: a && (s.dd || s.focus === 'city') ? 'visible' : 'hidden',
+        cityId: 'co-city' + suf, branchId: 'co-branch' + suf,
+        cityRef: this.fieldRefs['city' + suf], branchRef: this.fieldRefs['branch' + suf],
+        select: () => this.setState(st => ({ delivery: key, errs: { ...st.errs, city: false, branch: false }, done: false }))
+      };
+    });
+    const PAY = [
+      ['card', 'Карткою онлайн', 'monoPay, Apple Pay, Google Pay'],
+      ['cod', 'При отриманні', 'Накладений платіж у відділенні або готівка при самовивозі'],
+      ['partial', 'Часткова передплата', 'Для габаритних деталей. Решта — при отриманні']
+    ].filter(p => p[0] !== 'partial' || bulky);
+    const payments = PAY.map(([key, name, cond]) => {
+      const dis = key === 'cod' && bulky;
+      return {
+        ...radio(pay === key, dis), key, name, cond,
+        isCard: key === 'card', isCod: key === 'cod', isPart: key === 'partial',
+        select: () => { if (!dis) this.setState({ pay: key }); }
+      };
+    });
+
+    const q = s.v.city.trim().toLowerCase();
+    const sugg = q && !s.citySel ? CITIES.filter(c => c.toLowerCase().startsWith(q)).slice(0, 6).map(name => ({
+      name, pick: e => { e.preventDefault(); this.setState(st => ({ v: { ...st.v, city: name, branch: '' }, citySel: true, errs: { ...st.errs, city: false }, focus: null })); }
+    })) : [];
+    const opt = (label, sel, pick) => ({ label, sel, pick, bg: sel ? '#1E232B' : '#FFFFFF', color: sel ? '#FFFFFF' : '#1E232B', hoverBg: sel ? '#1E232B' : '#F3F5F7' });
+    const npPts = s.npType === 'locker' ? NP_LOCKERS : NP_BRANCHES;
+    const npTypes = NP_TYPES.map(([k, label]) => opt(label, s.npType === k, e => { e.preventDefault(); this.setState(st => ({ npType: k, dd: null, v: st.npType === k ? st.v : { ...st.v, branch: '' }, errs: { ...st.errs, branch: false }, done: false })); }));
+    const npBranches = npPts.map(b => opt(b, s.v.branch === b, e => { e.preventDefault(); this.setState(st => ({ v: { ...st.v, branch: b }, dd: null, errs: { ...st.errs, branch: false }, done: false })); }));
+    const npQ = s.citySel ? '' : q;
+    const npSugg = CITIES.filter(c => !npQ || c.toLowerCase().startsWith(npQ)).map(name => opt(name, s.citySel && s.v.city === name, e => { e.preventDefault(); this.setState(st => ({ v: { ...st.v, city: name, branch: '' }, citySel: true, errs: { ...st.errs, city: false }, focus: null })); e.target.closest('[role=listbox]')?.parentElement?.querySelector('input')?.blur(); }));
+    const ddBorder = (open, err) => err ? '#E0001B' : (open ? '#F3F5F7' : '#E6E9EE');
+    const npVals = {
+      npTypes, npBranches, npSugg,
+      npTypeOpen: s.dd === 'type', npTypeLabel: NP_TYPES.find(t => t[0] === s.npType)[1],
+      npTypeBg: s.dd === 'type' ? '#F3F5F7' : '#FFFFFF', npTypeBorder: ddBorder(s.dd === 'type'), npTypeRot: s.dd === 'type' ? '180deg' : '0deg',
+      toggleType: () => this.setState(st => ({ dd: st.dd === 'type' ? null : 'type' })),
+      toggleBranch: () => this.setState(st => ({ dd: st.dd === 'branch' ? null : 'branch' })),
+      closeDd: () => this.setState({ dd: null }),
+      showNpSugg: s.focus === 'city' && npSugg.length > 0,
+      npCityBg: s.focus === 'city' ? '#F3F5F7' : '#FFFFFF', npCityBorder: ddBorder(s.focus === 'city', !!s.errs.city), npCityRot: s.focus === 'city' ? '180deg' : '0deg',
+      npPoint: s.npType !== 'door', npDoor: s.npType === 'door',
+      npBranchOpen: s.dd === 'branch', npBranchLabel: s.v.branch || (s.npType === 'locker' ? 'Оберіть поштомат' : 'Оберіть відділення'),
+      npBranchColor: s.v.branch ? '#1E232B' : '#6B7380',
+      npBranchBg: s.dd === 'branch' ? '#F3F5F7' : '#FFFFFF', npBranchBorder: ddBorder(s.dd === 'branch', !!s.errs.branch), npBranchRot: s.dd === 'branch' ? '180deg' : '0deg',
+      npDoorBorder: s.errs.branch ? '#E0001B' : (s.focus === 'branch' ? '#1E232B' : '#E6E9EE')
+    };
+    const valid = this.missing().length === 0;
+    const agreeErr = !!s.errs.agree;
+
+    return {
+      hdrPad: wide || mid ? '0 64px' : tab ? '0 32px' : '0 16px',
+      hdrH: mob ? '64px' : '80px',
+      logoSize: mob ? '20px' : '28px',
+      showSecureText: !mob,
+      showPhone: !mob,
+      pagePad: wide ? '48px 64px 100px' : mid ? '48px 32px 100px' : tab ? '32px 32px 120px' : '24px 16px 120px',
+      cols: wide ? 'minmax(0, 60%) minmax(0, 36%)' : mid ? 'minmax(0, 56%) minmax(0, 40%)' : 'minmax(0, 1fr)',
+      formOrder: single ? 2 : 1,
+      sumOrder: single ? 1 : 2,
+      sumPos: wide ? 'sticky' : 'relative',
+      sumPad: mob ? '16px' : '24px',
+      sectionGap: mob ? '48px' : '64px',
+      h2Size: wide ? '40px' : (mid || tab) ? '28px' : '24px',
+      pairCols: mob ? 'minmax(0, 1fr)' : 'repeat(2, minmax(0, 1fr))',
+      cardCols: mob ? '20px 24px minmax(0, 1fr)' : '20px 24px minmax(0, 1fr) auto',
+      priceCol: mob ? '3' : 'auto',
+      priceJustify: mob ? 'start' : 'end',
+      fName: this.field('name'), fPhone: this.phoneField(), fEmail: this.field('email'),
+      fCity: this.field('city'), fBranch: this.field('branch'), fComment: this.field('comment'),
+      deliveries, payments, ...npVals,
+      showSugg: s.focus === 'city' && sugg.length > 0,
+      sugg,
+      branches: BRANCHES,
+      branchDisabled: !s.citySel,
+      branchOp: s.citySel ? 1 : 0.5,
+      branchCursor: s.citySel ? 'pointer' : 'not-allowed',
+      single, twoCol: !single,
+      sumOpen: s.sumOpen,
+      sumRows: single && !s.sumOpen ? '0fr' : '1fr',
+      chevT: s.sumOpen ? 'rotate(180deg)' : 'none',
+      toggleSum: () => this.setState(st => ({ sumOpen: !st.sumOpen })),
+      count: cart.length,
+      hasItems: cart.length > 0,
+      isEmpty: cart.length === 0,
+      items: cart.map(x => ({ ...x, photo: PHOTO, priceText: fmt(x.price), remove: () => this.setState(st => ({ removed: { ...st.removed, [x.id]: true } })) })),
+      totalText: fmt(total),
+      shipText: post ? 'за тарифами перевізника' : 'безкоштовно',
+      isPartial: pay === 'partial',
+      agree: s.agree,
+      toggleAgree: () => this.setState(st => ({ agree: !st.agree, errs: { ...st.errs, agree: false }, done: false })),
+      agreeBorder: agreeErr ? '#E0001B' : (s.agree ? '#1E232B' : '#CDD2DA'),
+      agreeBg: s.agree ? '#1E232B' : '#FFFFFF',
+      agreeTick: s.agree ? 1 : 0,
+      agreeErr,
+      agreeRefA: this.fieldRefs.agreeA, agreeRefB: this.fieldRefs.agreeB,
+      trust: TRUST,
+      cantSubmit: !valid,
+      ctaBg: valid ? '#E0001B' : '#E6E9EE',
+      ctaColor: valid ? '#FCFCFD' : '#6B7380',
+      onSubmit: e => this.submit(e),
+      done: s.done,
+      barSide: mob ? '16px' : '32px'
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    { "source": "/catalog", "destination": "/DLSCatalog.dc.html" },
+    { "source": "/product", "destination": "/DLSProduct.dc.html" },
+    { "source": "/checkout", "destination": "/DLSCheckout.dc.html" },
+    { "source": "/compare", "destination": "/DLSCompare.dc.html" },
+    { "source": "/favorites", "destination": "/DLSFavorites.dc.html" }
+  ],
+  "headers": [
+    { "source": "/(.*)\\.dc\\.html", "headers": [{ "key": "Content-Type", "value": "text/html; charset=utf-8" }] }
+  ]
+}

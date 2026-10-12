@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+</helmet>
+<section aria-labelledby="donor-chips-title" data-screen-label="Авто на розборці — чипи" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }};display:grid;grid-template-columns:{{ cols }};gap:{{ colGap }};align-items:start">
+    <div style="min-width:0">
+      <h2 id="donor-chips-title" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-wrap:balance">Авто на розборці</h2>
+      <p style="margin:16px 0 0;max-width:560px;font-size:16px;line-height:1.5;color:#4A5260;text-wrap:pretty">26 поколінь, понад 1200 деталей. Оберіть своє авто — покажемо тільки те, що на нього підійде</p>
+      <a href="#" style="margin-top:24px;display:inline-flex;font-size:14px;line-height:20px;font-weight:500;color:#1E232B;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:4px;transition:text-decoration-color 150ms ease-out" style-hover="text-decoration-color:#1E232B">Не знайшли своє авто? Запитати менеджера →</a>
+    </div>
+    <div role="list" aria-label="Моделі на розборці" style="min-width:0;display:flex;flex-wrap:wrap;gap:8px">
+      <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="28">
+        <a role="listitem" href="#" aria-label="{{ ch.aria }}" aria-current="{{ ch.current }}" onMouseEnter="{{ ch.enter }}" onMouseLeave="{{ ch.leave }}" onFocus="{{ ch.enter }}" onBlur="{{ ch.leave }}" style="height:40px;max-width:100%;box-sizing:border-box;padding:0 16px 0 12px;display:flex;align-items:center;gap:8px;border:1px solid {{ ch.border }};border-radius:8px;background:{{ ch.bg }};color:{{ ch.color }};text-decoration:none;white-space:nowrap;transition:background 200ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms cubic-bezier(0.22, 1, 0.36, 1)" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+          <span style="display:flex;align-items:center;gap:6px;min-width:0">
+            <sc-for list="{{ ch.logos }}" as="lg" hint-placeholder-count="1">
+              <img src="{{ lg }}" alt="" style="width:16px;height:16px;flex-shrink:0;object-fit:contain;display:block;filter:{{ ch.logoFilter }};transition:filter 200ms cubic-bezier(0.22, 1, 0.36, 1)">
+            </sc-for>
+            <sc-if value="{{ ch.isWheel }}" hint-placeholder-val="{{ false }}">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="1.5"></circle><path d="M12 6v4.5"></path><path d="m17.7 10.1-4.3 1.4"></path><path d="m15.5 16.9-2.6-3.7"></path><path d="m8.5 16.9 2.6-3.7"></path><path d="m6.3 10.1 4.3 1.4"></path></svg>
+            </sc-if>
+            <span style="font-size:15px;line-height:20px;font-weight:500;overflow:hidden;text-overflow:ellipsis">{{ ch.label }}</span>
+          </span>
+          <span style="flex-shrink:0;font-size:12px;line-height:16px;font-weight:400;color:{{ ch.countColor }};transition:color 200ms cubic-bezier(0.22, 1, 0.36, 1)">{{ ch.count }}</span>
+        </a>
+      </sc-for>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:560},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;},&quot;activeModel&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;немає&quot;,&quot;options&quot;:[&quot;немає&quot;,&quot;Mitsubishi L200 2005–2015&quot;,&quot;Ford Ranger 2006–2012&quot;,&quot;Nissan Navara / Pathfinder R51 2005–2015&quot;,&quot;Toyota Hilux 2005–2015&quot;,&quot;Jeep Grand Cherokee WK 2004–2007&quot;,&quot;Шини та диски&quot;],&quot;tsType&quot;:&quot;string&quot;}}">
+const LOGOS = { Isuzu: ['isuzu'], SsangYong: ['ssangyong'], Mitsubishi: ['mitsubishi'], Ford: ['ford'], Nissan: ['nissan'], Mazda: ['mazda'], Jeep: ['jeep'], Volkswagen: ['volkswagen'], Kia: ['kia'], Hyundai: ['hyundai'], 'Mercedes-Benz': ['mercedes'], Toyota: ['toyota'], Volvo: ['volvo'], BMW: ['bmw'], 'Peugeot / Fiat': ['peugeot', 'fiat'] };
+const DONORS = [
+  ['Mitsubishi', [['L200 2005–2015', 85], ['Pajero Sport I 1996–2008', 84], ['L200 1996–2005', 46], ['Pajero Wagon', 45]]],
+  ['Ford', [['Ranger 2006–2012', 118], ['Ranger 1998–2006', 108]]],
+  ['Nissan', [['Navara / Pathfinder R51 2005–2015', 129], ['X-Trail T30–T31 2000–2014', 43]]],
+  ['Mazda', [['BT-50 2006–2012', 118], ['B2500 1998–2006', 108]]],
+  ['Jeep', [['Grand Cherokee WK 2004–2007', 81], ['Patriot / Compass 2011–2017', 23]]],
+  ['Volkswagen', [['Crafter', 43], ['T5 2003–2009', 40], ['Touareg 2002–2010', 20]]],
+  ['Kia', [['Sorento 2002–2014', 67]]],
+  ['Hyundai', [['Santa Fe I 2004–2010', 45], ['Terracan', 13]]],
+  ['Mercedes-Benz', [['ML W163', 52]]],
+  ['Toyota', [['Hilux 2005–2015', 27], ['RAV4 II 2000–2005', 13], ['Land Cruiser Prado 90 1996–2002', 13]]],
+  ['SsangYong', [['Actyon 2005–2011', 28], ['Rexton 2001–2006', 15]]],
+  ['Volvo', [['XC90 2002–2015', 11]]],
+  ['BMW', [['X5 E53', 6]]],
+  ['Peugeot / Fiat', [['Landtrek / Titano 2020–2026', 4]]],
+  ['Isuzu', [['D-Max', 2]]]
+];
+const ALL = [
+  ...DONORS.flatMap(([brand, models]) => models.map(([name, count]) => ({ brand, name, count, key: `${brand} ${name}` }))),
+  { brand: null, name: 'Шини та диски', count: 18, key: 'Шини та диски', wheel: true }
+];
+const CAR_KEY = 'dlsCar';
+
+class Component extends DCLogic {
+  state = { vw: null, hover: null, car: null };
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    this.onCar = () => { try { this.setState({ car: localStorage.getItem(CAR_KEY) }); } catch (_) {} };
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('dls-car-change', this.onCar);
+    window.addEventListener('storage', this.onCar);
+    this.onCar();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('dls-car-change', this.onCar);
+    window.removeEventListener('storage', this.onCar);
+  }
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const d = device === 'desktop';
+    const prop = this.props.activeModel;
+    const activeKey = prop && prop !== 'немає' ? prop : this.state.car;
+    const chips = ALL.map((c, i) => {
+      const a = c.key === activeKey;
+      const dark = a || this.state.hover === i;
+      const logos = c.brand && LOGOS[c.brand] ? LOGOS[c.brand].map(s => `assets/logos/${s}.svg`) : [];
+      return {
+        label: c.brand && !LOGOS[c.brand] ? `${c.brand} ${c.name}` : c.name,
+        count: String(c.count),
+        aria: `${c.brand ? c.brand + ' ' : ''}${c.name}, деталей: ${c.count}`,
+        current: a ? 'true' : undefined,
+        logos, isWheel: !!c.wheel,
+        bg: dark ? '#1E232B' : '#FCFCFD',
+        color: dark ? '#FCFCFD' : '#1E232B',
+        border: dark ? '#1E232B' : '#E6E9EE',
+        countColor: dark ? '#CDD2DA' : '#6B7380',
+        logoFilter: dark ? 'brightness(0) invert(1)' : 'none',
+        enter: () => this.setState({ hover: i }),
+        leave: () => this.setState(s => (s.hover === i ? { hover: null } : null))
+      };
+    });
+    return {
+      pad: d ? '0 64px 100px' : device === 'tablet' ? '0 32px 75px' : '0 16px 75px',
+      cols: d ? 'minmax(0, 3fr) minmax(0, 7fr)' : 'minmax(0, 1fr)',
+      colGap: d ? '48px' : '32px',
+      h2Size: d ? '40px' : device === 'tablet' ? '28px' : '24px',
+      chips
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+</helmet>
+<section aria-labelledby="reviews-title" data-screen-label="Відгуки" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-start;gap:24px">
+      <div style="min-width:0">
+        <h2 id="reviews-title" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Відгуки покупців</h2>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span style="font-size:32px;line-height:1;font-weight:600;letter-spacing:-0.02em;color:#1E232B">4.8</span>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div role="img" aria-label="Рейтинг 4.8 з 5" style="display:flex;gap:2px;color:#E0001B">
+            <sc-for list="{{ summaryStars }}" as="s" hint-placeholder-count="5">
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:currentColor;stroke:currentColor;stroke-width:1.5;stroke-linejoin:round"><path d="M11.53 2.3a.53.53 0 0 1 .94 0l2.31 4.68a2.12 2.12 0 0 0 1.6 1.16l5.16.76a.53.53 0 0 1 .3.9l-3.74 3.64a2.12 2.12 0 0 0-.61 1.88l.88 5.14a.53.53 0 0 1-.77.56l-4.62-2.43a2.12 2.12 0 0 0-1.97 0L6.4 21.02a.53.53 0 0 1-.77-.56l.88-5.14a2.12 2.12 0 0 0-.61-1.88L2.16 9.8a.53.53 0 0 1 .3-.9l5.16-.76a2.12 2.12 0 0 0 1.6-1.16z"></path></svg>
+            </sc-for>
+          </div>
+          <a href="#" style="font-size:14px;line-height:20px;color:#4A5260;text-decoration:none" style-hover="color:#1E232B;text-decoration:underline;text-underline-offset:4px">На основі 48 відгуків</a>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:{{ headGap }};display:grid;grid-template-columns:{{ cols }};gap:16px">
+      <sc-for list="{{ reviews }}" as="r" hint-placeholder-count="6">
+        <article style="padding:24px;display:flex;flex-direction:column;background:#FFFFFF;border:1px solid #E6E9EE;border-radius:16px">
+          <p style="margin:0;font-size:14px;line-height:20px;font-weight:600;color:#1E232B">{{ r.name }}</p>
+          <div role="img" aria-label="{{ r.ratingLabel }}" style="margin-top:8px;display:flex;gap:2px">
+            <sc-for list="{{ r.stars }}" as="s" hint-placeholder-count="5">
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="fill:{{ s.fill }};stroke:{{ s.stroke }};stroke-width:1.5;stroke-linejoin:round"><path d="M11.53 2.3a.53.53 0 0 1 .94 0l2.31 4.68a2.12 2.12 0 0 0 1.6 1.16l5.16.76a.53.53 0 0 1 .3.9l-3.74 3.64a2.12 2.12 0 0 0-.61 1.88l.88 5.14a.53.53 0 0 1-.77.56l-4.62-2.43a2.12 2.12 0 0 0-1.97 0L6.4 21.02a.53.53 0 0 1-.77-.56l.88-5.14a2.12 2.12 0 0 0-.61-1.88L2.16 9.8a.53.53 0 0 1 .3-.9l5.16-.76a2.12 2.12 0 0 0 1.6-1.16z"></path></svg>
+            </sc-for>
+          </div>
+          <p style="margin:16px 0 0;font-size:16px;line-height:1.5;color:#1E232B;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:5;overflow:hidden;text-wrap:pretty">{{ r.text }}</p>
+          <sc-if value="{{ r.hasPhoto }}" hint-placeholder-val="{{ false }}">
+            <button onClick="{{ r.openPhoto }}" aria-label="Відкрити фото: {{ r.photo }}" style="margin-top:16px;width:64px;height:64px;padding:0;border:none;border-radius:8px;background:none;overflow:hidden;cursor:zoom-in;transition:opacity 150ms ease-out" style-hover="opacity:0.85" style-focus="outline:2px solid #1E232B;outline-offset:2px"><img src="assets/part-hub.webp" alt="{{ r.photo }}" style="width:64px;height:64px;object-fit:cover;display:block"></button>
+          </sc-if>
+          <div style="margin-top:auto;padding-top:24px">
+            <div style="padding-top:16px;border-top:1px solid #E6E9EE;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px 16px">
+              <span style="display:flex;align-items:center;gap:4px;font-size:13px;line-height:18px;color:#4A5260"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:#1F8A4C;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"></circle><path d="m9 12 2 2 4-4"></path></svg>Підтверджена покупка</span>
+              <time datetime="{{ r.iso }}" style="font-size:13px;line-height:18px;color:#4A5260">{{ r.date }}</time>
+            </div>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+    <div style="margin-top:48px;display:flex;justify-content:center">
+      <a href="#" style="height:48px;padding:0 24px;box-sizing:border-box;display:flex;align-items:center;border:1px solid #E0001B;border-radius:8px;font-size:16px;font-weight:600;color:#E0001B;text-decoration:none;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%">Усі відгуки</a>
+    </div>
+  </div>
+  <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-label="{{ lightboxAlt }}" onClick="{{ closePhoto }}" style="position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:64px 16px;box-sizing:border-box;background:rgba(18,22,28,0.85);cursor:zoom-out;opacity:{{ lbOpacity }};transition:{{ lbFade }}">
+      <img src="assets/part-hub.webp" alt="{{ lightboxAlt }}" style="max-width:100%;max-height:100%;border-radius:16px;display:block;object-fit:contain;opacity:{{ lbOpacity }};transform:{{ lbImgT }};transition:{{ lbImgTr }};will-change:transform,opacity">
+      <button onClick="{{ closePhoto }}" aria-label="Закрити" style="opacity:{{ lbOpacity }};transform:{{ lbBtnT }};transition:{{ lbBtnTr }};position:absolute;top:16px;right:16px;width:48px;height:48px;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:#FCFCFD;color:#1E232B;cursor:pointer;transition:background 150ms ease-out" style-hover="background:#E6E9EE"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+    </div>
+  </sc-if>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1100},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;}}">
+const REVIEWS = [
+  [5, 'Замовляв фару на Ranger, переживав через стан — на фото маркером були позначені дві подряпини, у реалі так і є, нічого зайвого. Поставив, працює. Відправили в той же день.', 'Олександр', 'Фара ліва Ford Ranger', '28.09.2026', 'Фото: деталь на столі'],
+  [5, 'СТО з Дніпра, беремо запчастини для клієнтів регулярно. Привозять самі, якщо деталь не підходить — міняють без питань. Це головне.', 'Віталій, СТО «АвтоМайстер»', 'Радіатор Mitsubishi L200', '21.09.2026', null],
+  [4, 'Двигун на Навару приїхав з відео запуску і пробігом донора. Один мінус — довго погоджували передплату, але це моя обережність, не їхня.', 'Андрій', 'Двигун 2.5 dCi Nissan Navara', '14.09.2026', 'Фото: двигун на піддоні'],
+  [5, 'Шукав дзеркало на Grand Cherokee по всій Україні, тут було в наявності. Менеджер за 5 хвилин перевірив, чи підійде на мій рік.', 'Дмитро', 'Дзеркало праве Jeep Grand Cherokee', '09.09.2026', null],
+  [5, 'Забирав самовивозом, показали деталь до оплати, дали оглянути. Нормальні люди, не перший раз вже.', 'Сергій', 'КПП Mitsubishi Pajero Sport', '02.09.2026', null],
+  [5, 'Бампер прийшов у плівці, без нових пошкоджень. Ціна в півтора рази нижча за нову копію, стан кращий.', 'Ігор', 'Бампер передній Mitsubishi L200', '27.08.2026', 'Фото: бампер в упаковці']
+];
+
+class Component extends DCLogic {
+  state = { vw: null, photo: null, shown: false };
+  openPhoto(photo) {
+    clearTimeout(this.lbTimer);
+    this.setState({ photo, shown: false }, () => {
+      requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ shown: true })));
+    });
+  }
+  closePhoto() {
+    if (!this.state.photo) return;
+    this.setState({ shown: false });
+    clearTimeout(this.lbTimer);
+    this.lbTimer = setTimeout(() => this.setState({ photo: null }), 320);
+  }
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    this.onKey = (e) => { if (e.key === 'Escape') this.closePhoto(); };
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('keydown', this.onKey);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); window.removeEventListener('keydown', this.onKey); clearTimeout(this.lbTimer); }
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const m = device === 'mobile';
+    const shown = this.state.shown;
+    return {
+      pad: device === 'desktop' ? '0 64px 100px' : device === 'tablet' ? '0 32px 75px' : '0 16px 75px',
+      h2Size: device === 'desktop' ? '40px' : device === 'tablet' ? '28px' : '24px',
+      subSize: m ? '16px' : '18px',
+      subMargin: m ? '12px 0 0' : '16px 0 0',
+      headGap: m ? '32px' : '48px',
+      cols: device === 'desktop' ? 'repeat(3, minmax(0, 1fr))' : device === 'tablet' ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)',
+      summaryStars: [0, 1, 2, 3, 4],
+      lightboxOpen: !!this.state.photo,
+      lightboxAlt: this.state.photo || '',
+      closePhoto: () => this.closePhoto(),
+      lbOpacity: shown ? 1 : 0,
+      lbFade: shown ? 'opacity 360ms cubic-bezier(0.22, 1, 0.36, 1)' : 'opacity 280ms cubic-bezier(0.4, 0, 1, 1)',
+      lbImgT: shown ? 'translateY(0) scale(1)' : 'translateY(16px) scale(0.94)',
+      lbImgTr: shown ? 'opacity 420ms cubic-bezier(0.22, 1, 0.36, 1) 60ms, transform 520ms cubic-bezier(0.22, 1, 0.36, 1) 60ms' : 'opacity 220ms cubic-bezier(0.4, 0, 1, 1), transform 280ms cubic-bezier(0.4, 0, 1, 1)',
+      lbBtnT: shown ? 'translateY(0)' : 'translateY(-8px)',
+      lbBtnTr: shown ? 'opacity 320ms cubic-bezier(0.22, 1, 0.36, 1) 200ms, transform 420ms cubic-bezier(0.22, 1, 0.36, 1) 200ms, background 150ms ease-out' : 'opacity 160ms ease-in, transform 200ms ease-in, background 150ms ease-out',
+      reviews: REVIEWS.map(([rating, text, name, item, date, photo]) => ({
+        text, name, item, date, photo, hasPhoto: !!photo,
+        openPhoto: () => this.openPhoto(photo),
+        iso: date.split('.').reverse().join('-'),
+        ratingLabel: `Оцінка ${rating} з 5`,
+        stars: [0, 1, 2, 3, 4].map(k => k < rating ? { fill: '#E0001B', stroke: '#E0001B' } : { fill: 'none', stroke: '#CDD2DA' })
+      }))
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+</helmet>
+<section aria-labelledby="cats-title" data-screen-label="Категорії" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <div style="display:flex;flex-direction:{{ headDir }};justify-content:space-between;align-items:flex-start;gap:24px">
+      <div style="min-width:0">
+        <h2 id="cats-title" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Категорії запчастин</h2>
+      </div>
+      <a href="#" style="flex-shrink:0;height:48px;box-sizing:border-box;padding:0 24px;display:flex;align-items:center;border:1px solid #E0001B;border-radius:8px;font-size:16px;font-weight:600;color:#E0001B;text-decoration:none;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%">Усі категорії</a>
+    </div>
+    <div style="margin-top:{{ headGap }};display:grid;grid-template-columns:{{ cols }};gap:{{ gap }}">
+      <sc-for list="{{ cards }}" as="c" hint-placeholder-count="10">
+        <dc-import name="DLSCategoryCard" style="display:block;min-width:0" name-text="{{ c.name }}" count="{{ c.count }}" bg-desc="{{ c.bgDesc }}" part-desc="{{ c.partDesc }}" bg-src="{{ c.bgSrc }}" part-src="{{ c.partSrc }}" is-all="{{ c.isAll }}" demo-hover="{{ c.demo }}" name-size="{{ nameSize }}" hint-size="100%,312px"></dc-import>
+      </sc-for>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;},&quot;demoHover&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const CATS = [
+  ['Кузовні деталі', '290 деталей', 'пікап у цеху, вид спереду', 'передній бампер'],
+  ['Підвіска та ходова', '210 деталей', 'пікап на підйомнику знизу', 'амортизатор із пружиною'],
+  ['Електрика та електроніка', '180 деталей', 'відкритий моторний відсік з проводкою', 'блок керування двигуном'],
+  ['Салон', '150 деталей', 'відкриті двері, видно салон', 'водійське сидіння'],
+  ['Оптика', '120 деталей', 'передок пікапа крупно', 'фара в зборі'],
+  ['Гальмівна система', '95 деталей', 'колесо знято, видно ступицю', 'супорт із диском'],
+  ['Двигуни', '48 деталей', 'моторний відсік з піднятим капотом', 'двигун на підставці'],
+  ['КПП та роздатки', '36 деталей', 'пікап на підйомнику, вид на трансмісію', 'автоматична КПП'],
+  ['Шини та диски', '18 деталей', 'колеса на стелажі', 'литий диск із шиною']
+];
+// Підставте шляхи до фото деталей на білому фоні за порядком карток (другий елемент); null — плейсхолдер з описом
+const TMP = 'assets/part-pickup-hub.jpg';
+const OVR = { 0: 'assets/cat-body.jpg', 1: 'assets/cat-suspension.jpg', 2: 'assets/cat-electric.jpg', 6: 'assets/cat-engine.jpg', 7: 'assets/cat-gearbox.jpg', 8: 'assets/cat-wheels.jpg' };
+const PHOTOS = [...Array(9)].map((_, i) => [null, OVR[i] || TMP]).concat([[null]]);
+
+class Component extends DCLogic {
+  state = { vw: null };
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const m = device === 'mobile';
+    const d = device === 'desktop';
+    const five = d || vw >= 1024;
+    const demo = (this.props.demoHover ?? false) ? 1 : null;
+    const cards = CATS.map(([name, count, bgDesc, partDesc], i) => ({
+      name, count, bgDesc, partDesc, bgSrc: PHOTOS[i][0], partSrc: PHOTOS[i][1], isAll: false, demo: i === demo
+    }));
+    cards.push({ name: 'Усі категорії', count: '', bgDesc: 'цех розборки загальним планом', partDesc: '', bgSrc: PHOTOS[9][0], partSrc: null, isAll: true, demo: false });
+    return {
+      pad: d ? '0 64px 100px' : device === 'tablet' ? '0 32px 75px' : '0 16px 75px',
+      headDir: m ? 'column' : 'row',
+      h2Size: d ? '40px' : device === 'tablet' ? '28px' : '24px',
+      subSize: m ? '16px' : '18px',
+      subMargin: m ? '12px 0 0' : '16px 0 0',
+      headGap: m ? '32px' : '48px',
+      cols: five ? 'repeat(5, minmax(0, 1fr))' : 'repeat(2, minmax(0, 1fr))',
+      gap: m ? '12px' : '16px',
+      nameSize: m ? '16px' : '18px',
+      cards
+    };
+  }
+}
+</script>
+</body>
+</html>

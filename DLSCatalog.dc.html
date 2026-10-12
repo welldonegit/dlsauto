@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>DLSAuto — Каталог запчастин</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;background:#F6F6F6;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}input::placeholder{color:#6B7380;opacity:1}</style>
+<script src="./dls-fav.js"></script>
+<script src="./dls-cart.js"></script>
+<script src="./dls-compare.js"></script>
+</helmet>
+<dc-import name="DLSHeaderHero" hero="{{ false }}" hint-size="100%,168px"></dc-import>
+<main data-screen-label="Каталог" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <nav aria-label="Хлібні крихти" style="display:flex;align-items:center;gap:8px;font-size:14px;line-height:20px;color:#4A5260">
+      <a href="DLSAuto Головна.dc.html" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B">Головна</a>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page" style="color:#1E232B">Каталог</span>
+    </nav>
+    <h1 style="margin:16px 0 0;display:flex;flex-wrap:wrap;align-items:baseline;column-gap:12px;row-gap:4px;font-size:{{ h1Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Каталог запчастин</h1>
+    <sc-if value="{{ hasCar }}" hint-placeholder-val="{{ true }}">
+      <p style="margin:12px 0 0;display:flex;flex-wrap:wrap;align-items:center;gap:8px;font-size:15px;line-height:22px;color:#1E232B">
+        <span>Показуємо деталі на <strong style="font-weight:600">{{ carLabel }}</strong></span>
+      </p>
+    </sc-if>
+  </div>
+
+  <div style="max-width:{{ catsMaxW }};margin:0 auto;padding:{{ catsPad }}">
+    <div style="display:{{ catsDisplay }};grid-template-columns:{{ catsCols }};gap:16px;overflow-x:{{ catsOverflow }};scroll-snap-type:x proximity;scroll-padding:0 {{ catsSide }};scrollbar-width:none;padding:{{ catsInnerPad }}">
+      <sc-for list="{{ catCards }}" as="c" hint-placeholder-count="10">
+        <div onClick="{{ c.pick }}" style="flex:0 0 {{ catW }};min-width:0;scroll-snap-align:start">
+          <dc-import name="DLSCategoryCard" style="display:block;min-width:0" name-text="{{ c.name }}" count="{{ c.count }}" part-desc="{{ c.partDesc }}" part-src="{{ c.partSrc }}" is-all="{{ c.isAll }}" name-size="{{ catNameSize }}" hint-size="100%,312px"></dc-import>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div ref="{{ productsRef }}" style="max-width:1312px;margin:0 auto;padding:{{ gridPad }};display:grid;grid-template-columns:{{ mainCols }};column-gap:24px;align-items:start;scroll-margin-top:24px">
+
+    <sc-if value="{{ panelMode }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ closePanel }}" aria-hidden="true" style="position:fixed;inset:0;z-index:150;background:rgba(18,22,28,0.5);opacity:{{ overlayOp }};pointer-events:{{ overlayEvents }};transition:opacity 250ms ease-out"></div>
+    </sc-if>
+    <aside aria-label="Фільтри" style="grid-column:1;position:{{ aPos }};z-index:{{ aZ }};top:{{ aTop }};right:{{ aRight }};bottom:{{ aBottom }};left:{{ aLeft }};width:{{ aW }};max-width:100vw;height:{{ aH }};min-width:0;box-sizing:border-box;padding:{{ aPad }};border:{{ aBorder }};border-radius:{{ aRadius }};background:#FFFFFF;box-shadow:{{ aShadow }};transform:{{ aT }};visibility:{{ aVis }};transition:{{ aTr }}">
+      <div style="display:flex;flex-direction:column;height:{{ asideInnerH }};max-height:{{ asideMaxH }}">
+        <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
+          <div aria-hidden="true" style="flex-shrink:0;padding-top:8px;display:flex;justify-content:center"><span style="width:40px;height:4px;border-radius:999px;background:#CDD2DA"></span></div>
+        </sc-if>
+        <div style="flex-shrink:0;padding:{{ asideHeadPad }};display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:{{ asideHeadBorder }}">
+          <h2 style="margin:0;font-size:16px;line-height:24px;font-weight:600;color:#1E232B">Фільтри</h2>
+          <div style="display:flex;align-items:center;gap:8px">
+            <button type="button" onClick="{{ resetAll }}" style="height:32px;padding:0 4px;border:none;background:transparent;font-family:inherit;font-size:13px;line-height:18px;color:#4A5260;cursor:pointer;text-decoration:underline;text-decoration-color:transparent;text-underline-offset:3px;transition:color 150ms ease-out, text-decoration-color 150ms ease-out" style-hover="color:#1E232B;text-decoration-color:#1E232B" style-focus="outline:2px solid #1E232B;outline-offset:2px">Скинути</button>
+            <sc-if value="{{ panelMode }}" hint-placeholder-val="{{ false }}">
+              <button type="button" onClick="{{ closePanel }}" aria-label="Закрити фільтри" style="width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:#F3F5F7;color:#1E232B;cursor:pointer" style-hover="background:#E6E9EE" style-focus="outline:2px solid #1E232B;outline-offset:2px"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+            </sc-if>
+          </div>
+        </div>
+        <div style="flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:{{ asideBodyPad }};scrollbar-width:thin">
+
+          <div style="border-bottom:1px solid #E6E9EE">
+            <button type="button" aria-expanded="{{ accAuto.open }}" onClick="{{ accAuto.toggle }}" style="width:100%;min-height:48px;padding:12px 0;display:flex;align-items:center;justify-content:space-between;gap:8px;border:none;background:transparent;font-family:inherit;font-size:15px;line-height:22px;font-weight:600;color:#1E232B;text-align:left;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:2px">Авто<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ accAuto.rot }});transition:transform 200ms ease-out"><path d="m6 9 6 6 6-6"></path></svg></button>
+            <div style="display:grid;grid-template-rows:{{ accAuto.rows }};visibility:{{ accAuto.vis }};transition:grid-template-rows 200ms ease-out, visibility 200ms">
+              <div style="min-height:0;overflow:hidden">
+                <div style="padding:0 0 16px;display:flex;flex-direction:column;gap:8px">
+                  <div style="position:relative">
+                    <select aria-label="Марка" value="{{ brandVal }}" onChange="{{ onBrand }}" style="width:100%;height:48px;box-sizing:border-box;padding:0 40px 0 12px;border:1px solid #E6E9EE;border-radius:8px;background:#FFFFFF;font-family:inherit;font-size:15px;color:{{ brandColor }};outline:none;transition:border-color 150ms ease-out;appearance:none;-webkit-appearance:none;cursor:pointer" style-focus="border-color:#1E232B">
+                      <option value="">Марка</option>
+                      <sc-for list="{{ brandOpts }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for>
+                    </select>
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="position:absolute;right:12px;top:15px;pointer-events:none;fill:none;stroke:#1E232B;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m6 9 6 6 6-6"></path></svg>
+                  </div>
+                  <div style="position:relative">
+                    <select aria-label="Модель" value="{{ modelVal }}" onChange="{{ onModel }}" disabled="{{ modelDisabled }}" style="width:100%;height:48px;box-sizing:border-box;padding:0 40px 0 12px;border:1px solid #E6E9EE;border-radius:8px;background:{{ modelBg }};font-family:inherit;font-size:15px;color:{{ modelColor }};outline:none;transition:border-color 150ms ease-out;appearance:none;-webkit-appearance:none;cursor:{{ modelCursor }}" style-focus="border-color:#1E232B">
+                      <option value="">Модель</option>
+                      <sc-for list="{{ modelOpts }}" as="o" hint-placeholder-count="0"><option value="{{ o }}">{{ o }}</option></sc-for>
+                    </select>
+                    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="position:absolute;right:12px;top:15px;pointer-events:none;fill:none;stroke:{{ modelColor }};stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m6 9 6 6 6-6"></path></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="border-bottom:1px solid #E6E9EE">
+            <button type="button" aria-expanded="{{ accCat.open }}" onClick="{{ accCat.toggle }}" style="width:100%;min-height:48px;padding:12px 0;display:flex;align-items:center;justify-content:space-between;gap:8px;border:none;background:transparent;font-family:inherit;font-size:15px;line-height:22px;font-weight:600;color:#1E232B;text-align:left;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:2px">Категорія<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ accCat.rot }});transition:transform 200ms ease-out"><path d="m6 9 6 6 6-6"></path></svg></button>
+            <div style="display:grid;grid-template-rows:{{ accCat.rows }};visibility:{{ accCat.vis }};transition:grid-template-rows 200ms ease-out, visibility 200ms">
+              <div style="min-height:0;overflow:hidden">
+                <div style="padding:0 0 12px;display:flex;flex-direction:column">
+                  <sc-for list="{{ catChecks }}" as="o" hint-placeholder-count="9">
+                    <button type="button" role="checkbox" aria-checked="{{ o.on }}" onClick="{{ o.toggle }}" style="width:100%;min-height:40px;padding:6px 0;display:flex;align-items:center;gap:10px;border:none;background:transparent;font-family:inherit;font-size:14px;line-height:20px;color:#1E232B;text-align:left;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+                      <span aria-hidden="true" style="width:20px;height:20px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border:1.5px solid {{ o.boxBorder }};border-radius:4px;background:{{ o.boxBg }};transition:background 150ms ease-out, border-color 150ms ease-out"><svg viewBox="0 0 24 24" width="14" height="14" style="fill:none;stroke:#FCFCFD;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:{{ o.tickOp }}"><path d="M20 6 9 17l-5-5"></path></svg></span>
+                      <span style="flex:1;min-width:0">{{ o.label }}</span>
+                      <span style="flex-shrink:0;font-size:13px;color:#6B7380">{{ o.count }}</span>
+                    </button>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="border-bottom:1px solid #E6E9EE">
+            <button type="button" aria-expanded="{{ accPrice.open }}" onClick="{{ accPrice.toggle }}" style="width:100%;min-height:48px;padding:12px 0;display:flex;align-items:center;justify-content:space-between;gap:8px;border:none;background:transparent;font-family:inherit;font-size:15px;line-height:22px;font-weight:600;color:#1E232B;text-align:left;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:2px">Ціна<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ accPrice.rot }});transition:transform 200ms ease-out"><path d="m6 9 6 6 6-6"></path></svg></button>
+            <div style="display:grid;grid-template-rows:{{ accPrice.rows }};visibility:{{ accPrice.vis }};transition:grid-template-rows 200ms ease-out, visibility 200ms">
+              <div style="min-height:0;overflow:hidden">
+                <div style="padding:0 2px 20px">
+                  <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px">
+                    <label style="position:relative;display:block">
+                      <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:#6B7380;pointer-events:none">від</span>
+                      <input inputMode="numeric" aria-label="Ціна від" value="{{ priceFromText }}" onChange="{{ onFrom }}" onBlur="{{ commitPrice }}" style="width:100%;height:44px;box-sizing:border-box;padding:0 10px 0 36px;border:1px solid #E6E9EE;border-radius:8px;background:#FFFFFF;font-family:inherit;font-size:14px;color:#1E232B;outline:none" style-focus="border-color:#1E232B">
+                    </label>
+                    <label style="position:relative;display:block">
+                      <span style="position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;color:#6B7380;pointer-events:none">до</span>
+                      <input inputMode="numeric" aria-label="Ціна до" value="{{ priceToText }}" onChange="{{ onTo }}" onBlur="{{ commitPrice }}" style="width:100%;height:44px;box-sizing:border-box;padding:0 10px 0 32px;border:1px solid #E6E9EE;border-radius:8px;background:#FFFFFF;font-family:inherit;font-size:14px;color:#1E232B;outline:none" style-focus="border-color:#1E232B">
+                    </label>
+                  </div>
+                  <div ref="{{ trackRef }}" onPointerDown="{{ trackDown }}" onPointerMove="{{ trackMove }}" onPointerUp="{{ trackUp }}" onPointerCancel="{{ trackUp }}" style="position:relative;margin-top:16px;height:24px;touch-action:none;cursor:pointer">
+                    <span aria-hidden="true" style="position:absolute;left:0;right:0;top:10px;height:4px;border-radius:999px;background:#E6E9EE"></span>
+                    <span aria-hidden="true" style="position:absolute;left:{{ rangeL }};right:{{ rangeR }};top:10px;height:4px;border-radius:999px;background:#1E232B"></span>
+                    <span role="slider" tabindex="0" aria-label="Мінімальна ціна" aria-valuemin="100" aria-valuemax="120000" aria-valuenow="{{ priceFrom }}" onKeyDown="{{ keyFrom }}" style="position:absolute;left:{{ rangeL }};top:2px;width:20px;height:20px;margin-left:-10px;box-sizing:border-box;border:2px solid #1E232B;border-radius:50%;background:#FFFFFF;box-shadow:0 1px 3px rgba(18,22,28,0.16)" style-focus="outline:2px solid #1E232B;outline-offset:2px"></span>
+                    <span role="slider" tabindex="0" aria-label="Максимальна ціна" aria-valuemin="100" aria-valuemax="120000" aria-valuenow="{{ priceTo }}" onKeyDown="{{ keyTo }}" style="position:absolute;left:{{ rangeRpos }};top:2px;width:20px;height:20px;margin-left:-10px;box-sizing:border-box;border:2px solid #1E232B;border-radius:50%;background:#FFFFFF;box-shadow:0 1px 3px rgba(18,22,28,0.16)" style-focus="outline:2px solid #1E232B;outline-offset:2px"></span>
+                  </div>
+                  <div style="margin-top:4px;display:flex;justify-content:space-between;font-size:12px;line-height:16px;color:#6B7380"><span>100 ₴</span><span>120 000 ₴</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <sc-for list="{{ groups }}" as="g" hint-placeholder-count="4">
+            <div style="border-bottom:{{ g.border }}">
+              <button type="button" aria-expanded="{{ g.open }}" onClick="{{ g.toggle }}" style="width:100%;min-height:48px;padding:12px 0;display:flex;align-items:center;justify-content:space-between;gap:8px;border:none;background:transparent;font-family:inherit;font-size:15px;line-height:22px;font-weight:600;color:#1E232B;text-align:left;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:2px">{{ g.title }}<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ g.rot }});transition:transform 200ms ease-out"><path d="m6 9 6 6 6-6"></path></svg></button>
+              <div style="display:grid;grid-template-rows:{{ g.rows }};visibility:{{ g.vis }};transition:grid-template-rows 200ms ease-out, visibility 200ms">
+                <div style="min-height:0;overflow:hidden">
+                  <div style="padding:0 0 12px;display:flex;flex-direction:column">
+                    <sc-for list="{{ g.opts }}" as="o" hint-placeholder-count="3">
+                      <button type="button" role="checkbox" aria-checked="{{ o.on }}" onClick="{{ o.toggle }}" style="width:100%;min-height:40px;padding:6px 0;display:flex;align-items:center;gap:10px;border:none;background:transparent;font-family:inherit;font-size:14px;line-height:20px;color:#1E232B;text-align:left;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+                        <span aria-hidden="true" style="width:20px;height:20px;flex-shrink:0;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border:1.5px solid {{ o.boxBorder }};border-radius:4px;background:{{ o.boxBg }};transition:background 150ms ease-out, border-color 150ms ease-out"><svg viewBox="0 0 24 24" width="14" height="14" style="fill:none;stroke:#FCFCFD;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;opacity:{{ o.tickOp }}"><path d="M20 6 9 17l-5-5"></path></svg></span>
+                        <span style="flex:1;min-width:0">{{ o.label }}</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        <sc-if value="{{ isSheet }}" hint-placeholder-val="{{ false }}">
+          <div style="flex-shrink:0;padding:12px 16px 16px;border-top:1px solid #E6E9EE;background:#FFFFFF">
+            <button type="button" onClick="{{ closePanel }}" style="width:100%;height:56px;border:none;border-radius:8px;background:#1E232B;font-family:inherit;font-size:16px;font-weight:600;color:#FCFCFD;cursor:pointer" style-hover="background:#12161C" style-focus="outline:2px solid #1E232B;outline-offset:2px">{{ showNText }}</button>
+          </div>
+        </sc-if>
+      </div>
+    </aside>
+
+    <section aria-label="Товари" style="grid-column:{{ productsCol }};min-width:0">
+      <div style="display:grid;grid-template-columns:{{ toolbarCols }};align-items:center;gap:12px">
+        <sc-if value="{{ showFilterBtn }}" hint-placeholder-val="{{ false }}">
+          <button type="button" onClick="{{ openPanel }}" style="grid-column:{{ fBtnCol }};grid-row:1;height:48px;box-sizing:border-box;padding:0 20px;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid #E0001B;border-radius:8px;font-family:inherit;font-size:16px;font-weight:600;color:#E0001B;cursor:pointer;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+            <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M3 6h18"></path><path d="M7 12h10"></path><path d="M10 18h4"></path></svg>
+            <span>Фільтри</span>
+            <sc-if value="{{ hasActive }}" hint-placeholder-val="{{ true }}"><span style="min-width:20px;height:20px;padding:0 6px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border-radius:10px;background:#E0001B;font-size:12px;font-weight:600;color:#FCFCFD">{{ activeCount }}</span></sc-if>
+          </button>
+        </sc-if>
+        <div style="grid-column:{{ chipsCol }};grid-row:{{ chipsRow }};min-width:0;display:flex;flex-wrap:wrap;gap:8px">
+          <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="2">
+            <span style="height:32px;max-width:100%;box-sizing:border-box;padding:0 4px 0 12px;display:flex;align-items:center;gap:4px;border:1px solid #E6E9EE;border-radius:8px;background:#FCFCFD;font-size:14px;line-height:20px;color:#1E232B">
+              <span style="min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ ch.label }}</span>
+              <button type="button" onClick="{{ ch.remove }}" aria-label="{{ ch.aria }}" style="width:24px;height:24px;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:transparent;color:#4A5260;cursor:pointer;transition:background 150ms ease-out, color 150ms ease-out" style-hover="background:#E6E9EE;color:#1E232B" style-focus="outline:2px solid #1E232B;outline-offset:1px"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+            </span>
+          </sc-for>
+        </div>
+        <label style="grid-column:{{ sortCol }};grid-row:1;position:relative;justify-self:{{ sortJustify }};display:flex;align-items:center;height:48px;box-sizing:border-box;border:{{ sortBorder }};border-radius:8px;padding:{{ sortPad }};color:#1E232B;cursor:pointer">
+          <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m21 16-4 4-4-4"></path><path d="M17 20V4"></path><path d="m3 8 4-4 4 4"></path><path d="M7 4v16"></path></svg>
+          <select aria-label="Сортування" value="{{ sort }}" onChange="{{ onSort }}" style="min-width:0;flex:{{ sortFlex }};height:44px;padding:0 4px 0 8px;border:none;background:transparent;font-family:inherit;font-size:15px;font-weight:500;color:#1E232B;cursor:pointer;outline:none" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+            <option value="pop">За популярністю</option>
+            <option value="new">Спочатку нові</option>
+            <option value="cheap">Спочатку дешевші</option>
+            <option value="exp">Спочатку дорожчі</option>
+          </select>
+        </label>
+      </div>
+
+      <sc-if value="{{ hasResults }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-top:24px;display:grid;grid-template-columns:{{ prodCols }};column-gap:{{ prodGap }};row-gap:48px;align-items:stretch;opacity:{{ gridOp }};transition:{{ gridTr }}">
+          <sc-for list="{{ products }}" as="c" hint-placeholder-count="12">
+            <div style="position:relative;z-index:1;min-width:0;display:flex" style-hover="z-index:5">
+              <dc-import name="DLSProductCard" style="width:100%;height:100%" donor="{{ c.donor }}" model="{{ c.model }}" brand="{{ c.brand }}" part-name="{{ c.name }}" oem="{{ c.oem }}" price="{{ c.price }}" old-price="{{ c.oldPrice }}" popular="{{ c.popular }}" fits="{{ c.fits }}" specs="{{ c.specs }}" photos="{{ c.photos }}" photo-src="{{ c.photo }}" hint-size="100%,520px"></dc-import>
+            </div>
+          </sc-for>
+        </div>
+        <div style="margin-top:{{ moreTop }};display:flex;flex-direction:column;align-items:center;gap:12px">
+          <sc-if value="{{ hasMore }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ loadMore }}" style="height:48px;box-sizing:border-box;padding:0 32px;border:1px solid #E0001B;border-radius:8px;font-family:inherit;font-size:16px;font-weight:600;color:#E0001B;cursor:pointer;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">{{ moreText }}</button>
+          </sc-if>
+          <p style="margin:0;font-size:13px;line-height:18px;color:#4A5260">{{ shownText }}</p>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+        <div style="margin:0 auto;padding:64px 0;max-width:520px;display:flex;flex-direction:column;align-items:center;text-align:center">
+          <svg viewBox="0 0 24 24" width="48" height="48" aria-hidden="true" style="fill:none;stroke:#6B7380;stroke-width:1.25;stroke-linecap:round;stroke-linejoin:round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg>
+          <p style="margin:24px 0 0;font-size:18px;line-height:1.4;font-weight:600;color:#1E232B">За цими фільтрами нічого немає</p>
+          <p style="margin:8px 0 0;font-size:15px;line-height:1.5;color:#4A5260;text-wrap:pretty">Спробуйте прибрати частину фільтрів або запитайте менеджера — можливо, деталь є, але ще не додана на сайт</p>
+          <div style="margin-top:32px;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px">
+            <button type="button" onClick="{{ resetAll }}" style="height:48px;box-sizing:border-box;padding:0 24px;border:1px solid #E0001B;border-radius:8px;font-family:inherit;font-size:16px;font-weight:600;color:#E0001B;cursor:pointer;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">Скинути фільтри</button>
+            <a href="#" style="height:48px;padding:0 8px;display:flex;align-items:center;font-size:16px;font-weight:600;color:#1E232B;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:4px;transition:text-decoration-color 150ms ease-out" style-hover="text-decoration-color:#1E232B" style-focus="outline:2px solid #1E232B;outline-offset:2px">Запитати менеджера</a>
+          </div>
+        </div>
+      </sc-if>
+    </section>
+  </div>
+</main>
+<dc-import name="DLSFooter" hint-size="100%,1100px"></dc-import>
+<dc-import name="DLSCart" hint-size="0px,0px"></dc-import>
+<dc-import name="DLSQuickView" demo-open="{{ false }}" hint-size="0px,0px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
+const CATS = [
+  ['Кузовні деталі', 290, 'передній бампер', 'assets/cat-body.jpg'],
+  ['Підвіска та ходова', 210, 'амортизатор із пружиною', 'assets/cat-suspension.jpg'],
+  ['Електрика та електроніка', 180, 'блок керування двигуном', 'assets/cat-electric.jpg'],
+  ['Салон', 150, 'водійське сидіння', 'assets/part-pickup-hub.jpg'],
+  ['Оптика', 120, 'фара в зборі', 'assets/part-pickup-hub.jpg'],
+  ['Гальмівна система', 95, 'супорт із диском', 'assets/part-pickup-hub.jpg'],
+  ['Двигуни', 48, 'двигун на підставці', 'assets/cat-engine.jpg'],
+  ['КПП та роздатки', 36, 'автоматична КПП', 'assets/cat-gearbox.jpg'],
+  ['Шини та диски', 18, 'литий диск із шиною', 'assets/cat-wheels.jpg']
+];
+const CARS = {
+  BMW: ['X5 E53'], Ford: ['Ranger 2006–2012', 'Ranger 1998–2006'], Hyundai: ['Santa Fe I 2004–2010', 'Terracan'], Isuzu: ['D-Max'],
+  Jeep: ['Grand Cherokee WK 2004–2007', 'Patriot / Compass 2011–2017'], Kia: ['Sorento 2002–2014'], Mazda: ['BT-50 2006–2012', 'B2500 1998–2006'],
+  'Mercedes-Benz': ['ML W163'], Mitsubishi: ['L200 2005–2015', 'L200 1996–2005', 'Pajero Sport I 1996–2008', 'Pajero Wagon'],
+  Nissan: ['Navara / Pathfinder R51 2005–2015', 'X-Trail T30–T31 2000–2014'], 'Peugeot / Fiat': ['Landtrek / Titano 2020–2026'],
+  SsangYong: ['Actyon 2005–2011', 'Rexton 2001–2006'], Toyota: ['Hilux 2005–2015', 'Land Cruiser Prado 90 1996–2002', 'RAV4 II 2000–2005'],
+  Volkswagen: ['Crafter', 'T5 2003–2009', 'Touareg 2002–2010'], Volvo: ['XC90 2002–2015']
+};
+const LOGO = { BMW: 'bmw', Ford: 'ford', Hyundai: 'hyundai', Isuzu: 'isuzu', Jeep: 'jeep', Kia: 'kia', Mazda: 'mazda', 'Mercedes-Benz': 'mercedes', Mitsubishi: 'mitsubishi', Nissan: 'nissan', 'Peugeot / Fiat': 'peugeot', SsangYong: 'ssangyong', Toyota: 'toyota', Volkswagen: 'volkswagen', Volvo: 'volvo' };
+const TWINS = { 'Ford Ranger 2006–2012': 'Mazda BT-50 2006–2012', 'Mazda BT-50 2006–2012': 'Ford Ranger 2006–2012', 'Ford Ranger 1998–2006': 'Mazda B2500 1998–2006', 'Mazda B2500 1998–2006': 'Ford Ranger 1998–2006' };
+const CHECKS = ['На стенді', 'На авто', 'Візуальний огляд'];
+const WARR = ['14 днів', '30 днів', '60 днів'];
+const SIDES = ['Ліва', 'Права'];
+const EXTRAS = ['З відео перевірки', 'Акція'];
+const PMIN = 100, PMAX = 120000;
+const PAGE = 20;
+const fmtN = n => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? b : c; };
+
+const R = ['Ford', 'Ranger 2006–2012'], B = ['Mazda', 'BT-50 2006–2012'];
+const HAND = [
+  [R, 'Фара ліва галоген', 'UR56-51-040', 4500, null, 'На авто', '14 днів', 'Ліва', true, true],
+  [R, 'Фара права галоген', 'UR56-51-030', 4500, null, 'На авто', '14 днів', 'Права', true, false],
+  [R, 'Ліхтар задній лівий', 'UR56-51-160', 1800, null, 'Візуальний огляд', '14 днів', 'Ліва', false, false],
+  [B, 'Ліхтар задній правий', 'UR56-51-150', 1800, null, 'Візуальний огляд', '14 днів', 'Права', false, false],
+  [B, 'Протитуманна фара ліва', 'UR56-51-690', 900, null, 'На стенді', '14 днів', 'Ліва', false, false],
+  [R, 'Протитуманна фара права', 'UR56-51-680', 900, null, 'На стенді', '14 днів', 'Права', true, false],
+  [R, 'Дзеркало ліве з повторювачем', 'UR57-69-180', 2600, null, 'На авто', '30 днів', 'Ліва', true, true],
+  [B, 'Дзеркало праве з повторювачем', 'UR57-69-120', 2600, null, 'На авто', '30 днів', 'Права', false, false],
+  [B, 'Фара ліва з коректором', 'UR58-51-040', 5200, 6500, 'На авто', '30 днів', 'Ліва', true, false],
+  [R, 'Стоп-сигнал додатковий', 'UR56-51-580', 1100, null, 'Візуальний огляд', '14 днів', null, false, false],
+  [R, 'Повторювач повороту в крило', 'UR56-51-120', 950, null, 'Візуальний огляд', '14 днів', 'Ліва', false, false],
+  [B, 'Фара права з коректором', 'UR58-51-030', 6500, null, 'На авто', '60 днів', 'Права', true, false]
+];
+const NAMES = {
+  'Кузовні деталі': ['Бампер передній', 'Капот', 'Крило переднє', 'Двері передні', 'Кришка багажника'],
+  'Підвіска та ходова': ['Амортизатор задній', 'Важіль передній нижній', 'Ступиця передня', 'Ресора задня', 'Стабілізатор'],
+  'Електрика та електроніка': ['Блок керування двигуном', 'Генератор', 'Стартер', 'Щиток приладів', 'Блок запобіжників'],
+  'Салон': ['Сидіння водія', 'Панель приладів', 'Кермо з подушкою', 'Оббивка дверей', 'Консоль центральна'],
+  'Оптика': ['Фара ліва', 'Фара права', 'Ліхтар задній', 'Протитуманна фара', 'Дзеркало бокове'],
+  'Гальмівна система': ['Супорт передній', 'Гальмівний диск', 'Блок ABS', 'Головний гальмівний циліндр'],
+  'Двигуни': ['Двигун у зборі', 'Головка блоку', 'Турбіна', 'Паливний насос ПНВТ'],
+  'КПП та роздатки': ['КПП механічна', 'АКПП', 'Роздавальна коробка'],
+  'Шини та диски': ['Диск литий R16', 'Шина 245/70 R16', 'Комплект коліс R17']
+};
+const PRICE = { 'Кузовні деталі': [1500, 9000], 'Підвіска та ходова': [600, 4500], 'Електрика та електроніка': [700, 9000], 'Салон': [800, 7000], 'Оптика': [700, 7000], 'Гальмівна система': [600, 6000], 'Двигуни': [35000, 118000], 'КПП та роздатки': [12000, 48000], 'Шини та диски': [1200, 14000] };
+const PHOTO = Object.fromEntries(CATS.map(c => [c[0], c[3]]));
+
+function build() {
+  let seed = 7;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; };
+  const pick = a => a[Math.floor(rnd() * a.length)];
+  const cars = Object.entries(CARS).flatMap(([b, ms]) => ms.map(m => [b, m]));
+  const out = [];
+  HAND.forEach(([[b, m], name, oem, price, old, check, warr, side, video, pop], i) => out.push({
+    id: oem, brand: b, model: m, donor: `${b} ${m}`, name, oem, price, oldPrice: old, cat: 'Оптика', check, warr, side, video, promo: !!old,
+    popular: pop, pop: 1000 - i, date: 1000 - i * 3, photo: 'assets/part-hub.webp', photos: 6
+  }));
+  CATS.forEach(([cat, count]) => {
+    const n = count - (cat === 'Оптика' ? HAND.length : 0);
+    for (let k = 0; k < n; k++) {
+      let car = pick(cars);
+      if (cat === 'Оптика') while (car[1] === 'Ranger 2006–2012' || car[1] === 'BT-50 2006–2012') car = pick(cars);
+      const [lo, hi] = PRICE[cat];
+      const price = Math.round((lo + rnd() * (hi - lo)) / 100) * 100;
+      const promo = rnd() < 0.06;
+      const oem = `${car[0].slice(0, 2).toUpperCase()}${Math.floor(10000 + rnd() * 89999)}`;
+      out.push({
+        id: `${oem}-${out.length}`, brand: car[0], model: car[1], donor: `${car[0]} ${car[1]}`, name: pick(NAMES[cat]), oem, price,
+        oldPrice: promo ? Math.round(price * 1.25 / 100) * 100 : null, cat, check: pick(CHECKS), warr: rnd() < 0.7 ? '14 днів' : pick(WARR),
+        side: rnd() < 0.55 ? pick(SIDES) : null, video: rnd() < 0.4, promo, popular: false, pop: Math.floor(rnd() * 900), date: Math.floor(rnd() * 990),
+        photo: PHOTO[cat], photos: 3 + Math.floor(rnd() * 8)
+      });
+    }
+  });
+  return out;
+}
+const ALL = build();
+const toggleIn = (arr, v) => arr.includes(v) ? arr.filter(x => x !== v) : [...arr, v];
+const tOf = v => Math.sqrt((v - PMIN) / (PMAX - PMIN));
+const vOf = t => { const v = PMIN + (PMAX - PMIN) * t * t; return Math.max(PMIN, Math.min(PMAX, Math.round(v / 100) * 100)); };
+
+class Component extends DCLogic {
+  state = {
+    vw: null, brand: 'Ford', model: 'Ranger 2006–2012', cats: ['Оптика'], from: PMIN, to: PMAX, fromText: null, toText: null,
+    checks: [], warr: [], sides: [], extras: [], sort: 'pop', shown: PAGE,
+    acc: { auto: true, cat: true, price: true, check: false, warr: false, side: false, extra: false },
+    panel: false, panelShown: false, gridOp: 1, gridAnim: false, drag: null
+  };
+  productsRef = React.createRef();
+  trackRef = React.createRef();
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    this.onKey = e => { if (e.key === 'Escape' && this.state.panel) this.closePanel(); };
+    window.addEventListener('keydown', this.onKey);
+    try {
+      const car = localStorage.getItem('dlsCar');
+      if (car) { const b = Object.keys(CARS).find(k => car.startsWith(k + ' ')); if (b) { const m = car.slice(b.length + 1); if (CARS[b].includes(m)) this.setState({ brand: b, model: m }); } }
+    } catch (_) {}
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('keydown', this.onKey);
+    clearTimeout(this.panelT); document.body.style.overflow = '';
+  }
+  update(patch) {
+    this.setState({ ...patch, shown: PAGE, gridOp: 0, gridAnim: false }, () => {
+      requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ gridOp: 1, gridAnim: true })));
+    });
+  }
+  openPanel() { clearTimeout(this.panelT); this.setState({ panel: true }, () => requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ panelShown: true })))); document.body.style.overflow = 'hidden'; }
+  closePanel() { this.setState({ panelShown: false }); this.panelT = setTimeout(() => { this.setState({ panel: false }); document.body.style.overflow = ''; }, 250); }
+  setPriceFromX(clientX, which) {
+    const el = this.trackRef.current; if (!el) return;
+    const r = el.getBoundingClientRect();
+    const v = vOf(Math.max(0, Math.min(1, (clientX - r.left) / r.width)));
+    const s = this.state;
+    if (which === 'from') this.setState({ from: Math.min(v, s.to - 100), fromText: null, shown: PAGE });
+    else this.setState({ to: Math.max(v, s.from + 100), toText: null, shown: PAGE });
+  }
+  filtered() {
+    const s = this.state;
+    const carKey = s.brand && s.model ? `${s.brand} ${s.model}` : null;
+    const twin = carKey && TWINS[carKey];
+    let list = ALL.filter(x => {
+      if (s.brand && !s.model && x.brand !== s.brand) return false;
+      if (carKey && x.donor !== carKey && x.donor !== twin) return false;
+      if (s.cats.length && !s.cats.includes(x.cat)) return false;
+      if (x.price < s.from || x.price > s.to) return false;
+      if (s.checks.length && !s.checks.includes(x.check)) return false;
+      if (s.warr.length && !s.warr.includes(x.warr)) return false;
+      if (s.sides.length && !s.sides.includes(x.side)) return false;
+      if (s.extras.includes('З відео перевірки') && !x.video) return false;
+      if (s.extras.includes('Акція') && !x.promo) return false;
+      return true;
+    });
+    const by = { pop: (a, b) => b.pop - a.pop, new: (a, b) => b.date - a.date, cheap: (a, b) => a.price - b.price, exp: (a, b) => b.price - a.price }[s.sort];
+    return { list: list.slice().sort(by), carKey };
+  }
+  renderVals() {
+    const s = this.state;
+    const vw = s.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1280 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const d = device === 'desktop', lap = device === 'laptop', tab = device === 'tablet', m = device === 'mobile';
+    const side = vw >= 1360 ? 64 : m ? 16 : 32;
+    const panelMode = tab || m;
+    const { list, carKey } = this.filtered();
+    const total = list.length;
+    const shown = Math.min(s.shown, total);
+    const priceActive = s.from > PMIN || s.to < PMAX;
+
+    const chips = [];
+    if (carKey) chips.push({ label: carKey, aria: `Прибрати фільтр: ${carKey}`, remove: () => this.update({ brand: '', model: '' }) });
+    else if (s.brand) chips.push({ label: s.brand, aria: `Прибрати фільтр: ${s.brand}`, remove: () => this.update({ brand: '', model: '' }) });
+    s.cats.forEach(c => chips.push({ label: c, aria: `Прибрати фільтр: ${c}`, remove: () => this.update({ cats: s.cats.filter(x => x !== c) }) }));
+    if (priceActive) {
+      const label = s.from > PMIN && s.to < PMAX ? `${fmtN(s.from)} – ${fmtN(s.to)} ₴` : s.from > PMIN ? `від ${fmtN(s.from)} ₴` : `до ${fmtN(s.to)} ₴`;
+      chips.push({ label, aria: `Прибрати фільтр ціни`, remove: () => this.update({ from: PMIN, to: PMAX, fromText: null, toText: null }) });
+    }
+    [['checks', s.checks], ['warr', s.warr], ['sides', s.sides], ['extras', s.extras]].forEach(([k, arr]) => arr.forEach(v => chips.push({ label: k === 'warr' ? `Гарантія ${v}` : v, aria: `Прибрати фільтр: ${v}`, remove: () => this.update({ [k]: arr.filter(x => x !== v) }) })));
+
+    const acc = key => {
+      const open = !!s.acc[key];
+      return { open, rot: open ? '180deg' : '0deg', rows: open ? '1fr' : '0fr', vis: open ? 'visible' : 'hidden', toggle: () => this.setState(st => ({ acc: { ...st.acc, [key]: !st.acc[key] } })) };
+    };
+    const box = on => ({ on, boxBorder: on ? '#1E232B' : '#A9B0BB', boxBg: on ? '#1E232B' : '#FFFFFF', tickOp: on ? 1 : 0 });
+    const groupDefs = [['check', 'Перевірка', 'checks', CHECKS], ['warr', 'Гарантія', 'warr', WARR], ['side', 'Сторона', 'sides', SIDES], ['extra', 'Додатково', 'extras', EXTRAS]];
+
+    const catW = m ? '160px' : '200px';
+    const sheetOpen = s.panelShown;
+    const asideVals = panelMode ? {
+      aPos: 'fixed', aZ: 160, aTop: m ? 'auto' : '0', aRight: '0', aBottom: '0', aLeft: m ? '0' : 'auto',
+      aW: m ? '100%' : '400px', aH: m ? '88vh' : '100vh', aPad: '0', aBorder: 'none', aRadius: m ? '16px 16px 0 0' : '0',
+      aShadow: '0 12px 32px rgba(18,22,28,0.16)', aT: sheetOpen ? 'none' : (m ? 'translateY(100%)' : 'translateX(100%)'),
+      aVis: s.panel ? 'visible' : 'hidden', aTr: 'transform 250ms ease-out'
+    } : {
+      aPos: 'sticky', aZ: 1, aTop: '24px', aRight: 'auto', aBottom: 'auto', aLeft: 'auto', aW: 'auto', aH: 'auto', aPad: '16px',
+      aBorder: '1px solid #E6E9EE', aRadius: '16px', aShadow: 'none', aT: 'none', aVis: 'visible', aTr: 'none'
+    };
+
+    const fixedPos = { left: `${tOf(s.from) * 100}%`, right: `${(1 - tOf(s.to)) * 100}%` };
+    const step = (v, dir) => vOf(Math.max(0, Math.min(1, tOf(v) + dir * 0.02)));
+
+    return {
+      pad: `24px ${side}px 0`,
+      h1Size: d ? '40px' : m ? '28px' : '32px',
+      countSize: m ? '16px' : '18px',
+      totalLabel: `${fmtN(total)} ${plural(total, 'деталь', 'деталі', 'деталей')}`,
+      hasCar: !!carKey, carLabel: carKey || '',
+      clearCar: () => this.update({ brand: '', model: '' }),
+
+      catsMaxW: panelMode ? 'none' : '1312px',
+      catsPad: panelMode ? '32px 0 0' : `32px ${side}px 0`,
+      catsDisplay: panelMode ? 'flex' : 'grid',
+      catsCols: d ? 'repeat(5, minmax(0, 1fr))' : 'repeat(4, minmax(0, 1fr))',
+      catsOverflow: panelMode ? 'auto' : 'visible',
+      catsSide: `${side}px`,
+      catsInnerPad: panelMode ? `0 ${side}px` : '0',
+      catW, catNameSize: m ? '16px' : '18px',
+      catCards: [...CATS.map(([name, count, partDesc, partSrc]) => ({ name, count: `${count} ${plural(count, 'деталь', 'деталі', 'деталей')}`, partDesc, partSrc, isAll: false, pick: () => this.pickCat(name) }))],
+
+      productsRef: this.productsRef,
+      gridPad: `${d ? 100 : 75}px ${side}px ${d ? 100 : 75}px`,
+      mainCols: panelMode ? 'minmax(0, 1fr)' : d ? 'repeat(5, minmax(0, 1fr))' : 'repeat(4, minmax(0, 1fr))',
+      productsCol: panelMode ? '1' : '2 / -1',
+      prodCols: d ? 'repeat(4, minmax(0, 1fr))' : lap ? 'repeat(3, minmax(0, 1fr))' : 'repeat(2, minmax(0, 1fr))',
+      prodGap: m ? '12px' : '24px',
+
+      panelMode, isSheet: m && panelMode,
+      overlayOp: sheetOpen ? 1 : 0, overlayEvents: s.panel ? 'auto' : 'none',
+      ...asideVals,
+      asideInnerH: panelMode ? '100%' : 'auto',
+      asideMaxH: panelMode ? '100%' : 'calc(100vh - 48px - 32px)',
+      asideHeadPad: panelMode ? '16px 16px 12px 24px' : '0 0 8px',
+      asideHeadBorder: panelMode ? '1px solid #E6E9EE' : '1px solid #E6E9EE',
+      asideBodyPad: panelMode ? '0 24px 16px' : '0',
+      openPanel: () => this.openPanel(), closePanel: () => this.closePanel(),
+      showNText: `Показати ${fmtN(total)} ${plural(total, 'деталь', 'деталі', 'деталей')}`,
+      resetAll: () => this.update({ brand: '', model: '', cats: [], from: PMIN, to: PMAX, fromText: null, toText: null, checks: [], warr: [], sides: [], extras: [] }),
+
+      accAuto: acc('auto'), accCat: acc('cat'), accPrice: acc('price'),
+      brandVal: s.brand, modelVal: s.model, brandOpts: Object.keys(CARS), modelOpts: s.brand ? CARS[s.brand] : [],
+      brandColor: s.brand ? '#1E232B' : '#6B7380',
+      modelDisabled: !s.brand, modelBg: s.brand ? '#FFFFFF' : '#F3F5F7', modelColor: !s.brand ? '#A9B0BB' : s.model ? '#1E232B' : '#6B7380', modelCursor: s.brand ? 'pointer' : 'not-allowed',
+      onBrand: e => this.update({ brand: e.target.value, model: '' }),
+      onModel: e => this.update({ model: e.target.value }),
+      catChecks: CATS.map(([name, count]) => ({ label: name, count: String(count), ...box(s.cats.includes(name)), toggle: () => this.update({ cats: toggleIn(s.cats, name) }) })),
+
+      priceFrom: s.from, priceTo: s.to,
+      priceFromText: s.fromText ?? fmtN(s.from), priceToText: s.toText ?? fmtN(s.to),
+      onFrom: e => { const t = e.target.value.replace(/[^\d ]/g, ''); const v = parseInt(t.replace(/\D/g, ''), 10); this.setState({ fromText: t }); if (!isNaN(v) && v >= PMIN && v < s.to) this.setState({ from: v, shown: PAGE }); },
+      onTo: e => { const t = e.target.value.replace(/[^\d ]/g, ''); const v = parseInt(t.replace(/\D/g, ''), 10); this.setState({ toText: t }); if (!isNaN(v) && v <= PMAX && v > s.from) this.setState({ to: v, shown: PAGE }); },
+      commitPrice: () => this.update({ fromText: null, toText: null }),
+      rangeL: fixedPos.left, rangeR: fixedPos.right, rangeRpos: `${tOf(s.to) * 100}%`,
+      trackRef: this.trackRef,
+      trackDown: e => {
+        const el = this.trackRef.current; if (!el) return;
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const which = Math.abs(x - tOf(s.from)) <= Math.abs(x - tOf(s.to)) ? 'from' : 'to';
+        el.setPointerCapture && el.setPointerCapture(e.pointerId);
+        this.setState({ drag: which });
+        this.setPriceFromX(e.clientX, which);
+      },
+      trackMove: e => { if (this.state.drag) this.setPriceFromX(e.clientX, this.state.drag); },
+      trackUp: () => { if (this.state.drag) this.update({ drag: null }); },
+      keyFrom: e => { const dir = e.key === 'ArrowRight' || e.key === 'ArrowUp' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowDown' ? -1 : 0; if (!dir) return; e.preventDefault(); this.update({ from: Math.min(step(s.from, dir), s.to - 100), fromText: null }); },
+      keyTo: e => { const dir = e.key === 'ArrowRight' || e.key === 'ArrowUp' ? 1 : e.key === 'ArrowLeft' || e.key === 'ArrowDown' ? -1 : 0; if (!dir) return; e.preventDefault(); this.update({ to: Math.max(step(s.to, dir), s.from + 100), toText: null }); },
+
+      groups: groupDefs.map(([key, title, field, opts], i) => ({
+        title, ...acc(key), border: i === groupDefs.length - 1 ? 'none' : '1px solid #E6E9EE',
+        opts: opts.map(v => ({ label: v, ...box(s[field].includes(v)), toggle: () => this.update({ [field]: toggleIn(s[field], v) }) }))
+      })),
+
+      showFilterBtn: panelMode, hasActive: chips.length > 0, activeCount: String(chips.length),
+      toolbarCols: m ? 'minmax(0, 1fr) minmax(0, 1fr)' : panelMode ? 'auto minmax(0, 1fr) auto' : 'minmax(0, 1fr) auto',
+      fBtnCol: m ? '1' : '1',
+      chipsCol: m ? '1 / -1' : panelMode ? '2' : '1', chipsRow: m ? '2' : '1',
+      sortCol: m ? '2' : panelMode ? '3' : '2',
+      sortJustify: m ? 'stretch' : 'end',
+      sortBorder: m ? '1px solid #E6E9EE' : 'none', sortPad: m ? '0 8px 0 12px' : '0',
+      sortFlex: m ? '1' : '0 1 auto',
+      chips, sort: s.sort, onSort: e => this.update({ sort: e.target.value }),
+
+      hasResults: total > 0, noResults: total === 0,
+      gridOp: s.gridOp, gridTr: s.gridAnim ? 'opacity 200ms ease-out' : 'none',
+      products: list.slice(0, shown).map(x => ({
+        donor: x.donor, model: x.model, brand: LOGO[x.brand] || 'mitsubishi', name: x.name, oem: x.oem,
+        price: `${fmtN(x.price)} ₴`, oldPrice: x.oldPrice ? `${fmtN(x.oldPrice)} ₴` : '', popular: x.popular,
+        fits: !!carKey, photo: x.photo, photos: x.photos,
+        specs: [['Стан', 'Б/в, оригінал'], ['Перевірка', x.check], ['Гарантія', x.warr], ['Сторона', x.side || '—']]
+      })),
+      hasMore: shown < total,
+      moreText: `Показати ще ${Math.min(PAGE, total - shown)}`,
+      loadMore: () => this.setState(st => ({ shown: st.shown + PAGE })),
+      moreTop: d ? '48px' : '32px',
+      shownText: `Показано ${fmtN(shown)} із ${fmtN(total)}`
+    };
+  }
+  pickCat(name) {
+    this.update({ cats: name ? [name] : [] });
+    const el = this.productsRef.current;
+    if (el) { const y = el.getBoundingClientRect().top + window.scrollY - 16; window.scrollTo({ top: y, behavior: 'smooth' }); }
+  }
+}
+</script>
+</body>
+</html>

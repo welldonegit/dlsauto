@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}@keyframes dlsSwipe{0%,100%{transform:translateX(-6px)}50%{transform:translateX(6px)}}</style>
+</helmet>
+<section aria-labelledby="suvs-title" data-screen-label="Позашляховики" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B;padding-bottom:{{ sectionPad }}">
+  <div style="padding-left:{{ side }};display:grid;grid-template-columns:{{ gridCols }};gap:24px;align-items:stretch">
+    <aside style="position:relative;min-width:0;align-self:start;aspect-ratio:9 / 16;margin-right:{{ asideRight }};overflow:hidden;border-radius:16px;background:#2A303A;color:#FCFCFD">
+      <video ref="{{ videoRef }}" src="{{ videoSrc }}" aria-label="Позашляховик долає брід у лісі" muted="{{ true }}" loop="{{ true }}" autoPlay="{{ true }}" playsInline="{{ true }}" preload="auto" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"></video>
+      <sc-if value="{{ showFilter }}" hint-placeholder-val="{{ false }}">
+        <div aria-hidden="true" style="position:absolute;inset:0;background:rgba(18,22,28,0.6)"></div>
+        <div style="position:relative;height:100%;box-sizing:border-box;padding:{{ asidePad }};display:flex;flex-direction:column;justify-content:flex-end">
+        <span style="font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#CDD2DA">Пікапи</span>
+        <h2 id="suvs-title" style="margin:8px 0 0;font-size:28px;line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#FCFCFD;text-wrap:balance">Оберіть свій пікап</h2>
+        <p style="margin:8px 0 0;font-size:16px;line-height:1.5;color:rgba(252,252,253,0.8);text-wrap:pretty">Покажемо, що найчастіше купують саме на вашу модель</p>
+        <div role="group" aria-label="Модель позашляховика" style="margin-top:24px;display:flex;flex-direction:column;gap:8px">
+          <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="7">
+            <button onClick="{{ ch.select }}" aria-pressed="{{ ch.active }}" style="position:relative;min-height:44px;box-sizing:border-box;padding:8px 40px;display:flex;align-items:center;justify-content:center;border:1px solid {{ ch.border }};border-radius:8px;background:{{ ch.bg }};color:{{ ch.color }};font-family:inherit;font-size:15px;line-height:20px;text-align:center;cursor:pointer;transition:border-color 200ms cubic-bezier(0.22, 1, 0.36, 1), background 200ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="border-color:#FCFCFD" style-focus="outline:2px solid #FCFCFD;outline-offset:2px">
+              <span style="text-wrap:balance">{{ ch.label }}</span>
+              <span style="position:absolute;top:50%;right:12px;transform:translateY(-50%);font-size:12px;line-height:16px;color:{{ ch.countColor }}">{{ ch.count }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <p style="margin:16px 0 0;font-size:13px;line-height:1.4;color:rgba(252,252,253,0.7);text-wrap:pretty">Якщо авто вже обрано в шапці — модель підставляється автоматично</p>
+      </div>
+      </sc-if>
+      <sc-if value="{{ noVideo }}" hint-placeholder-val="{{ true }}">
+        <span style="position:absolute;left:24px;right:24px;bottom:24px;z-index:1;font-size:13px;line-height:18px;color:rgba(252,252,253,0.7);text-wrap:pretty">Відео: позашляховик долає брід у лісі, вид збоку, темна палітра</span>
+      </sc-if>
+      <sc-if value="{{ showBanner }}" hint-placeholder-val="{{ true }}">
+        <div aria-hidden="true" style="position:absolute;inset:0;background:rgba(18,22,28,0.2)"></div>
+        <div aria-hidden="true" style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(18,22,28,0.72) 0%, rgba(18,22,28,0.32) 55%, rgba(18,22,28,0) 80%)"></div>
+        <div style="position:relative;height:100%;min-height:{{ bannerMin }};box-sizing:border-box;padding:24px;display:flex;flex-direction:column;align-items:flex-start">
+          <h2 id="suvs-title" style="margin:0;font-size:{{ bannerH2 }};line-height:1.1;font-weight:600;letter-spacing:-0.02em;color:#FCFCFD;text-wrap:balance">Запчастини на позашляховики</h2>
+          <p style="margin:12px 0 0;font-size:16px;line-height:1.5;color:#FCFCFD;text-wrap:pretty">Б/в оригінальні деталі на Pajero, Grand Cherokee, Sorento та ML</p>
+          <a href="#" style="margin-top:24px;height:48px;box-sizing:border-box;padding:0 24px;display:flex;align-items:center;border-radius:8px;background-color:#E0001B;background-image:radial-gradient(circle, #B80016 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;font-size:16px;font-weight:600;color:#FCFCFD;text-decoration:none;white-space:nowrap;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%;color:#FCFCFD" style-focus="outline:2px solid #FCFCFD;outline-offset:2px">Усі позашляховики</a>
+        </div>
+      </sc-if>
+    </aside>
+    <div style="min-width:0;display:flex;flex-direction:column">
+      <div style="padding-right:{{ side }};display:flex;flex-direction:column;gap:16px">
+        <sc-if value="{{ showSwipe }}" hint-placeholder-val="{{ false }}">
+          <div aria-hidden="true" style="display:flex;align-items:center;gap:8px;font-size:14px;line-height:20px;color:#4A5260">{{ swipeHand }}<span>Гортайте</span></div>
+        </sc-if>
+        <div ref="{{ chipsRef }}" onScroll="{{ onChipsScroll }}" role="tablist" aria-label="Модель позашляховика" style="min-width:0;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;scroll-behavior:smooth">
+          <sc-for list="{{ chips }}" as="tb" hint-placeholder-count="16">
+            <button role="tab" aria-selected="{{ tb.active }}" onClick="{{ tb.select }}" style="height:40px;flex-shrink:0;box-sizing:border-box;padding:0 16px 0 12px;display:flex;align-items:center;gap:8px;border:1px solid {{ tb.tabBorder }};border-radius:8px;background:{{ tb.tabBg }};color:{{ tb.tabColor }};font-family:inherit;font-size:14px;line-height:20px;font-weight:500;white-space:nowrap;cursor:pointer;transition:background 200ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="border-color:#1E232B" style-focus="outline:2px solid #1E232B;outline-offset:2px"><span style="display:flex;align-items:center;gap:6px"><sc-if value="{{ tb.hasLogo }}" hint-placeholder-val="{{ true }}"><img src="{{ tb.logoSrc }}" alt="" style="width:16px;height:16px;flex-shrink:0;object-fit:contain;display:block;filter:{{ tb.logoFilter }};transition:filter 200ms cubic-bezier(0.22, 1, 0.36, 1)"></sc-if>{{ tb.label }}</span><span style="font-size:12px;line-height:16px;font-weight:400;color:{{ tb.tabCount }}">{{ tb.count }}</span></button>
+          </sc-for>
+        </div>
+      </div>
+      <div ref="{{ scrollRef }}" onScroll="{{ onScroll }}" style="flex:1;margin:0 0 {{ scrollMb }} -16px;padding:24px {{ side }} 168px 16px;scroll-padding-left:16px;display:flex;align-items:stretch;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;opacity:{{ fadeOp }};transition:opacity 200ms ease-out">
+        <sc-for list="{{ cards }}" as="c" hint-placeholder-count="5">
+          <div style="position:relative;z-index:{{ c.z }};flex:0 0 224px;width:224px;min-width:0;display:flex;scroll-snap-align:start" style-hover="z-index:3">
+            <dc-import name="DLSProductCard" style="width:100%;height:100%" photo-src="assets/part-pickup-hub.jpg" donor="{{ c.donor }}" model="{{ c.model }}" brand="{{ c.brand }}" part-name="{{ c.name }}" oem="{{ c.oem }}" price="{{ c.price }}" old-price="{{ c.oldPrice }}" popular="{{ c.popular }}" fits="{{ c.fits }}" favorite="{{ c.favorite }}" specs="{{ c.specs }}" photos="{{ c.photos }}" demo-hover="{{ c.demo }}" hint-size="224px,520px"></dc-import>
+          </div>
+        </sc-for>
+      </div>
+      <div style="position:relative;z-index:2;padding-right:{{ side }};display:flex;justify-content:flex-end">
+        <sc-if value="{{ showArrows }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex;gap:8px">
+              <button aria-label="Попередні" onClick="{{ scrollPrev }}" disabled="{{ atStart }}" style="width:48px;height:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #CDD2DA;border-radius:50%;background:#FCFCFD;color:{{ prevColor }};cursor:{{ prevCursor }};transition:border-color 150ms ease-out" style-hover="border-color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m15 18-6-6 6-6"></path></svg></button>
+              <button aria-label="Наступні" onClick="{{ scrollNext }}" disabled="{{ atEnd }}" style="width:48px;height:48px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #CDD2DA;border-radius:50%;background:#FCFCFD;color:{{ nextColor }};cursor:{{ nextCursor }};transition:border-color 150ms ease-out" style-hover="border-color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg></button>
+            </div>
+          </sc-if>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;model&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Pajero Sport I 1996–2008&quot;,&quot;Grand Cherokee WK 2004–2007&quot;,&quot;Sorento 2002–2014&quot;,&quot;ML W163&quot;,&quot;Pajero Wagon&quot;,&quot;Santa Fe I 2004–2010&quot;,&quot;X-Trail T30–T31 2000–2014&quot;,&quot;Actyon 2005–2011&quot;,&quot;Patriot / Compass 2011–2017&quot;,&quot;Touareg 2002–2010&quot;,&quot;Rexton 2001–2006&quot;,&quot;RAV4 II 2000–2005&quot;,&quot;Terracan&quot;,&quot;Land Cruiser Prado 90 1996–2002&quot;,&quot;XC90 2002–2015&quot;,&quot;X5 E53&quot;],&quot;default&quot;:&quot;Pajero Sport I 1996–2008&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showFilter&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;}}">
+const MODELS = [["Pajero Sport I 1996–2008",84,"Pajero Sport 1996–2008","Mitsubishi Pajero Sport 1996–2008",[["Фара ліва","MR387371",14,"Перевірено","3 800 ₴",true],["Роздатка Super Select","MR580741",30,"Перевірено на стенді","16 500 ₴",true],["Амортизатор передній","MR992060",14,"Перевірено","1 200 ₴",false],["Бампер задній","MR387623",14,"Перевірено","4 900 ₴",false],["Двері задні праві","MR273960",14,"Перевірено","7 200 ₴",false]]],
+  ["Grand Cherokee WK 2004–2007",81,"Grand Cherokee 2004–2007","Jeep Grand Cherokee 2004–2007",[["Фара ліва","55411371",14,"Перевірено","3 600 ₴",true],["Генератор","55412348",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","55413325",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","55414302",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","55415279",14,"Перевірено","4 800 ₴",false]]],
+  ["Sorento 2002–2014",67,"Sorento 2002–2014","Kia Sorento 2002–2014",[["Фара ліва","92412742",14,"Перевірено","3 600 ₴",true],["Генератор","92413719",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","92414696",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","92415673",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","92416650",14,"Перевірено","4 800 ₴",false]]],
+  ["ML W163",52,"ML W163","Mercedes-Benz ML W163",[["Фара ліва","A163414113",14,"Перевірено","3 600 ₴",true],["Генератор","A163415090",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","A163416067",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","A163417044",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","A163418021",14,"Перевірено","4 800 ₴",false]]],
+  ["Pajero Wagon",45,"Pajero Wagon","Mitsubishi Pajero Wagon",[["Фара ліва","MR415484",14,"Перевірено","3 600 ₴",true],["Генератор","MR416461",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","MR417438",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","MR418415",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","MR419392",14,"Перевірено","4 800 ₴",false]]],
+  ["Santa Fe I 2004–2010",45,"Santa Fe 2004–2010","Hyundai Santa Fe 2004–2010",[["Фара ліва","92416855",14,"Перевірено","3 600 ₴",true],["Генератор","92417832",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","92418809",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","92419786",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","92420763",14,"Перевірено","4 800 ₴",false]]],
+  ["X-Trail T30–T31 2000–2014",43,"X-Trail 2000–2014","Nissan X-Trail 2000–2014",[["Фара ліва","26418226",14,"Перевірено","3 600 ₴",true],["Генератор","26419203",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","26420180",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","26421157",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","26422134",14,"Перевірено","4 800 ₴",false]]],
+  ["Actyon 2005–2011",28,"Actyon 2005–2011","SsangYong Actyon 2005–2011",[["Фара ліва","83419597",14,"Перевірено","3 600 ₴",true],["Генератор","83420574",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","83421551",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","83422528",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","83423505",14,"Перевірено","4 800 ₴",false]]],
+  ["Patriot / Compass 2011–2017",23,"Patriot / Compass 2011–2017","Jeep Patriot / Compass 2011–2017",[["Фара ліва","68420968",14,"Перевірено","3 600 ₴",true],["Генератор","68421945",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","68422922",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","68423899",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","68424876",14,"Перевірено","4 800 ₴",false]]],
+  ["Touareg 2002–2010",20,"Touareg 2002–2010","Volkswagen Touareg 2002–2010",[["Фара ліва","7L422339",14,"Перевірено","3 600 ₴",true],["Генератор","7L423316",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","7L424293",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","7L425270",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","7L426247",14,"Перевірено","4 800 ₴",false]]],
+  ["Rexton 2001–2006",15,"Rexton 2001–2006","SsangYong Rexton 2001–2006",[["Фара ліва","83423710",14,"Перевірено","3 600 ₴",true],["Генератор","83424687",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","83425664",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","83426641",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","83427618",14,"Перевірено","4 800 ₴",false]]],
+  ["RAV4 II 2000–2005",13,"RAV4 2000–2005","Toyota RAV4 2000–2005",[["Фара ліва","81425081",14,"Перевірено","3 600 ₴",true],["Генератор","81426058",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","81427035",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","81428012",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","81428989",14,"Перевірено","4 800 ₴",false]]],
+  ["Terracan",13,"Terracan","Hyundai Terracan",[["Фара ліва","92426452",14,"Перевірено","3 600 ₴",true],["Генератор","92427429",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","92428406",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","92429383",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","92430360",14,"Перевірено","4 800 ₴",false]]],
+  ["Land Cruiser Prado 90 1996–2002",13,"Prado 90 1996–2002","Toyota Prado 90 1996–2002",[["Фара ліва","81427823",14,"Перевірено","3 600 ₴",true],["Генератор","81428800",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","81429777",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","81430754",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","81431731",14,"Перевірено","4 800 ₴",false]]],
+  ["XC90 2002–2015",11,"XC90 2002–2015","Volvo XC90 2002–2015",[["Фара ліва","30429194",14,"Перевірено","3 600 ₴",true],["Генератор","30430171",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","30431148",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","30432125",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","30433102",14,"Перевірено","4 800 ₴",false]]],
+  ["X5 E53",6,"X5 E53","BMW X5 E53",[["Фара ліва","63430565",14,"Перевірено","3 600 ₴",true],["Генератор","63431542",30,"Перевірено на стенді","3 200 ₴",true],["Бампер передній","63432519",14,"Перевірено","5 400 ₴",false],["Дзеркало праве","63433496",14,"Перевірено","2 100 ₴",false],["Двері передні ліві","63434473",14,"Перевірено","4 800 ₴",false]]]];
+const LOGOS = ["mitsubishi","jeep","kia","mercedes","mitsubishi","hyundai","nissan","ssangyong","jeep","volkswagen","ssangyong","toyota","hyundai","toyota","volvo","bmw"];
+const SHORTS = ["Pajero Sport 1996–2008","Grand Cherokee 2004–2007","Sorento 2002–2014","ML W163","Pajero Wagon","Santa Fe 2004–2010","X-Trail 2000–2014","Actyon 2005–2011","Patriot / Compass 2011–2017","Touareg 2002–2010","Rexton 2001–2006","RAV4 2000–2005","Terracan","Prado 90 1996–2002","XC90 2002–2015","X5 E53"];
+const HAS_LOGO = [true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true];
+const STEP = 224 + 24;
+const PHOTOS = 6;
+const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const tr = (props, ms, delay = 0) => props.map(p => `${p} ${ms}ms ${EASE} ${delay}ms`).join(', ');
+const indexOf = (label) => Math.max(0, MODELS.findIndex(m => m[0] === label));
+
+class Component extends DCLogic {
+  state = { vw: null, model: null, fading: false, hovered: null, photo: {}, atStart: true, atEnd: false };
+  scrollRef = React.createRef();
+  chipsRef = React.createRef();
+  swipeHand = React.createElement('svg', { viewBox: '0 0 24 24', width: 20, height: 20, 'aria-hidden': true, style: { flexShrink: 0, fill: 'none', stroke: '#1E232B', strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round', animation: 'dlsSwipe 1.6s ease-in-out infinite' } },
+    React.createElement('path', { d: 'M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2' }),
+    React.createElement('path', { d: 'M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2' }),
+    React.createElement('path', { d: 'M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8' }),
+    React.createElement('path', { d: 'M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15' }));
+  syncChips() {
+    const el = this.chipsRef.current;
+    if (!el) return;
+    const over = el.scrollWidth > el.clientWidth + 2;
+    if (over !== this.state.chipsOver) this.setState({ chipsOver: over });
+  }
+  videoRef = (el) => {
+    this.video = el;
+    if (el) { el.muted = true; el.defaultMuted = true; el.loop = true; el.playsInline = true; el.setAttribute('playsinline', ''); el.setAttribute('muted', ''); }
+  };
+
+  componentDidMount() {
+    this.onResize = () => { this.setState({ vw: window.innerWidth }); this.syncEdges(); this.syncChips(); };
+    window.addEventListener('resize', this.onResize);
+    this.syncEdges();
+    this.syncChips();
+    this.chipsTimer = setTimeout(() => this.syncChips(), 600);
+    fetch('assets/videos/suv.mp4').then(r => r.ok ? r.blob() : null).then(b => {
+      if (!b || this.unmounted) return;
+      this.blobUrl = URL.createObjectURL(b);
+      this.setState({ videoSrc: this.blobUrl }, () => this.playVideo());
+    }).catch(() => {});
+  }
+  playVideo() {
+    const v = this.video;
+    if (!v || !this.state.videoSrc) return;
+    v.muted = true;
+    const go = () => v.play().catch(() => {});
+    if (v.readyState >= 2) go(); else v.addEventListener('loadeddata', go, { once: true });
+  }
+  componentDidUpdate() { if (this.video && this.video.paused && this.state.videoSrc && !this.unmounted) this.playVideo(); }
+  componentWillUnmount() {
+    this.unmounted = true;
+    window.removeEventListener('resize', this.onResize);
+    clearTimeout(this.fadeTimer);
+    clearTimeout(this.chipsTimer);
+    if (this.blobUrl) URL.revokeObjectURL(this.blobUrl);
+  }
+
+  syncEdges() {
+    const el = this.scrollRef.current;
+    if (!el) return;
+    const atStart = el.scrollLeft <= 2, atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 2;
+    if (atStart !== this.state.atStart || atEnd !== this.state.atEnd) this.setState({ atStart, atEnd });
+  }
+
+  current() { return this.state.model ?? indexOf(this.props.model ?? 'Pajero Sport I 1996–2008'); }
+
+  select(i) {
+    if (i === this.current() && !this.state.fading) return;
+    clearTimeout(this.fadeTimer);
+    this.setState({ fading: true });
+    this.fadeTimer = setTimeout(() => {
+      this.setState({ model: i, hovered: null, photo: {}, fading: false }, () => {
+        const el = this.scrollRef.current;
+        if (el) el.scrollLeft = 0;
+        this.syncEdges();
+      });
+    }, 200);
+  }
+
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const m = device === 'mobile';
+    const pad = device === 'desktop' ? 64 : device === 'tablet' ? 32 : 16;
+    const sectionPad = device === 'desktop' ? 100 : 75;
+    const side = `max(${pad}px, calc((100% - 1312px) / 2))`;
+    const cur = this.current();
+    const [chipLabel, count, short, donor, items] = MODELS[cur];
+    const s = this.state;
+
+    const chips = MODELS.map(([label, n], i) => {
+      const a = i === cur;
+      return {
+        label, count: n, active: a,
+        bg: a ? '#FCFCFD' : 'transparent',
+        color: a ? '#1E232B' : '#FCFCFD',
+        border: a ? '#FCFCFD' : 'rgba(252,252,253,0.4)',
+        countColor: a ? '#4A5260' : 'rgba(252,252,253,0.7)',
+        tabBg: a ? '#1E232B' : '#FCFCFD',
+        tabColor: a ? '#FCFCFD' : '#1E232B',
+        tabBorder: a ? '#1E232B' : '#E6E9EE',
+        tabCount: a ? '#CDD2DA' : '#6B7380',
+        logoSrc: `assets/logos/${LOGOS[i]}.svg`,
+        hasLogo: HAS_LOGO[i],
+        logoFilter: a ? 'brightness(0) invert(1)' : 'none',
+        select: () => this.select(i)
+      };
+    });
+
+    const cards = items.map(([name, oem, days, check, price, popular], i) => ({
+      donor, name, oem, price, popular, oldPrice: null, photos: PHOTOS,
+      model: SHORTS[cur], brand: LOGOS[cur],
+      fits: false, favorite: false, demo: false, z: 1,
+      specs: [['Стан', 'Б/в, оригінал'], ['Гарантія', `${days} днів`], ['Перевірка', check], ['Сумісність', short]],
+      key: cur + '-' + i
+    }));
+
+    return {
+      sectionPad: `${sectionPad}px`,
+      chipsRef: this.chipsRef,
+      onChipsScroll: () => {},
+      showSwipe: !!s.chipsOver,
+      swipeHand: this.swipeHand,
+      scrollMb: m ? '-168px' : '-144px',
+      side,
+      gridCols: m ? 'minmax(0, 1fr)' : device === 'desktop' ? '328px minmax(0, 1fr)' : '272px minmax(0, 1fr)',
+      asideRight: m ? side : '0px',
+      asidePad: m ? '24px 16px' : '56px 16px 16px',
+      headDir: m ? 'column' : 'row',
+      headAlign: m ? 'flex-start' : 'center',
+      title: `Найчастіше купують на ${chipLabel}`,
+      linkText: `Усі деталі на ${short} (${count}) →`,
+      fadeOp: s.fading ? 0 : 1,
+      showFilter: !!this.props.showFilter,
+      showBanner: !this.props.showFilter,
+      videoRef: this.videoRef,
+      videoSrc: s.videoSrc,
+      noVideo: !s.videoSrc,
+      bannerMin: '0px',
+      bannerH2: device === 'desktop' ? '32px' : device === 'tablet' ? '26px' : '32px',
+      chips,
+      showArrows: !m,
+      atStart: s.atStart, atEnd: s.atEnd,
+      prevColor: s.atStart ? '#A9B0BB' : '#1E232B', prevCursor: s.atStart ? 'default' : 'pointer',
+      nextColor: s.atEnd ? '#A9B0BB' : '#1E232B', nextCursor: s.atEnd ? 'default' : 'pointer',
+      scrollPrev: () => this.scrollRef.current?.scrollBy({ left: -STEP, behavior: 'smooth' }),
+      scrollNext: () => this.scrollRef.current?.scrollBy({ left: STEP, behavior: 'smooth' }),
+      scrollRef: this.scrollRef,
+      onScroll: () => this.syncEdges(),
+      cards
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+</helmet>
+<section aria-label="Наші переваги" data-screen-label="Переваги" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }};display:grid;grid-template-columns:{{ cols }};gap:{{ gap }}">
+    <div style="padding:{{ cardPad }};display:flex;align-items:flex-start;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E6E9EE;border-radius:16px">
+      <span style="width:{{ box }};height:{{ box }};flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#1E232B;color:#FCFCFD"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg></span>
+      <div style="flex:1;min-width:0">
+        <h3 style="margin:0;min-height:{{ box }};display:flex;align-items:center;font-size:18px;line-height:1.4;font-weight:600;color:#1E232B;text-wrap:balance">Відправка в день замовлення</h3>
+        <sc-if value="{{ shipToday }}" hint-placeholder-val="{{ true }}"><p style="margin:8px 0 0;max-width:640px;font-size:16px;line-height:1.6;color:#4A5260;text-wrap:pretty">Обирайте деталі — відправимо сьогодні Новою поштою або Delivery. Габаритні деталі — 1–2 дні.</p></sc-if>
+        <sc-if value="{{ shipTomorrow }}" hint-placeholder-val="{{ false }}"><p style="margin:8px 0 0;max-width:640px;font-size:16px;line-height:1.6;color:#4A5260;text-wrap:pretty">Обирайте деталі — відправимо завтра Новою поштою або Delivery. Габаритні деталі — 1–2 дні.</p></sc-if>
+        <sc-if value="{{ shipMonday }}" hint-placeholder-val="{{ false }}"><p style="margin:8px 0 0;max-width:640px;font-size:16px;line-height:1.6;color:#4A5260;text-wrap:pretty">Обирайте деталі — відправимо в понеділок Новою поштою або Delivery. Габаритні деталі — 1–2 дні.</p></sc-if>
+      </div>
+    </div>
+    <div style="padding:{{ cardPad }};display:flex;align-items:flex-start;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E6E9EE;border-radius:16px">
+      <span style="width:{{ box }};height:{{ box }};flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#1E232B;color:#FCFCFD"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg></span>
+      <div style="flex:1;min-width:0">
+        <h3 style="margin:0;min-height:{{ box }};display:flex;align-items:center;font-size:18px;line-height:1.4;font-weight:600;color:#1E232B;text-wrap:balance">Безпечна оплата</h3>
+        <p style="margin:8px 0 0;max-width:640px;font-size:16px;line-height:1.6;color:#4A5260;text-wrap:pretty">Дрібні деталі — оплата при отриманні. Габаритні — часткова передплата після підтвердження. Картка через monoPay або готівка.</p>
+      </div>
+    </div>
+    <div style="padding:{{ cardPad }};display:flex;align-items:flex-start;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E6E9EE;border-radius:16px">
+      <span style="width:{{ box }};height:{{ box }};flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#1E232B;color:#FCFCFD"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></span>
+      <div style="flex:1;min-width:0">
+        <h3 style="margin:0;min-height:{{ box }};display:flex;align-items:center;font-size:18px;line-height:1.4;font-weight:600;color:#1E232B;text-wrap:balance">Гарантія до 60 днів</h3>
+        <p style="margin:8px 0 0;max-width:640px;font-size:16px;line-height:1.6;color:#4A5260;text-wrap:pretty">14 днів на більшість деталей, 30 — на двигуни та агрегати, до 60 — на відновлені. Не підійшла — обміняємо або повернемо гроші.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:360},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;},&quot;ship&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;today&quot;,&quot;tomorrow&quot;,&quot;monday&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'today'|'tomorrow'|'monday'&quot;}}">
+class Component extends DCLogic {
+  state = { vw: null };
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    this.tick = setInterval(() => this.forceUpdate(), 30000);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); clearInterval(this.tick); }
+  shipMode() {
+    const forced = this.props.ship ?? 'auto';
+    if (forced !== 'auto') return forced;
+    const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Kyiv', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+    const get = t => parts.find(p => p.type === t)?.value;
+    const day = get('weekday'), mins = +get('hour') * 60 + +get('minute');
+    if (day === 'Sun') return 'monday';
+    if (mins < 15 * 60) return 'today';
+    return day === 'Sat' ? 'monday' : 'tomorrow';
+  }
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
+    const d = device === 'desktop';
+    const ship = this.shipMode();
+    return {
+      shipToday: ship === 'today', shipTomorrow: ship === 'tomorrow', shipMonday: ship === 'monday',
+      pad: d ? '0 64px 100px' : device === 'tablet' ? '0 32px 75px' : '0 16px 75px',
+      cols: d ? 'repeat(3, minmax(0, 1fr))' : 'minmax(0, 1fr)',
+      gap: device === 'mobile' ? '12px' : '16px',
+      cardPad: device === 'mobile' ? '16px' : '24px',
+      box: device === 'mobile' ? '40px' : '48px'
+    };
+  }
+}
+</script>
+</body>
+</html>

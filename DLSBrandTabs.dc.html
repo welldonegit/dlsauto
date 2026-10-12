@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+</helmet>
+<section aria-labelledby="brand-tabs-title" data-screen-label="Авто на розборці — ряд логотипів" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <div style="display:grid;grid-template-columns:{{ headCols }};column-gap:32px;row-gap:16px;align-items:center">
+      <h2 id="brand-tabs-title" style="grid-column:1;grid-row:1;margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-wrap:balance">Авто на розборці</h2>
+      <p style="grid-column:1;grid-row:2;margin:0;max-width:560px;font-size:16px;line-height:1.5;color:#4A5260;text-wrap:pretty">Оберіть своє авто — покажемо тільки те, що на нього підійде</p>
+      <a href="#" style="grid-column:{{ linkCol }};grid-row:{{ linkRow }};justify-self:start;height:48px;box-sizing:border-box;padding:0 24px;display:inline-flex;align-items:center;border:1px solid #E0001B;border-radius:8px;font-size:16px;line-height:20px;font-weight:600;color:#E0001B;text-decoration:none;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-focus="outline:2px solid #1E232B;outline-offset:2px" style-hover="background-size:300% 300%">Запитати менеджера</a>
+    </div>
+    <div role="tablist" aria-label="Марка авто" style="margin:{{ brandsMargin }};padding:{{ brandsPad }};display:{{ brandsDisplay }};grid-template-columns:{{ brandsCols }};gap:{{ brandsGap }};overflow-x:{{ brandsOverflow }};scrollbar-width:none;scroll-snap-type:x proximity;scroll-padding:0 16px">
+      <sc-for list="{{ brands }}" as="b" hint-placeholder-count="16">
+        <button role="tab" aria-selected="{{ b.active }}" onClick="{{ b.select }}" onMouseEnter="{{ b.enter }}" onMouseLeave="{{ b.leave }}" style="min-width:0;width:{{ itemW }};flex-shrink:0;padding:0;display:flex;flex-direction:column;align-items:center;gap:8px;border:none;background:transparent;font-family:inherit;cursor:pointer;scroll-snap-align:start" style-focus="outline:2px solid #1E232B;outline-offset:2px;border-radius:8px">
+          <span style="width:100%;max-width:72px;aspect-ratio:1 / 1;box-sizing:border-box;display:flex;align-items:center;justify-content:center;gap:4px;border-radius:8px;background:{{ b.bg }};color:{{ b.iconColor }};transition:background 200ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms cubic-bezier(0.22, 1, 0.36, 1)">
+            <sc-for list="{{ b.logos }}" as="lg" hint-placeholder-count="1"><img src="{{ lg }}" alt="" style="width:{{ b.logoSize }};height:{{ b.logoSize }};object-fit:contain;display:block;filter:{{ b.logoFilter }};transition:filter 200ms cubic-bezier(0.22, 1, 0.36, 1)"></sc-for>
+            <sc-if value="{{ b.noLogo }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="width:32px;height:32px;box-sizing:border-box;border:1px dashed {{ b.phBorder }};border-radius:8px"></span></sc-if>
+            <sc-if value="{{ b.isWheel }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="32" height="32" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="1.5"></circle><path d="M12 6v4.5"></path><path d="m17.7 10.1-4.3 1.4"></path><path d="m15.5 16.9-2.6-3.7"></path><path d="m8.5 16.9 2.6-3.7"></path><path d="m6.3 10.1 4.3 1.4"></path></svg></sc-if>
+          </span>
+          <span style="width:100%;min-height:32px;font-size:13px;line-height:16px;font-weight:{{ b.nameWeight }};color:{{ b.nameColor }};text-align:center;text-wrap:balance;overflow-wrap:anywhere;transition:color 200ms cubic-bezier(0.22, 1, 0.36, 1)">{{ b.name }}</span>
+        </button>
+      </sc-for>
+    </div>
+    <div style="margin-top:24px;padding-top:24px;border-top:1px solid #E6E9EE;display:grid;grid-template-columns:{{ rowCols }};column-gap:16px;row-gap:16px;align-items:start">
+      <span style="grid-column:1;grid-row:1;padding-top:{{ labelPad }};font-size:14px;line-height:20px;color:#4A5260">Моделі:</span>
+      <div role="tabpanel" aria-label="{{ panelLabel }}" style="grid-column:{{ chipsCol }};grid-row:{{ chipsRow }};min-width:0;display:grid">
+        <sc-for list="{{ panels }}" as="p" hint-placeholder-count="1">
+          <div aria-hidden="{{ p.hidden }}" style="grid-area:1 / 1;min-width:0;display:flex;flex-wrap:wrap;gap:8px;opacity:{{ p.op }};visibility:{{ p.vis }};transition:opacity 200ms ease-out, visibility 200ms">
+            <sc-for list="{{ p.chips }}" as="ch" hint-placeholder-count="4">
+              <a href="#" tabindex="{{ p.tab }}" aria-label="{{ ch.aria }}" aria-current="{{ ch.current }}" style="height:40px;max-width:100%;box-sizing:border-box;padding:0 16px;display:flex;align-items:center;gap:8px;border:1px solid {{ ch.border }};border-radius:8px;background:{{ ch.bg }};color:{{ ch.color }};text-decoration:none;white-space:nowrap;transition:background 200ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="border-color:#1E232B" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+                <span style="font-size:15px;line-height:20px;font-weight:500;overflow:hidden;text-overflow:ellipsis">{{ ch.name }}</span>
+                <span style="flex-shrink:0;font-size:12px;line-height:16px;font-weight:400;color:{{ ch.countColor }}">{{ ch.count }}</span>
+              </a>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:560},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;},&quot;activeModel&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;немає&quot;,&quot;options&quot;:[&quot;немає&quot;,&quot;Mitsubishi L200 2005–2015&quot;,&quot;Ford Ranger 2006–2012&quot;,&quot;Nissan Navara / Pathfinder R51 2005–2015&quot;,&quot;Toyota Hilux 2005–2015&quot;,&quot;Jeep Grand Cherokee WK 2004–2007&quot;,&quot;Шини та диски&quot;],&quot;tsType&quot;:&quot;string&quot;}}">
+const LOGOS = { BMW: ['bmw'], Ford: ['ford'], Hyundai: ['hyundai'], Isuzu: ['isuzu'], SsangYong: ['ssangyong'], Jeep: ['jeep'], Kia: ['kia'], Mazda: ['mazda'], 'Mercedes-Benz': ['mercedes'], Mitsubishi: ['mitsubishi'], Nissan: ['nissan'], 'Peugeot / Fiat': ['peugeot', 'fiat'], Toyota: ['toyota'], Volkswagen: ['volkswagen'], Volvo: ['volvo'] };
+const WHEEL = 'Шини та диски';
+const BRANDS = [
+  ['BMW', 6, [['X5 E53', 6]]],
+  ['Ford', 226, [['Ranger 2006–2012', 118], ['Ranger 1998–2006', 108]]],
+  ['Hyundai', 58, [['Santa Fe I 2004–2010', 45], ['Terracan', 13]]],
+  ['Isuzu', 2, [['D-Max', 2]]],
+  ['Jeep', 104, [['Grand Cherokee WK 2004–2007', 81], ['Patriot / Compass 2011–2017', 23]]],
+  ['Kia', 67, [['Sorento 2002–2014', 67]]],
+  ['Mazda', 226, [['BT-50 2006–2012', 118], ['B2500 1998–2006', 108]]],
+  ['Mercedes-Benz', 52, [['ML W163', 52]]],
+  ['Mitsubishi', 260, [['L200 2005–2015', 85], ['Pajero Sport I 1996–2008', 84], ['L200 1996–2005', 46], ['Pajero Wagon', 45]]],
+  ['Nissan', 172, [['Navara / Pathfinder R51 2005–2015', 129], ['X-Trail T30–T31 2000–2014', 43]]],
+  ['Peugeot / Fiat', 4, [['Landtrek / Titano 2020–2026', 4]]],
+  ['SsangYong', 43, [['Actyon 2005–2011', 28], ['Rexton 2001–2006', 15]]],
+  ['Toyota', 53, [['Hilux 2005–2015', 27], ['Land Cruiser Prado 90 1996–2002', 13], ['RAV4 II 2000–2005', 13]]],
+  ['Volkswagen', 103, [['Crafter', 43], ['T5 2003–2009', 40], ['Touareg 2002–2010', 20]]],
+  ['Volvo', 11, [['XC90 2002–2015', 11]]],
+  [WHEEL, 18, [['Усі шини та диски', 18]]]
+];
+const CAR_KEY = 'dlsCar';
+const carBrand = key => {
+  if (!key) return null;
+  if (key === WHEEL) return WHEEL;
+  const b = BRANDS.find(([n, , ms]) => ms.some(([mn]) => `${n} ${mn}` === key));
+  return b ? b[0] : null;
+};
+
+class Component extends DCLogic {
+  state = { vw: null, brand: null, hover: null, car: null };
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    this.onCar = () => { try { this.setState({ car: localStorage.getItem(CAR_KEY), brand: null }); } catch (_) {} };
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('dls-car-change', this.onCar);
+    window.addEventListener('storage', this.onCar);
+    this.onCar();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('dls-car-change', this.onCar);
+    window.removeEventListener('storage', this.onCar);
+  }
+  renderVals() {
+    const s = this.state;
+    const vw = s.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const d = device === 'desktop', lap = device === 'laptop', tab = device === 'tablet', m = device === 'mobile';
+    const prop = this.props.activeModel;
+    const carKey = prop && prop !== 'немає' ? prop : s.car;
+    const active = s.brand ?? carBrand(carKey) ?? 'Mitsubishi';
+
+    const brands = BRANDS.map(([name]) => {
+      const a = name === active, h = s.hover === name;
+      const logos = LOGOS[name] ? LOGOS[name].map(x => `assets/logos/${x}.svg`) : [];
+      return {
+        name, active: a, logos, isWheel: name === WHEEL, noLogo: !logos.length && name !== WHEEL,
+        logoSize: logos.length > 1 ? '24px' : '32px',
+        bg: a ? '#1E232B' : h ? '#CDD2DA' : '#E6E9EE',
+        iconColor: a ? '#FCFCFD' : '#1E232B',
+        logoFilter: a ? 'brightness(0) invert(1)' : 'none',
+        phBorder: a ? '#CDD2DA' : '#6B7380',
+        nameColor: a ? '#1E232B' : '#4A5260',
+        nameWeight: a ? 500 : 400,
+        select: () => this.setState({ brand: name }),
+        enter: () => this.setState({ hover: name }),
+        leave: () => this.setState(st => (st.hover === name ? { hover: null } : null))
+      };
+    });
+    const panels = BRANDS.map(([name, total, models]) => {
+      const on = name === active;
+      return {
+        op: on ? 1 : 0, vis: on ? 'visible' : 'hidden', hidden: on ? undefined : 'true', tab: on ? undefined : '-1',
+        allText: name === WHEEL ? `Усі шини та диски (${total}) →` : `Усі деталі ${name} (${total}) →`,
+        chips: models.map(([mn, count]) => {
+          const c = name === WHEEL ? carKey === WHEEL : `${name} ${mn}` === carKey;
+          return {
+            name: mn, count: String(count),
+            aria: `${name === WHEEL ? '' : name + ' '}${mn}, деталей: ${count}`,
+            current: c ? 'true' : undefined,
+            bg: c ? '#1E232B' : '#FCFCFD', color: c ? '#FCFCFD' : '#1E232B',
+            border: c ? '#1E232B' : '#E6E9EE', countColor: c ? '#CDD2DA' : '#6B7380'
+          };
+        })
+      };
+    });
+    const perRow = d ? 16 : lap ? 8 : 6;
+    return {
+      pad: d ? '0 64px 100px' : m ? '0 16px 75px' : '0 32px 75px',
+      h2Size: d ? '40px' : m ? '24px' : '28px',
+      headCols: m ? 'minmax(0, 1fr)' : 'minmax(0, 1fr) auto',
+      linkCol: m ? '1' : '2', linkRow: m ? '3' : '1',
+      brandsMargin: m ? '32px -16px 0' : '48px 0 0',
+      brandsPad: m ? '0 16px' : '0',
+      brandsDisplay: m ? 'flex' : 'grid',
+      brandsCols: m ? 'none' : `repeat(${perRow}, minmax(0, 1fr))`,
+      brandsGap: m ? '8px' : d ? '8px' : '16px 8px',
+      brandsOverflow: m ? 'auto' : 'visible',
+      itemW: m ? '72px' : 'auto',
+      brands, panels,
+      panelLabel: `Моделі ${active}`,
+      rowCols: m ? 'minmax(0, 1fr)' : 'auto minmax(0, 1fr)',
+      chipsCol: m ? '1' : '2', chipsRow: m ? '2' : '1',
+      allCol: d || lap ? '3' : tab ? '2' : '1', allRow: d || lap ? '1' : tab ? '2' : '3',
+      allJustify: 'start',
+      labelPad: m ? '0' : '10px'
+    };
+  }
+}
+</script>
+</body>
+</html>
