@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:#1E232B}a:hover{color:#4A5260}</style>
+<script src="./image-slot.js"></script>
+</helmet>
+<section aria-labelledby="dls-team-h" data-screen-label="Команда і цех" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <header style="display:grid;grid-template-columns:{{ headCols }};gap:{{ headGap }};align-items:end">
+      <h2 id="dls-team-h" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-wrap:balance">Хто розбирає ваше авто</h2>
+    </header>
+    <div style="margin-top:{{ gridTop }};display:grid;grid-template-columns:{{ outerCols }};gap:{{ gap }}">
+      <div style="min-width:0">
+      <figure style="margin:0;position:{{ bigPos }};top:24px;overflow:hidden;border-radius:16px;background:#E6E9EE;aspect-ratio:{{ bigRatio }};min-width:0">
+        <div style="position:absolute;inset:0">
+          <image-slot id="team-workshop" shape="rect" src="./assets/about-ceh.jpg" placeholder="Цех загальним планом: кілька авто на розбиранні, команда за роботою"></image-slot>
+        </div>
+        <figcaption style="position:absolute;left:{{ badgeInset }};bottom:{{ badgeInset }};padding:4px 12px;border-radius:8px;background:rgba(252,252,253,0.15);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-size:14px;line-height:1.4;font-weight:500;color:#FCFCFD;pointer-events:none">Запоріжжя, Південне шосе</figcaption>
+      </figure>
+      </div>
+      <div style="min-width:0;display:grid;grid-template-columns:{{ cols }};gap:{{ gap }}">
+      <sc-for list="{{ people }}" as="p" hint-placeholder-count="6">
+        <figure style="margin:0;position:relative;overflow:hidden;border-radius:16px;background:#E6E9EE;aspect-ratio:1 / 1;min-width:0">
+          <div style="position:absolute;inset:0;transition:transform 300ms ease-out" style-hover="transform:scale(1.03)">
+            <image-slot id="{{ p.id }}" shape="rect" src="{{ p.src }}" placeholder="{{ p.ph }}"></image-slot>
+          </div>
+          <figcaption style="position:absolute;left:{{ capInset }};bottom:{{ capInset }};max-width:calc(100% - 2 * {{ capInset }});box-sizing:border-box;padding:8px 12px;border-radius:8px;background:rgba(252,252,253,0.15);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);display:flex;flex-direction:column;gap:2px;pointer-events:none">
+            <span style="font-size:{{ nameSize }};line-height:1.3;font-weight:600;color:#FCFCFD">{{ p.name }}</span>
+            <span style="font-size:14px;line-height:1.4;font-weight:500;color:#FCFCFD;text-wrap:pretty">{{ p.role }}</span>
+          </figcaption>
+        </figure>
+      </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1100},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
+const PEOPLE = [
+  ['Дмитро', 'Перевірка двигунів і КПП', 'Чоловік у робочому одязі біля двигуна на стенді', './assets/team-mechanic1.jpg'],
+  ['Олена', 'Менеджер, підбір і сумісність', 'Жінка за столом з ноутбуком і деталлю поруч', './assets/team-mechanic2.jpg'],
+  ['Андрій', 'Розбирання', 'Чоловік з гайковим ключем біля пікапа на підйомнику', './assets/team-mechanic3.jpg'],
+  ['Сергій', 'Фото і опис деталей', 'Чоловік фотографує фару на світлому фоні', './assets/team-mechanic1.jpg'],
+  ['Ігор', 'Пакування і відправка', 'Чоловік біля стола з коробками Нової пошти', './assets/team-mechanic3.jpg'],
+  ['Максим', 'Приймання авто', 'Чоловік біля авто після ДТП на евакуаторі', './assets/team-mechanic2.jpg']
+];
+
+class Component extends DCLogic {
+  state = { vw: null };
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const wide = d === 'desktop' || d === 'laptop';
+    const m = d === 'mobile';
+    const L = {
+      desktop: { outerCols: 'repeat(2, minmax(0, 1fr))', cols: 'repeat(2, minmax(0, 1fr))', bigPos: 'sticky', bigRatio: '1 / 1' },
+      laptop: { outerCols: 'minmax(0, 1fr)', cols: 'repeat(2, minmax(0, 1fr))', bigPos: 'relative', bigRatio: '16 / 10' },
+      tablet: { outerCols: 'minmax(0, 1fr)', cols: 'repeat(3, minmax(0, 1fr))', bigPos: 'relative', bigRatio: '16 / 9' },
+      mobile: { outerCols: 'minmax(0, 1fr)', cols: 'repeat(2, minmax(0, 1fr))', bigPos: 'relative', bigRatio: '4 / 3' }
+    }[d];
+    return {
+      ...L,
+      pad: d === 'desktop' ? '100px 64px' : m ? '75px 16px' : '75px 32px',
+      headCols: wide ? 'minmax(0, 1fr) minmax(0, 1fr)' : 'minmax(0, 1fr)',
+      headGap: wide ? '24px' : '16px',
+      textAlign: wide ? 'end' : 'start',
+      h2Size: wide ? '40px' : d === 'tablet' ? '28px' : '24px',
+      textSize: d === 'desktop' ? '18px' : m ? '14px' : '16px',
+      gridTop: m ? '32px' : '48px',
+      gap: m ? '16px' : '24px',
+      badgeInset: m ? '16px' : '24px',
+      capInset: m ? '12px' : '16px',
+      nameSize: m ? '16px' : '18px',
+      noteTop: m ? '16px' : '24px',
+      people: PEOPLE.map(([name, role, ph, src], i) => ({ id: 'team-p' + (i + 1), name, role, ph, src: src || '' }))
+    };
+  }
+}
+</script>
+</body>
+</html>

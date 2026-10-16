@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>DLSAuto — Головна, варіант B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;background:#12161C;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:#1E232B}a:hover{color:#4A5260}input::placeholder{color:#6B7380;opacity:1}</style>
+</helmet>
+<dc-import name="DLSHeaderHero" hero="{{ false }}" hint-size="100%,120px"></dc-import>
+<section aria-labelledby="heroB-h1" data-screen-label="Перший екран B" style="background:linear-gradient(90deg, rgba(18,22,28,0.85) 0%, rgba(18,22,28,0.65) 45%, rgba(18,22,28,0.3) 100%), #12161C url(uploads/hero2.jpg) right center / cover no-repeat;font-family:'Golos Text',sans-serif;color:#FCFCFD">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }};display:grid;grid-template-columns:{{ cols }};gap:{{ colGap }};align-items:center">
+    <div style="min-width:0;display:flex;flex-direction:column;align-items:flex-start">
+      <h1 id="heroB-h1" style="margin:0;font-size:{{ h1Size }};line-height:1.1;font-weight:600;letter-spacing:-0.02em;color:#FCFCFD;text-wrap:balance">Б/в запчастини, які підійдуть з першого разу</h1>
+      <p style="margin:16px 0 0;max-width:560px;font-size:{{ textSize }};line-height:1.5;color:rgba(252,252,253,0.8);text-wrap:pretty">Фото реальної запчастини, перевірка перед продажем, відправка в день замовлення.</p>
+      <ul style="list-style:none;margin:32px 0 0;padding:0;display:{{ statDisplay }};grid-template-columns:repeat(2, minmax(0, 1fr));flex-wrap:wrap;justify-content:flex-start;gap:8px;width:{{ statWidth }}">
+        <sc-for list="{{ tiles }}" as="t" hint-placeholder-count="4">
+          <li style="flex:none;box-sizing:border-box;padding:12px;display:flex;align-items:flex-start;gap:8px;background:rgba(252,252,253,0.06);box-shadow:inset 0 1px 0 rgba(252,252,253,0.25);border-radius:8px;backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);transition:background 200ms ease-out" style-hover="background:rgba(252,252,253,0.1)">
+            <span aria-hidden="true" style="flex:none;display:flex;padding-top:2px">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FCFCFD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <sc-if value="{{ t.icTread }}" hint-placeholder-val="{{ false }}"><g><path d="M5 3V21M19 3V21"></path><path d="M7.5 4.5L12 7L16.5 4.5M7.5 9L12 11.5L16.5 9M7.5 13.5L12 16L16.5 13.5M7.5 18L12 20.5L16.5 18"></path></g></sc-if>
+                <sc-if value="{{ t.icWrench }}" hint-placeholder-val="{{ false }}"><g><path transform="translate(12 12) rotate(45) scale(0.85) translate(-12 -12)" vector-effect="non-scaling-stroke" d="M9.5 10.33A5 5 0 0 1 10.5 1.23L10.5 5L13.5 5L13.5 1.23A5 5 0 0 1 14.5 10.33L14.5 20.5A2.5 2.5 0 0 1 9.5 20.5Z"></path><path d="M8.3 14.5L9.3 15.5L11 13.7"></path></g></sc-if>
+                <sc-if value="{{ t.icStar }}" hint-placeholder-val="{{ false }}"><path d="M12 3.5L14.6 8.8L20.4 9.6L16.2 13.7L17.2 19.5L12 16.8L6.8 19.5L7.8 13.7L3.6 9.6L9.4 8.8Z"></path></sc-if>
+                <sc-if value="{{ t.icSpeed }}" hint-placeholder-val="{{ false }}"><g><path d="M5.07 17A8 8 0 1 1 18.93 17"></path><path d="M5.07 9L6.8 10M12 5V7M18.93 9L17.2 10"></path><path d="M12 13L16.2 9.5"></path><circle cx="12" cy="13" r="1"></circle></g></sc-if>
+              </svg>
+            </span>
+            <span style="min-width:0;display:flex;flex-direction:column">
+              <b style="font-size:16px;line-height:1.4;font-weight:600;color:#FCFCFD;white-space:nowrap">{{ t.value }}</b>
+              <span style="font-size:14px;line-height:1.4;color:rgba(252,252,253,0.6)">{{ t.caption }}</span>
+            </span>
+          </li>
+        </sc-for>
+      </ul>
+    </div>
+
+    <div style="min-width:0;box-sizing:border-box;padding:{{ cardPad }};background:#FCFCFD;border-radius:16px;box-shadow:0 12px 32px rgba(18,22,28,0.16)">
+      <h3 style="margin:0;font-size:{{ h3Size }};line-height:1.25;font-weight:600;letter-spacing:-0.01em;color:#1E232B">Підібрати за моїм авто</h3>
+      <div aria-hidden="true" style="margin-top:16px;display:grid;grid-template-columns:repeat(3, minmax(0, 1fr));gap:8px">
+        <sc-for list="{{ progress }}" as="p" hint-placeholder-count="3"><span style="height:4px;border-radius:8px;background:#E6E9EE;overflow:hidden"><span style="display:block;height:100%;width:{{ p.w }};border-radius:8px;background:#E0001B;transition:width 600ms cubic-bezier(0.22, 1, 0.36, 1)"></span></span></sc-for>
+      </div>
+
+      <div style="margin-top:32px;display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label for="heroB-brand" style="display:flex;align-items:center;gap:8px;font-size:14px;line-height:1.4"><span aria-hidden="true" style="width:8px;height:8px;flex:none;box-sizing:border-box;border-radius:50%;border:1.5px solid #E0001B;background:{{ dotBrand }};transition:background 200ms ease-out"></span><span style="font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#1E232B">Марка</span></label>
+          <div style="position:relative;height:56px;box-sizing:border-box;border-radius:8px;border:1px solid {{ brandBc }};box-shadow:{{ brandRing }};background:#FCFCFD;transition:border-color 280ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="border-color:#A9B0BB">
+            <sc-if value="{{ brandLogo }}" hint-placeholder-val="{{ false }}"><img src="{{ brandLogo }}" alt="" width="24" height="24" style="position:absolute;left:16px;top:50%;margin-top:-12px;object-fit:contain;pointer-events:none"></sc-if>
+            {{ brandSelect }}
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" style="position:absolute;right:16px;top:50%;margin-top:-10px;fill:none;stroke:#1E232B;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;transform:rotate({{ brandRot }});transition:transform 280ms cubic-bezier(0.22, 1, 0.36, 1)"><path d="m7 10 5 5 5-5"></path></svg>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label for="heroB-model" style="display:flex;align-items:center;gap:8px;font-size:14px;line-height:1.4"><span aria-hidden="true" style="width:8px;height:8px;flex:none;box-sizing:border-box;border-radius:50%;border:1.5px solid #E0001B;background:{{ dotModel }};transition:background 200ms ease-out"></span><span style="font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:{{ modelLabel }}">Модель</span></label>
+          <div style="position:relative;height:56px;box-sizing:border-box;border-radius:8px;border:1px solid {{ modelBc }};box-shadow:{{ modelRing }};background:{{ modelBg }};transition:border-color 280ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1), background 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="border-color:#A9B0BB">
+            {{ modelSelect }}
+            <svg aria-hidden="true" viewBox="0 0 24 24" width="20" height="20" style="position:absolute;right:16px;top:50%;margin-top:-10px;fill:none;stroke:{{ modelChevron }};stroke-width:2;stroke-linecap:round;stroke-linejoin:round;pointer-events:none;transform:rotate({{ modelRot }});transition:transform 280ms cubic-bezier(0.22, 1, 0.36, 1), stroke 280ms cubic-bezier(0.22, 1, 0.36, 1)"><path d="m7 10 5 5 5-5"></path></svg>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label for="heroB-part" style="display:flex;align-items:center;gap:8px;font-size:14px;line-height:1.4"><span aria-hidden="true" style="width:8px;height:8px;flex:none;box-sizing:border-box;border-radius:50%;border:1.5px solid #E0001B;background:{{ dotPart }};transition:background 200ms ease-out"></span><span style="font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:{{ partLabel }}">Деталь</span><span style="color:#6B7380">(необов'язково)</span></label>
+          <div style="position:relative">
+            <input id="heroB-part" type="text" autocomplete="off" placeholder="Наприклад, фара ліва" value="{{ query }}" disabled="{{ partDisabled }}" onChange="{{ onQuery }}" onFocus="{{ onPartFocus }}" onBlur="{{ onPartBlur }}" style="width:100%;height:56px;box-sizing:border-box;padding:0 16px;border:1px solid {{ partBc }};box-shadow:{{ partRing }};border-radius:8px;background:{{ partBg }};font:inherit;font-size:16px;color:#1E232B;outline:none;transition:border-color 280ms cubic-bezier(0.22, 1, 0.36, 1), box-shadow 280ms cubic-bezier(0.22, 1, 0.36, 1), background 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="border-color:#A9B0BB">
+            <sc-if value="{{ showSuggest }}" hint-placeholder-val="{{ false }}">
+              <div role="listbox" style="position:absolute;z-index:5;top:64px;left:0;right:0;padding:8px 0;background:#FCFCFD;border-radius:8px;box-shadow:0 12px 32px rgba(18,22,28,0.16)">
+                <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="3">
+                  <div role="option" onMouseDown="{{ s.pick }}" onMouseEnter="{{ s.hover }}" style="height:48px;padding:0 16px;display:flex;align-items:center;gap:4px;font-size:16px;color:#1E232B;background:{{ s.bg }};cursor:pointer"><span>{{ s.pre }}<b style="font-weight:600">{{ s.match }}</b>{{ s.post }}</span><span style="color:#6B7380">{{ s.count }}</span></div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </div>
+
+      <button type="button" disabled="{{ btnDisabled }}" onClick="{{ onSubmit }}" style="margin-top:32px;width:100%;height:56px;padding:0 24px;display:flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:8px;background-color:{{ btnBg }};background-image:{{ btnImg }};background-position:center;background-repeat:no-repeat;background-size:0% 0%;font:inherit;font-size:16px;font-weight:600;color:{{ btnFg }};cursor:{{ btnCursor }};transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), background-color 280ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">{{ btnText }}</button>
+    </div>
+  </div>
+</section>
+<dc-import name="DLSStatsNotch" hint-size="100%,860px"></dc-import>
+<dc-import name="DLSFooter" hint-size="100%,1100px"></dc-import>
+<dc-import name="DLSCart" hint-size="0px,0px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
+const BRANDS = {
+  'Ford': { logo: 'assets/logos/ford.svg', models: [['Ranger 2006–2012', 118], ['Ranger 1998–2006', 108], ['Ranger (T6) 2015–2022', 52]] },
+  'Mazda': { logo: 'assets/logos/mazda.svg', models: [['BT-50 2006–2012', 118], ['B2500 1998–2006', 108]] },
+  'Mitsubishi': { logo: 'assets/logos/mitsubishi.svg', models: [['L200 2005–2015', 85], ['Pajero Sport I 1996–2008', 84], ['L200 1996–2005', 46]] },
+  'Nissan': { logo: 'assets/logos/nissan.svg', models: [['Navara / Pathfinder R51 2005–2015', 129], ['X-Trail T30–T31 2000–2014', 43]] }
+};
+const PARTS = [
+  ['Фара ліва', 3], ['Фара права', 1], ['Фара протитуманна ліва', 2], ['Фаркоп', 4],
+  ['Бампер передній', 5], ['Бампер задній', 2], ['Дзеркало бокове ліве', 3], ['Капот', 2],
+  ['Ліхтар задній лівий', 2], ['Радіатор охолодження', 4], ['Решітка радіатора', 3], ['Генератор', 3], ['Турбіна', 1]
+];
+const TILES = [
+  { value: '1\u00A0200+', caption: 'деталей', ic: 'tread' },
+  { value: 'до 60 днів', caption: 'гарантії', ic: 'wrench' },
+  { value: '4.8', caption: 'на Prom.ua', ic: 'star' },
+  { value: 'Відправка', caption: 'сьогодні', ic: 'speed' }
+];
+const plural = (n) => {
+  const a = n % 10, b = n % 100;
+  if (a === 1 && b !== 11) return 'деталь';
+  if (a >= 2 && a <= 4 && (b < 12 || b > 14)) return 'деталі';
+  return 'деталей';
+};
+
+class Component extends DCLogic {
+  state = { brand: 'Ford', model: '', query: '', picked: null, focus: null, active: 0, vw: null };
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+
+  mkSelect(id, value, onChange, placeholder, opts, disabled, field, padLeft) {
+    const h = React.createElement;
+    return h('select', {
+      id, value, onChange, disabled,
+      onFocus: () => this.setState({ focus: field }), onBlur: () => this.setState({ focus: null }),
+      style: { appearance: 'none', WebkitAppearance: 'none', width: '100%', height: '100%', boxSizing: 'border-box', padding: `0 48px 0 ${padLeft}px`, border: 'none', borderRadius: 8, background: 'transparent', fontFamily: 'inherit', fontSize: 16, color: value ? '#1E232B' : (disabled ? '#A9B0BB' : '#6B7380'), cursor: disabled ? 'not-allowed' : 'pointer', outline: 'none' }
+    }, [h('option', { key: '_', value: '', disabled: true }, placeholder), ...opts.map(o => h('option', { key: o, value: o }, o))]);
+  }
+
+  renderVals() {
+    const s = this.state;
+    const vw = s.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const brand = BRANDS[s.brand];
+    const models = brand ? brand.models : [];
+    const model = models.find(m => m[0] === s.model);
+    const hasBrand = !!brand, hasModel = !!model;
+    const q = s.query.trim().toLowerCase();
+    const matches = hasModel && q.length >= 1 ? PARTS.filter(([n]) => n.toLowerCase().includes(q)).slice(0, 5) : [];
+    const picked = s.picked && PARTS.find(p => p[0] === s.picked && p[0] === s.query) || null;
+    const bc = (field, filled) => s.focus === field ? '#1E232B' : filled ? '#CDD2DA' : '#E6E9EE';
+    const ring = (field) => s.focus === field ? 'inset 0 0 0 1px #1E232B, 0 0 0 4px rgba(30,35,43,0.08)' : 'inset 0 0 0 0 rgba(30,35,43,0), 0 0 0 0 rgba(30,35,43,0)';
+    const hov = (field, enabled) => enabled && s.focus !== field ? 'border-color:#A9B0BB' : '';
+    const count = picked ? picked[1] : hasModel ? model[1] : 0;
+    const one = d === 'tablet' || d === 'mobile';
+    return {
+      pad: d === 'desktop' ? '64px' : d === 'mobile' ? '56px 16px 32px' : '48px 32px',
+      cols: d === 'desktop' || d === 'laptop' ? 'minmax(0, 52fr) minmax(0, 48fr)' : 'minmax(0, 1fr)',
+      colGap: d === 'desktop' ? '64px' : d === 'laptop' ? '48px' : '48px',
+      h1Size: d === 'desktop' ? '56px' : d === 'mobile' ? '32px' : '40px',
+      textSize: d === 'mobile' ? '16px' : '18px',
+      statCols: d === 'desktop' || d === 'tablet' ? 'repeat(4, minmax(0, 1fr))' : 'repeat(2, minmax(0, 1fr))',
+      statDisplay: d === 'mobile' ? 'grid' : 'flex',
+      statWidth: d === 'mobile' ? '100%' : 'auto',
+      cardPad: d === 'mobile' ? '24px' : '32px',
+      h3Size: d === 'mobile' ? '20px' : '24px',
+      tiles: TILES.map(t => ({ value: t.value, caption: t.caption, icTread: t.ic === 'tread', icWrench: t.ic === 'wrench', icStar: t.ic === 'star', icSpeed: t.ic === 'speed' })),
+      dotBrand: hasBrand ? '#E0001B' : 'transparent',
+      dotModel: hasModel ? '#E0001B' : 'transparent',
+      dotPart: picked ? '#E0001B' : 'transparent',
+      progress: [hasBrand, hasModel, !!picked].map(on => ({ w: on ? '100%' : '0%' })),
+      brandLogo: brand ? brand.logo : '',
+      brandBc: bc('brand', hasBrand), brandRing: ring('brand'), brandHover: hov('brand', true),
+      brandRot: s.focus === 'brand' ? '180deg' : '0deg',
+      modelRot: s.focus === 'model' ? '180deg' : '0deg',
+      brandSelect: this.mkSelect('heroB-brand', s.brand, e => this.setState({ brand: e.target.value, model: '', query: '', picked: null }), 'Оберіть марку', Object.keys(BRANDS), false, 'brand', hasBrand ? 52 : 16),
+      modelSelect: this.mkSelect('heroB-model', s.model, e => this.setState({ model: e.target.value, query: '', picked: null }), hasBrand ? 'Оберіть модель' : 'Спочатку марка', models.map(m => m[0]), !hasBrand, 'model', 16),
+      modelBc: bc('model', hasModel), modelRing: ring('model'), modelHover: hov('model', hasBrand),
+      modelBg: hasBrand ? '#FCFCFD' : '#F3F5F7',
+      modelChevron: hasBrand ? '#1E232B' : '#A9B0BB',
+      modelLabel: hasBrand ? '#1E232B' : '#6B7380',
+      partLabel: hasModel ? '#1E232B' : '#6B7380',
+      partDisabled: !hasModel,
+      partBc: bc('part', !!s.query), partRing: ring('part'), partHover: hov('part', hasModel),
+      partBg: hasModel ? '#FCFCFD' : '#F3F5F7',
+      query: s.query,
+      onQuery: e => this.setState({ query: e.target.value, picked: null, focus: 'part', active: 0 }),
+      onPartFocus: () => this.setState({ focus: 'part' }),
+      onPartBlur: () => this.setState({ focus: null }),
+      showSuggest: s.focus === 'part' && matches.length > 0 && !picked,
+      suggestions: matches.map(([name, n], i) => {
+        const at = name.toLowerCase().indexOf(q);
+        return {
+          pre: name.slice(0, at), match: name.slice(at, at + q.length), post: name.slice(at + q.length),
+          count: '(' + n + ')', bg: i === s.active ? '#F3F5F7' : 'transparent',
+          pick: e => { e.preventDefault(); this.setState({ query: name, picked: name, focus: null }); },
+          hover: () => this.setState({ active: i })
+        };
+      }),
+      btnDisabled: !hasBrand,
+      btnBg: hasBrand ? '#E0001B' : '#E6E9EE',
+      btnFg: hasBrand ? '#FCFCFD' : '#6B7380',
+      btnCursor: hasBrand ? 'pointer' : 'not-allowed',
+      btnImg: hasBrand ? 'radial-gradient(circle, #C00017 0 49%, rgba(0,0,0,0) 50%)' : 'none',
+      btnText: hasModel ? `Показати ${count} ${plural(count)}` : 'Знайти деталі',
+      onSubmit: () => {},
+      focusHeaderSearch: e => {
+        e.preventDefault();
+        const el = Array.from(document.querySelectorAll('input[aria-label="Пошук запчастин"]')).find(i => i.offsetParent);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (el) el.focus({ preventScroll: true });
+      }
+    };
+  }
+}
+</script>
+</body>
+</html>

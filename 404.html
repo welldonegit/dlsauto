@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Сторінку не знайдено — DLSAuto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;background:#F6F6F6;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}input::placeholder{color:#6B7380;opacity:1}</style>
+<script src="./dls-fav.js"></script>
+<script src="./dls-cart.js"></script>
+<script src="./dls-compare.js"></script>
+</helmet>
+<dc-import name="DLSHeaderHero" hero="{{ false }}" hint-size="100%,168px"></dc-import>
+<main style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <section data-screen-label="404" aria-labelledby="nf-h1" style="box-sizing:border-box;max-width:{{ contentMax }};margin:0 auto;padding:{{ pad }}">
+    <div style="display:grid;grid-template-columns:{{ cols }};gap:{{ gap }};align-items:center">
+      <div style="order:{{ textOrder }};min-width:0;display:flex;flex-direction:column">
+        <h1 id="nf-h1" style="margin:0;font-size:{{ h1Size }};line-height:1.05;font-weight:600;letter-spacing:-0.03em;color:#1E232B;text-wrap:balance">Цю деталь уже зняли</h1>
+        <p style="margin:24px 0 0;max-width:520px;font-size:{{ pSize }};line-height:1.5;color:#4A5260;text-wrap:pretty">Такої сторінки немає. Можливо, деталь уже продали — у нас кожна в одному екземплярі. Або в адресі помилка.</p>
+
+        <form role="search" onSubmit="{{ onSubmit }}" style="margin-top:32px;display:flex;flex-direction:{{ formDir }};gap:8px">
+          <div style="position:relative;flex:1;min-width:0">
+            <input type="search" aria-label="Пошук запчастин" autocomplete="off" role="combobox" aria-expanded="{{ showSuggest }}" aria-controls="nf-suggest" placeholder="Назва деталі або модель" value="{{ query }}" onChange="{{ onQuery }}" onFocus="{{ onFocus }}" onBlur="{{ onBlur }}" onKeyDown="{{ onKey }}" style="width:100%;height:56px;box-sizing:border-box;padding:0 16px;border:1px solid #E6E9EE;border-radius:8px;background:#FFFFFF;font-family:inherit;font-size:16px;color:#1E232B;outline:none;transition:border-color 150ms ease-out" style-focus="border-color:#1E232B">
+            <sc-if value="{{ showSuggest }}" hint-placeholder-val="{{ false }}">
+              <div id="nf-suggest" role="listbox" style="position:absolute;z-index:5;top:64px;left:0;right:0;padding:8px 0;background:#FCFCFD;border-radius:8px;box-shadow:0 12px 32px rgba(18,22,28,0.16)">
+                <sc-for list="{{ suggestions }}" as="s" hint-placeholder-count="3">
+                  <div role="option" aria-selected="{{ s.selected }}" onMouseDown="{{ s.pick }}" onMouseEnter="{{ s.hover }}" style="min-height:48px;padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:16px;font-size:16px;color:#1E232B;background:{{ s.bg }};cursor:pointer"><span>{{ s.pre }}<b style="font-weight:600">{{ s.match }}</b>{{ s.post }}</span><span style="color:#6B7380">{{ s.count }}</span></div>
+                </sc-for>
+              </div>
+            </sc-if>
+          </div>
+          <button type="submit" style="height:56px;padding:0 32px;flex-shrink:0;border:none;border-radius:8px;background-color:#E0001B;background-image:radial-gradient(circle, #B80016 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;font-family:inherit;font-size:16px;font-weight:600;color:#FCFCFD;cursor:pointer;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">Знайти</button>
+        </form>
+
+        <nav aria-label="Корисні посилання" style="margin-top:24px;display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;font-size:16px;line-height:24px">
+          <a href="DLSAuto Головна.dc.html" style="color:#1E232B;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:4px" style-hover="text-decoration-color:#1E232B">На головну</a>
+          <span aria-hidden="true" style="width:1px;height:16px;background:#CDD2DA"></span>
+          <a href="DLSCatalog.dc.html" style="color:#1E232B;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:4px" style-hover="text-decoration-color:#1E232B">Каталог</a>
+          <span aria-hidden="true" style="width:1px;height:16px;background:#CDD2DA"></span>
+          <a href="DLSAuto Контакти.dc.html" style="color:#1E232B;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:4px" style-hover="text-decoration-color:#1E232B">Контакти</a>
+        </nav>
+      </div>
+
+      <div style="order:{{ artOrder }};min-width:0;display:flex;justify-content:center">
+        <svg viewBox="100 120 620 360" role="img" aria-label="Лінійний малюнок пікапа збоку без лівої фари, на її місці пунктирний контур з биркою «404 · відсутня»" style="display:block;width:100%;max-width:{{ artMax }};height:auto;overflow:visible" fill="none" stroke="#1E232B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <g style="stroke-dasharray:1;stroke-dashoffset:{{ drawOff }};transition:stroke-dashoffset {{ drawDur }} cubic-bezier(0.45, 0, 0.2, 1)">
+            <path pathLength="1" d="M120 446 L700 446"></path>
+            <path pathLength="1" d="M300 300 L360 245 L452 245 Q462 246 463 256 L466 320 L690 320 L690 388 L612 388 A52 52 0 0 0 508 388 L282 388 A52 52 0 0 0 178 388 L146 388 L140 380 L140 344 L150 340 L152 316 L300 300"></path>
+            <path pathLength="1" d="M312 296 L360 254 L444 254 L446 296 Z"></path>
+            <path pathLength="1" d="M300 306 L300 384 M452 306 L452 384 M418 322 L436 322"></path>
+            <path pathLength="1" d="M466 336 L680 336 M682 330 L682 350"></path>
+            <path pathLength="1" d="M352 268 L338 268 L336 282 L350 282"></path>
+            <path pathLength="1" d="M140 352 L150 352 M140 362 L150 362 M140 372 L150 372"></path>
+            <circle pathLength="1" cx="230" cy="400" r="46"></circle>
+            <circle pathLength="1" cx="230" cy="400" r="18"></circle>
+            <circle pathLength="1" cx="560" cy="400" r="46"></circle>
+            <circle pathLength="1" cx="560" cy="400" r="18"></circle>
+          </g>
+          <g style="opacity:{{ markOp }};transition:opacity {{ fadeDur }} ease-out {{ fadeDelay }}">
+            <path d="M154 318 L190 314 L192 332 L156 336 Z" stroke-width="1.5" stroke-dasharray="4 4"></path>
+            <path d="M172 314 L172 206" stroke-width="1"></path>
+            <circle cx="172" cy="314" r="2.5" fill="#1E232B" stroke="none"></circle>
+            <rect x="104" y="174" width="136" height="32" rx="4" fill="#FCFCFD" stroke-width="1.5"></rect>
+            <text x="172" y="195" text-anchor="middle" fill="#1E232B" stroke="none" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="14" font-weight="500">404 · відсутня</text>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+  <dc-import name="DLSNewArrivals" title="Поки ви тут — подивіться, що з'явилось" hint-size="100%,820px"></dc-import>
+</main>
+<dc-import name="DLSFooter" hint-size="100%,1100px"></dc-import>
+<dc-import name="DLSCart" hint-size="0px,0px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
+const PARTS = [
+  ['Фара ліва', 3], ['Фара права', 1], ['Фара протитуманна ліва', 2], ['Фаркоп', 4],
+  ['Бампер передній', 5], ['Бампер задній', 2], ['Дзеркало бокове ліве', 3], ['Дзеркало бокове праве', 2],
+  ['Капот', 2], ['Крило переднє ліве', 1], ['Ліхтар задній лівий', 2], ['Радіатор охолодження', 4],
+  ['Решітка радіатора', 3], ['Стартер', 2], ['Генератор', 3], ['Турбіна', 1], ['Роздавальна коробка', 2]
+];
+
+class Component extends DCLogic {
+  state = { vw: null, drawn: false, reduce: false, query: '', open: false, active: 0 };
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+    const reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    if (reduce) { this.setState({ reduce: true, drawn: true }); return; }
+    this.raf = requestAnimationFrame(() => { this.raf = requestAnimationFrame(() => this.setState({ drawn: true })); });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    cancelAnimationFrame(this.raf);
+  }
+  matches() {
+    const q = this.state.query.trim().toLowerCase();
+    return q.length >= 2 ? PARTS.filter(([n]) => n.toLowerCase().includes(q)).slice(0, 6) : [];
+  }
+  go(q) {
+    const v = (q ?? this.state.query).trim();
+    window.location.href = 'DLSCatalog.dc.html' + (v ? '?q=' + encodeURIComponent(v) : '');
+  }
+  renderVals() {
+    const s = this.state;
+    const vw = s.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const wide = d === 'desktop' || d === 'laptop';
+    const m = d === 'mobile';
+    const side = d === 'desktop' ? 64 : m ? 16 : 32;
+    const q = s.query.trim().toLowerCase();
+    const list = this.matches();
+    const replay = this.props.replay;
+    return {
+      contentMax: `calc(1312px + ${side * 2}px)`,
+      pad: wide ? `96px ${side}px` : m ? `48px ${side}px` : `64px ${side}px`,
+      cols: wide ? 'minmax(0, 1fr) minmax(0, 1fr)' : 'minmax(0, 1fr)',
+      gap: d === 'desktop' ? '64px' : wide ? '48px' : '32px',
+      textOrder: wide ? 1 : 2,
+      artOrder: wide ? 2 : 1,
+      artMax: wide ? '640px' : m ? '320px' : '440px',
+      h1Size: d === 'desktop' ? '64px' : d === 'laptop' ? '56px' : m ? '36px' : '48px',
+      pSize: d === 'desktop' ? '18px' : m ? '14px' : '16px',
+      formDir: wide ? 'row' : 'column',
+      arrivalsGap: wide ? '0px' : '0px',
+      drawOff: s.drawn ? 0 : 1,
+      drawDur: s.reduce ? '0ms' : '1200ms',
+      markOp: s.drawn ? 1 : 0,
+      fadeDur: s.reduce ? '0ms' : '400ms',
+      fadeDelay: s.reduce ? '0ms' : '1200ms',
+      query: s.query,
+      showSuggest: s.open && list.length > 0,
+      onQuery: e => this.setState({ query: e.target.value, open: true, active: 0 }),
+      onFocus: () => this.setState({ open: true }),
+      onBlur: () => this.setState({ open: false }),
+      onKey: e => {
+        if (!list.length) return;
+        if (e.key === 'ArrowDown') { e.preventDefault(); this.setState(x => ({ active: (x.active + 1) % list.length, open: true })); }
+        else if (e.key === 'ArrowUp') { e.preventDefault(); this.setState(x => ({ active: (x.active - 1 + list.length) % list.length })); }
+        else if (e.key === 'Enter' && s.open) { e.preventDefault(); const name = list[s.active][0]; this.setState({ query: name, open: false }); this.go(name); }
+        else if (e.key === 'Escape') this.setState({ open: false });
+      },
+      onSubmit: e => { e.preventDefault(); this.go(); },
+      suggestions: list.map(([name, count], i) => {
+        const at = name.toLowerCase().indexOf(q);
+        return {
+          pre: name.slice(0, at), match: name.slice(at, at + q.length), post: name.slice(at + q.length),
+          count: '(' + count + ')', bg: i === s.active ? '#F3F5F7' : 'transparent', selected: i === s.active,
+          pick: e => { e.preventDefault(); this.setState({ query: name, open: false }); },
+          hover: () => this.setState({ active: i })
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

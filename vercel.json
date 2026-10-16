@@ -1,5 +1,9 @@
 {
   "rewrites": [
+    { "source": "/b", "destination": "/DLSAuto Головна B.dc.html" },
+    { "source": "/about", "destination": "/DLSAuto Про компанію.dc.html" },
+    { "source": "/contacts", "destination": "/DLSAuto Контакти.dc.html" },
+    { "source": "/privacy", "destination": "/DLSAuto Політика конфіденційності.dc.html" },
     { "source": "/catalog", "destination": "/DLSCatalog.dc.html" },
     { "source": "/product", "destination": "/DLSProduct.dc.html" },
     { "source": "/checkout", "destination": "/DLSCheckout.dc.html" },

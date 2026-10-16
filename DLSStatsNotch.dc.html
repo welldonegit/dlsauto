@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:#1E232B}a:hover{color:#4A5260}
+@keyframes dlsSwayIn{0%{transform:translateY(0) rotate(0)}25%{transform:translateY(-8px) rotate(-1deg)}75%{transform:translateY(-8px) rotate(1deg)}100%{transform:translateY(-8px) rotate(0)}}
+@keyframes dlsSwayOut{from{transform:translateY(-8px)}to{transform:translateY(0)}}
+@keyframes dlsShake{0%{transform:translateX(0)}20%{transform:translateX(-2px)}40%{transform:translateX(2px)}60%{transform:translateX(-1px)}80%{transform:translateX(1px)}100%{transform:translateX(0)}}
+@keyframes dlsGrowIn{from{transform:scale(1)}to{transform:scale(1.02)}}
+@keyframes dlsGrowOut{from{transform:scale(1.02)}to{transform:scale(1)}}
+@media (prefers-reduced-motion: reduce){*{animation-duration:1ms!important}}</style>
+</helmet>
+<section ref="{{ rootRef }}" aria-labelledby="dls-notch-h" data-screen-label="Цифри — виріз" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }};display:flex;flex-direction:column;gap:{{ headGap }}">
+    <header style="display:flex;flex-direction:column;gap:16px;min-width:0">
+      <h2 id="dls-notch-h" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-wrap:balance">DLSAuto в цифрах</h2>
+    </header>
+    <div style="display:grid;grid-template-columns:{{ cols }};gap:24px;align-items:start">
+      <sc-for list="{{ cards }}" as="c" hint-placeholder-count="4">
+        <article onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}" style="min-width:0;margin-top:{{ c.shift }};opacity:{{ c.op }};transform:{{ c.tf }};transition:opacity 500ms ease-out {{ c.delay }}, transform 500ms ease-out {{ c.delay }}">
+        <div style="position:relative;overflow:hidden;background:{{ c.bg }};color:{{ c.fg }};border-radius:16px;padding:{{ cardPad }};display:flex;flex-direction:column;align-items:center;text-align:center;animation:{{ c.anim }};box-shadow:{{ c.shadow }};transition:box-shadow 250ms ease-out">
+          
+          <div aria-hidden="true" style="position:absolute;top:-32px;left:50%;width:64px;height:64px;margin-left:-32px;border-radius:50%;background:#F6F6F6"></div>
+          <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E232B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;top:4px;left:50%;margin-left:-12px">
+            <circle cx="12" cy="12" r="7.5"></circle>
+            <path transform="{{ c.rot }}" d="M12 8.5V15.5M8.5 12H15.5"></path>
+          </svg>
+          <p style="margin:0;font-size:14px;line-height:1.4;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:{{ c.lab }}">{{ c.label }}</p>
+          <p aria-label="{{ c.final }}" style="margin:12px 0 0;display:flex;align-items:baseline;justify-content:center;gap:4px;white-space:nowrap">
+            <sc-if value="{{ c.pre }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="font-size:{{ supSize }};line-height:1;color:{{ c.sub }}">{{ c.pre }}</span></sc-if>
+            <span aria-hidden="true" style="font-size:{{ numSize }};line-height:1;font-weight:400;letter-spacing:-0.03em;font-variant-numeric:tabular-nums">{{ c.shown }}</span>
+            <sc-if value="{{ c.suf }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="align-self:flex-start;font-size:{{ supSize }};line-height:1;color:{{ c.sub }}">{{ c.suf }}</span></sc-if>
+          </p>
+          <p style="margin:16px 0 0;max-width:280px;min-height:{{ textMin }};font-size:16px;line-height:1.5;color:{{ c.sub }};text-wrap:balance">{{ c.text }}</p>
+        </div>
+        </article>
+      </sc-for>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:860},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
+const STATS = [
+  { label: 'Досвід', v: 4, suf: '+', text: 'Роки на ринку і понад 20\u00A0000 виконаних замовлень' },
+  { label: 'Гарантія', v: 60, pre: 'до', text: 'Днів на перевірку, обмін або повернення' },
+  { label: 'Наявність', v: 1200, suf: '+', text: 'Деталей на складі зараз, кожна в одному екземплярі' },
+  { label: 'Замовлення', v: 5000, suf: '+', text: 'Відправлених деталей за рік по всій Україні' }
+];
+const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0');
+const DURATION = 1200;
+
+class Component extends DCLogic {
+  state = { vw: null, t: 0, shown: false, hover: {} };
+  rootRef = React.createRef();
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) { this.setState({ t: 1, shown: true }); return; }
+    this.io = new IntersectionObserver((entries) => {
+      if (entries.some(e => e.isIntersecting)) { this.io.disconnect(); this.start(); }
+    }, { threshold: 0.3 });
+    if (this.rootRef.current) this.io.observe(this.rootRef.current);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    if (this.io) this.io.disconnect();
+    cancelAnimationFrame(this.raf);
+  }
+  start() {
+    this.setState({ shown: true });
+    const t0 = performance.now();
+    const tick = (now) => {
+      const p = Math.min(1, (now - t0) / DURATION);
+      this.setState({ t: 1 - Math.pow(1 - p, 3) });
+      if (p < 1) this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const { t, shown } = this.state;
+    return {
+      rootRef: this.rootRef,
+      pad: d === 'desktop' ? '100px 64px' : d === 'mobile' ? '75px 16px' : '75px 32px',
+      cols: d === 'desktop' || d === 'laptop' ? 'repeat(4, minmax(0, 1fr))' : d === 'tablet' ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)',
+      headGap: d === 'mobile' ? '32px' : '48px',
+      h2Size: d === 'desktop' || d === 'laptop' ? '40px' : d === 'tablet' ? '28px' : '24px',
+      leadSize: d === 'desktop' ? '18px' : d === 'mobile' ? '14px' : '16px',
+      cardPad: d === 'desktop' ? '96px 24px 64px' : '64px 24px 48px',
+      textMin: d === 'laptop' ? '4.5em' : '3em',
+      numSize: d === 'desktop' ? '76px' : d === 'tablet' ? '64px' : '56px',
+      supSize: d === 'desktop' ? '28px' : '24px',
+      cards: STATS.map((s, i) => {
+        const dark = i % 2 === 0;
+        const hv = this.state.hover[i];
+        const anim = !hv ? 'none'
+          : dark ? (hv === 'in' ? 'dlsSwayIn 600ms ease-in-out forwards' : 'dlsSwayOut 300ms ease-out forwards')
+          : (hv === 'in' ? 'dlsShake 400ms ease-in-out, dlsGrowIn 250ms ease-out 400ms forwards' : 'dlsGrowOut 250ms ease-out forwards');
+        return {
+          anim,
+          shadow: hv === 'in' ? '0 12px 32px rgba(18,22,28,0.16)' : '0 0 0 rgba(18,22,28,0)',
+          onEnter: () => this.setState(s => ({ hover: { ...s.hover, [i]: 'in' } })),
+          onLeave: () => this.setState(s => ({ hover: { ...s.hover, [i]: 'out' } })),
+          rot: 'rotate(' + [12, 38, 4, 27][i] + ' 12 12)',
+          label: s.label, text: s.text, pre: s.pre || '', suf: s.suf || '',
+          final: (s.pre ? s.pre + ' ' : '') + fmt(s.v) + (s.suf || ''),
+          shown: fmt(Math.round(s.v * t)),
+          bg: dark ? '#12161C' : '#E0001B',
+          fg: '#FCFCFD',
+          lab: dark ? '#A9B0BB' : '#FCFCFD',
+          sub: dark ? '#A9B0BB' : 'rgba(252,252,253,0.8)',
+          shift: d === 'desktop' && !dark ? '96px' : '0px',
+          op: shown ? 1 : 0,
+          tf: shown ? 'translateY(0)' : 'translateY(32px)',
+          delay: i * 80 + 'ms'
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

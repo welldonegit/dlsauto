@@ -15,8 +15,7 @@
 <section aria-labelledby="brand-index-title" data-screen-label="Авто на розборці — індекс брендів" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
   <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
     <div style="display:grid;grid-template-columns:{{ headCols }};column-gap:32px;row-gap:16px;align-items:center">
-      <h2 id="brand-index-title" style="grid-column:1;grid-row:1;margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-wrap:balance">Авто на розборці</h2>
-      <p style="grid-column:1;grid-row:2;margin:0;max-width:560px;font-size:16px;line-height:1.5;color:#4A5260;text-wrap:pretty">Оберіть своє авто — покажемо тільки те, що на нього підійде</p>
+      <h2 id="brand-index-title" style="grid-column:1;grid-row:1;margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-wrap:balance">Підбір за моделлю</h2>
       <a href="#" style="grid-column:{{ linkCol }};grid-row:{{ linkRow }};justify-self:start;height:48px;box-sizing:border-box;padding:0 24px;display:inline-flex;align-items:center;border:1px solid #E0001B;border-radius:8px;font-size:16px;line-height:20px;font-weight:600;color:#E0001B;text-decoration:none;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-focus="outline:2px solid #1E232B;outline-offset:2px" style-hover="background-size:300% 300%">Запитати менеджера</a>
     </div>
     <sc-if value="{{ isGrid }}" hint-placeholder-val="{{ true }}">
@@ -26,7 +25,7 @@
             <sc-for list="{{ col.groups }}" as="g" hint-placeholder-count="4">
               <div role="group" aria-label="{{ g.name }}">
                 <h3 style="margin:0;padding-bottom:12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #E6E9EE;font-size:16px;line-height:24px;font-weight:600;color:#1E232B">
-                  <sc-for list="{{ g.logos }}" as="lg" hint-placeholder-count="1"><img src="{{ lg }}" alt="" style="width:20px;height:20px;flex-shrink:0;object-fit:contain;display:block"></sc-for>
+                  <sc-for list="{{ g.logos }}" as="lg" hint-placeholder-count="1"><img src="{{ lg }}" alt="" style="width:22px;height:22px;flex-shrink:0;object-fit:contain;display:block"></sc-for>
                   <sc-if value="{{ g.isWheel }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="1.5"></circle><path d="M12 6v4.5"></path><path d="m17.7 10.1-4.3 1.4"></path><path d="m15.5 16.9-2.6-3.7"></path><path d="m8.5 16.9 2.6-3.7"></path><path d="m6.3 10.1 4.3 1.4"></path></svg></sc-if>
                   <span>{{ g.name }}</span>
                 </h3>
@@ -51,7 +50,7 @@
           <div style="border-bottom:1px solid #E6E9EE">
             <h3 style="margin:0">
               <button type="button" aria-expanded="{{ g.open }}" onClick="{{ g.toggle }}" style="width:100%;min-height:56px;box-sizing:border-box;padding:8px 0;display:flex;align-items:center;gap:8px;border:none;background:transparent;font-family:inherit;text-align:left;color:#1E232B;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:2px">
-                <sc-for list="{{ g.logos }}" as="lg" hint-placeholder-count="1"><img src="{{ lg }}" alt="" style="width:20px;height:20px;flex-shrink:0;object-fit:contain;display:block"></sc-for>
+                <sc-for list="{{ g.logos }}" as="lg" hint-placeholder-count="1"><img src="{{ lg }}" alt="" style="width:22px;height:22px;flex-shrink:0;object-fit:contain;display:block"></sc-for>
                 <sc-if value="{{ g.isWheel }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="1.5"></circle><path d="M12 6v4.5"></path><path d="m17.7 10.1-4.3 1.4"></path><path d="m15.5 16.9-2.6-3.7"></path><path d="m8.5 16.9 2.6-3.7"></path><path d="m6.3 10.1 4.3 1.4"></path></svg></sc-if>
                 <span style="flex:1;min-width:0;font-size:16px;line-height:24px;font-weight:600">{{ g.name }}</span>
                 <span style="flex-shrink:0;font-size:14px;line-height:20px;font-weight:400;color:#6B7380">{{ g.modelsLabel }}</span>
