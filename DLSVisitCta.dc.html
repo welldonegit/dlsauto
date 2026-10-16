@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:#FCFCFD}a:hover{color:#FCFCFD}</style>
+</helmet>
+<section ref="{{ rootRef }}" aria-labelledby="dls-visit-h" data-screen-label="CTA — Приїжджайте" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#FCFCFD">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ outerPad }}">
+    <div style="box-sizing:border-box;padding:{{ pad }};border-radius:16px;background:#E0001B;display:flex;flex-direction:column;align-items:center;text-align:center;opacity:{{ boxOp }};transform:{{ boxTf }};transition:opacity 500ms ease-out, transform 500ms ease-out">
+      <h2 id="dls-visit-h" aria-label="Зв’яжіться з нами" style="margin:0;display:flex;flex-wrap:wrap;justify-content:center;column-gap:0.26em;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#FCFCFD">
+        <sc-for list="{{ words }}" as="w" hint-placeholder-count="2">
+          <span aria-hidden="true" style="display:inline-block;opacity:{{ w.op }};transform:{{ w.tf }};filter:{{ w.blur }};transition:opacity 400ms ease-out {{ w.delay }}, transform 400ms ease-out {{ w.delay }}, filter 400ms ease-out {{ w.delay }}">{{ w.t }}</span>
+        </sc-for>
+      </h2>
+      <p style="margin:16px 0 0;max-width:640px;font-size:{{ subSize }};line-height:1.5;font-weight:400;color:#FCFCFD;text-wrap:balance;opacity:{{ l1.op }};transform:{{ l1.tf }};transition:opacity 400ms ease-out {{ l1.delay }}, transform 400ms ease-out {{ l1.delay }}">Питання щодо деталей, пропозиції про співпрацю або просто хочете уточнити наявність — напишіть, і ми відповімо протягом робочого дня</p>
+      <p style="margin:8px 0 0;font-size:{{ addrSize }};line-height:1.5;color:rgba(252,252,253,0.85);text-wrap:balance;opacity:{{ l2.op }};transform:{{ l2.tf }};transition:opacity 400ms ease-out {{ l2.delay }}, transform 400ms ease-out {{ l2.delay }}">Запоріжжя, Південне шосе · Пн–Сб 9:00–18:00</p>
+      <a href="#" style="box-sizing:border-box;margin-top:{{ btnGap }};width:{{ btnW }};height:56px;padding:0 24px;display:inline-flex;align-items:center;justify-content:center;border-radius:8px;background:#FCFCFD;color:#1E232B;font-size:16px;font-weight:600;text-decoration:none;white-space:nowrap;opacity:{{ l3.op }};transform:{{ l3.tf }};transition:opacity 400ms ease-out {{ l3.delay }}, transform 400ms ease-out {{ l3.delay }}, background 150ms ease-out" style-hover="background:#E6E9EE;color:#1E232B">Написати нам</a>
+      <a href="tel:+380986401357" style="margin-top:16px;font-size:14px;line-height:1.4;color:#FCFCFD;text-decoration:underline;text-decoration-color:rgba(252,252,253,0.6);text-underline-offset:3px;opacity:{{ l4.op }};transform:{{ l4.tf }};transition:opacity 400ms ease-out {{ l4.delay }}, transform 400ms ease-out {{ l4.delay }}, text-decoration-color 150ms ease-out" style-hover="text-decoration-color:#FCFCFD;color:#FCFCFD">або зателефонувати: +380 98 640 13 57</a>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:560},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
+const WORDS = ['Зв\u2019яжіться', 'з', 'нами'];
+const START = 250;
+
+class Component extends DCLogic {
+  state = { vw: null, shown: false };
+  rootRef = React.createRef();
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) { this.setState({ shown: true }); return; }
+    this.io = new IntersectionObserver((entries) => {
+      if (entries.some(e => e.isIntersecting)) { this.io.disconnect(); this.setState({ shown: true }); }
+    }, { threshold: 0.35 });
+    if (this.rootRef.current) this.io.observe(this.rootRef.current);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    if (this.io) this.io.disconnect();
+  }
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const wide = d === 'desktop' || d === 'laptop';
+    const m = d === 'mobile';
+    const on = this.state.shown;
+    const line = (i) => ({ op: on ? 1 : 0, tf: on ? 'translateY(0)' : 'translateY(16px)', delay: (START + i * 80) + 'ms' });
+    return {
+      rootRef: this.rootRef,
+      outerPad: d === 'desktop' ? '0 64px 100px' : m ? '0 16px 75px' : '0 32px 75px',
+      pad: wide ? '64px' : m ? '48px 24px' : '48px 32px',
+      btnGap: m ? '32px' : '48px',
+      boxOp: on ? 1 : 0,
+      boxTf: on ? 'scale(1)' : 'scale(0.96)',
+      h2Size: wide ? '40px' : d === 'tablet' ? '28px' : '24px',
+      subSize: m ? '16px' : '18px',
+      addrSize: m ? '14px' : '16px',
+      btnW: wide ? 'auto' : '100%',
+      words: WORDS.map((t, i) => {
+        const delay = START + i * 60;
+        return {
+          t,
+          op: on ? 1 : 0,
+          tf: on ? 'translateY(0)' : 'translateY(12px)',
+          blur: on ? 'blur(0px)' : 'blur(4px)',
+          delay: delay + 'ms'
+        };
+      }),
+      l1: line(1), l2: line(2), l3: line(3), l4: line(4)
+    };
+  }
+}
+</script>
+</body>
+</html>

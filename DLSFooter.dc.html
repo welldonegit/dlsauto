@@ -30,7 +30,7 @@
               <nav aria-label="{{ c.title }}" style="display:flex;flex-direction:column;gap:24px">
                 <p style="margin:0;font-size:16px;line-height:24px;font-weight:600;color:#1E232B">{{ c.title }}</p>
                 <div style="display:flex;flex-direction:column;gap:12px">
-                  <sc-for list="{{ c.items }}" as="it" hint-placeholder-count="6"><a href="#" style="font-size:16px;line-height:24px;color:#4A5260;text-decoration:none" style-hover="color:#1E232B">{{ it }}</a></sc-for>
+                  <sc-for list="{{ c.items }}" as="it" hint-placeholder-count="6"><a href="{{ it.href }}" style="font-size:16px;line-height:24px;color:#4A5260;text-decoration:none" style-hover="color:#1E232B">{{ it.label }}</a></sc-for>
                 </div>
               </nav>
             </sc-for>
@@ -53,7 +53,7 @@
               <div style="display:grid;grid-template-rows:{{ c.rows }};opacity:{{ c.op }};transition:grid-template-rows 280ms ease-out, opacity 280ms ease-out">
                 <div style="overflow:hidden;min-height:0">
                   <div style="padding:0 0 16px;display:flex;flex-direction:column">
-                    <sc-for list="{{ c.items }}" as="it" hint-placeholder-count="6"><a href="#" style="min-height:44px;display:flex;align-items:center;font-size:16px;line-height:24px;color:#4A5260;text-decoration:none">{{ it }}</a></sc-for>
+                    <sc-for list="{{ c.items }}" as="it" hint-placeholder-count="6"><a href="{{ it.href }}" style="min-height:44px;display:flex;align-items:center;font-size:16px;line-height:24px;color:#4A5260;text-decoration:none">{{ it.label }}</a></sc-for>
                   </div>
                 </div>
               </div>
@@ -94,8 +94,8 @@
 
       <div style="padding:24px 0 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;font-size:14px;line-height:20px;color:#4A5260">
         <span>© 2026 DLSAuto</span>
-        <div style="display:flex;flex-wrap:wrap;gap:12px 24px">
-          <a href="#" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B">Політика конфіденційності</a>
+        <div style="display:flex;flex-direction:{{ legalDir }};align-items:flex-start;flex-wrap:wrap;gap:12px 24px">
+          <a href="DLSAuto Політика конфіденційності.dc.html" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B">Політика конфіденційності</a>
           <a href="#" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B">Публічна оферта</a>
           <a href="#" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B">Умови повернення</a>
           <a href="https://well-done.com.ua/" target="_blank" rel="noopener" aria-label="Створено з душею — welldone" style="display:flex;align-items:center;gap:8px;color:#4A5260;text-decoration:none;transition:opacity 150ms ease-out" style-hover="opacity:0.7">Створено з душею<img src="assets/welldone-logo.svg" alt="welldone" style="height:16px;width:auto;display:block"></a>
@@ -106,6 +106,7 @@
 </footer>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1100},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;}}">
+const HREFS = { 'Про компанію': 'DLSAuto Про компанію.dc.html', 'Контакти': 'DLSAuto Контакти.dc.html' };
 const COLS = [
   ['Каталог', ['Двигуни', 'КПП та роздатки', 'Підвіска та ходова', 'Кузовні деталі', 'Оптика', 'Салон', 'Електрика та електроніка', 'Гальмівна система', 'Шини та диски', 'Усі категорії']],
   ['Марки', ['Mitsubishi', 'Ford', 'Nissan', 'Mazda', 'Jeep', 'Volkswagen', 'Toyota', 'Hyundai', 'Kia', 'Усі марки']],
@@ -139,7 +140,7 @@ class Component extends DCLogic {
     const d = device === 'desktop', m = device === 'mobile';
     const digits = s.phone.replace(/\D/g, '').length;
     return {
-      notMobile: !m, isMobile: m,
+      notMobile: !m, isMobile: m, legalDir: m ? 'column' : 'row',
       topPad: d ? '96px 64px 64px' : device === 'tablet' ? '64px 32px 48px' : '48px 16px 32px',
       lowPad: d ? '64px 64px 32px' : device === 'tablet' ? '48px 32px 32px' : '32px 16px 24px',
       topCols: d ? 'minmax(0,4fr) minmax(0,8fr)' : 'minmax(0,1fr)',
@@ -151,7 +152,7 @@ class Component extends DCLogic {
       cols: COLS.map(([title, items], i) => {
         const open = !!s.open[i];
         return {
-          title, items, open,
+          title, items: items.map(label => ({ label, href: HREFS[label] || '#' })), open,
           rows: open ? '1fr' : '0fr', op: open ? 1 : 0, rot: open ? '180deg' : '0deg',
           toggle: () => this.setState(st => ({ open: { ...st.open, [i]: !st.open[i] } }))
         };

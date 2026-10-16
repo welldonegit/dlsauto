@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Контакти — DLSAuto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;background:#FCFCFD;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}input::placeholder{color:#A9B0BB;opacity:1}</style>
+<script src="./image-slot.js"></script>
+<script src="./dls-fav.js"></script>
+<script src="./dls-cart.js"></script>
+<script src="./dls-compare.js"></script>
+</helmet>
+<dc-import name="DLSHeaderHero" hero="{{ false }}" hint-size="100%,168px"></dc-import>
+<main style="font-family:'Golos Text',sans-serif;color:#1E232B;background:#FCFCFD">
+
+  <section data-screen-label="Контакти — статус і канали" style="box-sizing:border-box;max-width:{{ contentMax }};margin:0 auto;padding:{{ pad1 }}">
+    <div style="display:grid;grid-template-columns:{{ cols1 }};gap:{{ gap1 }};align-items:stretch">
+      <div style="min-width:0;display:flex;flex-direction:column">
+        <h1 style="margin:0;font-size:{{ h1Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em">Контакти</h1>
+        <p style="margin:16px 0 0;display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:16px;line-height:24px">
+          <span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:{{ dot }};flex-shrink:0"></span>
+          <span style="font-weight:600;color:#1E232B">{{ statusText }}</span>
+          <span style="color:#4A5260">{{ statusSub }}</span>
+        </p>
+        <div style="margin-top:32px;display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ channels }}" as="c" hint-placeholder-count="3">
+            <a href="{{ c.href }}" target="{{ c.target }}" rel="noopener" style="display:grid;grid-template-columns:32px minmax(0,1fr);align-items:center;gap:16px;padding:{{ cardPad }};box-sizing:border-box;background:#FFFFFF;border:1px solid #E6E9EE;border-radius:16px;text-decoration:none;color:#1E232B;transition:box-shadow 200ms ease-out" style-hover="box-shadow:0 12px 32px rgba(18,22,28,0.16)">
+              <span aria-hidden="true" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center">
+                <sc-if value="{{ c.img }}" hint-placeholder-val="{{ true }}"><img src="{{ c.img }}" width="28" height="28" alt=""></sc-if>
+                <sc-if value="{{ c.isPhone }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#1E232B" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h3l2 5-2.5 1.5a11 11 0 0 0 6 6L15 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"></path></svg></sc-if>
+              </span>
+              <span style="min-width:0;display:flex;flex-direction:column;gap:4px">
+                <span style="font-size:18px;line-height:24px;font-weight:600">{{ c.name }}</span>
+                <span style="font-size:14px;line-height:20px;color:#4A5260;text-wrap:pretty">{{ c.text }}</span>
+              </span>
+            </a>
+          </sc-for>
+        </div>
+      </div>
+      <div style="position:relative;min-width:0;height:{{ mapH }};min-height:{{ mapMin }};border-radius:16px;overflow:hidden;background:#1E232B">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2677.1499112127844!2d35.14142617640704!3d47.856059871213795!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40dc6719e8d365f1%3A0xc9eb07552dbb4db8!2z0K7QttC90L7QtSDRiC4sINCX0LDQv9C-0YDQvtC20YzQtSwg0JfQsNC_0L7RgNC-0LbRgdC60LDRjyDQvtCx0LvQsNGB0YLRjCwgNjkwMDA!5e0!3m2!1sru!2sua!4v1792145614498!5m2!1sru!2sua" title="Карта: DLSAuto, Запоріжжя, Південне шосе" allowfullscreen="{{ true }}" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" style="position:absolute;inset:0;width:100%;height:100%;border:0;display:block"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Контакти — як нас знайти" style="background:#F6F6F6">
+    <div style="box-sizing:border-box;max-width:{{ contentMax }};margin:0 auto;padding:{{ padBand }};display:grid;grid-template-columns:{{ cols2 }};gap:{{ gap1 }};align-items:center">
+      <div style="position:relative;min-width:0;aspect-ratio:4 / 3;border-radius:16px;overflow:hidden;background:#E6E9EE">
+        <image-slot id="contacts-gate" shape="rect" src="./assets/contacts-gate.jpg" placeholder="Сіра брама з логотипом DLSAuto, вид з дороги"></image-slot>
+      </div>
+      <div style="min-width:0;display:flex;flex-direction:column">
+        <h2 style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em">Як нас знайти</h2>
+        <p style="margin:24px 0 0;font-size:{{ pSize }};line-height:1.5;color:#1E232B;text-wrap:pretty">Заїзд з вулиці [X], сіра брама з логотипом. Паркування біля воріт. Якщо заблукали — зателефонуйте, зустрінемо.</p>
+        <ul style="margin:32px 0 0;padding-left:24px;display:flex;flex-direction:column;gap:12px;font-size:16px;line-height:24px">
+          <li style="padding-left:4px">Самовивіз — покажемо деталь і авто-донора до оплати</li>
+          <li style="padding-left:4px">Відкладемо деталь на 3 дні після замовлення</li>
+          <li style="padding-left:4px">Для СТО — доставка в бокс по Запоріжжю</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section data-screen-label="Контакти — запитати про деталь" style="box-sizing:border-box;max-width:{{ contentMax }};margin:0 auto;padding:{{ padBlock }}">
+    <div style="display:grid;grid-template-columns:{{ cols3 }};gap:{{ gap3 }};align-items:start">
+      <div style="min-width:0">
+        <h2 style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em">Запитати про деталь</h2>
+        <p style="margin:24px 0 0;font-size:{{ pSize }};line-height:1.5;color:#4A5260;text-wrap:pretty">Найшвидший спосіб дізнатись, чи підійде деталь: надішліть фото або номер — перевіримо за TecDoc і відповімо протягом 15 хвилин у робочий час</p>
+      </div>
+      <div style="min-width:0;box-sizing:border-box;padding:{{ formPad }};background:#FFFFFF;border:1px solid #E6E9EE;border-radius:16px">
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <form onSubmit="{{ onSubmit }}" novalidate="{{ true }}" style="display:flex;flex-direction:column;gap:16px">
+            <div>
+              <div style="position:relative;height:56px;box-sizing:border-box;border:1px solid {{ fCar.border }};border-radius:8px;background:#F3F5F7;transition:border-color 150ms ease-out">
+                <label for="ct-car" style="position:absolute;left:16px;top:{{ fCar.lTop }};font-size:{{ fCar.lSize }};line-height:1.2;color:#6B7380;pointer-events:none;transition:top 150ms ease-out, font-size 150ms ease-out">Марка і модель авто</label>
+                <input id="ct-car" value="{{ fCar.value }}" placeholder="{{ fCar.ph }}" onChange="{{ fCar.onChange }}" onFocus="{{ fCar.onFocus }}" onBlur="{{ fCar.onBlur }}" style="width:100%;height:100%;box-sizing:border-box;padding:22px 16px 6px;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;line-height:20px;color:#1E232B">
+              </div>
+            </div>
+            <div>
+              <div style="position:relative;height:56px;box-sizing:border-box;border:1px solid {{ fWhat.border }};border-radius:8px;background:#F3F5F7;transition:border-color 150ms ease-out">
+                <label for="ct-what" style="position:absolute;left:16px;top:{{ fWhat.lTop }};font-size:{{ fWhat.lSize }};line-height:1.2;color:#6B7380;pointer-events:none;transition:top 150ms ease-out, font-size 150ms ease-out">Що шукаєте*</label>
+                <input id="ct-what" value="{{ fWhat.value }}" placeholder="{{ fWhat.ph }}" aria-invalid="{{ fWhat.hasErr }}" onChange="{{ fWhat.onChange }}" onFocus="{{ fWhat.onFocus }}" onBlur="{{ fWhat.onBlur }}" style="width:100%;height:100%;box-sizing:border-box;padding:22px 16px 6px;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;line-height:20px;color:#1E232B">
+              </div>
+              <sc-if value="{{ fWhat.hasErr }}" hint-placeholder-val="{{ false }}"><p style="margin:4px 0 0;font-size:13px;line-height:18px;color:#E0001B">Заповніть це поле</p></sc-if>
+            </div>
+            <div>
+              <div style="position:relative;height:56px;box-sizing:border-box;border:1px solid {{ fPhone.border }};border-radius:8px;background:#F3F5F7;transition:border-color 150ms ease-out">
+                <label for="ct-phone" style="position:absolute;left:16px;top:{{ fPhone.lTop }};font-size:{{ fPhone.lSize }};line-height:1.2;color:#6B7380;pointer-events:none;transition:top 150ms ease-out, font-size 150ms ease-out">Телефон*</label>
+                <input id="ct-phone" type="tel" inputmode="tel" autocomplete="tel" value="{{ fPhone.value }}" aria-invalid="{{ fPhone.hasErr }}" onChange="{{ fPhone.onChange }}" onFocus="{{ fPhone.onFocus }}" onBlur="{{ fPhone.onBlur }}" style="width:100%;height:100%;box-sizing:border-box;padding:22px 16px 6px;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;line-height:20px;color:#1E232B">
+              </div>
+              <sc-if value="{{ fPhone.hasErr }}" hint-placeholder-val="{{ false }}"><p style="margin:4px 0 0;font-size:13px;line-height:18px;color:#E0001B">Вкажіть номер повністю</p></sc-if>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-if value="{{ canAddPhotos }}" hint-placeholder-val="{{ true }}">
+                <label onDragOver="{{ onDragOver }}" onDragLeave="{{ onDragLeave }}" onDrop="{{ onDrop }}" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:24px 16px;box-sizing:border-box;border:1px dashed {{ dropBorder }};border-radius:8px;background:{{ dropBg }};text-align:center;cursor:pointer;transition:background 150ms ease-out, border-color 150ms ease-out" style-hover="border-color:#6B7380">
+                  <input type="file" multiple="{{ true }}" accept="image/jpeg,image/png" onChange="{{ onFiles }}" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none">
+                  <svg aria-hidden="true" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="#4A5260" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8a2 2 0 0 1 2-2h2.5l1.5-2h6l1.5 2H19a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><circle cx="12" cy="13" r="3.5"></circle></svg>
+                  <span style="font-size:16px;line-height:22px;font-weight:600;color:#1E232B">Додайте фото деталі або номера</span>
+                  <span style="font-size:13px;line-height:18px;color:#4A5260">JPG, PNG, до 10 МБ, до 5 фото</span>
+                </label>
+              </sc-if>
+              <sc-if value="{{ hasPhotos }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <sc-for list="{{ photos }}" as="p" hint-placeholder-count="0">
+                    <div style="position:relative;width:72px;height:72px;border-radius:8px;overflow:hidden;background:#E6E9EE">
+                      <img src="{{ p.url }}" alt="{{ p.name }}" style="width:100%;height:100%;object-fit:cover;display:block">
+                      <button type="button" onClick="{{ p.remove }}" aria-label="Видалити фото" style="position:absolute;top:4px;right:4px;width:24px;height:24px;padding:0;border:none;border-radius:50%;background:rgba(18,22,28,0.72);display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:#12161C">
+                        <svg aria-hidden="true" viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="#FCFCFD" stroke-width="1.75" stroke-linecap="round"><path d="M2 2l8 8M10 2l-8 8"></path></svg>
+                      </button>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ fileErr }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:13px;line-height:18px;color:#E0001B">{{ fileErr }}</p></sc-if>
+            </div>
+            <button type="submit" style="margin-top:8px;width:100%;height:56px;border:none;border-radius:8px;background-color:#E0001B;background-image:radial-gradient(circle, #B80016 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;color:#FCFCFD;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">Надіслати</button>
+            <p style="margin:0;font-size:13px;line-height:18px;color:#4A5260;text-align:center;text-wrap:pretty">Натискаючи, ви погоджуєтесь з <a href="DLSAuto Політика конфіденційності.dc.html" style="color:#1E232B;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:3px" style-hover="text-decoration-color:#1E232B">політикою конфіденційності</a></p>
+          </form>
+        </sc-if>
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <div role="status" style="min-height:{{ successMin }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;text-align:center">
+            <svg aria-hidden="true" viewBox="0 0 56 56" width="56" height="56" fill="none"><circle cx="28" cy="28" r="26" stroke="#1E9E5A" stroke-width="2"></circle><path d="M18 28.5l7 7 13-14" stroke="#1E9E5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <p style="margin:0;max-width:360px;font-size:20px;line-height:1.4;font-weight:600;color:#1E232B;text-wrap:balance">Отримали. Відповімо протягом 15 хвилин у робочий час</p>
+            <button type="button" onClick="{{ reset }}" style="height:48px;padding:0 24px;border:1px solid #E0001B;border-radius:8px;background:transparent;color:#E0001B;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:background 150ms ease-out" style-hover="background:rgba(224,0,27,0.08)">Надіслати ще одне</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+</main>
+<dc-import name="DLSFooter" hint-size="100%,1100px"></dc-import>
+<dc-import name="DLSCart" hint-size="0px,0px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;},&quot;status&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;open&quot;,&quot;closed&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'open'|'closed'&quot;}}">
+const POS = [47.7905, 35.182];
+const PLATFORMS = [
+  { name: 'Prom.ua', brand: '#7B3FE4' },
+  { name: 'OLX', brand: '#002F34' },
+  { name: 'avto.pro', brand: '#F26522' },
+  { name: 'Instagram', brand: '#E4405F', si: 'instagram' },
+  { name: 'Facebook', brand: '#0866FF', si: 'facebook' }
+];
+const PH = { car: 'Наприклад, Ford Ranger 2009', what: 'Наприклад, фара ліва або OEM-номер' };
+
+class Component extends DCLogic {
+  state = { vw: null, now: Date.now(), v: { car: '', what: '', phone: '' }, focus: null, errs: {}, photos: [], fileErr: '', drag: false, sent: false, reqOpen: false, copied: false, hov: -1 };
+  mapRef = React.createRef();
+
+  componentDidMount() {
+    this.onResize = () => { this.setState({ vw: window.innerWidth }); if (this.map) setTimeout(() => this.map && this.map.invalidateSize(), 50); };
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+    this.tick = setInterval(() => this.setState({ now: Date.now() }), 30000);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    clearInterval(this.tick); clearTimeout(this.copyT);
+    this.state.photos.forEach(p => URL.revokeObjectURL(p.url));
+  }
+  componentDidUpdate(pp, ps) {
+    if (this.map && ps.vw !== this.state.vw) this.map.invalidateSize();
+  }
+  initMap() {
+    const L = window.L, el = this.mapRef.current;
+    if (this.map || !L || !el) return;
+    clearInterval(this.poll);
+    const map = L.map(el, { center: POS, zoom: 15, scrollWheelZoom: false, zoomControl: false, attributionControl: true });
+    L.control.zoom({ position: 'topright' }).addTo(map);
+    map.attributionControl.setPosition('topleft').setPrefix(false);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { subdomains: 'abcd', maxZoom: 19, attribution: '© OpenStreetMap © CARTO' }).addTo(map);
+    map.getPane('tilePane').style.filter = 'grayscale(1)';
+    const html = '<div style="width:52px;height:52px;box-sizing:border-box;border-radius:50%;background:#E0001B;border:3px solid #FCFCFD;box-shadow:0 8px 24px rgba(0,0,0,0.45);display:flex;align-items:center;justify-content:center;font:600 13px/1 \'Golos Text\',sans-serif;letter-spacing:-0.02em;color:#FCFCFD">DLS</div>';
+    L.marker(POS, { icon: L.divIcon({ html, className: '', iconSize: [52, 52], iconAnchor: [26, 26] }), title: 'DLSAuto', keyboard: false }).addTo(map);
+    this.map = map;
+    const shift = () => { const d = this.dev(); if (d === 'desktop' || d === 'laptop') map.panBy([0, 60], { animate: false }); };
+    shift();
+  }
+  dev() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    return this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+  }
+  kyiv() {
+    const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Kyiv', weekday: 'short', hour: '2-digit', hourCycle: 'h23' }).formatToParts(new Date(this.state.now));
+    const wd = { Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6, Sun: 7 }[parts.find(p => p.type === 'weekday').value];
+    const h = parseInt(parts.find(p => p.type === 'hour').value, 10) % 24;
+    return { wd, h };
+  }
+  status() {
+    const { wd, h } = this.kyiv();
+    let open = wd <= 6 && h >= 9 && h < 18;
+    const forced = this.props.status;
+    if (forced === 'open') open = true;
+    if (forced === 'closed') open = false;
+    if (open) return { open, sub: 'до 18:00' };
+    if (forced === 'closed' && wd <= 6 && h >= 9 && h < 18) return { open, sub: 'відкриємось завтра о 9:00' };
+    if (wd <= 6 && h < 9) return { open, sub: 'відкриємось сьогодні о 9:00' };
+    if (wd === 7 || (wd === 6 && h >= 18)) return { open, sub: 'відкриємось у понеділок о 9:00' };
+    return { open, sub: 'відкриємось завтра о 9:00' };
+  }
+  fmtPhone(d) {
+    if (!d) return '';
+    let s = '+380 ' + d.slice(0, 2);
+    if (d.length > 2) s += ' ' + d.slice(2, 5);
+    if (d.length > 5) s += ' ' + d.slice(5, 7);
+    if (d.length > 7) s += ' ' + d.slice(7, 9);
+    return s;
+  }
+  field(k) {
+    const s = this.state, val = s.v[k], focused = s.focus === k;
+    const up = focused || !!val;
+    const err = !!s.errs[k];
+    return {
+      value: k === 'phone' ? (val ? this.fmtPhone(val) : (focused ? '+380 ' : '')) : val,
+      ph: focused && !val && PH[k] ? PH[k] : '',
+      onChange: e => {
+        let x = e.target.value;
+        if (k === 'phone') {
+          x = x.replace(/\D/g, '');
+          if (x.startsWith('380')) x = x.slice(3); else if (x.startsWith('0')) x = x.slice(1);
+          x = x.slice(0, 9);
+        }
+        this.setState(st => ({ v: { ...st.v, [k]: x }, errs: { ...st.errs, [k]: false } }));
+      },
+      onFocus: () => this.setState({ focus: k }),
+      onBlur: () => this.setState(st => (st.focus === k ? { focus: null } : null)),
+      lTop: up ? '8px' : '18px',
+      lSize: up ? '12px' : '16px',
+      border: err ? '#E0001B' : (focused ? '#1E232B' : 'transparent'),
+      hasErr: err
+    };
+  }
+  addFiles(list) {
+    const files = Array.from(list || []);
+    const room = 5 - this.state.photos.length;
+    const ok = files.filter(f => /^image\/(jpeg|png)$/.test(f.type) && f.size <= 10 * 1024 * 1024);
+    const take = ok.slice(0, Math.max(0, room));
+    const rejected = files.length - take.length;
+    const add = take.map(f => ({ id: Math.random().toString(36).slice(2), name: f.name, url: URL.createObjectURL(f) }));
+    this.setState(st => ({ photos: [...st.photos, ...add], fileErr: rejected ? 'Частину файлів не додано: лише JPG або PNG до 10 МБ, не більше 5 фото' : '', drag: false }));
+  }
+  removePhoto(id) {
+    this.setState(st => {
+      const p = st.photos.find(x => x.id === id);
+      if (p) URL.revokeObjectURL(p.url);
+      return { photos: st.photos.filter(x => x.id !== id), fileErr: '' };
+    });
+  }
+  submit(e) {
+    e.preventDefault();
+    const v = this.state.v;
+    const errs = { what: !v.what.trim(), phone: v.phone.length < 9 };
+    if (errs.what || errs.phone) { this.setState({ errs }); return; }
+    this.setState({ sent: true });
+  }
+  reset() {
+    this.state.photos.forEach(p => URL.revokeObjectURL(p.url));
+    this.setState({ sent: false, v: { car: '', what: '', phone: '' }, errs: {}, photos: [], fileErr: '' });
+  }
+  copyIban() {
+    const t = '[номер]';
+    try { navigator.clipboard && navigator.clipboard.writeText(t); } catch (e) {}
+    this.setState({ copied: true });
+    clearTimeout(this.copyT);
+    this.copyT = setTimeout(() => this.setState({ copied: false }), 2000);
+  }
+  renderVals() {
+    const d = this.dev();
+    const wide = d === 'desktop' || d === 'laptop';
+    const m = d === 'mobile';
+    const side = d === 'desktop' ? 64 : m ? 16 : 32;
+    const block = wide ? 100 : 75;
+    const st = this.status();
+    const s = this.state;
+    return {
+      contentMax: `calc(1312px + ${side * 2}px)`,
+      pad1: `24px ${side}px ${block}px`,
+      padBand: `${block}px ${side}px`,
+      padBlock: `${block}px ${side}px`,
+      padSide: `0 ${side}px`,
+      padLast: `24px ${side}px ${block}px`,
+      cols1: d === 'desktop' ? 'minmax(0, 45fr) minmax(0, 55fr)' : wide ? 'minmax(0, 1fr) minmax(0, 1fr)' : 'minmax(0, 1fr)',
+      cols2: wide ? 'minmax(0, 1fr) minmax(0, 1fr)' : 'minmax(0, 1fr)',
+      cols3: d === 'desktop' ? 'minmax(0, 40fr) minmax(0, 55fr)' : wide ? 'minmax(0, 1fr) minmax(0, 1fr)' : 'minmax(0, 1fr)',
+      gap1: d === 'desktop' ? '48px' : '32px',
+      gap3: d === 'desktop' ? '96px' : '32px',
+      h1Size: wide ? '40px' : m ? '28px' : '32px',
+      h2Size: wide ? '40px' : m ? '24px' : '28px',
+      pSize: d === 'desktop' ? '18px' : m ? '14px' : '16px',
+      cardPad: m ? '16px' : '24px',
+      formPad: m ? '16px' : d === 'tablet' ? '24px' : '32px',
+      mapH: wide ? 'auto' : '50vh',
+      mapMin: wide ? '520px' : '320px',
+      plateRight: m ? '16px' : 'auto',
+      routeFlex: m ? '1 1 100%' : '0 0 auto',
+      dot: st.open ? '#1E9E5A' : '#A9B0BB',
+      statusText: st.open ? 'Зараз відкрито' : 'Зачинено',
+      statusSub: st.sub,
+      routeHref: `https://www.google.com/maps/dir/?api=1&destination=${POS[0]},${POS[1]}`,
+      mapRef: this.mapRef,
+      channels: [
+        { name: 'Telegram', text: 'Найшвидше. Надішліть фото деталі та номер — відповімо за 5–10 хвилин у робочий час', img: 'https://cdn.simpleicons.org/telegram/26A5E4', isPhone: false, href: 'https://t.me/', target: '_blank' },
+        { name: 'Viber', text: 'Те саме, якщо зручніше у Viber', img: 'https://cdn.simpleicons.org/viber/7360F2', isPhone: false, href: 'viber://chat?number=%2B380986401357', target: '_self' },
+        { name: '+380 98 640 13 57', text: 'Якщо треба обговорити голосом. Пн–Сб 9:00–18:00', img: '', isPhone: true, href: 'tel:+380986401357', target: '_self' }
+      ],
+      fCar: this.field('car'), fWhat: this.field('what'), fPhone: this.field('phone'),
+      onSubmit: e => this.submit(e),
+      canAddPhotos: s.photos.length < 5,
+      hasPhotos: s.photos.length > 0,
+      photos: s.photos.map(p => ({ ...p, remove: () => this.removePhoto(p.id) })),
+      fileErr: s.fileErr,
+      onFiles: e => { this.addFiles(e.target.files); e.target.value = ''; },
+      onDragOver: e => { e.preventDefault(); if (!s.drag) this.setState({ drag: true }); },
+      onDragLeave: () => this.setState({ drag: false }),
+      onDrop: e => { e.preventDefault(); this.addFiles(e.dataTransfer.files); },
+      dropBorder: s.drag ? '#1E232B' : '#CDD2DA',
+      dropBg: s.drag ? '#F3F5F7' : '#FCFCFD',
+      sent: s.sent, notSent: !s.sent,
+      successMin: m ? '320px' : '440px',
+      reset: () => this.reset(),
+      reqOpen: s.reqOpen,
+      toggleReq: () => this.setState(x => ({ reqOpen: !x.reqOpen })),
+      chevRot: s.reqOpen ? '180deg' : '0deg',
+      reqRows: s.reqOpen ? '1fr' : '0fr',
+      reqOp: s.reqOpen ? 1 : 0,
+      reqCols: m ? 'minmax(0, 1fr)' : '240px minmax(0, 1fr)',
+      reqs: [
+        { label: 'Отримувач', value: 'ФОП [ПІБ]', copy: null },
+        { label: 'ЄДРПОУ/РНОКПП', value: '[номер]', copy: null },
+        { label: 'IBAN', value: '[номер]', copy: () => this.copyIban(), copyLabel: s.copied ? 'Скопійовано' : 'Копіювати' },
+        { label: 'Банк', value: '[назва]', copy: null },
+        { label: 'Призначення платежу', value: 'Оплата за запчастини, замовлення №___', copy: null }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

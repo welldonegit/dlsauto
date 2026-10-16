@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Про компанію — DLSAuto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;background:#12161C;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}input::placeholder{color:#6B7380;opacity:1}</style>
+<script src="./image-slot.js"></script>
+</helmet>
+<dc-import name="DLSHeaderHero" hero="{{ false }}" hint-size="100%,168px"></dc-import>
+<section aria-labelledby="about2-h1" data-screen-label="Про компанію — перший екран" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B;overflow:hidden">
+  <div style="box-sizing:border-box;max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <h1 id="about2-h1" style="margin:0;font-size:{{ h1Size }};line-height:1.05;font-weight:400;letter-spacing:-0.03em;color:#1E232B;text-wrap:balance"><span style="display:{{ lineDisplay }}">Розбираємо пікапи та позашляховики. </span><span style="display:{{ lineDisplay }}"><b style="font-weight:600">Чесно</b> показуємо, що продаємо.</span></h1>
+    <div style="margin-top:{{ colsGap }};display:grid;grid-template-columns:{{ cols }};gap:24px">
+      <div aria-hidden="true" style="display:{{ spacerDisplay }}"></div>
+      <div style="min-width:0">
+        <p style="margin:0;max-width:640px;font-size:{{ textSize }};line-height:1.5;color:#4A5260;text-wrap:pretty">DLSAuto — авторозбірка в Дніпрі. Купуємо авто після ДТП, розбираємо самі, перевіряємо кожну деталь перед продажем і фотографуємо її так, щоб ви бачили все, включно з дефектами.</p>
+        <dl style="margin:32px 0 0;display:flex;align-items:stretch">
+          <sc-for list="{{ facts }}" as="f" hint-placeholder-count="3">
+            <div style="min-width:0;display:flex;flex-direction:column;gap:4px;padding:{{ f.pad }};border-left:{{ f.border }}">
+              <dt style="order:2;margin:0;font-size:14px;line-height:1.4;color:#4A5260">{{ f.label }}</dt>
+              <dd style="order:1;margin:0;font-size:{{ factSize }};line-height:1.2;font-weight:600;letter-spacing:-0.01em;color:#1E232B;white-space:nowrap">{{ f.value }}</dd>
+            </div>
+          </sc-for>
+        </dl>
+      </div>
+    </div>
+  </div>
+  <div onMouseEnter="{{ onEnter }}" onMouseLeave="{{ onLeave }}" aria-label="Фото з авторозбірки" role="region" style="margin-top:{{ stripGap }};overflow:hidden">
+    <div ref="{{ trackRef }}" style="display:flex;width:max-content;will-change:transform">
+      <div ref="{{ setRef }}" style="display:flex;gap:{{ gap }};padding-right:{{ gap }}">
+        <sc-for list="{{ photos }}" as="p" hint-placeholder-count="10">
+          <div style="flex:none;position:relative;height:{{ photoH }};aspect-ratio:{{ p.ratio }};border-radius:16px;overflow:hidden;background:#E6E9EE">
+            <image-slot id="{{ p.id }}" shape="rect" src="{{ p.src }}" placeholder="{{ p.ph }}"></image-slot>
+          </div>
+        </sc-for>
+      </div>
+      <div aria-hidden="true" style="display:flex;gap:{{ gap }};padding-right:{{ gap }}">
+        <sc-for list="{{ photos }}" as="p" hint-placeholder-count="10">
+          <div style="flex:none;position:relative;height:{{ photoH }};aspect-ratio:{{ p.ratio }};border-radius:16px;overflow:hidden;background:#E6E9EE">
+            <image-slot id="{{ p.id }}" shape="rect" src="{{ p.src }}" placeholder="{{ p.ph }}"></image-slot>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+</section>
+<dc-import name="DLSStatsNotch" hint-size="100%,860px"></dc-import>
+<dc-import name="DLSFooter" hint-size="100%,1100px"></dc-import>
+<dc-import name="DLSCart" hint-size="0px,0px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
+const PHOTOS = [
+  ['4 / 5', 'Механік знімає фару з пікапа'],
+  ['16 / 9', 'Цех: загальний план, кілька авто на розборі'],
+  ['1 / 1', 'Деталь на столі перед фотозйомкою'],
+  ['3 / 2', 'Колесо з диском і дрібними деталями', './assets/about-hero.jpg'],
+  ['4 / 5', 'Стелаж складу з пронумерованими деталями'],
+  ['16 / 9', 'Двір з донорами після ДТП'],
+  ['1 / 1', 'Команда біля пікапа'],
+  ['3 / 2', 'Пакування деталі до відправки'],
+  ['4 / 5', 'Перевірка двигуна на стенді'],
+  ['16 / 9', 'Пікап на підйомнику, вид збоку']
+];
+const FACTS = [['з 2022', 'у Дніпрі'], ['5\u00A0000+', 'замовлень на рік'], ['1\u00A0200+', 'деталей зараз на складі']];
+const CYCLE = 60;
+
+class Component extends DCLogic {
+  state = { vw: null };
+  trackRef = React.createRef();
+  setRef = React.createRef();
+  x = 0; speed = 0; hover = false;
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let last = performance.now();
+    const tick = (now) => {
+      const dt = Math.min(0.05, (now - last) / 1000); last = now;
+      const set = this.setRef.current, track = this.trackRef.current;
+      if (set && track) {
+        const half = set.offsetWidth;
+        const target = this.hover ? 0 : half / CYCLE;
+        this.speed += (target - this.speed) * Math.min(1, dt * 3);
+        this.x -= this.speed * dt;
+        if (half > 0 && -this.x >= half) this.x += half;
+        track.style.transform = 'translate3d(' + this.x.toFixed(2) + 'px,0,0)';
+      }
+      this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    cancelAnimationFrame(this.raf);
+  }
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const wide = d === 'desktop' || d === 'laptop';
+    const m = d === 'mobile';
+    return {
+      trackRef: this.trackRef, setRef: this.setRef,
+      onEnter: () => { this.hover = true; },
+      onLeave: () => { this.hover = false; },
+      pad: d === 'desktop' ? '96px 64px 0' : d === 'laptop' ? '96px 32px 0' : d === 'tablet' ? '64px 32px 0' : '48px 16px 0',
+      h1Size: d === 'desktop' ? '72px' : d === 'laptop' ? '56px' : d === 'tablet' ? '40px' : '32px',
+      lineDisplay: d === 'desktop' ? 'block' : 'inline',
+      colsGap: m ? '32px' : '48px',
+      cols: wide ? 'minmax(0, 40fr) minmax(0, 60fr)' : 'minmax(0, 1fr)',
+      spacerDisplay: wide ? 'block' : 'none',
+      textSize: d === 'desktop' ? '18px' : m ? '14px' : '16px',
+      factSize: m ? '20px' : '24px',
+      facts: FACTS.map(([value, label], i) => ({
+        value, label,
+        pad: i === 0 ? '0 ' + (m ? 16 : 24) + 'px 0 0' : '0 ' + (m ? 16 : 24) + 'px',
+        border: i === 0 ? '0' : '1px solid #CDD2DA'
+      })),
+      stripGap: wide ? '96px' : m ? '48px' : '64px',
+      gap: m ? '16px' : '24px',
+      photoH: d === 'desktop' ? '360px' : d === 'laptop' ? '320px' : d === 'tablet' ? '280px' : '220px',
+      photos: PHOTOS.map(([ratio, ph, src], i) => ({ id: 'about-strip-' + (i + 1), ratio, ph, src: src || '' }))
+    };
+  }
+}
+</script>
+</body>
+</html>

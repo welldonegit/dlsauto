@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:#FCFCFD}a:hover{color:#CDD2DA}</style>
+</helmet>
+<section ref="{{ rootRef }}" aria-labelledby="dls-steps-h" data-screen-label="Цифри — сходинки" style="background:#12161C;font-family:'Golos Text',sans-serif;color:#FCFCFD">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }};display:grid;grid-template-columns:{{ cols }};column-gap:24px;row-gap:{{ headGap }};align-items:end">
+    <header style="grid-column:{{ headCol }};grid-row:1;align-self:start;display:flex;flex-direction:column;gap:16px;min-width:0">
+      <h2 id="dls-steps-h" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#FCFCFD;text-wrap:balance">DLSAuto в цифрах</h2>
+      <p style="margin:0;max-width:400px;font-size:{{ leadSize }};line-height:1.5;color:#A9B0BB;text-wrap:pretty">Що стоїть за кожним замовленням</p>
+    </header>
+    <sc-for list="{{ cards }}" as="c" hint-placeholder-count="4">
+      <article style="grid-column:{{ c.col }};grid-row:{{ c.row }};align-self:end;min-width:0;display:flex;flex-direction:column;background:#1E232B;border-radius:16px;overflow:hidden;opacity:{{ c.op }};transform:{{ c.tf }};transition:opacity 500ms ease-out {{ c.delay }}, transform 500ms ease-out {{ c.delay }}">
+        <div aria-hidden="true" style="height:{{ c.zone }};background:#181C23;flex:none;box-sizing:border-box;padding:{{ cardPad }}">
+          <div style="width:48px;height:48px;border-radius:8px;background:#E6E9EE;display:flex;align-items:center;justify-content:center">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E232B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <sc-if value="{{ c.icSpeed }}" hint-placeholder-val="{{ false }}"><g><path d="M5.07 17A8 8 0 1 1 18.93 17"></path><path d="M5.07 9L6.8 10M12 5V7M18.93 9L17.2 10"></path><path d="M12 13L16.2 9.5"></path><circle cx="12" cy="13" r="1"></circle></g></sc-if>
+              <sc-if value="{{ c.icWrench }}" hint-placeholder-val="{{ false }}"><g><path transform="translate(12 12) rotate(45) scale(0.85) translate(-12 -12)" vector-effect="non-scaling-stroke" d="M9.5 10.33A5 5 0 0 1 10.5 1.23L10.5 5L13.5 5L13.5 1.23A5 5 0 0 1 14.5 10.33L14.5 20.5A2.5 2.5 0 0 1 9.5 20.5Z"></path><path d="M8.3 14.5L9.3 15.5L11 13.7"></path></g></sc-if>
+              <sc-if value="{{ c.icWheel }}" hint-placeholder-val="{{ false }}"><g><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="7.5"></circle><circle cx="12" cy="12" r="2.5"></circle><path d="M12 9.5V4.5M14.38 11.23L19.13 9.68M13.47 14.02L16.41 18.07M10.53 14.02L7.59 18.07M9.62 11.23L4.87 9.68"></path></g></sc-if>
+              <sc-if value="{{ c.icTread }}" hint-placeholder-val="{{ false }}"><g><path d="M5 3V21M19 3V21"></path><path d="M7.5 4.5L12 7L16.5 4.5M7.5 9L12 11.5L16.5 9M7.5 13.5L12 16L16.5 13.5M7.5 18L12 20.5L16.5 18"></path></g></sc-if>
+            </svg>
+          </div>
+        </div>
+        <div style="padding:{{ cardPad }};display:flex;flex-direction:column">
+          <p style="margin:0;font-size:14px;line-height:1.4;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#A9B0BB">{{ c.label }}</p>
+          <p aria-label="{{ c.final }}" style="margin:12px 0 0;display:flex;align-items:baseline;gap:4px;white-space:nowrap;color:#FCFCFD">
+            <sc-if value="{{ c.pre }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="font-size:{{ supSize }};line-height:1;color:#A9B0BB">{{ c.pre }}</span></sc-if>
+            <span aria-hidden="true" style="font-size:{{ numSize }};line-height:1;font-weight:400;letter-spacing:-0.03em;font-variant-numeric:tabular-nums">{{ c.shown }}</span>
+            <sc-if value="{{ c.suf }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="align-self:flex-start;font-size:{{ supSize }};line-height:1;color:#A9B0BB">{{ c.suf }}</span></sc-if>
+          </p>
+          <p style="margin:16px 0 0;min-height:{{ textMin }};font-size:16px;line-height:1.5;color:#A9B0BB;text-wrap:pretty">{{ c.text }}</p>
+        </div>
+      </article>
+    </sc-for>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:820},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
+const STATS = [
+  { label: 'Досвід', v: 4, suf: '+', text: 'Роки на ринку і понад 20\u00A0000 виконаних замовлень' },
+  { label: 'Гарантія', v: 60, pre: 'до', text: 'Днів на перевірку, обмін або повернення' },
+  { label: 'Наявність', v: 1200, suf: '+', text: 'Деталей на складі зараз, кожна в одному екземплярі' },
+  { label: 'Замовлення', v: 5000, suf: '+', text: 'Відправлених деталей за рік по всій Україні' }
+];
+const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0');
+const DURATION = 1200;
+
+class Component extends DCLogic {
+  state = { vw: null, t: 0, shown: false };
+  rootRef = React.createRef();
+
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) { this.setState({ t: 1, shown: true }); return; }
+    this.io = new IntersectionObserver((entries) => {
+      if (entries.some(e => e.isIntersecting)) { this.io.disconnect(); this.start(); }
+    }, { threshold: 0.3 });
+    if (this.rootRef.current) this.io.observe(this.rootRef.current);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    if (this.io) this.io.disconnect();
+    cancelAnimationFrame(this.raf);
+  }
+  start() {
+    this.setState({ shown: true });
+    const t0 = performance.now();
+    const tick = (now) => {
+      const p = Math.min(1, (now - t0) / DURATION);
+      this.setState({ t: 1 - Math.pow(1 - p, 3) });
+      if (p < 1) this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const stairs = d === 'desktop' || d === 'laptop';
+    const zones = d === 'desktop' ? [96, 192, 288, 384] : d === 'laptop' ? [96, 144, 192, 240] : [96, 96, 96, 96];
+    const { t, shown } = this.state;
+    return {
+      rootRef: this.rootRef,
+      pad: d === 'desktop' ? '100px 64px' : d === 'mobile' ? '75px 16px' : '75px 32px',
+      cols: stairs ? 'repeat(4, minmax(0, 1fr))' : d === 'tablet' ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)',
+      headCol: stairs ? '1 / 3' : '1 / -1',
+      headGap: d === 'mobile' ? '32px' : '48px',
+      h2Size: d === 'desktop' || d === 'laptop' ? '40px' : d === 'tablet' ? '28px' : '24px',
+      leadSize: d === 'desktop' ? '18px' : d === 'mobile' ? '14px' : '16px',
+      textMin: d === 'laptop' ? '4.5em' : '3em',
+      cardPad: d === 'mobile' ? '24px' : '24px',
+      numSize: d === 'desktop' ? '76px' : d === 'tablet' ? '64px' : '56px',
+      supSize: d === 'desktop' ? '28px' : '24px',
+      cards: STATS.map((s, i) => {
+        let col, row;
+        if (stairs) { col = String(i + 1); row = i < 2 ? '2' : '1 / 3'; }
+        else if (d === 'tablet') { col = String((i % 2) + 1); row = String(2 + Math.floor(i / 2)); }
+        else { col = '1'; row = String(2 + i); }
+        return {
+          icSpeed: i === 0, icWrench: i === 1, icWheel: i === 2, icTread: i === 3,
+          label: s.label, text: s.text, pre: s.pre || '', suf: s.suf || '',
+          final: (s.pre ? s.pre + ' ' : '') + fmt(s.v) + (s.suf || ''),
+          shown: fmt(Math.round(s.v * t)),
+          col, row,
+          zone: zones[i] + 'px',
+          op: shown ? 1 : 0,
+          tf: shown ? 'translateY(0)' : 'translateY(32px)',
+          delay: i * 80 + 'ms'
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

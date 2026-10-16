@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;background:#12161C;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:#FCFCFD}a:hover{color:#E6E9EE}</style>
+</helmet>
+<section aria-label="Шлях деталі" data-screen-label="Шлях деталі" style="position:relative;padding-bottom:{{ secPb }};background:#12161C;font-family:'Golos Text',sans-serif;color:#FCFCFD">
+  <sc-if value="{{ horizontal }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:1312px;margin:0 auto;padding:{{ headPad }}">
+      <h2 style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#FCFCFD;text-wrap:balance">Від битого авто до вашої посилки</h2>
+    </div>
+  </sc-if>
+  <div ref="{{ rootRef }}" style="position:relative;height:{{ trackH }}">
+  <div ref="{{ stickyRef }}" style="position:sticky;top:0;height:{{ stickH }};box-sizing:border-box;display:flex;align-items:center;overflow:hidden">
+    <div style="box-sizing:border-box;width:100%;max-width:{{ boxMax }};margin:0 auto;padding:{{ pad }};display:grid;grid-template-columns:{{ cols }};gap:{{ colGap }};align-items:center">
+      <div style="min-width:0;display:{{ leftDisplay }};flex-direction:column;gap:{{ leftGap }}">
+        <header style="display:flex;flex-direction:column;gap:16px">
+          <h2 id="dls-path-h" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#FCFCFD;text-wrap:balance">Від битого авто до вашої посилки</h2>
+        </header>
+        <sc-if value="{{ vertical }}" hint-placeholder-val="{{ true }}">
+          <div style="display:flex;flex-direction:column;gap:32px">
+          <ol style="position:relative;list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px">
+            <span aria-hidden="true" style="position:absolute;left:5px;top:18px;bottom:18px;width:1px;background:#4A5260"></span>
+            <span aria-hidden="true" style="position:absolute;left:5px;top:18px;width:1px;height:{{ lineFill }};background:#FCFCFD;transition:height 300ms ease-out"></span>
+            <sc-for list="{{ steps }}" as="st" hint-placeholder-count="6">
+              <li style="position:relative">
+                <button type="button" onClick="{{ st.go }}" aria-current="{{ st.current }}" style="height:36px;padding:0;display:flex;align-items:center;gap:16px;border:0;background:none;font-family:inherit;cursor:pointer;text-align:left">
+                  <span aria-hidden="true" style="flex:none;width:11px;height:11px;border-radius:50%;background:{{ st.dot }};box-shadow:{{ st.ring }};transition:background 300ms ease-out, box-shadow 300ms ease-out"></span>
+                  <span style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:14px;line-height:1;color:{{ st.numC }};transition:color 300ms ease-out">{{ st.n }}</span>
+                  <span style="font-size:16px;line-height:1.4;font-weight:{{ st.fw }};color:{{ st.nameC }};transition:color 300ms ease-out">{{ st.name }}</span>
+                </button>
+              </li>
+            </sc-for>
+          </ol>
+          <div aria-live="polite" style="display:grid">
+            <sc-for list="{{ steps }}" as="st" hint-placeholder-count="1">
+              <div aria-hidden="{{ st.hidden }}" style="grid-area:1 / 1;opacity:{{ st.op }};transform:{{ st.tf }};transition:opacity 300ms ease-out, transform 300ms ease-out;pointer-events:none">
+                <p style="margin:0;max-width:440px;font-size:18px;line-height:1.5;color:#A9B0BB;text-wrap:pretty">{{ st.text }}</p>
+              </div>
+            </sc-for>
+          </div>
+          </div>
+        </sc-if>
+      </div>
+      <div style="min-width:0;display:flex;flex-direction:column;gap:{{ panelGap }}">
+        <sc-for list="{{ frames }}" as="f" hint-placeholder-count="1">
+          <div data-step="{{ f.i }}" style="display:flex;flex-direction:column;gap:24px;opacity:{{ f.appearOp }};transform:{{ f.appearTf }};transition:opacity 600ms ease-out, transform 600ms ease-out">
+            <svg viewBox="0 0 800 600" role="img" aria-label="{{ f.label }}" style="display:block;width:100%;height:{{ sceneH }};max-height:{{ sceneMax }};overflow:hidden" fill="none" stroke="rgba(252,252,253,0.85)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <g opacity="{{ f.beamOp }}">
+                <path d="M312 226 L40 140 L40 360 L312 274 Z" fill="rgba(252,252,253,0.06)" stroke="none"></path>
+                <path d="M312 236 L80 186 M312 250 L64 250 M312 264 L80 314" stroke-dasharray="2 10" vector-effect="non-scaling-stroke"></path>
+              </g>
+              <path d="M80 447 L720 447" opacity="{{ f.groundOp }}" vector-effect="non-scaling-stroke"></path>
+              <g opacity="{{ f.connOp }}" stroke-dasharray="3 7">
+                <path d="M210 182 L296 306 M108 254 L244 340 M174 360 L290 352 M70 430 L220 366 M226 470 L300 404 M456 236 L446 304" vector-effect="non-scaling-stroke"></path>
+              </g>
+              <clipPath id="pp-trail-{{ f.i }}">
+                <rect x="290" y="0" width="520" height="600" style="transform:translateX({{ f.trailClip }});transition:transform 500ms ease-in-out"></rect>
+              </clipPath>
+              <g clip-path="url(#pp-trail-{{ f.i }})">
+                <path d="{{ f.trailD }}" opacity="{{ f.trailOp }}" stroke-dasharray="6 8" vector-effect="non-scaling-stroke" style="transition:opacity 500ms ease-in"></path>
+              </g>
+              <g transform="{{ f.bodyTf }}" opacity="{{ f.bodyOp }}">
+                <path d="M300 300 L360 245 L452 245 Q462 246 463 256 L466 320 L690 320 L690 388 L612 388 A52 52 0 0 0 508 388 L282 388 A52 52 0 0 0 178 388 L150 388 L150 340" vector-effect="non-scaling-stroke"></path>
+                <path d="M466 336 L680 336 M160 354 L170 346 L167 360 L178 355" vector-effect="non-scaling-stroke"></path>
+                <circle cx="560" cy="400" r="46" vector-effect="non-scaling-stroke"></circle>
+                <circle cx="560" cy="400" r="18" vector-effect="non-scaling-stroke"></circle>
+              </g>
+              <g transform="{{ f.doorTf }}" opacity="{{ f.partOp }}">
+                <path d="M300 306 L452 306 L452 384 L300 384 Z M312 296 L360 254 L444 254 L446 296 Z M418 322 L436 322" vector-effect="non-scaling-stroke"></path>
+              </g>
+              <g transform="{{ f.hoodTf }}" opacity="{{ f.partOp }}">
+                <path d="M146 330 L170 318 L186 329 L206 312 L236 317 L262 306 L300 300" vector-effect="non-scaling-stroke"></path>
+              </g>
+              <g transform="{{ f.bumperTf }}" opacity="{{ f.partOp }}">
+                <path d="M150 340 L132 335 L118 347 L126 357 L114 368 L118 386 L150 388" vector-effect="non-scaling-stroke"></path>
+              </g>
+              <g transform="{{ f.wheelTf }}" opacity="{{ f.partOp }}">
+                <circle r="46" vector-effect="non-scaling-stroke"></circle>
+                <circle r="18" vector-effect="non-scaling-stroke"></circle>
+                <circle r="31" stroke-dasharray="3 9" vector-effect="non-scaling-stroke"></circle>
+              </g>
+              <g transform="{{ f.engineTf }}" opacity="{{ f.engineOp }}">
+                <path d="M-40 -20 L30 -20 L30 -28 L44 -28 L44 24 L-40 24 Z M-28 -20 L-28 -32 L-16 -32 L-16 -20 M-6 -20 L-6 -32 L6 -32 L6 -20 M-40 2 L44 2" vector-effect="non-scaling-stroke"></path>
+                <circle cx="-52" cy="4" r="10" vector-effect="non-scaling-stroke"></circle>
+              </g>
+              <g opacity="{{ f.tagOp }}" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="12">
+                <rect x="136" y="116" width="88" height="22" rx="4" vector-effect="non-scaling-stroke"></rect>
+                <text x="180" y="131" text-anchor="middle" fill="rgba(252,252,253,0.85)" stroke="none">DLS-04511</text>
+
+                <rect x="20" y="468" width="88" height="22" rx="4" vector-effect="non-scaling-stroke"></rect>
+                <text x="64" y="483" text-anchor="middle" fill="rgba(252,252,253,0.85)" stroke="none">DLS-04514</text>
+              </g>
+              <g opacity="{{ f.tagOp2 }}" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="12">
+                <rect x="110" y="298" width="88" height="22" rx="4" vector-effect="non-scaling-stroke"></rect>
+                <text x="154" y="313" text-anchor="middle" fill="rgba(252,252,253,0.85)" stroke="none">DLS-04513</text>
+                <rect x="246" y="524" width="88" height="22" rx="4" vector-effect="non-scaling-stroke"></rect>
+                <text x="290" y="539" text-anchor="middle" fill="rgba(252,252,253,0.85)" stroke="none">DLS-04515</text>
+                <rect x="546" y="120" width="88" height="22" rx="4" vector-effect="non-scaling-stroke"></rect>
+                <text x="590" y="135" text-anchor="middle" fill="rgba(252,252,253,0.85)" stroke="none">DLS-04516</text>
+              </g>
+              <g opacity="{{ f.headTagOp }}" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="12">
+                <rect x="46" y="204" width="88" height="22" rx="4" vector-effect="non-scaling-stroke"></rect>
+                <text x="90" y="219" text-anchor="middle" fill="rgba(252,252,253,0.85)" stroke="none">DLS-04512</text>
+              </g>
+              <g opacity="{{ f.modelOp }}" stroke="rgba(252,252,253,0.35)" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="14">
+                <rect x="209" y="476" width="192" height="28" rx="8" vector-effect="non-scaling-stroke"></rect>
+                <rect x="413" y="476" width="58" height="28" rx="8" vector-effect="non-scaling-stroke"></rect>
+                <rect x="483" y="476" width="108" height="28" rx="8" vector-effect="non-scaling-stroke"></rect>
+                <text x="305" y="495" text-anchor="middle" fill="#E6E9EE" stroke="none">Ford Ranger 2.5 TDCi</text>
+                <text x="442" y="495" text-anchor="middle" fill="#A9B0BB" stroke="none">2009</text>
+                <text x="537" y="495" text-anchor="middle" fill="#A9B0BB" stroke="none">186 000 км</text>
+              </g>
+              <g opacity="{{ f.standOp }}">
+                <path d="M400 306 L400 340 M296 340 L520 340 M316 340 L316 420 M500 340 L500 420 M288 420 L528 420" vector-effect="non-scaling-stroke"></path>
+                <rect x="566" y="300" width="96" height="72" rx="8" vector-effect="non-scaling-stroke"></rect>
+                <circle cx="596" cy="336" r="14" vector-effect="non-scaling-stroke"></circle>
+                <path d="M596 336 L604 328 M626 322 L646 322 M626 336 L646 336 M626 350 L638 350" vector-effect="non-scaling-stroke"></path>
+                <path d="M566 318 C530 318 528 252 490 252 M566 334 C520 340 526 276 484 270" vector-effect="non-scaling-stroke"></path>
+              </g>
+              <g opacity="{{ f.checkOp }}" stroke="#E0001B">
+                <circle cx="640" cy="180" r="28" vector-effect="non-scaling-stroke"></circle>
+                <path d="M627 181 L636 190 L654 171" vector-effect="non-scaling-stroke"></path>
+              </g>
+              <g transform="{{ f.cardTf }}" opacity="{{ f.cardOp }}">
+                <rect x="240" y="80" width="320" height="420" rx="16" vector-effect="non-scaling-stroke"></rect>
+                <rect x="256" y="96" width="288" height="220" rx="8" stroke="rgba(252,252,253,0.35)" vector-effect="non-scaling-stroke"></rect>
+                <rect x="256" y="332" width="168" height="26" rx="8" vector-effect="non-scaling-stroke"></rect>
+                <text x="268" y="350" fill="rgba(252,252,253,0.85)" stroke="none" font-family="'Golos Text',sans-serif" font-size="13" font-weight="500">Ford Ranger 2006–2012</text>
+                <text x="256" y="394" fill="#FCFCFD" stroke="none" font-family="'Golos Text',sans-serif" font-size="20" font-weight="600">Фара ліва галоген</text>
+                <text x="256" y="462" fill="#FCFCFD" stroke="none" font-family="'Golos Text',sans-serif" font-size="26" font-weight="600">4 500 ₴</text>
+                <rect x="496" y="428" width="48" height="40" rx="8" fill="#E0001B" stroke="none"></rect>
+                <g transform="translate(508 436)" stroke="#FCFCFD">
+                  <path d="M3 4H5.5L7.6 14.2A1.5 1.5 0 0 0 9.1 15.4H17.4A1.5 1.5 0 0 0 18.9 14.2L20.5 7H6.2" vector-effect="non-scaling-stroke"></path>
+                  <circle cx="9.5" cy="19.5" r="1.3" vector-effect="non-scaling-stroke"></circle>
+                  <circle cx="17" cy="19.5" r="1.3" vector-effect="non-scaling-stroke"></circle>
+                </g>
+              </g>
+              <g transform="{{ f.headTf }}" opacity="{{ f.headOp }}">
+                <path d="M-18 -7 Q-16 -11 -10 -11 L14 -11 Q18 -11 18 -7 L18 8 Q18 11 14 11 L-12 11 Q-18 11 -18 6 Z" vector-effect="non-scaling-stroke"></path>
+                <circle cx="-7" cy="0" r="5" fill="rgba(252,252,253,0.9)" fill-opacity="{{ f.glowOp }}" vector-effect="non-scaling-stroke"></circle>
+                <path d="M3 -6 L12 -6 M3 0 L12 0 M3 6 L12 6" vector-effect="non-scaling-stroke"></path>
+              </g>
+              <g opacity="{{ f.markOp }}" stroke="#FCFCFD" stroke-width="2" stroke-linecap="butt">
+                <circle cx="{{ f.m1x }}" cy="{{ f.m1y }}" r="{{ f.m1r }}" stroke-dasharray="{{ f.m1d }}" stroke-dashoffset="{{ f.m1o }}"></circle>
+                <circle cx="{{ f.m2x }}" cy="{{ f.m2y }}" r="{{ f.m2r }}" stroke-dasharray="{{ f.m2d }}" stroke-dashoffset="{{ f.m2o }}"></circle>
+                <circle cx="{{ f.m3x }}" cy="{{ f.m3y }}" r="{{ f.m3r }}" stroke-dasharray="{{ f.m3d }}" stroke-dashoffset="{{ f.m3o }}"></circle>
+              </g>
+              <g transform="{{ f.penTf }}" opacity="{{ f.penOp }}">
+                <path d="M0 0 L4 -12 L26 -34 L34 -26 L12 -4 Z M4 -12 L12 -4" fill="#12161C" vector-effect="non-scaling-stroke"></path>
+              </g>
+              <g transform="{{ f.boxTf }}" opacity="{{ f.boxOp }}">
+                <g style="opacity:{{ f.boxFade }};transform:scale({{ f.boxFadeS }});transform-origin:0px 0px;transition:opacity 500ms ease-out, transform 500ms ease-out">
+                <path d="M-90 -30 L60 -30 L60 70 L-90 70 Z M-90 -30 L-50 -70 L100 -70 L60 -30 M60 -30 L100 -70 L100 30 L60 70 M-12 -30 L28 -70" fill="#12161C" vector-effect="non-scaling-stroke"></path>
+                <rect x="-76" y="-12" width="112" height="40" rx="4" vector-effect="non-scaling-stroke"></rect>
+                <path d="M-60 -2 L-50 8 L-60 18 L-70 8 Z M-64 8 L-56 8 M-59 5 L-56 8 L-59 11" vector-effect="non-scaling-stroke"></path>
+                <text x="-42" y="13" fill="rgba(252,252,253,0.85)" stroke="none" font-family="'Golos Text',sans-serif" font-size="12" font-weight="600">Нова пошта</text>
+                </g>
+              </g>
+              <g opacity="{{ f.boxOp }}">
+                <g style="opacity:{{ f.sentOp }};transform:scale({{ f.sentS }});transform-origin:400px 300px;transition:opacity 500ms ease-out, transform 500ms ease-out">
+                  <circle cx="400" cy="276" r="32" stroke="#E0001B" vector-effect="non-scaling-stroke"></circle>
+                  <path d="M385 277 L395 287 L416 266" stroke="#E0001B" vector-effect="non-scaling-stroke"></path>
+                  <text x="400" y="342" text-anchor="middle" fill="#A9B0BB" stroke="none" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="13">Відправлено · ТТН 2045 0123 4567 8901</text>
+                </g>
+              </g>
+            </svg>
+          </div>
+        </sc-for>
+        <sc-if value="{{ horizontal }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-direction:column;gap:24px">
+            <ol style="position:relative;list-style:none;margin:0;padding:0;display:flex;justify-content:space-between">
+              <span aria-hidden="true" style="position:absolute;left:5px;right:5px;top:5px;height:1px;background:#4A5260"></span>
+              <sc-for list="{{ steps }}" as="st" hint-placeholder-count="6">
+                <li style="position:relative">
+                  <button type="button" onClick="{{ st.go }}" aria-current="{{ st.current }}" aria-label="{{ st.name }}" style="min-width:44px;min-height:44px;padding:0;display:flex;flex-direction:column;align-items:center;gap:8px;border:0;background:none;font-family:inherit;cursor:pointer">
+                    <span aria-hidden="true" style="width:11px;height:11px;border-radius:50%;background:{{ st.dot }};box-shadow:{{ st.ring }};transition:background 300ms ease-out, box-shadow 300ms ease-out"></span>
+                    <span aria-hidden="true" style="font-family:'JetBrains Mono',ui-monospace,monospace;font-size:12px;line-height:1;color:{{ st.numC }};transition:color 300ms ease-out">{{ st.n }}</span>
+                  </button>
+                </li>
+              </sc-for>
+            </ol>
+            <div aria-live="polite" style="display:grid">
+              <sc-for list="{{ steps }}" as="st" hint-placeholder-count="1">
+                <div aria-hidden="{{ st.hidden }}" style="grid-area:1 / 1;opacity:{{ st.op }};transform:{{ st.tf }};transition:opacity 300ms ease-out, transform 300ms ease-out;pointer-events:none">
+                  <p style="margin:0;max-width:560px;font-size:{{ textSize }};line-height:1.5;color:#A9B0BB;text-wrap:pretty">{{ st.text }}</p>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
+const STEPS = [
+  ['01', 'Купуємо авто', 'Купуємо авто після ДТП цілком. Тому знаємо пробіг, рік і що саме з ним сталося.'],
+  ['02', 'Розбираємо', 'Розбираємо самі. Кожна деталь отримує свій номер і прив\u2019язку до авто-донора.'],
+  ['03', 'Перевіряємо', 'Двигуни і коробки запускаємо на стенді, оптику та електрику перевіряємо на авто. Знімаємо відео.'],
+  ['04', 'Позначаємо дефекти', 'Кожну подряпину обводимо білим маркером перед фото. Ви бачите стан до оплати, а не після.'],
+  ['05', 'Публікуємо', 'Публікуємо з реальними фото, ціною та гарантією. Відео перевірки — в картці.'],
+  ['06', 'Відправляємо', 'Відправляємо в день замовлення Новою поштою або Delivery. По Запоріжжю — самовивіз або доставка в бокс СТО.']
+];
+const STATIC = [0.5, 1.5, 2.5, 3.6, 4.5, 5.9];
+const clamp = (v, a = 0, b = 1) => Math.max(a, Math.min(b, v));
+const ease = (x) => (x < 0.5 ? 2 * x * x : 1 - Math.pow(-2 * x + 2, 2) / 2);
+const T = (s, k) => ease(clamp((s - k + 0.2) / 0.4));
+const lerp = (a, b, t) => a + (b - a) * t;
+const r2 = (n) => Math.round(n * 100) / 100;
+const tr = (x, y) => 'translate(' + r2(x) + ' ' + r2(y) + ')';
+const HEAD = [[174, 340, 0.8], [90, 250, 1], [400, 250, 5], [400, 280, 5], [400, 206, 4]];
+const MARKS = [[-12, -5, 2.6], [8, 6, 2.2], [11, -5, 2.4]];
+
+function scene(s) {
+  const t1 = T(s, 1), t2 = T(s, 2), t3 = T(s, 3), t4 = T(s, 4), t5 = T(s, 5);
+  const dim = clamp(1 - 0.8 * t2 - 0.2 * t3);
+  let [hx, hy, hs] = HEAD[0];
+  [t1, t2, t3, t4].forEach((t, i) => { hx = lerp(hx, HEAD[i + 1][0], t); hy = lerp(hy, HEAD[i + 1][1], t); hs = lerp(hs, HEAD[i + 1][2], t); });
+  const k5 = 1 - 0.5 * t5;
+  hx = 400 + (hx - 400) * k5; hy = 290 + (hy - 290) * k5; hs *= k5;
+  const prog = [ease(clamp((s - 2.8) / 0.25)), ease(clamp((s - 2.95) / 0.25)), clamp((s - 3.2) / 0.55)];
+  const out = {};
+  MARKS.forEach(([lx, ly, lr], i) => {
+    const r = lr * hs, c = 2 * Math.PI * r, n = i + 1;
+    out['m' + n + 'x'] = r2(hx + lx * hs); out['m' + n + 'y'] = r2(hy + ly * hs); out['m' + n + 'r'] = r2(r);
+    out['m' + n + 'd'] = r2(c) + ' ' + r2(c); out['m' + n + 'o'] = r2(c * (1 - prog[i]));
+  });
+  const a = prog[2] * Math.PI * 2;
+  const bu = ease(clamp((s - 5.3) / 0.4));
+  const bs = 0.6 + 0.4 * t5;
+  const bx = 400 + 160 * bu;
+  const done = s >= 5.72;
+  const tx = bx - 90 * bs;
+  const cs = (0.96 + 0.04 * t4) * k5;
+  return {
+    ...out,
+    beamOp: r2(t2 * (1 - t3)), glowOp: r2(t2 * (1 - t3)),
+    groundOp: r2(0.4 * dim),
+    connOp: r2(0.6 * t1 * dim),
+    bodyTf: tr(70 * t1, 0), bodyOp: r2(dim), partOp: r2(dim),
+    doorTf: tr(80 * t1, -150 * t1), hoodTf: tr(-20 * t1, -150 * t1), bumperTf: tr(-80 * t1, 70 * t1),
+    wheelTf: tr(lerp(230, 190, t1), lerp(400, 500, t1)),
+    engineTf: tr(lerp(210, 130, t1), lerp(350, 360, t1)), engineOp: r2(t1 * dim),
+    tagOp: r2(t1 * dim), headTagOp: r2(t1 * (1 - t2)),
+    modelOp: r2(1 - t1),
+    standOp: r2(t2 * (1 - t3)), checkOp: r2(t2 * (1 - t3)),
+    headTf: tr(hx, hy) + ' scale(' + r2(hs) + ')', headOp: r2(1 - t5),
+    markOp: r2((prog[0] > 0 ? 1 : 0) * (1 - t5)),
+    penTf: tr(out.m3x + out.m3r * Math.cos(a), out.m3y + out.m3r * Math.sin(a)), penOp: r2(t3 * (1 - t4)),
+    cardTf: 'translate(400 290) scale(' + r2(cs) + ') translate(-400 -290)', cardOp: r2(t4 * (1 - t5)),
+    boxTf: tr(bx, 300) + ' scale(' + r2(bs) + ')', boxOp: r2(t5),
+    boxFade: done ? 0 : 1, boxFadeS: done ? 0.96 : 1,
+    sentOp: done ? 1 : 0, sentS: done ? 1 : 0.96,
+    trailD: 'M300 ' + r2(300 + 70 * bs) + ' L' + r2(Math.max(300, tx)) + ' ' + r2(300 + 70 * bs),
+    trailOp: done ? 0 : r2(t5 * (tx > 306 ? 1 : 0)),
+    trailClip: done ? r2(Math.max(0, tx - 290) + 4) + 'px' : '0px'
+  };
+}
+
+class Component extends DCLogic {
+  state = { vw: null, s: 0, trackPx: 0 };
+  rootRef = React.createRef();
+  stickyRef = React.createRef();
+  wide = true;
+
+  componentDidMount() {
+    this.onResize = () => { this.setState({ vw: window.innerWidth }); this.queue(); };
+    this.onScroll = () => this.queue();
+    window.addEventListener('resize', this.onResize);
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.onResize();
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('scroll', this.onScroll);
+    cancelAnimationFrame(this.raf);
+  }
+  componentDidUpdate(pp, ps) { if (ps.trackPx !== this.state.trackPx) this.queue(); }
+  queue() {
+    if (this.raf) return;
+    this.raf = requestAnimationFrame(() => { this.raf = 0; this.measure(); });
+  }
+  measure() {
+    const el = this.rootRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const vh = window.innerHeight;
+    const st = this.stickyRef.current;
+    const sh = st ? st.offsetHeight : vh;
+    if (!this.wide) {
+      const want = Math.round(sh + vh * 0.6 * 6);
+      if (Math.abs(want - this.state.trackPx) > 2) { this.setState({ trackPx: want }); return; }
+    }
+    const total = r.height - sh;
+    const s = total > 0 ? clamp(-r.top / total) * 6 : 0;
+    if (Math.abs(s - this.state.s) > 0.0005) this.setState({ s });
+  }
+  goTo(k) {
+    const el = this.rootRef.current;
+    if (!el) return;
+    const r = el.getBoundingClientRect();
+    const total = r.height - (this.stickyRef.current ? this.stickyRef.current.offsetHeight : window.innerHeight);
+    window.scrollTo({ top: window.scrollY + r.top + total * (k + 0.5) / 6, behavior: 'smooth' });
+  }
+
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const wide = d === 'desktop' || d === 'laptop';
+    const m = d === 'mobile';
+    if (this.wide !== wide) { this.wide = wide; setTimeout(() => this.queue(), 0); }
+    const s = this.state.s;
+    const active = clamp(Math.floor(s), 0, 5);
+    const steps = STEPS.map(([n, name, text], i) => {
+      const cur = i === active, past = i < active;
+      return {
+        n, name, text,
+        go: () => this.goTo(i),
+        current: cur ? 'step' : 'false',
+        dot: cur ? '#E0001B' : past ? '#FCFCFD' : '#4A5260',
+        ring: cur ? '0 0 0 4px #12161C, 0 0 0 5px rgba(224,0,27,0.6)' : '0 0 0 4px #12161C',
+        numC: cur ? '#FCFCFD' : past ? '#A9B0BB' : '#6B7380',
+        nameC: cur ? '#FCFCFD' : past ? '#A9B0BB' : '#6B7380',
+        fw: cur ? 600 : 400,
+        op: cur ? 1 : 0,
+        tf: cur ? 'translateY(0)' : i < active ? 'translateY(-12px)' : 'translateY(12px)',
+        hidden: cur ? 'false' : 'true',
+        mDot: cur ? '#E0001B' : past ? '#FCFCFD' : '#4A5260',
+        mRing: cur ? '0 0 0 4px #12161C, 0 0 0 5px rgba(224,0,27,0.6)' : '0 0 0 4px #12161C',
+        mNumC: cur ? '#FCFCFD' : '#6B7380'
+      };
+    });
+    const sc = scene(s);
+    const frames = [{ ...sc, tagOp2: wide ? sc.tagOp : 0, i: 0, label: STEPS[active][1], appearOp: 1, appearTf: 'none' }];
+    return {
+      rootRef: this.rootRef, stickyRef: this.stickyRef,
+      boxMax: 'calc(1312px + ' + (d === 'desktop' ? 128 : m ? 32 : 64) + 'px)',
+      trackH: wide ? '600vh' : (this.state.trackPx ? this.state.trackPx + 'px' : '400vh'),
+      stickH: wide ? '100vh' : 'auto',
+      secPb: wide ? '0px' : '75px',
+      sceneH: wide ? 'auto' : '40vh',
+      headPad: m ? '75px 16px 0' : '75px 32px 0',
+      leftDisplay: wide ? 'flex' : 'none',
+      pad: d === 'desktop' ? '64px' : d === 'laptop' ? '48px 32px' : m ? '24px 16px 0' : '32px 32px 0',
+      cols: d === 'desktop' ? 'minmax(0, 40fr) minmax(0, 60fr)' : d === 'laptop' ? 'minmax(0, 45fr) minmax(0, 55fr)' : 'minmax(0, 1fr)',
+      colGap: wide ? '48px' : '32px',
+      leftGap: wide ? '48px' : '32px',
+      h2Size: wide ? '40px' : d === 'tablet' ? '28px' : '24px',
+      h3Size: wide ? (d === 'desktop' ? '28px' : '24px') : m ? '20px' : '24px',
+      textSize: d === 'desktop' ? '18px' : m ? '14px' : '16px',
+      vertical: wide, horizontal: !wide,
+      lineFill: 'calc((100% - 36px) * ' + (active / 5) + ')',
+      steps,
+      frames,
+      panelGap: m ? '48px' : '64px',
+      sceneMax: wide ? 'calc(100vh - 128px)' : '45vh'
+    };
+  }
+}
+</script>
+</body>
+</html>
