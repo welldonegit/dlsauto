@@ -63,7 +63,7 @@ class Component extends DCLogic {
     const m = d === 'mobile';
     const side = d === 'desktop' ? 64 : m ? 16 : 32;
     return {
-      pad: d === 'desktop' ? ('0 64px ' + (RH || 100) + 'px') : m ? ('0 16px ' + (RH || 75) + 'px') : ('0 32px ' + (RH || 75) + 'px'),
+      pad: ((this.props.topPad && RH) ? RH : 0) + 'px ' + (d === 'desktop' ? ('64px ' + (RH || 100) + 'px') : m ? ('16px ' + (RH || 75) + 'px') : ('32px ' + (RH || 75) + 'px')),
       h2Size: wide ? '40px' : d === 'tablet' ? '28px' : '24px',
       h3Size: d === 'desktop' ? '28px' : m ? '20px' : '24px',
       headGap: RH ? RG + 'px' : (m ? '32px' : '48px'),

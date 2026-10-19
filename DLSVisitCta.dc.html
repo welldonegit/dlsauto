@@ -59,7 +59,7 @@ class Component extends DCLogic {
     const line = (i) => ({ op: on ? 1 : 0, tf: on ? 'translateY(0)' : 'translateY(16px)', delay: (START + i * 80) + 'ms' });
     return {
       rootRef: this.rootRef,
-      outerPad: d === 'desktop' ? '0 64px 100px' : m ? '0 16px 75px' : '0 32px 75px',
+      outerPad: this.props.rhythm ? ('0 ' + (d === 'desktop' ? 64 : m ? 16 : 32) + 'px ' + (wide ? 96 : 64) + 'px') : (d === 'desktop' ? '0 64px 100px' : m ? '0 16px 75px' : '0 32px 75px'),
       pad: wide ? '64px' : m ? '48px 24px' : '48px 32px',
       btnGap: m ? '32px' : '48px',
       boxOp: on ? 1 : 0,

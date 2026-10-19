@@ -75,7 +75,7 @@ class Component extends DCLogic {
     }[d];
     return {
       ...L,
-      pad: d === 'desktop' ? '100px 64px' : m ? '75px 16px' : '75px 32px',
+      pad: this.props.rhythm ? ('0 ' + (d === 'desktop' ? 64 : m ? 16 : 32) + 'px ' + (wide ? 96 : 64) + 'px') : (d === 'desktop' ? '100px 64px' : m ? '75px 16px' : '75px 32px'),
       headCols: wide ? 'minmax(0, 1fr) minmax(0, 1fr)' : 'minmax(0, 1fr)',
       headGap: wide ? '24px' : '16px',
       textAlign: wide ? 'end' : 'start',
