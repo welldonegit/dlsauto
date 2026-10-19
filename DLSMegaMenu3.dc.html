@@ -44,12 +44,12 @@
             <div style="flex:1;display:flex;flex-direction:column;opacity:{{ ctxOp }};transition:{{ ctxTr }}">
               <div style="display:grid;grid-template-columns:repeat(2, minmax(0, 1fr));grid-auto-rows:1fr;gap:12px;align-content:start">
                 <sc-for list="{{ models }}" as="m" hint-placeholder-count="4">
-                  <a href="{{ m.href }}" onMouseEnter="{{ m.enter }}" onMouseLeave="{{ m.leave }}" onFocus="{{ m.enter }}" onBlur="{{ m.leave }}" style="min-width:0;min-height:76px;box-sizing:border-box;padding:16px;display:flex;align-items:center;gap:12px;border-radius:16px;background:{{ m.bg }};color:#1E232B;text-decoration:none;transition:background 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+                  <a href="{{ m.href }}" onMouseEnter="{{ m.enter }}" onMouseLeave="{{ m.leave }}" onPointerDown="{{ m.down }}" onPointerUp="{{ m.up }}" onPointerLeave="{{ m.up }}" onPointerCancel="{{ m.up }}" onFocus="{{ m.enter }}" onBlur="{{ m.leave }}" style="min-width:0;min-height:76px;box-sizing:border-box;padding:16px;display:flex;align-items:center;gap:12px;border-radius:16px;background:{{ m.bg }};color:#1E232B;text-decoration:none;transition:background 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">
                     <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px">
                       <span style="font-size:18px;line-height:24px;font-weight:600;text-wrap:pretty">{{ m.name }}</span>
                       <span style="font-size:14px;line-height:20px;color:#4A5260;text-wrap:pretty">{{ m.line }}</span>
                     </span>
-                    <span aria-hidden="true" style="width:32px;height:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:{{ m.arrowBg }};color:{{ m.arrowColor }};transition:background 150ms ease-out, color 150ms ease-out"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
+                    <span aria-hidden="true" style="width:32px;height:32px;box-sizing:border-box;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:50%;background:{{ m.arrowBg }};color:#E0001B;transition:background 150ms ease-out"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
                   </a>
                 </sc-for>
               </div>
@@ -119,7 +119,7 @@
     <div aria-hidden="{{ s1Hidden }}" style="position:absolute;inset:0;display:flex;flex-direction:column;transform:{{ s1Tf }};transition:transform 250ms cubic-bezier(0.22, 1, 0.36, 1)">
       <div style="flex-shrink:0;height:64px;padding:0 {{ mPadSm }};display:grid;grid-template-columns:44px 1fr 44px;align-items:center;gap:8px;border-bottom:1px solid #E6E9EE">
         <button type="button" onClick="{{ close }}" aria-label="Закрити меню" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:transparent;color:#1E232B;cursor:pointer"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
-        <a href="DLSAuto Головна.dc.html" aria-label="DLSAuto — на головну" style="justify-self:center;font-size:20px;line-height:1;letter-spacing:-0.02em;color:#1E232B;text-decoration:none"><span style="font-weight:600">DLS</span><span style="font-weight:400">Auto</span></a>
+        <a href="DLSAuto-Головна.dc.html" aria-label="DLSAuto — на головну" style="justify-self:center;font-size:20px;line-height:1;letter-spacing:-0.02em;color:#1E232B;text-decoration:none"><span style="font-weight:600">DLS</span><span style="font-weight:400">Auto</span></a>
         <button type="button" onClick="{{ openSearch }}" aria-label="Пошук" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:transparent;color:#1E232B;cursor:pointer"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.3-4.3"></path></svg></button>
       </div>
       <nav aria-label="Меню" style="flex:1;min-height:0;overflow-y:auto;padding:0 {{ mPad }}">
@@ -240,6 +240,7 @@
 </sc-if>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:900},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;desktop&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'mobile'&quot;},&quot;open&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;inline&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;car&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;auto&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;none&quot;,&quot;ranger&quot;,&quot;l200&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;demoBrand&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;demoScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;main&quot;,&quot;options&quot;:[&quot;main&quot;,&quot;catalog&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;demoAcc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;demoTop&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;brands&quot;,&quot;options&quot;:[&quot;brands&quot;,&quot;cats&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;mPad&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;16px&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;onClose&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}">
+const ARROW_BG = { rest: 'rgba(224,0,27,0)', hover: 'rgba(224,0,27,0.08)', press: 'rgba(224,0,27,0.12)' };
 const LOGOS = { BMW: 'bmw', Ford: 'ford', Hyundai: 'hyundai', Isuzu: 'isuzu', Jeep: 'jeep', Kia: 'kia', Mazda: 'mazda', 'Mercedes-Benz': 'mercedes', Mitsubishi: 'mitsubishi', Nissan: 'nissan', 'Peugeot / Fiat': 'peugeot', SsangYong: 'ssangyong', Toyota: 'toyota', Volkswagen: 'volkswagen', Volvo: 'volvo' };
 const DATA = [
   ['BMW', [['X5 E53', 'Позашляховик', '', 6]]],
@@ -361,7 +362,8 @@ class Component extends DCLogic {
       const h = s.hoverCard === i;
       return {
         ...card(active, m),
-        bg: h ? '#E6E9EE' : '#F3F5F7', arrowBg: h ? '#1E232B' : '#FCFCFD', arrowColor: h ? '#FCFCFD' : '#1E232B',
+        bg: h ? '#E6E9EE' : '#F3F5F7', arrowBg: s.pk === i ? ARROW_BG.press : h ? ARROW_BG.hover : ARROW_BG.rest,
+        down: () => this.setState({ pk: i }), up: () => this.setState(x => (x.pk === i ? { pk: null } : null)),
         enter: () => this.setState({ hoverCard: i }),
         leave: () => this.setState(st => (st.hoverCard === i ? { hoverCard: null } : null))
       };
@@ -433,7 +435,8 @@ class Component extends DCLogic {
       brandAllTitle: `Усі деталі ${active} (${total})`,
       brandAllStock: `${total} ${plural(total, 'деталь', 'деталі', 'деталей')} у наявності`,
       allBorderStyle: s.hoverAll ? 'solid' : 'dashed', allBorderColor: s.hoverAll ? '#1E232B' : '#CDD2DA',
-      allArrowBg: s.hoverAll ? '#1E232B' : '#F3F5F7', allArrowColor: s.hoverAll ? '#FCFCFD' : '#1E232B',
+      allArrowBg: s.pk === 'all' ? ARROW_BG.press : s.hoverAll ? ARROW_BG.hover : ARROW_BG.rest,
+      alldown: () => this.setState({ pk: 'all' }), allup: () => this.setState(x => (x.pk === 'all' ? { pk: null } : null)),
       allEnter: () => this.setState({ hoverAll: true }), allLeave: () => this.setState({ hoverAll: false }),
       showPopular: ab[1].length < 3, popularTitle: `Популярне у ${active}`, popItems,
       ctxOp: s.ctxOn ? 1 : 0, ctxTr: 'opacity 150ms ease-out',

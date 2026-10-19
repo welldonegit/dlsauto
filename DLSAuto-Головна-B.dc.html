@@ -82,9 +82,20 @@
     </div>
   </div>
 </section>
-<dc-import name="DLSStatsNotch" hint-size="100%,860px"></dc-import>
+<dc-import name="DLSStatsNotch" rhythm="{{ true }}" hint-size="100%,860px"></dc-import>
+<dc-import name="DLSBrandIndex-v4" rhythm="{{ true }}" hint-size="100%,560px"></dc-import>
+<dc-import name="DLSCategoriesBento" variant="a" rhythm="{{ true }}" hint-size="100%,1400px"></dc-import>
+<dc-import name="DLSNewArrivals" rhythm="{{ true }}" hint-size="100%,820px"></dc-import>
+<dc-import name="DLSServicesCards" rhythm="{{ true }}" hint-size="100%,820px"></dc-import>
+<dc-import name="DLSPickups" rhythm="{{ true }}" hint-size="100%,820px"></dc-import>
+<dc-import name="DLSSuvs" rhythm="{{ true }}" hint-size="100%,820px"></dc-import>
+<dc-import name="DLSVideos" rhythm="{{ true }}" hint-size="100%,640px"></dc-import>
+<dc-import name="DLSReviews" rhythm="{{ true }}" hint-size="100%,1100px"></dc-import>
+<dc-import name="DLSFaq" rhythm="{{ true }}" hint-size="100%,760px"></dc-import>
+<dc-import name="DLSBenefits" rhythm="{{ true }}" hint-size="100%,360px"></dc-import>
 <dc-import name="DLSFooter" hint-size="100%,1100px"></dc-import>
 <dc-import name="DLSCart" hint-size="0px,0px"></dc-import>
+<dc-import name="DLSQuickView" demo-open="{{ false }}" hint-size="0px,0px"></dc-import>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
 const BRANDS = {
@@ -146,7 +157,7 @@ class Component extends DCLogic {
     const count = picked ? picked[1] : hasModel ? model[1] : 0;
     const one = d === 'tablet' || d === 'mobile';
     return {
-      pad: d === 'desktop' ? '64px' : d === 'mobile' ? '56px 16px 32px' : '48px 32px',
+      pad: d === 'desktop' ? '64px 64px 128px' : d === 'laptop' ? '64px 32px 128px' : d === 'mobile' ? '64px 16px' : '64px 32px',
       cols: d === 'desktop' || d === 'laptop' ? 'minmax(0, 52fr) minmax(0, 48fr)' : 'minmax(0, 1fr)',
       colGap: d === 'desktop' ? '64px' : d === 'laptop' ? '48px' : '48px',
       h1Size: d === 'desktop' ? '56px' : d === 'mobile' ? '32px' : '40px',

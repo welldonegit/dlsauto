@@ -97,15 +97,16 @@ class Component extends DCLogic {
   componentWillUnmount() { window.removeEventListener('resize', this.onResize); window.removeEventListener('keydown', this.onKey); clearTimeout(this.lbTimer); }
   renderVals() {
     const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const RH = this.props.rhythm ? ((this.props.device ? /desktop|laptop/.test(this.props.device) : vw >= 1024) ? 96 : 64) : 0; const RG = RH === 96 ? 32 : 24;
     const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
     const m = device === 'mobile';
     const shown = this.state.shown;
     return {
-      pad: device === 'desktop' ? '0 64px 100px' : device === 'tablet' ? '0 32px 75px' : '0 16px 75px',
+      pad: device === 'desktop' ? ('0 64px ' + (RH || 100) + 'px') : device === 'tablet' ? ('0 32px ' + (RH || 75) + 'px') : ('0 16px ' + (RH || 75) + 'px'),
       h2Size: device === 'desktop' ? '40px' : device === 'tablet' ? '28px' : '24px',
       subSize: m ? '16px' : '18px',
       subMargin: m ? '12px 0 0' : '16px 0 0',
-      headGap: m ? '32px' : '48px',
+      headGap: RH ? RG + 'px' : (m ? '32px' : '48px'),
       cols: device === 'desktop' ? 'repeat(3, minmax(0, 1fr))' : device === 'tablet' ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)',
       summaryStars: [0, 1, 2, 3, 4],
       lightboxOpen: !!this.state.photo,

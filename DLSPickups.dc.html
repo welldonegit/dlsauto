@@ -201,10 +201,11 @@ class Component extends DCLogic {
 
   renderVals() {
     const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const RH = this.props.rhythm ? ((this.props.device ? /desktop|laptop/.test(this.props.device) : vw >= 1024) ? 96 : 64) : 0; const RG = RH === 96 ? 32 : 24;
     const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
     const m = device === 'mobile';
     const pad = device === 'desktop' ? 64 : device === 'tablet' ? 32 : 16;
-    const sectionPad = device === 'desktop' ? 100 : 75;
+    const sectionPad = RH || (device === 'desktop' ? 100 : 75);
     const side = `max(${pad}px, calc((100% - 1312px) / 2))`;
     const cur = this.current();
     const [chipLabel, count, short, donor, items] = MODELS[cur];

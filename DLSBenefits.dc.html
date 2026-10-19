@@ -12,65 +12,130 @@
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
 </helmet>
-<section aria-label="Наші переваги" data-screen-label="Переваги" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
-  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }};display:grid;grid-template-columns:{{ cols }};gap:{{ gap }}">
-    <div style="padding:{{ cardPad }};display:flex;align-items:flex-start;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E6E9EE;border-radius:16px">
-      <span style="width:{{ box }};height:{{ box }};flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#1E232B;color:#FCFCFD"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg></span>
-      <div style="flex:1;min-width:0">
-        <h3 style="margin:0;min-height:{{ box }};display:flex;align-items:center;font-size:18px;line-height:1.4;font-weight:600;color:#1E232B;text-wrap:balance">Відправка в день замовлення</h3>
-        <sc-if value="{{ shipToday }}" hint-placeholder-val="{{ true }}"><p style="margin:8px 0 0;max-width:640px;font-size:16px;line-height:1.6;color:#4A5260;text-wrap:pretty">Обирайте деталі — відправимо сьогодні Новою поштою або Delivery. Габаритні деталі — 1–2 дні.</p></sc-if>
-        <sc-if value="{{ shipTomorrow }}" hint-placeholder-val="{{ false }}"><p style="margin:8px 0 0;max-width:640px;font-size:16px;line-height:1.6;color:#4A5260;text-wrap:pretty">Обирайте деталі — відправимо завтра Новою поштою або Delivery. Габаритні деталі — 1–2 дні.</p></sc-if>
-        <sc-if value="{{ shipMonday }}" hint-placeholder-val="{{ false }}"><p style="margin:8px 0 0;max-width:640px;font-size:16px;line-height:1.6;color:#4A5260;text-wrap:pretty">Обирайте деталі — відправимо в понеділок Новою поштою або Delivery. Габаритні деталі — 1–2 дні.</p></sc-if>
-      </div>
-    </div>
-    <div style="padding:{{ cardPad }};display:flex;align-items:flex-start;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E6E9EE;border-radius:16px">
-      <span style="width:{{ box }};height:{{ box }};flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#1E232B;color:#FCFCFD"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"></path><path d="m9 12 2 2 4-4"></path></svg></span>
-      <div style="flex:1;min-width:0">
-        <h3 style="margin:0;min-height:{{ box }};display:flex;align-items:center;font-size:18px;line-height:1.4;font-weight:600;color:#1E232B;text-wrap:balance">Безпечна оплата</h3>
-        <p style="margin:8px 0 0;max-width:640px;font-size:16px;line-height:1.6;color:#4A5260;text-wrap:pretty">Дрібні деталі — оплата при отриманні. Габаритні — часткова передплата після підтвердження. Картка через monoPay або готівка.</p>
-      </div>
-    </div>
-    <div style="padding:{{ cardPad }};display:flex;align-items:flex-start;gap:16px;min-width:0;background:#FFFFFF;border:1px solid #E6E9EE;border-radius:16px">
-      <span style="width:{{ box }};height:{{ box }};flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:8px;background:#1E232B;color:#FCFCFD"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M9 14 4 9l5-5"></path><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"></path></svg></span>
-      <div style="flex:1;min-width:0">
-        <h3 style="margin:0;min-height:{{ box }};display:flex;align-items:center;font-size:18px;line-height:1.4;font-weight:600;color:#1E232B;text-wrap:balance">Гарантія до 60 днів</h3>
-        <p style="margin:8px 0 0;max-width:640px;font-size:16px;line-height:1.6;color:#4A5260;text-wrap:pretty">14 днів на більшість деталей, 30 — на двигуни та агрегати, до 60 — на відновлені. Не підійшла — обміняємо або повернемо гроші.</p>
-      </div>
-    </div>
+<section ref="{{ rootRef }}" aria-label="Наші переваги" data-screen-label="Переваги" style="background:#12161C;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="box-sizing:border-box;max-width:{{ boxMax }};margin:0 auto;padding:{{ pad }};display:grid;grid-template-columns:{{ cols }};gap:{{ gap }};align-items:stretch">
+    <sc-for list="{{ cards }}" as="c" hint-placeholder-count="3">
+      <article onMouseEnter="{{ c.enter }}" onMouseLeave="{{ c.leave }}" style="min-width:0;box-sizing:border-box;padding:{{ cardPad }};display:flex;flex-direction:column;background:#F6F6F6;border:1px solid rgba(255,255,255,0.1);border-radius:16px;box-shadow:{{ c.shadow }};opacity:{{ c.op }};transform:{{ c.tf }};transition:{{ c.trans }}">
+        <div style="display:flex;flex-direction:column;align-items:flex-start;gap:16px">
+          <div style="display:flex;align-items:center;gap:12px;min-width:0">
+            <h3 style="margin:0;font-size:12px;line-height:16px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#4A5260">{{ c.label }}</h3>
+            <span style="padding:4px 8px;border-radius:8px;background:#E6E9EE;font-size:13px;line-height:18px;font-weight:500;color:#1E232B;white-space:nowrap">{{ c.badge }}</span>
+          </div>
+          <p aria-live="{{ c.live }}" style="margin:0;font-size:{{ valSize }};line-height:1.05;font-weight:400;letter-spacing:-0.03em;font-variant-numeric:tabular-nums;color:#1E232B;white-space:nowrap">{{ c.value }}</p>
+        </div>
+        <div aria-hidden="true" style="height:1px;margin:{{ divMargin }};background:#E6E9EE"></div>
+        <dl style="margin:0;display:grid;grid-template-columns:{{ pairCols }};gap:{{ pairGap }}">
+          <sc-for list="{{ c.pairs }}" as="pr" hint-placeholder-count="3">
+            <div style="min-width:0">
+              <dt style="font-size:13px;line-height:18px;color:#4A5260">{{ pr.k }}</dt>
+              <dd style="margin:4px 0 0;font-size:{{ pSize }};line-height:1.4;font-weight:600;color:#1E232B;text-wrap:pretty">{{ pr.v }}</dd>
+            </div>
+          </sc-for>
+        </dl>
+        <div style="margin-top:auto;padding-top:{{ plateGap }}">
+          <div style="box-sizing:border-box;padding:12px 12px 12px 16px;display:flex;align-items:center;gap:12px;border-radius:8px;background:#1E232B">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#CDD2DA" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;display:block">
+              <sc-if value="{{ c.icTread }}" hint-placeholder-val="{{ false }}"><g><path d="M5 3V21M19 3V21"></path><path d="M7.5 4.5L12 7L16.5 4.5M7.5 9L12 11.5L16.5 9M7.5 13.5L12 16L16.5 13.5M7.5 18L12 20.5L16.5 18"></path></g></sc-if>
+              <sc-if value="{{ c.icCard }}" hint-placeholder-val="{{ false }}"><g><rect x="3" y="5.5" width="18" height="13" rx="2"></rect><path d="M3 10H21M7 14.5H10"></path></g></sc-if>
+              <sc-if value="{{ c.icWrench }}" hint-placeholder-val="{{ false }}"><g><path transform="translate(12 12) rotate(45) scale(0.85) translate(-12 -12)" vector-effect="non-scaling-stroke" d="M9.5 10.33A5 5 0 0 1 10.5 1.23L10.5 5L13.5 5L13.5 1.23A5 5 0 0 1 14.5 10.33L14.5 20.5A2.5 2.5 0 0 1 9.5 20.5Z"></path><path d="M8.3 14.5L9.3 15.5L11 13.7"></path></g></sc-if>
+            </svg>
+            <span style="flex:1;min-width:0;font-size:14px;line-height:20px;color:#FCFCFD;text-wrap:pretty">{{ c.note }}</span>
+            <span style="flex-shrink:0;padding:6px 10px;border-radius:8px;background:rgba(31,138,76,0.15);font-size:14px;line-height:20px;font-weight:600;color:#1F8A4C;white-space:nowrap">{{ c.tag }}</span>
+          </div>
+        </div>
+      </article>
+    </sc-for>
   </div>
 </section>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:360},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;},&quot;ship&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;today&quot;,&quot;tomorrow&quot;,&quot;monday&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'today'|'tomorrow'|'monday'&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:560},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;},&quot;ship&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;today&quot;,&quot;tomorrow&quot;,&quot;monday&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'today'|'tomorrow'|'monday'&quot;}}">
 class Component extends DCLogic {
-  state = { vw: null };
+  state = { vw: null, now: Date.now(), shown: false, settled: false, hov: -1 };
+  rootRef = React.createRef();
   componentDidMount() {
     this.onResize = () => this.setState({ vw: window.innerWidth });
     window.addEventListener('resize', this.onResize);
-    this.tick = setInterval(() => this.forceUpdate(), 30000);
+    this.onResize();
+    const sync = () => { this.setState({ now: Date.now() }); this.tick = setTimeout(sync, 60000 - (Date.now() % 60000) + 50); };
+    this.tick = setTimeout(sync, 60000 - (Date.now() % 60000) + 50);
+    const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduce || !('IntersectionObserver' in window)) { this.setState({ shown: true, settled: true }); return; }
+    this.io = new IntersectionObserver(es => {
+      if (!es.some(e => e.isIntersecting)) return;
+      this.io.disconnect();
+      this.setState({ shown: true });
+      this.settleT = setTimeout(() => this.setState({ settled: true }), 700);
+    }, { threshold: 0.2 });
+    if (this.rootRef.current) this.io.observe(this.rootRef.current);
   }
-  componentWillUnmount() { window.removeEventListener('resize', this.onResize); clearInterval(this.tick); }
-  shipMode() {
-    const forced = this.props.ship ?? 'auto';
-    if (forced !== 'auto') return forced;
-    const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Kyiv', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date());
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    clearTimeout(this.tick);
+    clearTimeout(this.settleT);
+    this.io && this.io.disconnect();
+  }
+  ship() {
+    const f = this.props.ship ?? 'auto';
+    if (f === 'today') return { mode: 'today', left: 134 };
+    if (f === 'tomorrow' || f === 'monday') return { mode: f };
+    const parts = new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Kyiv', weekday: 'short', hour: '2-digit', minute: '2-digit', hourCycle: 'h23' }).formatToParts(new Date(this.state.now));
     const get = t => parts.find(p => p.type === t)?.value;
-    const day = get('weekday'), mins = +get('hour') * 60 + +get('minute');
-    if (day === 'Sun') return 'monday';
-    if (mins < 15 * 60) return 'today';
-    return day === 'Sat' ? 'monday' : 'tomorrow';
+    const day = get('weekday'), mins = (+get('hour') % 24) * 60 + +get('minute');
+    if (day === 'Sun') return { mode: 'monday' };
+    if (mins < 15 * 60) return { mode: 'today', left: 15 * 60 - mins };
+    return { mode: day === 'Sat' ? 'monday' : 'tomorrow' };
   }
   renderVals() {
-    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
-    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
-    const d = device === 'desktop';
-    const ship = this.shipMode();
+    const s = this.state;
+    const vw = s.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const RH = this.props.rhythm ? ((this.props.device ? /desktop|laptop/.test(this.props.device) : vw >= 1024) ? 96 : 64) : 0; const RG = RH === 96 ? 32 : 24;
+    const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const wide = d === 'desktop' || d === 'laptop';
+    const m = d === 'mobile';
+    const side = d === 'desktop' ? 64 : m ? 16 : 32;
+    const sh = this.ship();
+    const today = sh.mode === 'today';
+    const value = today ? 'Сьогодні' : sh.mode === 'tomorrow' ? 'Завтра' : 'У понеділок';
+    const data = [
+      { label: 'Відправка', badge: 'замовлення до 15:00', value, live: 'polite',
+        pairs: [['Перевізники', 'Нова пошта, Delivery'], ['Габаритні', '1–2 дні'], ['Самовивіз', 'Запоріжжя']],
+        href: '#', cta: 'Детальніше про доставку', ic: 'tread', note: 'Підтверджуємо замовлення дзвінком за 15 хвилин', tag: 'Пн–Сб 9–18' },
+      { label: 'Оплата', badge: 'monoPay', value: 'Карткою', live: 'off',
+        pairs: [['Онлайн', 'Visa, Mastercard, Apple Pay, Google Pay'], ['Готівкою', 'При самовивозі'], ['Габаритні', 'Передплата']],
+        href: '#', cta: 'Детальніше про оплату', ic: 'card', note: 'Платіжні дані не зберігаємо', tag: 'Безпечно' },
+      { label: 'Гарантія', badge: 'до 60 днів', value: '14 / 30 / 60', live: 'off',
+        pairs: [['Більшість деталей', '14 днів'], ['Двигуни, КПП', '30 днів'], ['Відновлені', '60 днів']],
+        href: '#', cta: 'Детальніше про гарантію', ic: 'wrench', note: 'Не підійшла — обмін або повернення', tag: 'Гарантовано' }
+    ];
+    const ease = 'cubic-bezier(0.22, 1, 0.36, 1)';
     return {
-      shipToday: ship === 'today', shipTomorrow: ship === 'tomorrow', shipMonday: ship === 'monday',
-      pad: d ? '0 64px 100px' : device === 'tablet' ? '0 32px 75px' : '0 16px 75px',
-      cols: d ? 'repeat(3, minmax(0, 1fr))' : 'minmax(0, 1fr)',
-      gap: device === 'mobile' ? '12px' : '16px',
-      cardPad: device === 'mobile' ? '16px' : '24px',
-      box: device === 'mobile' ? '40px' : '48px'
+      rootRef: this.rootRef,
+      boxMax: `calc(1312px + ${side * 2}px)`,
+      pad: `${RH || (wide ? 100 : 75)}px ${side}px`,
+      cols: wide ? 'repeat(3, minmax(0, 1fr))' : 'minmax(0, 1fr)',
+      gap: d === 'desktop' ? '24px' : '16px',
+      cardPad: d === 'desktop' ? '32px' : m ? '20px' : '24px',
+      valSize: d === 'desktop' ? '56px' : m ? '36px' : d === 'laptop' ? '40px' : '48px',
+      divMargin: m ? '20px 0' : '24px 0',
+      pairCols: 'minmax(0, 1fr)',
+      pairGap: '16px',
+      pSize: m ? '14px' : '15px',
+      plateGap: m ? '20px' : '24px',
+      cards: data.map((c, i) => {
+        const on = s.hov === i;
+        return {
+          label: c.label, badge: c.badge, value: c.value, live: c.live, note: c.note, tag: c.tag, href: c.href, cta: c.cta,
+          arrowBg: on ? '#E0001B' : 'transparent', arrowFg: on ? '#FCFCFD' : '#E0001B',
+          pairs: c.pairs.map(([k, v]) => ({ k, v })),
+          icTread: c.ic === 'tread', icCard: c.ic === 'card', icWrench: c.ic === 'wrench',
+          op: s.shown ? 1 : 0,
+          tf: !s.shown ? 'translateY(24px)' : on ? 'translateY(-8px)' : 'none',
+          shadow: on ? '0 12px 32px rgba(18,22,28,0.16)' : 'none',
+          trans: s.settled ? `transform 250ms ${ease}, box-shadow 250ms ${ease}` : `opacity 500ms ${ease} ${i * 80}ms, transform 500ms ${ease} ${i * 80}ms`,
+          enter: () => this.setState({ hov: i }),
+          leave: () => this.setState(x => (x.hov === i ? { hov: -1 } : null))
+        };
+      })
     };
   }
 }

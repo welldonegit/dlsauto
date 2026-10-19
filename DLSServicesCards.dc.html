@@ -58,15 +58,16 @@ class Component extends DCLogic {
   componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
   renderVals() {
     const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const RH = this.props.rhythm ? ((this.props.device ? /desktop|laptop/.test(this.props.device) : vw >= 1024) ? 96 : 64) : 0; const RG = RH === 96 ? 32 : 24;
     const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
     const wide = d === 'desktop' || d === 'laptop';
     const m = d === 'mobile';
     const side = d === 'desktop' ? 64 : m ? 16 : 32;
     return {
-      pad: d === 'desktop' ? '0 64px 100px' : m ? '0 16px 75px' : '0 32px 75px',
+      pad: d === 'desktop' ? ('0 64px ' + (RH || 100) + 'px') : m ? ('0 16px ' + (RH || 75) + 'px') : ('0 32px ' + (RH || 75) + 'px'),
       h2Size: wide ? '40px' : d === 'tablet' ? '28px' : '24px',
       h3Size: d === 'desktop' ? '28px' : m ? '20px' : '24px',
-      headGap: m ? '32px' : '48px',
+      headGap: RH ? RG + 'px' : (m ? '32px' : '48px'),
       gap: m ? '16px' : '24px',
       inset: m ? '16px' : '24px',
       textRight: m ? '80px' : '96px',

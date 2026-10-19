@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:#FCFCFD}a:hover{color:#FCFCFD}</style>
+</helmet>
+<section aria-labelledby="dls-visit-h" data-screen-label="CTA — Приїжджайте" style="position:relative;overflow:hidden;isolation:isolate;background:#E0001B;font-family:'Golos Text',sans-serif;color:#FCFCFD">
+  <div aria-hidden="true" style="position:absolute;right:{{ decoRight }};bottom:0;width:{{ decoW }};aspect-ratio:1 / 1;z-index:-1;pointer-events:none;transform:translateY({{ decoDrop }}) perspective(1600px) rotateX(58deg) rotateY(-14deg) rotateZ(-8deg)">
+    <svg viewBox="-500 -500 1000 1000" style="display:block;width:100%;height:100%;overflow:visible" fill="none" stroke="rgba(252,252,253,0.12)" stroke-linecap="round">
+      <circle r="480" stroke-width="3" vector-effect="non-scaling-stroke"></circle>
+      <circle r="440" stroke-width="1.5" vector-effect="non-scaling-stroke"></circle>
+      <circle r="400" stroke-width="1.5" vector-effect="non-scaling-stroke"></circle>
+      <circle r="360" stroke-width="1.5" vector-effect="non-scaling-stroke"></circle>
+      <circle r="320" stroke-width="1.5" vector-effect="non-scaling-stroke"></circle>
+      <circle r="210" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
+      <circle r="72" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
+      <circle cx="0" cy="-138" r="20" stroke-width="1.5" vector-effect="non-scaling-stroke"></circle>
+      <circle cx="131.2" cy="-42.6" r="20" stroke-width="1.5" vector-effect="non-scaling-stroke"></circle>
+      <circle cx="81.1" cy="111.6" r="20" stroke-width="1.5" vector-effect="non-scaling-stroke"></circle>
+      <circle cx="-81.1" cy="111.6" r="20" stroke-width="1.5" vector-effect="non-scaling-stroke"></circle>
+      <circle cx="-131.2" cy="-42.6" r="20" stroke-width="1.5" vector-effect="non-scaling-stroke"></circle>
+    </svg>
+  </div>
+  <div style="box-sizing:border-box;max-width:1312px;margin:0 auto;padding:{{ pad }};display:grid;grid-template-columns:{{ cols }};gap:{{ gap }};align-items:center">
+    <div style="min-width:0">
+      <h2 id="dls-visit-h" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:400;letter-spacing:-0.02em;color:#FCFCFD;text-wrap:balance">Приїжджайте подивитись</h2>
+      <p style="margin:16px 0 0;max-width:560px;font-size:{{ textSize }};line-height:1.5;color:rgba(252,252,253,0.85);text-wrap:pretty">Дніпро, [адреса]. Пн–Сб 9:00–18:00. Покажемо склад, деталь і авто, з якого її знято.</p>
+    </div>
+    <div style="min-width:0;display:flex;flex-direction:column;align-items:{{ actAlign }};gap:16px">
+      <a href="#" style="box-sizing:border-box;width:{{ btnW }};height:56px;padding:0 24px;display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:8px;background:#FCFCFD;color:#1E232B;font-size:16px;font-weight:600;text-decoration:none;white-space:nowrap;transition:background 150ms ease-out" style-hover="background:#E6E9EE;color:#1E232B">
+        Прокласти маршрут
+        <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19M13 6L19 12L13 18"></path></svg>
+      </a>
+      <a href="#" style="font-size:14px;line-height:1.4;color:#FCFCFD;text-decoration:underline;text-decoration-color:rgba(252,252,253,0.6);text-underline-offset:3px;transition:text-decoration-color 150ms ease-out" style-hover="text-decoration-color:#FCFCFD;color:#FCFCFD">або замовити дзвінок</a>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:420},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
+class Component extends DCLogic {
+  state = { vw: null };
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const wide = d === 'desktop' || d === 'laptop';
+    const m = d === 'mobile';
+    return {
+      pad: d === 'desktop' ? '96px 64px' : d === 'laptop' ? '96px 32px' : m ? '64px 16px' : '64px 32px',
+      cols: wide ? 'minmax(0, 1fr) auto' : 'minmax(0, 1fr)',
+      gap: wide ? '48px' : '32px',
+      h2Size: wide ? '40px' : d === 'tablet' ? '28px' : '24px',
+      textSize: d === 'desktop' ? '18px' : m ? '14px' : '16px',
+      actAlign: wide ? 'center' : 'stretch',
+      btnW: wide ? 'auto' : '100%',
+      decoW: d === 'desktop' ? '560px' : d === 'laptop' ? '480px' : d === 'tablet' ? '380px' : '300px',
+      decoRight: wide ? '-40px' : '-60px',
+      decoDrop: wide ? '42%' : '52%'
+    };
+  }
+}
+</script>
+</body>
+</html>
