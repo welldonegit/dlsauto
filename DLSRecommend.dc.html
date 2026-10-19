@@ -15,14 +15,14 @@
 <section aria-labelledby="rec-title" data-screen-label="Може знадобитися" style="overflow-x:clip;background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
   <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
     <h2 id="rec-title" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Може знадобитися</h2>
-    <div style="margin-top:32px;display:flex;align-items:flex-end;justify-content:space-between;gap:24px;border-bottom:1px solid #E6E9EE">
-      <div role="tablist" aria-label="Рекомендації" style="min-width:0;display:flex;gap:32px;overflow-x:auto;scrollbar-width:none">
+    <div style="margin-top:32px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+      <div role="tablist" aria-label="Рекомендації" style="min-width:0;display:flex;gap:8px;overflow-x:auto;scrollbar-width:none">
         <sc-for list="{{ tabs }}" as="tb" hint-placeholder-count="2">
-          <button role="tab" id="{{ tb.tabId }}" aria-controls="{{ tb.panelId }}" aria-selected="{{ tb.active }}" tabindex="{{ tb.tabIndex }}" onClick="{{ tb.select }}" style="flex-shrink:0;margin-bottom:-1px;padding:12px 0;display:flex;align-items:baseline;gap:6px;border:none;border-bottom:2px solid {{ tb.line }};background:none;font:inherit;font-size:16px;line-height:24px;font-weight:{{ tb.weight }};color:{{ tb.color }};white-space:nowrap;cursor:pointer;transition:border-color 200ms ease-out, color 200ms ease-out" style-hover="color:#1E232B" style-focus="outline:none"><span>{{ tb.label }}</span><span style="font-weight:500;color:#4A5260">{{ tb.count }}</span></button>
+          <button role="tab" id="{{ tb.tabId }}" aria-controls="{{ tb.panelId }}" aria-selected="{{ tb.active }}" tabindex="{{ tb.tabIndex }}" onClick="{{ tb.select }}" style="flex-shrink:0;height:40px;box-sizing:border-box;padding:0 16px;display:flex;align-items:center;gap:6px;border:1px solid {{ tb.border }};border-radius:8px;background:{{ tb.bg }};color:{{ tb.color }};font-family:inherit;font-size:14px;line-height:20px;font-weight:500;white-space:nowrap;cursor:pointer;transition:background 200ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="border-color:#1E232B" style-focus="outline:2px solid #1E232B;outline-offset:2px"><span>{{ tb.label }}</span><span style="color:{{ tb.cntColor }}">{{ tb.count }}</span></button>
         </sc-for>
       </div>
       <sc-if value="{{ showArrows }}" hint-placeholder-val="{{ true }}">
-        <div style="flex-shrink:0;padding-bottom:8px;display:flex;gap:8px">
+        <div style="flex-shrink:0;display:flex;gap:8px">
           <button aria-label="Попередні" onClick="{{ scrollPrev }}" disabled="{{ atStart }}" style="width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #CDD2DA;border-radius:50%;background:#FCFCFD;color:{{ prevColor }};cursor:{{ prevCursor }};transition:border-color 150ms ease-out" style-hover="border-color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m15 18-6-6 6-6"></path></svg></button>
           <button aria-label="Наступні" onClick="{{ scrollNext }}" disabled="{{ atEnd }}" style="width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #CDD2DA;border-radius:50%;background:#FCFCFD;color:{{ nextColor }};cursor:{{ nextCursor }};transition:border-color 150ms ease-out" style-hover="border-color:#1E232B"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="m9 18 6-6-6-6"></path></svg></button>
         </div>
@@ -184,7 +184,7 @@ class Component extends DCLogic {
       gap: `${gap}px`,
       tabs: tabDefs.map(([label, count], i) => ({
         label, count, active: i === active, tabId: `rec-t${i}`, panelId: `rec-p${i}`, tabIndex: i === active ? 0 : -1,
-        line: i === active ? '#E0001B' : 'transparent', color: i === active ? '#1E232B' : '#4A5260', weight: i === active ? 600 : 500,
+        bg: i === active ? '#1E232B' : '#FCFCFD', color: i === active ? '#FCFCFD' : '#1E232B', border: i === active ? '#1E232B' : '#E6E9EE', cntColor: i === active ? '#A9B0BB' : '#4A5260',
         select: () => this.setState({ tab: i })
       })),
       showArrows: sliderTab && (d || lap),
