@@ -27,49 +27,46 @@
           <circle r="560" stroke-width="6" vector-effect="non-scaling-stroke"></circle>
           <circle r="420" stroke-width="4" vector-effect="non-scaling-stroke"></circle>
           <circle r="168" stroke-width="4" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="0" cy="-105" r="22" stroke-width="3" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="99.9" cy="-32.4" r="22" stroke-width="3" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="61.7" cy="84.9" r="22" stroke-width="3" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="-61.7" cy="84.9" r="22" stroke-width="3" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="-99.9" cy="-32.4" r="22" stroke-width="3" vector-effect="non-scaling-stroke"></circle>
         </g>
       </svg>
-      <div ref="{{ glowRef }}" style="position:absolute;inset:0;filter:blur(12px);opacity:0.7;will-change:opacity;transform:translateZ(0)">
+      <div style="position:absolute;inset:0;filter:blur(12px);opacity:0.7">
         <svg viewBox="0 0 1600 400" preserveAspectRatio="xMidYMax slice" style="display:block;width:100%;height:100%" fill="none" stroke="#E0001B">
           <g transform="translate(800 330) scale(1 0.24)">
             <circle r="560" stroke-width="12" vector-effect="non-scaling-stroke"></circle>
             <circle r="420" stroke-width="7" vector-effect="non-scaling-stroke"></circle>
             <circle r="168" stroke-width="7" vector-effect="non-scaling-stroke"></circle>
-            <circle cx="0" cy="-105" r="22" stroke-width="5" vector-effect="non-scaling-stroke"></circle>
-            <circle cx="99.9" cy="-32.4" r="22" stroke-width="5" vector-effect="non-scaling-stroke"></circle>
-            <circle cx="61.7" cy="84.9" r="22" stroke-width="5" vector-effect="non-scaling-stroke"></circle>
-            <circle cx="-61.7" cy="84.9" r="22" stroke-width="5" vector-effect="non-scaling-stroke"></circle>
-            <circle cx="-99.9" cy="-32.4" r="22" stroke-width="5" vector-effect="non-scaling-stroke"></circle>
           </g>
         </svg>
       </div>
-      <svg viewBox="0 0 1600 400" preserveAspectRatio="xMidYMax slice" style="position:absolute;inset:0;width:100%;height:100%" fill="none">
-        <g transform="translate(800 330) scale(1 0.24)" stroke="#E0001B" opacity="0.9">
-          <circle r="560" stroke-width="4.5" vector-effect="non-scaling-stroke"></circle>
-          <circle r="420" stroke-width="2.5" vector-effect="non-scaling-stroke"></circle>
-          <circle r="168" stroke-width="2.5" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="0" cy="-105" r="22" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="99.9" cy="-32.4" r="22" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="61.7" cy="84.9" r="22" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="-61.7" cy="84.9" r="22" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="-99.9" cy="-32.4" r="22" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
-        </g>
-        <g transform="translate(800 330) scale(1 0.24)" stroke="#FF5C6C">
-          <circle r="560" stroke-width="2" vector-effect="non-scaling-stroke"></circle>
-          <circle r="420" stroke-width="1" vector-effect="non-scaling-stroke"></circle>
-          <circle r="168" stroke-width="1" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="0" cy="-105" r="22" stroke-width="1" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="99.9" cy="-32.4" r="22" stroke-width="1" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="61.7" cy="84.9" r="22" stroke-width="1" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="-61.7" cy="84.9" r="22" stroke-width="1" vector-effect="non-scaling-stroke"></circle>
-          <circle cx="-99.9" cy="-32.4" r="22" stroke-width="1" vector-effect="non-scaling-stroke"></circle>
-        </g>
-      </svg>
+      <div style="position:absolute;left:50%;bottom:{{ discBottom }};width:{{ discD }};height:{{ discD }};margin-left:{{ discML }};perspective:{{ discP }}">
+        <div style="position:absolute;inset:0;transform:rotateX(76.1deg)">
+          <div ref="{{ spinRef }}" style="position:absolute;inset:0;will-change:transform;transform:translateZ(0) rotate(0deg)">
+            <svg viewBox="-600 -600 1200 1200" style="display:block;width:100%;height:100%" fill="none">
+              <g stroke="#E0001B" opacity="0.9">
+                <circle r="560" stroke-width="6"></circle>
+                <circle r="420" stroke-width="3.5"></circle>
+                <circle r="168" stroke-width="3.5"></circle>
+                <circle cx="0" cy="-105" r="22" stroke-width="3"></circle>
+                <circle cx="99.9" cy="-32.4" r="22" stroke-width="3"></circle>
+                <circle cx="61.7" cy="84.9" r="22" stroke-width="3"></circle>
+                <circle cx="-61.7" cy="84.9" r="22" stroke-width="3"></circle>
+                <circle cx="-99.9" cy="-32.4" r="22" stroke-width="3"></circle>
+                <g stroke-width="3" stroke-linecap="round"><path d="M440.0 0.0 Q499.3 26.2 533.4 84.5"></path><path d="M433.3 76.4 Q487.2 112.5 510.6 175.8"></path><path d="M413.5 150.5 Q460.3 195.4 472.3 261.8"></path><path d="M381.1 220.0 Q419.3 272.3 419.7 339.8"></path><path d="M337.1 282.8 Q365.7 341.0 354.3 407.5"></path><path d="M282.8 337.1 Q300.9 399.3 278.1 462.9"></path><path d="M220.0 381.1 Q227.0 445.5 193.5 504.1"></path><path d="M150.5 413.5 Q146.2 478.2 103.0 530.1"></path><path d="M76.4 433.3 Q60.9 496.3 9.4 539.9"></path><path d="M0.0 440.0 Q-26.2 499.3 -84.5 533.4"></path><path d="M-76.4 433.3 Q-112.5 487.2 -175.8 510.6"></path><path d="M-150.5 413.5 Q-195.4 460.3 -261.8 472.3"></path><path d="M-220.0 381.1 Q-272.3 419.3 -339.8 419.7"></path><path d="M-282.8 337.1 Q-341.0 365.7 -407.5 354.3"></path><path d="M-337.1 282.8 Q-399.3 300.9 -462.9 278.1"></path><path d="M-381.1 220.0 Q-445.5 227.0 -504.1 193.5"></path><path d="M-413.5 150.5 Q-478.2 146.2 -530.1 103.0"></path><path d="M-433.3 76.4 Q-496.3 60.9 -539.9 9.4"></path><path d="M-440.0 0.0 Q-499.3 -26.2 -533.4 -84.5"></path><path d="M-433.3 -76.4 Q-487.2 -112.5 -510.6 -175.8"></path><path d="M-413.5 -150.5 Q-460.3 -195.4 -472.3 -261.8"></path><path d="M-381.1 -220.0 Q-419.3 -272.3 -419.7 -339.8"></path><path d="M-337.1 -282.8 Q-365.7 -341.0 -354.3 -407.5"></path><path d="M-282.8 -337.1 Q-300.9 -399.3 -278.1 -462.9"></path><path d="M-220.0 -381.1 Q-227.0 -445.5 -193.5 -504.1"></path><path d="M-150.5 -413.5 Q-146.2 -478.2 -103.0 -530.1"></path><path d="M-76.4 -433.3 Q-60.9 -496.3 -9.4 -539.9"></path><path d="M-0.0 -440.0 Q26.2 -499.3 84.5 -533.4"></path><path d="M76.4 -433.3 Q112.5 -487.2 175.8 -510.6"></path><path d="M150.5 -413.5 Q195.4 -460.3 261.8 -472.3"></path><path d="M220.0 -381.1 Q272.3 -419.3 339.8 -419.7"></path><path d="M282.8 -337.1 Q341.0 -365.7 407.5 -354.3"></path><path d="M337.1 -282.8 Q399.3 -300.9 462.9 -278.1"></path><path d="M381.1 -220.0 Q445.5 -227.0 504.1 -193.5"></path><path d="M413.5 -150.5 Q478.2 -146.2 530.1 -103.0"></path><path d="M433.3 -76.4 Q496.3 -60.9 539.9 -9.4"></path></g>
+              </g>
+              <g stroke="#FF5C6C">
+                <circle r="560" stroke-width="2.5"></circle>
+                <circle r="420" stroke-width="1.5"></circle>
+                <circle r="168" stroke-width="1.5"></circle>
+                <circle cx="0" cy="-105" r="22" stroke-width="1.5"></circle>
+                <circle cx="99.9" cy="-32.4" r="22" stroke-width="1.5"></circle>
+                <circle cx="61.7" cy="84.9" r="22" stroke-width="1.5"></circle>
+                <circle cx="-61.7" cy="84.9" r="22" stroke-width="1.5"></circle>
+                <circle cx="-99.9" cy="-32.4" r="22" stroke-width="1.5"></circle>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
   <div style="box-sizing:border-box;width:100%;max-width:{{ contentMax }};margin:0 auto;padding:{{ pad }};display:flex;flex-direction:column;align-items:center;text-align:center">
@@ -97,31 +94,51 @@ class Component extends DCLogic {
   state = { vw: null };
   heroRef = React.createRef();
   nextRef = React.createRef();
-  glowRef = React.createRef();
-  startPulse() {
-    const el = this.glowRef.current;
-    if (!el || this.pulse || !el.animate) return;
-    this.pulse = el.animate([{ opacity: 0.3 }, { opacity: 1 }, { opacity: 0.3 }], { duration: 4000, iterations: Infinity, easing: 'ease-in-out' });
+  spinRef = React.createRef();
+  inView = true;
+  startSpin() {
+    const el = this.spinRef.current;
+    if (!el || this.spin || !el.animate) return;
+    if (this.mq && this.mq.matches) return;
+    this.spin = el.animate([{ transform: 'translateZ(0) rotate(0deg)' }, { transform: 'translateZ(0) rotate(360deg)' }], { duration: 24000, iterations: Infinity, easing: 'linear' });
+    if (!this.inView) this.spin.pause();
   }
-  componentDidUpdate() { this.startPulse(); }
+  stopSpin() { if (this.spin) { this.spin.cancel(); this.spin = null; } }
+  componentDidUpdate() { this.startSpin(); }
 
   componentDidMount() {
-    this.onResize = () => this.setState({ vw: window.innerWidth });
+    this.onResize = () => this.setState({ vw: window.innerWidth, hw: this.heroRef.current ? this.heroRef.current.clientWidth : null });
     window.addEventListener('resize', this.onResize);
     this.onResize();
-    this.startPulse();
+    this.mq = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : null;
+    this.onMq = () => { this.mq.matches ? this.stopSpin() : this.startSpin(); };
+    if (this.mq && this.mq.addEventListener) this.mq.addEventListener('change', this.onMq);
+    if ('IntersectionObserver' in window && this.heroRef.current) {
+      this.io = new IntersectionObserver(([e]) => {
+        this.inView = e.isIntersecting;
+        if (this.spin) { if (this.inView) this.spin.play(); else this.spin.pause(); }
+      });
+      this.io.observe(this.heroRef.current);
+    }
+    this.startSpin();
   }
   componentWillUnmount() {
     window.removeEventListener('resize', this.onResize);
-    if (this.pulse) this.pulse.cancel();
+    this.stopSpin();
+    if (this.io) this.io.disconnect();
+    if (this.mq && this.mq.removeEventListener) this.mq.removeEventListener('change', this.onMq);
   }
   renderVals() {
     const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
     const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
     const wide = d === 'desktop' || d === 'laptop';
     const m = d === 'mobile';
+    const ringsPx = d === 'desktop' ? 360 : d === 'laptop' ? 320 : d === 'tablet' ? 220 : 140;
+    const sc = Math.max((this.state.hw || vw) / 1600, ringsPx / 400);
+    const D = Math.round(1120 * sc);
     return {
-      heroRef: this.heroRef, nextRef: this.nextRef, glowRef: this.glowRef, 
+      heroRef: this.heroRef, nextRef: this.nextRef, spinRef: this.spinRef,
+      discD: D + 'px', discML: (-D / 2) + 'px', discBottom: Math.round(70 * sc - D / 2) + 'px', discP: (D * 8) + 'px',
       scrollNext: () => {
         const el = this.nextRef.current;
         if (!el) return;
