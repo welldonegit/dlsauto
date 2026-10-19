@@ -20,13 +20,11 @@
 </helmet>
 <section ref="{{ rootRef }}" aria-labelledby="dls-notch-h" data-screen-label="Цифри — виріз" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
   <div style="max-width:1312px;margin:0 auto;padding:{{ pad }};display:flex;flex-direction:column;gap:{{ headGap }}">
-    <header style="display:flex;flex-direction:column;gap:16px;min-width:0">
-      <h2 id="dls-notch-h" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-wrap:balance">DLSAuto в цифрах</h2>
-    </header>
-    <div style="display:grid;grid-template-columns:{{ cols }};gap:24px;align-items:start">
+    <h2 id="dls-notch-h" style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0">DLSAuto в цифрах</h2>
+    <div style="display:grid;grid-template-columns:{{ cols }};gap:24px;align-items:stretch">
       <sc-for list="{{ cards }}" as="c" hint-placeholder-count="4">
         <article onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}" style="min-width:0;margin-top:{{ c.shift }};opacity:{{ c.op }};transform:{{ c.tf }};transition:opacity 500ms ease-out {{ c.delay }}, transform 500ms ease-out {{ c.delay }}">
-        <div style="position:relative;overflow:hidden;background:{{ c.bg }};color:{{ c.fg }};border-radius:16px;padding:{{ cardPad }};display:flex;flex-direction:column;align-items:center;text-align:center;animation:{{ c.anim }};box-shadow:{{ c.shadow }};transition:box-shadow 250ms ease-out">
+        <div style="position:relative;height:100%;box-sizing:border-box;overflow:hidden;background:{{ c.bg }};color:{{ c.fg }};border-radius:16px;padding:{{ cardPad }};display:flex;flex-direction:column;align-items:center;text-align:center;animation:{{ c.anim }};box-shadow:{{ c.shadow }};transition:box-shadow 250ms ease-out">
           
           <div aria-hidden="true" style="position:absolute;top:-32px;left:50%;width:64px;height:64px;margin-left:-32px;border-radius:50%;background:#F6F6F6"></div>
           <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#1E232B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="position:absolute;top:4px;left:50%;margin-left:-12px">
@@ -89,11 +87,12 @@ class Component extends DCLogic {
 
   renderVals() {
     const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const RH = this.props.rhythm ? ((this.props.device ? /desktop|laptop/.test(this.props.device) : vw >= 1024) ? 96 : 64) : 0; const RG = RH === 96 ? 32 : 24;
     const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
     const { t, shown } = this.state;
     return {
       rootRef: this.rootRef,
-      pad: d === 'desktop' ? '100px 64px' : d === 'mobile' ? '75px 16px' : '75px 32px',
+      pad: `${RH || (d === 'desktop' ? 100 : 75)}px ${d === 'desktop' ? 64 : d === 'mobile' ? 16 : 32}px`,
       cols: d === 'desktop' || d === 'laptop' ? 'repeat(4, minmax(0, 1fr))' : d === 'tablet' ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)',
       headGap: d === 'mobile' ? '32px' : '48px',
       h2Size: d === 'desktop' || d === 'laptop' ? '40px' : d === 'tablet' ? '28px' : '24px',
@@ -121,7 +120,7 @@ class Component extends DCLogic {
           fg: '#FCFCFD',
           lab: dark ? '#A9B0BB' : '#FCFCFD',
           sub: dark ? '#A9B0BB' : 'rgba(252,252,253,0.8)',
-          shift: d === 'desktop' && !dark ? '96px' : '0px',
+          shift: '0px',
           op: shown ? 1 : 0,
           tf: shown ? 'translateY(0)' : 'translateY(32px)',
           delay: i * 80 + 'ms'

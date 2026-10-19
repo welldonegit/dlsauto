@@ -90,10 +90,11 @@ class Component extends DCLogic {
 
   renderVals() {
     const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const RH = this.props.rhythm ? ((this.props.device ? /desktop|laptop/.test(this.props.device) : vw >= 1024) ? 96 : 64) : 0; const RG = RH === 96 ? 32 : 24;
     const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
     const m = device === 'mobile';
     const pad = device === 'desktop' ? 64 : device === 'tablet' ? 32 : 16;
-    const sectionPad = device === 'desktop' ? 100 : 75;
+    const sectionPad = RH || (device === 'desktop' ? 100 : 75);
     const cardW = device === 'desktop' ? 296 : device === 'tablet' ? 256 : 240;
     const on = this.state.hovered ?? this.state.tapped;
     const s = this.state;
@@ -135,7 +136,7 @@ class Component extends DCLogic {
       h2Size: device === 'desktop' ? '40px' : device === 'tablet' ? '28px' : '24px',
       subSize: m ? '16px' : '18px',
       subMargin: m ? '12px 0 0' : '16px 0 0',
-      headGap: m ? '32px' : '48px',
+      headGap: RH ? RG + 'px' : (m ? '32px' : '48px'),
       side: `max(${pad}px, calc((100% - 1312px) / 2))`,
       bottomPad: m ? `${sectionPad}px` : '0px',
       arrowsPad: m ? '0' : `24px ${pad}px ${sectionPad}px`,

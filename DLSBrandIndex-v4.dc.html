@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}@keyframes dlsSwipe{0%,100%{transform:translateX(-6px)}50%{transform:translateX(6px)}}@media (prefers-reduced-motion: reduce){@keyframes dlsSwipe{0%,100%{transform:none}}}</style>
+</helmet>
+<section aria-labelledby="brand-index-v4-title" data-screen-label="Підбір за моделлю — чипи брендів" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <h2 id="brand-index-v4-title" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-wrap:balance">Деталі для вашого авто</h2>
+    <h3 style="margin:32px 0 0;display:flex;align-items:baseline;gap:12px;font-weight:600"><span style="font-size:18px;line-height:24px;color:#1E232B">Оберіть марку</span></h3>
+    <sc-if value="{{ showSwipe }}" hint-placeholder-val="{{ false }}">
+      <div aria-hidden="true" style="margin-top:28px;display:flex;align-items:center;gap:8px;font-size:14px;line-height:20px;color:#4A5260">{{ swipeHand }}<span>Гортайте</span></div>
+    </sc-if>
+    <div ref="{{ chipsRef }}" role="tablist" aria-label="Марка авто" style="position:relative;z-index:0;margin:16px 0 0;padding:{{ chipsPad }};display:{{ chipsDisplay }};grid-template-columns:{{ chipCols }};gap:16px;overflow-x:{{ chipsOverflow }};scrollbar-width:none">
+      <div aria-hidden="true" style="position:absolute;left:0;top:0;z-index:1;width:{{ indW }};height:{{ indH }};transform:{{ indTf }};opacity:{{ indOp }};border-radius:8px;background:#1E232B;pointer-events:none;transition:{{ indTrans }}"></div>
+      <sc-for list="{{ chips }}" as="ch" hint-placeholder-count="16">
+        <button type="button" role="tab" data-i="{{ ch.i }}" aria-selected="{{ ch.sel }}" aria-controls="brand-index-v4-models" aria-label="{{ ch.aria }}" title="{{ ch.name }}" onClick="{{ ch.pick }}" style="position:relative;flex-shrink:0;min-width:0;width:{{ chipW }};height:{{ chipH }};box-sizing:border-box;padding:0 8px;display:flex;align-items:center;justify-content:center;border:1px solid #E6E9EE;border-radius:8px;background:transparent;font-family:inherit;cursor:pointer;transition:border-color 200ms ease-out" style-hover="border-color:#1E232B" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+          <span aria-hidden="true" style="position:absolute;inset:0;z-index:0;border-radius:7px;background:#FCFCFD"></span>
+          <span style="position:relative;z-index:2;min-width:0;max-width:100%;display:flex;flex-direction:column;align-items:center;gap:{{ chipInnerGap }}">
+          <span style="height:{{ logoBoxH }};display:flex;align-items:center;gap:6px">
+            <sc-for list="{{ ch.logos }}" as="lg" hint-placeholder-count="1"><span style="position:relative;display:block;flex-shrink:0;width:{{ lg.w }};height:{{ lg.h }}"><img src="{{ lg.color }}" alt="" style="position:absolute;inset:0;display:block;width:100%;height:100%;opacity:{{ ch.colorOp }};transition:{{ ch.logoTrans }}"><img src="{{ lg.light }}" alt="" style="position:absolute;inset:0;display:block;width:100%;height:100%;opacity:{{ ch.lightOp }};transition:{{ ch.logoTrans }}"></span></sc-for>
+          </span>
+          <span aria-hidden="true" style="max-width:100%;font-size:{{ chipLabelSize }};line-height:14px;font-weight:500;color:{{ ch.labelColor }};text-align:center;white-space:{{ labelWrap }};overflow:hidden;text-overflow:ellipsis;transition:{{ ch.labelTrans }}">{{ ch.name }}</span>
+          </span>
+        </button>
+      </sc-for>
+    </div>
+    <h3 style="margin:48px 0 0;display:flex;align-items:baseline;gap:12px;font-weight:600"><span style="font-size:18px;line-height:24px;color:#1E232B">{{ panelLabel }}</span></h3>
+    <div id="brand-index-v4-models" role="tabpanel" aria-label="{{ panelLabel }}" style="margin-top:16px;min-height:{{ gridMinH }};display:grid;grid-template-columns:{{ gridCols }};align-content:start;gap:{{ gap }}">
+      <sc-for list="{{ cards }}" as="c" hint-placeholder-count="4">
+        <sc-if value="{{ c.isModel }}" hint-placeholder-val="{{ true }}">
+          <a href="{{ c.href }}" aria-label="{{ c.aria }}" onMouseEnter="{{ c.enter }}" onMouseLeave="{{ c.leave }}" onPointerDown="{{ c.down }}" onPointerUp="{{ c.up }}" onPointerLeave="{{ c.up }}" onPointerCancel="{{ c.up }}" onFocus="{{ c.enter }}" onBlur="{{ c.leave }}" style="box-sizing:border-box;min-width:0;height:{{ cardH }};padding:{{ cardPad }};display:flex;flex-direction:column;gap:12px;background:#FCFCFD;border:1px solid #E6E9EE;border-radius:16px;color:#1E232B;text-decoration:none;box-shadow:{{ c.shadow }};opacity:{{ c.op }};filter:{{ c.blur }};transform:{{ c.lift }};transition:{{ c.trans }}" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+            <div style="flex:1;min-width:0;display:flex;flex-direction:column">
+              <span title="{{ c.name }}" style="font-size:20px;line-height:28px;font-weight:600;letter-spacing:-0.01em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.name }}</span>
+              <span style="min-height:20px;font-size:14px;line-height:20px;color:#4A5260">{{ c.years }}</span>
+              <div style="margin-top:auto;padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+                <span style="font-size:14px;line-height:20px;font-weight:500;color:#1E232B">{{ c.parts }}</span>
+                <span aria-hidden="true" style="width:32px;height:32px;box-sizing:border-box;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:50%;background:{{ c.arrowBg }};color:#E0001B;transition:background 150ms ease-out"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
+              </div>
+            </div>
+          </a>
+        </sc-if>
+        <sc-if value="{{ c.isAll }}" hint-placeholder-val="{{ false }}">
+          <a href="{{ c.href }}" aria-label="{{ c.aria }}" onMouseEnter="{{ c.enter }}" onMouseLeave="{{ c.leave }}" onPointerDown="{{ c.down }}" onPointerUp="{{ c.up }}" onPointerLeave="{{ c.up }}" onPointerCancel="{{ c.up }}" onFocus="{{ c.enter }}" onBlur="{{ c.leave }}" style="box-sizing:border-box;min-width:0;height:{{ cardH }};padding:{{ cardPad }};display:flex;flex-direction:column;border:1px {{ c.borderStyle }} {{ c.borderColor }};border-radius:16px;background:#FCFCFD;color:#1E232B;text-decoration:none;opacity:{{ c.op }};filter:{{ c.blur }};transform:{{ c.lift }};transition:{{ c.trans }}" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+            <span style="font-size:20px;line-height:28px;font-weight:600;letter-spacing:-0.01em;text-wrap:balance">{{ c.label }}</span>
+            <span aria-hidden="true" style="margin-top:auto;align-self:flex-end;width:32px;height:32px;box-sizing:border-box;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:50%;background:{{ c.arrowBg }};color:#E0001B;transition:background 150ms ease-out"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
+          </a>
+        </sc-if>
+      </sc-for>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:760},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
+const ARROW_BG = { rest: 'rgba(224,0,27,0)', hover: 'rgba(224,0,27,0.08)', press: 'rgba(224,0,27,0.12)' };
+// [name, years, parts, kind: p — пікап, s — позашляховик, v — фургон]
+const BRANDS = [
+  ['Mitsubishi', 260, ['mitsubishi'], [['L200', '2005–2015', 85, 'p'], ['L200', '1996–2005', 46, 'p'], ['Pajero Sport I', '1996–2008', 84, 's'], ['Pajero Wagon', '', 45, 's']]],
+  ['Ford', 226, ['ford'], [['Ranger', '2006–2012', 118, 'p'], ['Ranger', '1998–2006', 108, 'p']]],
+  ['Mazda', 226, ['mazda'], [['BT-50', '2006–2012', 118, 'p'], ['B2500', '1998–2006', 108, 'p']]],
+  ['Nissan', 172, ['nissan'], [['Navara / Pathfinder R51', '2005–2014', 129, 'p'], ['X-Trail T30–T31', '2000–2013', 43, 's']]],
+  ['Jeep', 104, ['jeep'], [['Grand Cherokee WK', '2005–2010', 81, 's'], ['Patriot / Compass', '2011–2017', 23, 's']]],
+  ['Volkswagen', 103, ['volkswagen'], [['Crafter', '', 43, 'v'], ['T5', '2003–2009', 40, 'v'], ['Touareg', '2002–2010', 20, 's']]],
+  ['Kia', 67, ['kia'], [['Sorento', '2002–2014', 67, 's']]],
+  ['Hyundai', 58, ['hyundai'], [['Santa Fe I', '2004–2010', 45, 's'], ['Terracan', '', 13, 's']]],
+  ['Toyota', 53, ['toyota'], [['Hilux', '2005–2015', 27, 'p'], ['Land Cruiser Prado 90', '1996–2002', 13, 's'], ['RAV4 II', '2000–2005', 13, 's']]],
+  ['Mercedes-Benz', 52, ['mercedes'], [['ML W163', '', 52, 's']]],
+  ['SsangYong', 43, ['ssangyong'], [['Actyon', '2005–2011', 28, 's'], ['Rexton', '2001–2006', 15, 's']]],
+  ['Volvo', 11, ['volvo'], [['XC90', '2002–2015', 11, 's']]],
+  ['BMW', 6, ['bmw'], [['X5 E53', '', 6, 's']]],
+  ['Peugeot', 4, ['peugeot'], [['Landtrek', '2020–2026', 4, 'p']]],
+  ['Fiat', 4, ['fiat'], [['Titano', '2024–н.ч.', 4, 'p']]],
+  ['Isuzu', 2, ['isuzu'], [['D-Max', '', 2, 'p']]]
+];
+const ASPECT = { mitsubishi: 1.153, ford: 2.582, mazda: 1.244, nissan: 1.191, jeep: 2.413, volkswagen: 1, kia: 3.995, hyundai: 1.912, toyota: 1.459, mercedes: 1, ssangyong: 6.261, volvo: 1, bmw: 1, peugeot: 0.909, fiat: 0.998, isuzu: 5.318 };
+// every mark gets the same optical area inside a boxW × boxH box; pairs share the width
+const chipLogos = (files, light, boxW, boxH) => {
+  const g = 6, sz = files.map(f => { const a = ASPECT[f]; let h = Math.min(boxH, Math.sqrt(boxH * boxH / a)), w = h * a; if (w > boxW) { w = boxW; h = w / a; } return { w, h }; });
+  const sum = sz.reduce((t, x) => t + x.w, 0), room = boxW - (files.length - 1) * g, k = sum > room ? room / sum : 1;
+  return files.map((f, i) => ({ color: `assets/logos/color/${f}.svg`, light: `assets/logos/tight-light/${f}.svg`, w: Math.round(sz[i].w * k) + 'px', h: Math.round(sz[i].h * k) + 'px' }));
+};
+const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? b : c; };
+const parts = n => `${n} ${plural(n, 'деталь', 'деталі', 'деталей')}`;
+const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+const EXPO = 'cubic-bezier(0.16, 1, 0.3, 1)';
+const OUT_MS = 180, STAGGER = 60, IN_MS = 650;
+const enc = encodeURIComponent;
+
+class Component extends DCLogic {
+  state = { vw: null, active: 0, shown: 0, phase: 'idle', hc: -1, ind: null, indLive: false };
+  chipsRef = React.createRef();
+  swipeHand = React.createElement('svg', { viewBox: '0 0 24 24', width: 20, height: 20, 'aria-hidden': true, style: { flexShrink: 0, fill: 'none', stroke: '#1E232B', strokeWidth: 1.5, strokeLinecap: 'round', strokeLinejoin: 'round', animation: 'dlsSwipe 1.6s ease-in-out infinite' } },
+    React.createElement('path', { d: 'M18 11V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2' }),
+    React.createElement('path', { d: 'M14 10V4a2 2 0 0 0-2-2a2 2 0 0 0-2 2v2' }),
+    React.createElement('path', { d: 'M10 10.5V6a2 2 0 0 0-2-2a2 2 0 0 0-2 2v8' }),
+    React.createElement('path', { d: 'M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15' }));
+  syncChips() {
+    const el = this.chipsRef.current;
+    if (!el) return;
+    const over = el.scrollWidth > el.clientWidth + 2;
+    if (over !== this.state.chipsOver) this.setState({ chipsOver: over });
+  }
+  componentDidMount() {
+    this.reduce = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+    this.measure();
+    this.syncChips();
+    this.liveT = setTimeout(() => this.setState({ indLive: true }), 50);
+  }
+  measure() {
+    const box = this.chipsRef.current, el = box && box.querySelector(`[data-i="${this.state.active}"]`);
+    if (!el) return;
+    const r = { x: el.offsetLeft, y: el.offsetTop, w: el.offsetWidth, h: el.offsetHeight }, o = this.state.ind;
+    if (!o || o.x !== r.x || o.y !== r.y || o.w !== r.w || o.h !== r.h) this.setState({ ind: r });
+  }
+  componentDidUpdate(_, prev) {
+    this.measure();
+    this.syncChips();
+    if (prev.active === this.state.active) return;
+    const box = this.chipsRef.current, el = box && box.querySelector(`[data-i="${this.state.active}"]`);
+    if (!box || !el || box.scrollWidth <= box.clientWidth) return;
+    box.scrollTo({ left: el.offsetLeft - (box.clientWidth - el.offsetWidth) / 2, behavior: 'smooth' });
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    clearTimeout(this.fadeT); clearTimeout(this.idleT); clearTimeout(this.liveT); cancelAnimationFrame(this.raf);
+  }
+  pick(i) {
+    if (i === this.state.active) return;
+    clearTimeout(this.fadeT); clearTimeout(this.idleT); cancelAnimationFrame(this.raf);
+    this.setState({ active: i, phase: 'out', hc: -1 });
+    this.fadeT = setTimeout(() => {
+      this.setState({ shown: i, phase: 'pre' }, () => {
+        this.raf = requestAnimationFrame(() => { this.raf = requestAnimationFrame(() => this.setState({ phase: 'in' })); });
+      });
+      this.idleT = setTimeout(() => this.setState({ phase: 'idle' }), IN_MS + 4 * STAGGER + 80);
+    }, OUT_MS);
+  }
+  // entrance choreography: old cards lift away together, new ones rise in one by one
+  motion(k, on) {
+    const ph = this.state.phase, rd = this.reduce;
+    const hover = `transform ${on ? 420 : 280}ms ${EASE}, box-shadow ${on ? 420 : 280}ms ${EASE}, border-color 150ms ease-out`;
+    if (ph === 'out') return { op: 0, blur: rd ? 'none' : 'blur(2px)', lift: rd ? 'none' : 'translateY(-8px)', trans: `opacity ${OUT_MS}ms ease-in ${k * 20}ms, transform ${OUT_MS}ms ease-in ${k * 20}ms, filter ${OUT_MS}ms ease-in ${k * 20}ms` };
+    if (ph === 'pre') return { op: 0, blur: rd ? 'none' : 'blur(6px)', lift: rd ? 'none' : 'translateY(24px) scale(0.98)', trans: 'none' };
+    const lift = on ? 'translateY(-4px)' : 'none';
+    if (ph === 'in') { const dl = k * STAGGER; return { op: 1, blur: 'blur(0px)', lift, trans: `opacity 420ms ${EASE} ${dl}ms, filter 420ms ${EASE} ${dl}ms, transform ${IN_MS}ms ${EXPO} ${dl}ms, box-shadow 280ms ${EASE}, border-color 150ms ease-out` }; }
+    return { op: 1, blur: 'none', lift, trans: hover };
+  }
+  renderVals() {
+    const s = this.state;
+    const vw = s.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const RH = this.props.rhythm ? ((this.props.device ? /desktop|laptop/.test(this.props.device) : vw >= 1024) ? 96 : 64) : 0; const RG = RH === 96 ? 32 : 24;
+    const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const m = d === 'mobile', tab = d === 'tablet';
+    const [bName, , bLogos, bModels] = BRANDS[s.shown];
+    const hasMore = bModels.length > 3;
+    const models = bModels.slice(0, 3);
+    const rest = bModels.length - 3;
+    const cardH = 200;
+    const gap = m ? 16 : 24;
+    const brandHref = `DLSCatalog.dc.html?brand=${enc(bName)}`;
+    const cards = models.map(([name, years, cnt, kind], i) => {
+      const on = s.hc === i;
+      return {
+        isModel: true, isAll: false,
+        brand: bName, logos: bLogos.map(f => `assets/logos/${f}.svg`),
+        name, years, parts: parts(cnt),
+        kindLabel: kind === 'p' ? 'Пікап' : kind === 'v' ? 'Фургон' : 'Позашляховик',
+        isPickup: kind === 'p', isSuv: kind === 's', isVan: kind === 'v',
+        href: `${brandHref}&model=${enc((name + ' ' + years).trim())}`,
+        aria: `${bName} ${name} ${years}, ${parts(cnt)}`.replace(' ,', ','),
+        ...this.motion(i, on),
+        shadow: on ? '0 4px 16px rgba(18,22,28,0.08)' : 'none',
+        arrowBg: s.pk === i ? ARROW_BG.press : on ? ARROW_BG.hover : ARROW_BG.rest,
+        down: () => this.setState({ pk: i }), up: () => this.setState(x => (x.pk === i ? { pk: null } : null)),
+        enter: () => this.setState({ hc: i }),
+        leave: () => this.setState(x => (x.hc === i ? { hc: -1 } : null))
+      };
+    });
+    const allOn = s.hc === 99;
+    if (hasMore) cards.push({
+      isModel: false, isAll: true,
+      label: `Усі моделі ${bName}`, href: brandHref,
+      more: `Ще ${rest} ${plural(rest, 'модель', 'моделі', 'моделей')}`,
+      aria: `Усі моделі ${bName}: ${bModels.length}`,
+      borderStyle: allOn ? 'solid' : 'dashed', borderColor: allOn ? '#1E232B' : '#CDD2DA',
+      arrowBg: s.pk === 99 ? ARROW_BG.press : allOn ? ARROW_BG.hover : ARROW_BG.rest,
+      down: () => this.setState({ pk: 99 }), up: () => this.setState(x => (x.pk === 99 ? { pk: null } : null)),
+      ...this.motion(models.length, false),
+      enter: () => this.setState({ hc: 99 }),
+      leave: () => this.setState(x => (x.hc === 99 ? { hc: -1 } : null))
+    });
+    return {
+      pad: d === 'desktop' ? ('0 64px ' + (RH || 100) + 'px') : m ? ('0 16px ' + (RH || 75) + 'px') : ('0 32px ' + (RH || 75) + 'px'),
+      h2Size: d === 'desktop' ? '40px' : m ? '24px' : '28px',
+      headCols: m ? 'minmax(0, 1fr)' : 'minmax(0, 1fr) auto',
+      linkCol: m ? '1' : '2', linkRow: m ? '3' : '1',
+      chipsRef: this.chipsRef,
+      chipsMargin: m ? '28px 0 0' : '32px 0 0',
+      showSwipe: false,
+      swipeHand: this.swipeHand,
+      chipsPad: '0',
+      chipsDisplay: 'grid',
+      chipCols: m ? 'repeat(4, minmax(0, 1fr))' : 'repeat(8, minmax(0, 1fr))',
+      chipW: 'auto',
+      chipH: m ? '72px' : '88px',
+      chipInnerGap: m ? '4px' : '10px',
+      logoBoxH: m ? '24px' : '32px',
+      chipLabelSize: m ? '11px' : '13px',
+      labelWrap: m ? 'normal' : 'nowrap',
+      chipsOverflow: 'visible',
+      chips: BRANDS.map(([name, count, logos], i) => {
+        const a = i === s.active;
+        return {
+          i: String(i), name, sel: a ? 'true' : 'false',
+          aria: `${name}, ${parts(count)}`,
+          colorOp: a ? 0 : 1, lightOp: a ? 1 : 0,
+          logoTrans: `opacity 260ms ease-out ${a ? 120 : 0}ms`,
+          labelColor: a ? '#FCFCFD' : '#4A5260',
+          labelTrans: `color 260ms ease-out ${a ? 120 : 0}ms`,
+          logos: m ? chipLogos(logos, a, 56, 24) : chipLogos(logos, a, 80, 32),
+          pick: () => this.pick(i)
+        };
+      }),
+      panelLabel: `Моделі ${bName}`,
+      indW: s.ind ? s.ind.w + 'px' : '0px', indH: s.ind ? s.ind.h + 'px' : '0px',
+      indTf: s.ind ? `translate(${s.ind.x}px, ${s.ind.y}px)` : 'none',
+      indOp: s.ind ? 1 : 0,
+      indTrans: s.indLive && !this.reduce ? `transform 560ms ${EXPO}, width 560ms ${EXPO}, height 560ms ${EXPO}` : 'none',
+      gridCols: m ? 'minmax(0, 1fr)' : tab ? 'repeat(2, minmax(0, 1fr))' : 'repeat(4, minmax(0, 1fr))',
+      gridMinH: `${cardH}px`,
+      gap: gap + 'px',
+      cardH: cardH + 'px', cardPad: m ? '16px' : '24px',
+      cards
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -24,19 +24,26 @@
           <div style="min-width:0;display:flex;flex-direction:column;gap:32px">
             <sc-for list="{{ col.groups }}" as="g" hint-placeholder-count="4">
               <div role="group" aria-label="{{ g.name }}">
-                <h3 style="margin:0;padding-bottom:12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid #E6E9EE;font-size:16px;line-height:24px;font-weight:600;color:#1E232B">
-                  <sc-for list="{{ g.logos }}" as="lg" hint-placeholder-count="1"><img src="{{ lg }}" alt="" style="width:22px;height:22px;flex-shrink:0;object-fit:contain;display:block"></sc-for>
-                  <sc-if value="{{ g.isWheel }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="1.5"></circle><path d="M12 6v4.5"></path><path d="m17.7 10.1-4.3 1.4"></path><path d="m15.5 16.9-2.6-3.7"></path><path d="m8.5 16.9 2.6-3.7"></path><path d="m6.3 10.1 4.3 1.4"></path></svg></sc-if>
+                <h3 style="margin:0;padding-bottom:12px;display:flex;align-items:center;gap:10px;border-bottom:1px solid #E6E9EE;font-size:21px;line-height:30px;font-weight:600;color:#1E232B">
+                  <sc-for list="{{ g.logos }}" as="lg" hint-placeholder-count="1"><img src="{{ lg }}" alt="" style="width:29px;height:29px;flex-shrink:0;object-fit:contain;display:block"></sc-for>
+                  <sc-if value="{{ g.isWheel }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="1.5"></circle><path d="M12 6v4.5"></path><path d="m17.7 10.1-4.3 1.4"></path><path d="m15.5 16.9-2.6-3.7"></path><path d="m8.5 16.9 2.6-3.7"></path><path d="m6.3 10.1 4.3 1.4"></path></svg></sc-if>
                   <span>{{ g.name }}</span>
                 </h3>
                 <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
                   <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="2">
-                    <a href="#" aria-label="{{ r.aria }}" aria-current="{{ r.current }}" onMouseEnter="{{ r.enter }}" onMouseLeave="{{ r.leave }}" onFocus="{{ r.enter }}" onBlur="{{ r.leave }}" style="min-height:40px;box-sizing:border-box;padding:8px 12px;display:flex;align-items:center;gap:8px;border:1px solid {{ r.border }};border-radius:8px;background:{{ r.bg }};color:{{ r.color }};text-decoration:none;transition:background 150ms ease-out, border-color 150ms ease-out, color 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">
-                      <span style="flex:1;min-width:0;font-size:15px;line-height:20px;text-wrap:pretty">{{ r.name }}</span>
+                    <a href="#" title="{{ r.name }}" aria-label="{{ r.aria }}" aria-current="{{ r.current }}" onMouseEnter="{{ r.enter }}" onMouseLeave="{{ r.leave }}" onFocus="{{ r.enter }}" onBlur="{{ r.leave }}" style="min-height:40px;box-sizing:border-box;padding:8px 12px;display:flex;align-items:center;gap:8px;border:1px solid {{ r.border }};border-radius:8px;background:{{ r.bg }};color:{{ r.color }};text-decoration:none;transition:background 150ms ease-out, border-color 150ms ease-out, color 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+                      <span style="flex:1;min-width:0;font-size:15px;line-height:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span>
                       <span style="flex-shrink:0;font-size:14px;line-height:20px;color:{{ r.countColor }};transition:color 150ms ease-out">{{ r.count }}</span>
                       <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;margin-left:-4px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:{{ r.chevOp }};transform:translateX({{ r.chevX }});transition:opacity 150ms ease-out, transform 150ms ease-out"><path d="m9 18 6-6-6-6"></path></svg>
                     </a>
                   </sc-for>
+                  <sc-if value="{{ g.hasMore }}" hint-placeholder-val="{{ false }}">
+                    <a href="{{ g.moreHref }}" aria-label="{{ g.moreAria }}" onMouseEnter="{{ g.moreEnter }}" onMouseLeave="{{ g.moreLeave }}" onFocus="{{ g.moreEnter }}" onBlur="{{ g.moreLeave }}" style="height:40px;box-sizing:border-box;padding:0 12px;display:flex;align-items:center;gap:8px;border:1px solid #E0001B;border-radius:8px;background-color:#FFFFFF;background-image:linear-gradient({{ g.moreTint }}, {{ g.moreTint }});color:#E0001B;text-decoration:none;transition:background-image 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+                      <span style="min-width:0;font-size:15px;line-height:20px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Всі моделі {{ g.name }}</span>
+                      <span style="flex:1;flex-shrink:0;font-size:15px;line-height:20px;font-weight:600;color:#E0001B">({{ g.total }})</span>
+                      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+                    </a>
+                  </sc-if>
                 </div>
               </div>
             </sc-for>
@@ -50,9 +57,9 @@
           <div style="border-bottom:1px solid #E6E9EE">
             <h3 style="margin:0">
               <button type="button" aria-expanded="{{ g.open }}" onClick="{{ g.toggle }}" style="width:100%;min-height:56px;box-sizing:border-box;padding:8px 0;display:flex;align-items:center;gap:8px;border:none;background:transparent;font-family:inherit;text-align:left;color:#1E232B;cursor:pointer" style-focus="outline:2px solid #1E232B;outline-offset:2px">
-                <sc-for list="{{ g.logos }}" as="lg" hint-placeholder-count="1"><img src="{{ lg }}" alt="" style="width:22px;height:22px;flex-shrink:0;object-fit:contain;display:block"></sc-for>
-                <sc-if value="{{ g.isWheel }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="1.5"></circle><path d="M12 6v4.5"></path><path d="m17.7 10.1-4.3 1.4"></path><path d="m15.5 16.9-2.6-3.7"></path><path d="m8.5 16.9 2.6-3.7"></path><path d="m6.3 10.1 4.3 1.4"></path></svg></sc-if>
-                <span style="flex:1;min-width:0;font-size:16px;line-height:24px;font-weight:600">{{ g.name }}</span>
+                <sc-for list="{{ g.logos }}" as="lg" hint-placeholder-count="1"><img src="{{ lg }}" alt="" style="width:29px;height:29px;flex-shrink:0;object-fit:contain;display:block"></sc-for>
+                <sc-if value="{{ g.isWheel }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="1.5"></circle><path d="M12 6v4.5"></path><path d="m17.7 10.1-4.3 1.4"></path><path d="m15.5 16.9-2.6-3.7"></path><path d="m8.5 16.9 2.6-3.7"></path><path d="m6.3 10.1 4.3 1.4"></path></svg></sc-if>
+                <span style="flex:1;min-width:0;font-size:21px;line-height:30px;font-weight:600">{{ g.name }}</span>
                 <span style="flex-shrink:0;font-size:14px;line-height:20px;font-weight:400;color:#6B7380">{{ g.modelsLabel }}</span>
                 <span aria-hidden="true" style="width:32px;height:32px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#E6E9EE">
                   <svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:#1E232B;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:rotate({{ g.rot }});transition:transform 280ms ease-out"><path d="m6 9 6 6 6-6"></path></svg>
@@ -63,12 +70,19 @@
               <div style="min-height:0;overflow:hidden">
                 <div style="padding-bottom:16px;display:flex;flex-direction:column;gap:8px">
                   <sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="2">
-                    <a href="#" aria-label="{{ r.aria }}" aria-current="{{ r.current }}" style="min-height:44px;box-sizing:border-box;padding:8px 12px;display:flex;align-items:center;gap:8px;border:1px solid {{ r.border }};border-radius:8px;background:{{ r.bg }};color:{{ r.color }};text-decoration:none" style-focus="outline:2px solid #1E232B;outline-offset:2px">
-                      <span style="flex:1;min-width:0;font-size:15px;line-height:20px;text-wrap:pretty">{{ r.name }}</span>
+                    <a href="#" title="{{ r.name }}" aria-label="{{ r.aria }}" aria-current="{{ r.current }}" style="min-height:44px;box-sizing:border-box;padding:8px 12px;display:flex;align-items:center;gap:8px;border:1px solid {{ r.border }};border-radius:8px;background:{{ r.bg }};color:{{ r.color }};text-decoration:none" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+                      <span style="flex:1;min-width:0;font-size:15px;line-height:20px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.name }}</span>
                       <span style="flex-shrink:0;font-size:14px;line-height:20px;color:{{ r.countColor }}">{{ r.count }}</span>
                       <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;margin-left:-4px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;opacity:{{ r.chevOpM }}"><path d="m9 18 6-6-6-6"></path></svg>
                     </a>
                   </sc-for>
+                  <sc-if value="{{ g.hasMore }}" hint-placeholder-val="{{ false }}">
+                    <a href="{{ g.moreHref }}" aria-label="{{ g.moreAria }}" onMouseEnter="{{ g.moreEnter }}" onMouseLeave="{{ g.moreLeave }}" onFocus="{{ g.moreEnter }}" onBlur="{{ g.moreLeave }}" style="height:44px;box-sizing:border-box;padding:0 12px;display:flex;align-items:center;gap:8px;border:1px solid #E0001B;border-radius:8px;background-color:#FFFFFF;background-image:linear-gradient({{ g.moreTint }}, {{ g.moreTint }});color:#E0001B;text-decoration:none;transition:background-image 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+                      <span style="min-width:0;font-size:15px;line-height:20px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Всі моделі {{ g.name }}</span>
+                      <span style="flex:1;flex-shrink:0;font-size:15px;line-height:20px;font-weight:600;color:#E0001B">({{ g.total }})</span>
+                      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg>
+                    </a>
+                  </sc-if>
                 </div>
               </div>
             </div>
@@ -96,8 +110,7 @@ const GROUPS = [
   ['SsangYong', [['Actyon 2005–2011', 28], ['Rexton 2001–2006', 15]]],
   ['Toyota', [['Hilux 2005–2015', 27], ['Land Cruiser Prado 90 1996–2002', 13], ['RAV4 II 2000–2005', 13]]],
   ['Volkswagen', [['Crafter', 43], ['T5 2003–2009', 40], ['Touareg 2002–2010', 20]]],
-  ['Volvo', [['XC90 2002–2015', 11]]],
-  ['Шини та диски', [['Усі шини та диски', 18]], true]
+  ['Volvo', [['XC90 2002–2015', 11]]]
 ];
 const CAR_KEY = 'dlsCar';
 const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? b : c; };
@@ -152,8 +165,15 @@ class Component extends DCLogic {
         toggle: () => this.setState(st => ({ open: { ...st.open, [gi]: !open } })),
         rot: open ? '180deg' : '0deg',
         rowsTrack: open ? '1fr' : '0fr', op: open ? 1 : 0, vis: open ? 'visible' : 'hidden',
-        weight: models.length + 2,
-        rows: models.map(([mn, count], ri) => {
+        weight: Math.min(models.length, 3) + (models.length > 3 ? 1 : 0) + 2,
+        hasMore: models.length > 3,
+        total: models.length,
+        moreHref: 'DLSCatalog.dc.html?brand=' + encodeURIComponent(name),
+        moreAria: `Всі моделі ${name}: ${models.length}`,
+        moreTint: s.hover === `${gi}-more` ? 'rgba(224, 0, 27, 0.08)' : 'rgba(224, 0, 27, 0)',
+        moreEnter: () => this.setState({ hover: `${gi}-more` }),
+        moreLeave: () => this.setState(st => (st.hover === `${gi}-more` ? { hover: null } : null)),
+        rows: models.slice(0, 3).map(([mn, count], ri) => {
           const key = `${gi}-${ri}`;
           const a = `${name} ${mn}` === activeKey || (wheel && activeKey === name);
           const h = s.hover === key;

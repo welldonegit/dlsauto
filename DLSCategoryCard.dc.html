@@ -7,7 +7,7 @@
 </head>
 <body>
 <x-dc>
-<a href="#" aria-label="{{ aria }}" onMouseEnter="{{ enter }}" onMouseLeave="{{ leave }}" style="position:relative;display:flex;flex-direction:column;width:100%;aspect-ratio:4 / 5;min-width:0;box-sizing:border-box;overflow:hidden;border:1px solid #E6E9EE;border-radius:16px;background:{{ cardBg }};color:#1E232B;text-decoration:none;font-family:'Golos Text',sans-serif;box-shadow:{{ shadow }};transition:box-shadow 250ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+<a href="#" aria-label="{{ aria }}" onMouseEnter="{{ enter }}" onMouseLeave="{{ leave }}" onPointerDown="{{ down }}" onPointerUp="{{ up }}" onPointerLeave="{{ up }}" onPointerCancel="{{ up }}" style="position:relative;display:flex;flex-direction:column;width:100%;aspect-ratio:4 / 5;min-width:0;box-sizing:border-box;overflow:hidden;border:1px solid #E6E9EE;border-radius:16px;background:{{ cardBg }};color:#1E232B;text-decoration:none;font-family:'Golos Text',sans-serif;box-shadow:{{ shadow }};transition:box-shadow 250ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">
   <sc-if value="{{ hasPhoto }}" hint-placeholder-val="{{ true }}">
     <div style="flex:0 1 65%;min-height:0;box-sizing:border-box;padding:16px 16px 0;display:flex">
       <div style="position:relative;flex:1;min-width:0;overflow:hidden;border-radius:8px;background:#FFFFFF">
@@ -24,23 +24,26 @@
   </sc-if>
   <div style="margin-top:auto;flex-shrink:0;padding:16px 16px 20px;display:grid;grid-template-columns:minmax(0,1fr) 32px;column-gap:8px;row-gap:4px;align-items:start">
     <span style="font-size:{{ nameSize }};line-height:24px;font-weight:600;color:#1E232B;text-wrap:balance">{{ name }}</span>
-    <span aria-hidden="true" style="width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:{{ arrowBg }};color:{{ arrowColor }};transition:background 250ms ease-out, color 250ms ease-out"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
+    <span aria-hidden="true" style="width:32px;height:32px;box-sizing:border-box;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:50%;background:{{ arrowBg }};color:#E0001B;transition:background 150ms ease-out"><svg viewBox="0 0 24 24" width="16" height="16" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
     <span style="grid-column:1 / -1;display:{{ countDisplay }};font-size:13px;line-height:18px;color:#4A5260">{{ count }}</span>
   </div>
 </a>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:250,&quot;height&quot;:312},&quot;name&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Кузовні деталі&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;count&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;290 деталей&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;partDesc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;передній бампер&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;partSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;isAll&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;demoHover&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;nameSize&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;}}">
+const ARROW_BG = { rest: 'rgba(224,0,27,0)', hover: 'rgba(224,0,27,0.08)', press: 'rgba(224,0,27,0.12)' };
 class Component extends DCLogic {
-  state = { hover: false };
+  state = { hover: false, press: false };
   enter = () => this.setState({ hover: true });
   leave = () => this.setState({ hover: false });
+  down = () => this.setState({ press: true });
+  up = () => this.setState({ press: false });
   renderVals() {
     const p = this.props;
     const h = this.state.hover || !!p.demoHover;
     const all = !!p.isAll;
     return {
       aria: all ? 'Усі категорії — 1 200+ деталей у наявності' : `${p.nameText ?? p.name} — ${p.count}`,
-      enter: this.enter, leave: this.leave,
+      enter: this.enter, leave: this.leave, down: this.down, up: this.up,
       isAll: all, hasPhoto: !all,
       cardBg: all ? '#F3F5F7' : '#FFFFFF',
       shadow: h ? '0 4px 16px rgba(18,22,28,0.08)' : 'none',
@@ -49,8 +52,7 @@ class Component extends DCLogic {
       partDisplay: p.partSrc ? 'block' : 'none',
       partDescDisplay: p.partSrc ? 'none' : 'flex',
       countDisplay: all ? 'none' : 'block',
-      arrowBg: h ? '#1E232B' : '#F3F5F7',
-      arrowColor: h ? '#FCFCFD' : '#1E232B',
+      arrowBg: this.state.press ? ARROW_BG.press : h ? ARROW_BG.hover : ARROW_BG.rest,
       name: p.nameText ?? p.name ?? 'Кузовні деталі',
       count: p.count ?? '290 деталей',
       partDesc: p.partDesc ?? '',

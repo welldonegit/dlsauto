@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}</style>
+</helmet>
+<section aria-labelledby="{{ hid }}" data-screen-label="{{ label }}" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <h2 id="{{ hid }}" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Категорії запчастин</h2>
+    <div style="margin-top:{{ headGap }};display:grid;grid-template-columns:{{ cols }};grid-auto-rows:{{ rows }};gap:{{ gap }}">
+      <sc-for list="{{ cards }}" as="c" hint-placeholder-count="9">
+        <a href="{{ c.href }}" onMouseEnter="{{ c.enter }}" onMouseLeave="{{ c.leave }}" onFocus="{{ c.enter }}" onBlur="{{ c.leave }}" style="grid-column:{{ c.col }};grid-row:{{ c.row }};position:relative;min-width:0;min-height:{{ c.minH }};box-sizing:border-box;padding:24px;display:flex;flex-direction:column;gap:16px;border-radius:16px;overflow:hidden;background:{{ c.bg }};box-shadow:{{ c.shadow }};text-decoration:none;color:{{ c.fg }};outline:none" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+          <div style="position:relative;flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center">
+            <sc-if value="{{ c.photo }}" hint-placeholder-val="{{ false }}">
+              <img src="{{ c.photo }}" alt="" loading="lazy" style="position:absolute;inset:{{ c.inset }};width:calc(100% - {{ c.insetX2 }});height:calc(100% - {{ c.insetX2 }});object-fit:contain;transform:{{ c.scale }};transition:transform 280ms cubic-bezier(0.22, 1, 0.36, 1)">
+            </sc-if>
+            <sc-if value="{{ c.placeholder }}" hint-placeholder-val="{{ false }}">
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;border-radius:8px;background:repeating-linear-gradient(135deg, #E6E9EE 0 1px, #FCFCFD 1px 12px);transform:{{ c.scale }};transition:transform 280ms cubic-bezier(0.22, 1, 0.36, 1)">
+                <span style="padding:4px 8px;border-radius:4px;background:#FCFCFD;font-family:ui-monospace,Menlo,monospace;font-size:12px;line-height:1.4;color:#6B7380">{{ c.placeholder }}</span>
+              </div>
+            </sc-if>
+          </div>
+          <div style="position:relative;flex:none;display:flex;align-items:center;justify-content:space-between;gap:16px">
+            <div style="min-width:0;display:flex;flex-direction:column;gap:4px">
+              <h3 style="margin:0;font-size:20px;line-height:28px;font-weight:600;letter-spacing:-0.01em;color:{{ c.fg }};text-wrap:balance">{{ c.name }}</h3>
+              <span style="font-size:14px;line-height:20px;color:{{ c.sub }}">{{ c.count }}</span>
+            </div>
+            <span aria-hidden="true" style="position:relative;width:56px;height:56px;box-sizing:border-box;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:50%;background:transparent;color:#E0001B">
+              <span style="position:absolute;inset:0;border-radius:50%;background:rgba(224,0,27,0.08);opacity:{{ c.arrowOp }};transition:opacity 200ms ease-out"></span>
+              <svg viewBox="0 0 24 24" width="24" height="24" style="position:relative;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:{{ c.arrowTf }};transition:transform 200ms ease-out"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+            </span>
+          </div>
+        </a>
+      </sc-for>
+      <div onMouseEnter="{{ all.enter }}" onMouseLeave="{{ all.leave }}" style="grid-column:{{ all.col }};position:relative;min-width:0;box-sizing:border-box;padding:24px;display:flex;flex-direction:column;justify-content:space-between;gap:24px;border-radius:16px;background:#232830">
+        <ul aria-label="Інші категорії" style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;max-width:{{ all.chipsW }}">
+          <sc-for list="{{ all.chips }}" as="ch" hint-placeholder-count="7">
+            <li style="display:flex"><a href="{{ ch.href }}" style="position:relative;z-index:1;min-height:44px;box-sizing:border-box;padding:8px 16px;display:flex;align-items:center;border:1px solid #4A5260;border-radius:8px;background:transparent;color:#FCFCFD;font-size:15px;line-height:20px;text-decoration:none;white-space:nowrap;transition:background 200ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background:#2A3039;color:#FCFCFD" style-focus="outline:2px solid #FCFCFD;outline-offset:2px">{{ ch.label }}</a></li>
+          </sc-for>
+        </ul>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+          <div style="min-width:0;display:flex;flex-direction:column;gap:4px">
+            <h3 style="margin:0;font-size:20px;line-height:28px;font-weight:600;letter-spacing:-0.01em;color:#FCFCFD"><a href="DLSCatalog.dc.html" style="color:#FCFCFD;text-decoration:none;outline:none;border-radius:4px" style-hover="color:#FCFCFD" style-focus="outline:2px solid #FCFCFD;outline-offset:2px">Усі категорії<span aria-hidden="true" style="position:absolute;inset:0;border-radius:16px"></span></a></h3>
+            <span style="font-size:14px;line-height:20px;color:#A9B0BB">1 200+ деталей у 16 категоріях</span>
+          </div>
+          <span aria-hidden="true" style="position:relative;width:56px;height:56px;box-sizing:border-box;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:50%;background:transparent;color:#E0001B;pointer-events:none">
+            <span style="position:absolute;inset:0;border-radius:50%;background:rgba(224,0,27,0.08);pointer-events:none;opacity:{{ all.arrowOp }};transition:opacity 200ms ease-out"></span>
+            <svg viewBox="0 0 24 24" width="24" height="24" style="position:relative;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform:{{ all.arrowTf }};transition:transform 200ms ease-out"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1100},&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;a&quot;,&quot;b&quot;],&quot;default&quot;:&quot;a&quot;,&quot;tsType&quot;:&quot;'a'|'b'&quot;},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;},&quot;demoHover&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const C = {
+  engine: ['Двигуни', 186, 'dvyhuny', 'uploads/cat-engine2%201.png'],
+  body: ['Кузовні деталі', 240, 'kuzov', 'uploads/part-pickup-hub2%201.png'],
+  susp: ['Підвіска та ходова', 172, 'pidviska', 'uploads/cat-suspension2%201.png'],
+  gear: ['КПП та роздатки', 94, 'kpp', 'uploads/2%201.png'],
+  optics: ['Оптика', 128, 'optyka', 'uploads/part-pickup-hub2%201.png'],
+  brakes: ['Гальмівна система', 110, 'halma', 'uploads/part-pickup-hub2%201.png'],
+  elec: ['Електрика та електроніка', 156, 'elektryka', 'uploads/cat-electric2%201.png'],
+  salon: ['Салон', 88, 'salon', 'uploads/part-pickup-hub2%201.png'],
+  wheels: ['Шини та диски', 46, 'shyny', 'uploads/cat-wheels2%201.png']
+};
+// A: лідер 2×2 + 8 карток 1×1 у сітці 4 колонки
+const A = [
+  ['engine', '1 / span 2', '1 / span 2', 'lead'],
+  ['body', 'span 1', 'span 1'], ['susp', 'span 1', 'span 1'],
+  ['elec', 'span 1', 'span 1'], ['gear', 'span 1', 'span 1'],
+  ['optics', 'span 1', 'span 1'], ['brakes', 'span 1', 'span 1'],
+  ['salon', 'span 1', 'span 1'], ['wheels', 'span 1', 'span 1']
+];
+// B: каскад 2 / 3 / 4 у сітці 12 колонок
+const B = [
+  ['engine', 'span 6', 'span 1', 'lead'], ['body', 'span 6', 'span 1', 'lead'],
+  ['susp', 'span 4', 'span 1'], ['elec', 'span 4', 'span 1'], ['gear', 'span 4', 'span 1'],
+  ['optics', 'span 3', 'span 1'], ['brakes', 'span 3', 'span 1'], ['salon', 'span 3', 'span 1'], ['wheels', 'span 3', 'span 1']
+];
+const plural = n => { const a = n % 10, b = n % 100; return a === 1 && b !== 11 ? 'деталь' : a >= 2 && a <= 4 && (b < 12 || b > 14) ? 'деталі' : 'деталей'; };
+
+class Component extends DCLogic {
+  state = { vw: null, hover: null };
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const d = device === 'desktop', m = device === 'mobile';
+    const wide = d || device === 'laptop';
+    const v = this.props.variant === 'b' ? 'b' : 'a';
+    const RH = this.props.rhythm ? (wide ? 96 : 64) : 0;
+    const RG = RH === 96 ? 32 : 24;
+    const demo = (this.props.demoHover ?? false) ? 0 : null;
+    const layout = v === 'b' ? B : A;
+    const rowsB = ['400px', '320px', '280px'];
+    const cards = layout.map(([k, col, row, lead], i) => {
+      const [name, n, slug, photo, ph] = C[k];
+      const on = this.state.hover === i || demo === i;
+      let gc = col, gr = row, minH = '0px';
+      if (!wide) { gc = i === 0 ? '1 / -1' : 'span 1'; gr = 'span 1'; minH = i === 0 ? (m ? '360px' : '440px') : (m ? '280px' : '320px'); }
+      else { gc = i === 0 ? 'span 2' : 'span 1'; gr = 'span 1'; }
+      const inset = '0px';
+      return {
+        name, count: n + ' ' + plural(n), href: 'DLSCatalog.dc.html?cat=' + slug,
+        photo: photo || '', placeholder: photo ? '' : ph,
+        col: gc, row: gr, minH, inset, insetX2: (parseInt(inset) * 2) + 'px',
+        scale: on ? 'scale(1.39)' : 'scale(1.32)',
+        arrowOp: on ? 1 : 0, arrowTf: on ? 'translateX(2px)' : 'translateX(0px)',
+        bg: '#FCFCFD', fg: '#1E232B', sub: '#6B7380', shadow: 'inset 0 0 0 1px #E6E9EE',
+        enter: () => this.setState({ hover: i }),
+        leave: () => this.setState(s => s.hover === i ? { hover: null } : null)
+      };
+    });
+    const ai = 'all', aon = this.state.hover === ai;
+    const all = {
+      col: wide ? 'span 2' : '1 / -1', chipsW: '100%',
+      chips: ["Паливна система","Система охолодження","Вихлопна система","Скло","Дзеркала","Кондиціонер","Рульове"].map((label, k) => ({ label, href: 'DLSCatalog.dc.html?cat=other-' + k })),
+      arrowOp: aon ? 1 : 0, arrowTf: aon ? 'translateX(2px)' : 'translateX(0px)',
+      enter: () => this.setState({ hover: ai }),
+      leave: () => this.setState(s => s.hover === ai ? { hover: null } : null)
+    };
+    return {
+      hid: 'cats-bento-' + v,
+      label: 'Категорії — варіант ' + v.toUpperCase(),
+      pad: d ? ('0 64px ' + (RH || 96) + 'px') : m ? ('0 16px ' + (RH || 64) + 'px') : ('0 32px ' + (RH || 64) + 'px'),
+      h2Size: d ? '40px' : m ? '24px' : '28px',
+      headGap: RH ? RG + 'px' : (m ? '32px' : '48px'),
+      cols: !wide ? 'repeat(2, minmax(0, 1fr))' : 'repeat(4, minmax(0, 1fr))',
+      rows: !wide ? 'auto' : '320px',
+      gap: m ? '12px' : '24px',
+      btnGap: m ? '24px' : '32px',
+      btnJustify: m ? 'stretch' : 'center',
+      btnW: m ? '100%' : 'auto',
+      cards, all
+    };
+  }
+}
+</script>
+</body>
+</html>

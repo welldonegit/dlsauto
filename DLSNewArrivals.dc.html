@@ -18,15 +18,36 @@
       <h2 id="arrivals-title" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-wrap:balance">{{ title }}</h2>
     </div>
     <div style="flex-shrink:0;display:flex;align-items:center;gap:8px">
-      <a href="#" style="height:48px;box-sizing:border-box;padding:0 24px;display:flex;align-items:center;border:1px solid #E0001B;border-radius:8px;font-size:16px;font-weight:600;color:#E0001B;text-decoration:none;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%">Усі надходження</a>
+      <a href="{{ allHref }}" style="height:48px;box-sizing:border-box;padding:0 24px;display:flex;align-items:center;border:1px solid #E0001B;border-radius:8px;font-size:16px;font-weight:600;color:#E0001B;text-decoration:none;white-space:nowrap;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%">Усі надходження</a>
     </div>
   </div>
+  <div style="max-width:{{ boxMax }};box-sizing:border-box;margin:{{ tabsMargin }} auto 0;padding:{{ tabsPad }}">
+    <div ref="{{ tabsRef }}" role="tablist" aria-label="Категорії новинок" style="display:flex;gap:{{ tabGap }};overflow-x:auto;scrollbar-width:none;margin:{{ tabsBleed }};padding:{{ tabsInner }};scroll-padding:0 {{ tabsScrollPad }}">
+      <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="7">
+        <button type="button" role="tab" data-tab="{{ t.key }}" aria-selected="{{ t.selected }}" onClick="{{ t.pick }}" style="flex-shrink:0;height:40px;box-sizing:border-box;padding:0 16px;display:flex;align-items:center;border:1px solid {{ t.border }};border-radius:8px;background:{{ t.bg }};color:{{ t.color }};font-family:inherit;font-size:14px;line-height:20px;font-weight:500;white-space:nowrap;cursor:pointer;transition:background 200ms cubic-bezier(0.22, 1, 0.36, 1), border-color 200ms cubic-bezier(0.22, 1, 0.36, 1), color 200ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="border-color:#1E232B" style-focus="outline:2px solid #1E232B;outline-offset:2px">
+          <span>{{ t.label }}</span>
+        </button>
+      </sc-for>
+    </div>
+    <sc-if value="{{ hasCar }}" hint-placeholder-val="{{ false }}">
+      <p style="margin:12px 0 0;font-size:14px;line-height:20px;color:#4A5260">Показуємо новинки на {{ carName }} · <button type="button" onClick="{{ showAll }}" style="padding:0;border:none;background:none;font:inherit;color:#1E232B;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:3px;cursor:pointer" style-hover="text-decoration-color:#1E232B">Показати всі</button></p>
+    </sc-if>
+  </div>
+  <div style="opacity:{{ sliderOp }};transition:opacity 200ms ease-out">
+  <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+    <div style="max-width:{{ boxMax }};box-sizing:border-box;margin:0 auto;padding:{{ emptyPad }}">
+      <p style="margin:0;font-size:16px;line-height:24px;color:#4A5260">Нових карток цієї категорії тут поки немає. <a href="{{ allHref }}" style="color:#1E232B;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:3px" style-hover="text-decoration-color:#1E232B">Відкрити в каталозі</a></p>
+    </div>
+  </sc-if>
+  <sc-if value="{{ hasCards }}" hint-placeholder-val="{{ true }}">
   <div ref="{{ scrollRef }}" onScroll="{{ onScroll }}" style="margin:{{ scrollMargin }};padding:{{ scrollPad }};scroll-padding-left:{{ scrollSide }};display:flex;align-items:stretch;gap:24px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none">
     <sc-for list="{{ cards }}" as="c" hint-placeholder-count="6">
       <div style="position:relative;z-index:{{ c.z }};flex:0 0 224px;width:224px;min-width:0;display:flex;scroll-snap-align:start" style-hover="z-index:3">
             <dc-import name="DLSProductCard" style="width:100%;height:100%" donor="{{ c.donor }}" model="{{ c.model }}" brand="{{ c.brand }}" part-name="{{ c.name }}" oem="{{ c.oem }}" price="{{ c.price }}" old-price="{{ c.oldPrice }}" popular="{{ c.popular }}" fits="{{ c.fits }}" favorite="{{ c.favorite }}" specs="{{ c.specs }}" photos="{{ c.photos }}" demo-hover="{{ c.demo }}" hint-size="224px,520px"></dc-import>
           </div>
     </sc-for>
+  </div>
+  </sc-if>
   </div>
   <div style="position:relative;z-index:2;max-width:1312px;margin:0 auto;padding:{{ arrowsPad }};display:flex;justify-content:flex-end;gap:8px">
     <sc-if value="{{ showArrows }}" hint-placeholder-val="{{ true }}">
@@ -53,20 +74,58 @@ const SPECS = [
   [['Стан', 'Б/в, оригінал'], ['Сторона', 'Права'], ['Підігрів', 'Так'], ['Складання', 'Електричне']],
   [['Стан', 'Б/в, оригінал'], ['Матеріал', 'Алюміній'], ['Двигун', '2.5 CRDi'], ['КПП', 'Механіка / автомат']]
 ];
+const CATS = ['Оптика', 'Кузовні деталі', 'Двигуни та КПП', 'Двигуни та КПП', 'Кузовні деталі', 'Двигуни та КПП'];
+const TABS = [['all', 'Усі', 24], ['body', 'Кузовні деталі', 8], ['susp', 'Підвіска та ходова', 5], ['optics', 'Оптика', 4], ['elec', 'Електрика', 3], ['salon', 'Салон', 2], ['engine', 'Двигуни та КПП', 2]];
+const CAR_KEY = 'dlsCar';
 const STEP = 224 + 24;
 const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
 const tr = (props, ms, delay = 0) => props.map(p => `${p} ${ms}ms ${EASE} ${delay}ms`).join(', ');
 
 class Component extends DCLogic {
-  state = { vw: null, hovered: null, photo: {}, atStart: true, atEnd: false };
+  state = { vw: null, hovered: null, photo: {}, atStart: true, atEnd: false, tab: 'all', fading: false, car: null, ignoreCar: false };
   scrollRef = React.createRef();
+  tabsRef = React.createRef();
 
   componentDidMount() {
     this.onResize = () => { this.setState({ vw: window.innerWidth }); this.syncEdges(); };
     window.addEventListener('resize', this.onResize);
+    this.onCar = () => { try { this.setState({ car: localStorage.getItem(CAR_KEY), ignoreCar: false }); } catch (_) {} };
+    window.addEventListener('dls-car-change', this.onCar);
+    window.addEventListener('storage', this.onCar);
+    this.onCar();
     this.syncEdges();
   }
-  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('dls-car-change', this.onCar);
+    window.removeEventListener('storage', this.onCar);
+    clearTimeout(this.fadeT);
+  }
+  componentDidUpdate(pp, ps) {
+    if (ps.tab !== this.state.tab || ps.car !== this.state.car || ps.ignoreCar !== this.state.ignoreCar) {
+      const el = this.scrollRef.current;
+      if (el) el.scrollLeft = 0;
+      this.syncEdges();
+      const bar = this.tabsRef.current, btn = bar && bar.querySelector('[data-tab="' + this.state.tab + '"]');
+      if (bar && btn) {
+        const l = btn.offsetLeft - bar.offsetLeft, r = l + btn.offsetWidth;
+        if (l < bar.scrollLeft + 16 || r > bar.scrollLeft + bar.clientWidth - 16) bar.scrollTo({ left: Math.max(0, l - 16), behavior: 'smooth' });
+      }
+    }
+  }
+  fits(i, key) {
+    if (!key) return true;
+    const donor = ITEMS[i][0];
+    const parts = key.split(' ');
+    const brand = parts[0], model = parts[1], years = parts[parts.length - 1];
+    return donor.startsWith(brand + ' ') && donor.includes(model) && donor.includes(years);
+  }
+  pickTab(key) {
+    if (key === this.state.tab || this.state.fading) return;
+    this.setState({ fading: true });
+    clearTimeout(this.fadeT);
+    this.fadeT = setTimeout(() => this.setState({ tab: key, fading: false }), 200);
+  }
 
   syncEdges() {
     const el = this.scrollRef.current;
@@ -87,11 +146,12 @@ class Component extends DCLogic {
 
   renderVals() {
     const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const RH = this.props.rhythm ? ((this.props.device ? /desktop|laptop/.test(this.props.device) : vw >= 1024) ? 96 : 64) : 0; const RG = RH === 96 ? 32 : 24;
     const device = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 768 ? 'tablet' : 'mobile');
     const m = device === 'mobile';
     const pad = device === 'desktop' ? 64 : device === 'tablet' ? 32 : 16;
-    const sectionPad = device === 'desktop' ? 100 : 75;
-    const headGap = m ? 32 : 48;
+    const sectionPad = RH || (device === 'desktop' ? 100 : 75);
+    const headGap = RH ? RG : (m ? 32 : 48);
     const side = `max(${pad}px, calc((100% - 1312px) / 2))`;
     const bottom = Math.max(168, sectionPad);
     const demo = (this.props.demoHover ?? false) ? 1 : null;
@@ -99,7 +159,8 @@ class Component extends DCLogic {
 
     const BRANDS = ['ford', 'mitsubishi', 'nissan', 'mitsubishi', 'jeep', 'kia'];
     const SHORT = ['Ranger 2006–2012', 'L200 2005–2015', 'Navara 2005–2015', 'Pajero Sport 1996–2008', 'Grand Cherokee 2004–2007', 'Sorento 2002–2014'];
-    const cards = ITEMS.map(([donor, name, oem, price, oldPrice, photos], i) => ({
+    const allCards = ITEMS.map(([donor, name, oem, price, oldPrice, photos], i) => ({
+      cat: CATS[i], idx: i,
       donor, name, oem, price, oldPrice, photos,
       model: SHORT[i], brand: BRANDS[i],
       popular: false, fits: false, favorite: false,
@@ -107,11 +168,19 @@ class Component extends DCLogic {
       demo: demo === i,
       z: oldPrice ? 2 : 1
     }));
+    const st = this.state;
+    const carKey = st.car && st.car !== 'Шини та диски' && !st.ignoreCar ? st.car : null;
+    const pool = allCards.filter(c => this.fits(c.idx, carKey));
+    const tabs = TABS.map(([key, label, n]) => ({ key, label, n: carKey ? (key === 'all' ? pool.length : pool.filter(c => c.cat === label).length) : n }))
+      .filter(t => t.n > 0);
+    const tab = tabs.some(t => t.key === st.tab) ? st.tab : 'all';
+    const tabLabel = (TABS.find(t => t[0] === tab) || [])[1];
+    const cards = tab === 'all' ? pool : pool.filter(c => c.cat === tabLabel);
 
     const s = this.state;
     return {
       title: this.props.title ?? 'Нові надходження',
-      headPad: `0 ${pad}px`,
+      headPad: this.props.topPad ? `${sectionPad}px ${pad}px 0` : `0 ${pad}px`,
       headDir: m ? 'column' : 'row',
       h2Size: device === 'desktop' ? '40px' : device === 'tablet' ? '28px' : '24px',
       subSize: m ? '16px' : '18px',
@@ -126,9 +195,28 @@ class Component extends DCLogic {
       onScroll: () => this.syncEdges(),
       scrollSide: side,
       scrollPad: `24px ${side} ${bottom}px`,
-      scrollMargin: `${headGap - 24}px 0 ${(m ? sectionPad : 24) - bottom}px`,
+      scrollMargin: `${(m ? 24 : 32) - 24}px 0 ${(m ? sectionPad : 24) - bottom}px`,
       arrowsPad: m ? '0' : `0 ${pad}px ${sectionPad}px`,
-      cards
+      cards,
+      isEmpty: cards.length === 0, hasCards: cards.length > 0,
+      sliderOp: st.fading ? 0 : 1,
+      tabsRef: this.tabsRef,
+      boxMax: `calc(1312px + ${pad * 2}px)`,
+      tabsMargin: m ? '24px' : '32px',
+      tabsPad: device === 'desktop' ? `0 ${pad}px` : '0',
+      tabsBleed: '0',
+      tabsInner: device === 'desktop' ? '0' : `0 ${pad}px`,
+      tabsScrollPad: `${pad}px`,
+      tabGap: '8px',
+      tabs: tabs.map(t => {
+        const on = t.key === tab;
+        return { key: t.key, label: t.label, count: String(t.n), selected: on ? 'true' : 'false', bg: on ? '#1E232B' : '#FCFCFD', color: on ? '#FCFCFD' : '#1E232B', border: on ? '#1E232B' : '#E6E9EE', pick: () => this.pickTab(t.key) };
+      }),
+      hasCar: !!carKey,
+      carName: carKey || '',
+      showAll: () => this.setState({ fading: true }, () => { clearTimeout(this.fadeT); this.fadeT = setTimeout(() => this.setState({ ignoreCar: true, fading: false }), 200); }),
+      allHref: 'DLSCatalog.dc.html?filter=new' + (tab !== 'all' ? '&cat=' + encodeURIComponent(tabLabel) : '') + (carKey ? '&car=' + encodeURIComponent(carKey) : ''),
+      emptyPad: `${headGap}px ${pad}px ${m ? sectionPad : 24}px`
     };
   }
 }
