@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:#1E232B}a:hover{color:#4A5260}</style>
+<script src="./image-slot.js"></script>
+</helmet>
+<section ref="{{ rootRef }}" aria-labelledby="dls-svc2-h" data-screen-label="Що ще ми робимо — відео" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <div style="display:grid;grid-template-columns:{{ headCols }};column-gap:24px;row-gap:16px;align-items:start">
+      <h2 id="dls-svc2-h" style="grid-column:{{ h2Col }};margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-wrap:balance">Що ще ми робимо</h2>
+      <p style="grid-column:{{ pCol }};margin:0;font-size:16px;line-height:1.5;color:#4A5260;text-wrap:pretty">Окрім продажу запчастин, ремонтуємо у власному сервісі — ставимо те, що самі зняли і перевірили. Викуповуємо авто після ДТП і на розбірку. Усе — в одному дворі в Запоріжжі.</p>
+    </div>
+    <div style="margin-top:32px;display:grid;grid-template-columns:{{ cols }};gap:{{ gap }}">
+      <div onMouseEnter="{{ enter }}" onMouseLeave="{{ leave }}" onFocus="{{ enter }}" onBlur="{{ leave }}" aria-roledescription="карусель" aria-label="Послуги" style="position:relative;min-width:0;height:{{ slotH }};aspect-ratio:{{ slotRatio }};border-radius:16px;overflow:hidden;background:#2A303A;isolation:isolate">
+        <sc-for list="{{ cards }}" as="c" hint-placeholder-count="2">
+          <article aria-hidden="{{ c.hidden }}" aria-roledescription="слайд" style="position:absolute;inset:0;z-index:{{ c.z }};opacity:{{ c.op }};pointer-events:{{ c.pe }};transition:{{ c.fadeTr }}">
+            <div style="position:absolute;inset:0;transform:{{ c.photoTf }};transition:{{ c.photoTr }}">
+              <image-slot id="{{ c.id }}" shape="rect" src="{{ c.src }}" placeholder="{{ c.ph }}" style="width:100%;height:100%;object-fit:cover"></image-slot>
+            </div>
+            <div aria-hidden="true" style="position:absolute;left:0;right:0;bottom:0;height:55%;pointer-events:none;background:linear-gradient(0deg, rgba(18,22,28,0.9) 0%, rgba(18,22,28,0.55) 45%, rgba(18,22,28,0) 100%)"></div>
+            <a href="{{ c.href }}" tabindex="{{ c.tab }}" style="position:absolute;left:{{ inset }};right:{{ inset }};bottom:{{ capBottom }};display:flex;align-items:center;gap:16px;color:#FCFCFD;text-decoration:none;opacity:{{ c.capOp }};transform:{{ c.capTf }};transition:{{ c.capTr }};border-radius:8px" style-hover="color:#FCFCFD" style-focus="outline:2px solid #FCFCFD;outline-offset:4px">
+              <span aria-hidden="true" style="width:{{ tile }};height:{{ tile }};flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:12px;background:#FCFCFD;color:#1E232B">
+                <sc-if value="{{ c.isSto }}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 24 24" width="28" height="28" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.1-3.1a6 6 0 0 1-7.4 7.6l-6.2 6.2a2.1 2.1 0 0 1-3-3l6.2-6.2a6 6 0 0 1 7.6-7.4z"></path><path d="m15.5 18.5 2 2 4-4"></path></svg></sc-if>
+                <sc-if value="{{ c.isCar }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="28" height="28" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M5 17H4a1 1 0 0 1-1-1v-3.5l1.8-4.6A1.5 1.5 0 0 1 6.2 7h11.6a1.5 1.5 0 0 1 1.4.9l1.8 4.6V16a1 1 0 0 1-1 1h-1"></path><path d="M3 12.5h18"></path><path d="M9.5 17h5"></path><circle cx="7.5" cy="17" r="2"></circle><circle cx="16.5" cy="17" r="2"></circle></svg></sc-if>
+              </span>
+              <span style="min-width:0;display:flex;flex-direction:column;gap:2px">
+                <h3 style="margin:0;font-size:{{ h3Size }};line-height:1.25;font-weight:600;letter-spacing:-0.01em;color:#FCFCFD;text-wrap:balance;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ c.title }}</h3>
+                <span style="font-size:{{ descSize }};line-height:1.45;color:#CDD2DA;text-wrap:pretty;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ c.text }}</span>
+              </span>
+            </a>
+          </article>
+        </sc-for>
+        <div role="group" aria-label="Перемкнути послугу" style="position:absolute;z-index:3;left:{{ inset }};bottom:{{ dotsBottom }};display:flex;gap:4px">
+          <sc-for list="{{ dots }}" as="t" hint-placeholder-count="2">
+            <button type="button" onClick="{{ t.go }}" aria-label="{{ t.aria }}" aria-current="{{ t.cur }}" style="width:48px;height:24px;padding:0;display:flex;align-items:center;border:none;background:transparent;cursor:pointer;border-radius:4px" style-focus="outline:2px solid #FCFCFD;outline-offset:2px">
+              <span style="position:relative;display:block;width:100%;height:2px;border-radius:1px;overflow:hidden;background:rgba(252,252,253,0.32)">
+                <span style="position:absolute;inset:0;background:#FCFCFD;transform-origin:left center;transform:{{ t.fill }}"></span>
+              </span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+      <div onMouseEnter="{{ vEnter }}" onMouseLeave="{{ vLeave }}" style="position:relative;min-width:0;height:{{ slotH }};aspect-ratio:{{ videoRatio }};border-radius:16px;overflow:hidden;background:#2A303A;isolation:isolate">
+        <div style="position:absolute;inset:0;transform:{{ posterTf }};transition:transform 700ms cubic-bezier(0.22, 1, 0.36, 1)">
+          <image-slot id="svc-video-poster" shape="rect" placeholder="Постер відео: загальний план цеху або двору розбірки" style="width:100%;height:100%;object-fit:cover"></image-slot>
+        </div>
+        <div aria-hidden="true" style="position:absolute;left:0;right:0;bottom:0;height:45%;pointer-events:none;background:linear-gradient(0deg, rgba(18,22,28,0.9) 0%, rgba(18,22,28,0.55) 45%, rgba(18,22,28,0) 100%)"></div>
+        <button type="button" onClick="{{ openVideo }}" aria-label="Відтворити відео «Наш цех і двір»" aria-haspopup="dialog" style="position:absolute;top:50%;left:50%;z-index:2;width:56px;height:56px;margin:-28px 0 0 -28px;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:rgba(252,252,253,0.88);color:#1E232B;cursor:pointer;transform:{{ playT }};transition:transform 320ms cubic-bezier(0.22, 1, 0.36, 1)" style-focus="outline:2px solid #FCFCFD;outline-offset:2px"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="margin-left:3px;fill:currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.52.85l12-7.5a1 1 0 0 0 0-1.7l-12-7.5A1 1 0 0 0 7 4.5Z"></path></svg></button>
+        <div style="position:absolute;left:{{ inset }};right:{{ inset }};bottom:{{ inset }};display:flex;align-items:center;gap:16px;pointer-events:none">
+          <span aria-hidden="true" style="width:{{ tile }};height:{{ tile }};flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:12px;background:#FCFCFD;color:#1E232B"><svg viewBox="0 0 24 24" width="28" height="28" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M3 20h18"></path><path d="M4 20V9l8-5 8 5v11"></path><path d="M8 20v-7h8v7"></path><path d="M8 16.5h8"></path></svg></span>
+          <span style="min-width:0;display:flex;flex-direction:column;gap:2px">
+            <h3 style="margin:0;font-size:{{ h3Size }};line-height:1.25;font-weight:600;letter-spacing:-0.01em;color:#FCFCFD;text-wrap:balance;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Наш цех і двір</h3>
+            <span style="font-size:{{ descSize }};line-height:1.45;color:#CDD2DA;text-wrap:pretty;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">Як розбираємо, перевіряємо і зберігаємо деталі</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <sc-if value="{{ modal }}" hint-placeholder-val="{{ false }}">
+    <div role="dialog" aria-modal="true" aria-label="Відео «Наш цех і двір»" onClick="{{ closeVideo }}" style="position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:{{ modalPad }};background:rgba(18,22,28,0.94);opacity:{{ modalOp }};transition:opacity 300ms cubic-bezier(0.22, 1, 0.36, 1)">
+      <button type="button" ref="{{ closeRef }}" onClick="{{ closeVideo }}" aria-label="Закрити відео" style="position:absolute;top:16px;right:16px;width:48px;height:48px;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:rgba(252,252,253,0.12);color:#FCFCFD;cursor:pointer" style-hover="background:rgba(252,252,253,0.2)" style-focus="outline:2px solid #FCFCFD;outline-offset:2px"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round"><path d="M6 6l12 12M18 6 6 18"></path></svg></button>
+      <div onClick="{{ stop }}" style="position:relative;width:100%;max-width:1200px;aspect-ratio:16 / 9;border-radius:16px;overflow:hidden;background:#12161C;transform:{{ modalTf }};transition:transform 400ms cubic-bezier(0.22, 1, 0.36, 1)">
+        <sc-if value="{{ hasVideo }}" hint-placeholder-val="{{ false }}">
+          <video src="{{ videoSrc }}" controls="{{ true }}" autoPlay="{{ true }}" playsInline="{{ true }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#12161C"></video>
+        </sc-if>
+        <sc-if value="{{ noVideo }}" hint-placeholder-val="{{ true }}">
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:16px;line-height:24px;color:#A9B0BB">Тут буде відео цеху і двору</div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1000},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;},&quot;videoSrc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+const CARDS = [
+  ['svc-sto', './assets/service-sto.jpg', 'Пікап на підйомнику в боксі', 'Ремонт у власному сервісі', 'Ставимо деталі, які самі зняли і перевірили', 'sto'],
+  ['svc-razborka', './assets/service-razborka.jpg', 'Биті авто в цеху', 'Викуповуємо авто на розбірку', 'Оцінимо за фото за годину, заберемо самі', 'car']
+];
+const DWELL = 7000;
+const EASE = 'cubic-bezier(0.22, 1, 0.36, 1)';
+
+class Component extends DCLogic {
+  state = { vw: null, hover: false, inView: false, active: 0, p: 0, reduce: false, vHover: false, modal: false, modalIn: false };
+  rootRef = React.createRef();
+  closeRef = React.createRef();
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+    this.onKey = (e) => { if (e.key === 'Escape' && this.state.modal) this.closeVideo(); };
+    window.addEventListener('keydown', this.onKey);
+    this.setState({ reduce: !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) });
+    if ('IntersectionObserver' in window && this.rootRef.current) {
+      this.io = new IntersectionObserver(([e]) => this.setState({ inView: e.isIntersecting }), { threshold: 0.3 });
+      this.io.observe(this.rootRef.current);
+    } else this.setState({ inView: true });
+    const tick = (now) => {
+      const dt = this.last ? Math.min(now - this.last, 100) : 0;
+      this.last = now;
+      const s = this.state;
+      if (!s.reduce && !s.hover && s.inView && !s.modal) {
+        const p = s.p + dt / DWELL;
+        if (p >= 1) this.setState({ active: (s.active + 1) % CARDS.length, p: 0 });
+        else this.setState({ p });
+      }
+      this.raf = requestAnimationFrame(tick);
+    };
+    this.raf = requestAnimationFrame(tick);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('keydown', this.onKey);
+    cancelAnimationFrame(this.raf); clearTimeout(this.mT);
+    this.io && this.io.disconnect();
+    document.body.style.overflow = '';
+  }
+  openVideo() {
+    this.lastFocus = document.activeElement;
+    document.body.style.overflow = 'hidden';
+    this.setState({ modal: true, modalIn: false }, () => {
+      requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ modalIn: true })));
+      this.closeRef.current && this.closeRef.current.focus();
+    });
+  }
+  closeVideo() {
+    this.setState({ modalIn: false });
+    clearTimeout(this.mT);
+    this.mT = setTimeout(() => {
+      this.setState({ modal: false });
+      document.body.style.overflow = '';
+      this.lastFocus && this.lastFocus.focus && this.lastFocus.focus();
+    }, 300);
+  }
+  renderVals() {
+    const s = this.state;
+    const vw = s.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const RH = this.props.rhythm ? ((this.props.device ? /desktop|laptop/.test(this.props.device) : vw >= 1024) ? 96 : 64) : 0;
+    const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const wide = d === 'desktop' || d === 'laptop';
+    const m = d === 'mobile';
+    const ins = m ? 16 : 24;
+    const tile = m || d === 'laptop' ? 48 : 56;
+    const videoSrc = this.props.videoSrc || '';
+    return {
+      rootRef: this.rootRef, closeRef: this.closeRef,
+      pad: ((this.props.topPad && RH) ? RH : 0) + 'px ' + (d === 'desktop' ? ('64px ' + (RH || 100) + 'px') : m ? ('16px ' + (RH || 75) + 'px') : ('32px ' + (RH || 75) + 'px')),
+      h2Size: wide ? '40px' : d === 'tablet' ? '28px' : '24px',
+      h3Size: m ? '18px' : '20px',
+      headCols: m ? 'minmax(0, 1fr)' : 'repeat(12, minmax(0, 1fr))',
+      h2Col: m ? '1 / -1' : '1 / span 6', pCol: m ? '1 / -1' : '7 / span 5',
+      cols: wide ? 'minmax(0, 1fr) minmax(0, 2fr)' : 'minmax(0, 1fr)',
+      descSize: d === 'laptop' || m ? '14px' : '16px',
+      gap: m ? '16px' : '24px',
+      slotH: wide ? '600px' : 'auto',
+      slotRatio: m ? '4 / 5' : wide ? 'auto' : '16 / 10',
+      videoRatio: m ? '4 / 3' : wide ? 'auto' : '16 / 9',
+      inset: ins + 'px', tile: tile + 'px',
+      capBottom: (ins + 32) + 'px',
+      dotsBottom: (ins - 4) + 'px',
+      posterTf: s.vHover ? 'scale(1.03)' : 'scale(1)',
+      playT: s.vHover ? 'scale(1.08)' : 'scale(1)',
+      vEnter: () => this.setState({ vHover: true }),
+      vLeave: () => this.setState({ vHover: false }),
+      openVideo: () => this.openVideo(),
+      closeVideo: () => this.closeVideo(),
+      stop: (e) => e.stopPropagation(),
+      modal: s.modal, modalOp: s.modalIn ? 1 : 0,
+      modalTf: s.modalIn || s.reduce ? 'scale(1)' : 'scale(0.96)',
+      modalPad: m ? '72px 16px' : '80px 64px',
+      videoSrc, hasVideo: !!videoSrc, noVideo: !videoSrc,
+      enter: () => this.setState({ hover: true }),
+      leave: () => this.setState({ hover: false }),
+      dots: CARDS.map((c, i) => {
+        const a = i === s.active;
+        return { aria: c[3], cur: a ? 'true' : 'false', fill: `scaleX(${a ? (s.reduce ? 1 : s.p) : 0})`, go: () => this.setState({ active: i, p: 0 }) };
+      }),
+      cards: CARDS.map(([id, src, ph, title, text, kind], i) => {
+        const a = i === s.active;
+        const hv = wide && a && s.hover;
+        return {
+          id: id + '-v', src, ph, title, text,
+          href: kind === 'sto' ? 'DLSAuto-Контакти.dc.html' : 'DLSAuto-Контакти.dc.html',
+          isSto: kind === 'sto', isCar: kind === 'car',
+          hidden: a ? 'false' : 'true', tab: a ? '0' : '-1',
+          z: a ? 2 : 1, op: a ? 1 : 0, pe: a ? 'auto' : 'none',
+          fadeTr: `opacity ${a ? 900 : 700}ms ${EASE}`,
+          photoTf: a ? (hv ? 'scale(1.03)' : 'scale(1)') : 'scale(1.06)',
+          photoTr: a ? `transform ${hv ? 700 : 1600}ms ${EASE}` : 'transform 0ms linear 900ms',
+          capOp: a ? 1 : 0, capTf: a ? 'translateY(0)' : 'translateY(12px)',
+          capTr: a ? `opacity 600ms ${EASE} 420ms, transform 700ms ${EASE} 420ms` : 'opacity 300ms ease-out, transform 0ms linear 700ms'
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

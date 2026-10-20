@@ -40,16 +40,19 @@
           </div>
         </a>
       </sc-for>
-      <div onMouseEnter="{{ all.enter }}" onMouseLeave="{{ all.leave }}" style="grid-column:{{ all.col }};position:relative;min-width:0;box-sizing:border-box;padding:24px;display:flex;flex-direction:column;justify-content:space-between;gap:24px;border-radius:16px;background:#232830">
-        <ul aria-label="Інші категорії" style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;max-width:{{ all.chipsW }}">
-          <sc-for list="{{ all.chips }}" as="ch" hint-placeholder-count="7">
+      <div onMouseEnter="{{ all.enter }}" onMouseLeave="{{ all.leave }}" style="grid-column:{{ all.col }};position:relative;min-width:0;box-sizing:border-box;padding:24px;display:flex;flex-direction:column;gap:24px;border-radius:16px;background:#232830">
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px">
+        <p id="bento-often" style="margin:0;font-size:12px;line-height:16px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#A9B0BB">Часто шукають</p>
+        <ul aria-labelledby="bento-often" style="list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:8px;max-width:{{ all.chipsW }}">
+          <sc-for list="{{ all.chips }}" as="ch" hint-placeholder-count="10">
             <li style="display:flex"><a href="{{ ch.href }}" style="position:relative;z-index:1;min-height:44px;box-sizing:border-box;padding:8px 16px;display:flex;align-items:center;border:1px solid #4A5260;border-radius:8px;background:transparent;color:#FCFCFD;font-size:15px;line-height:20px;text-decoration:none;white-space:nowrap;transition:background 200ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background:#2A3039;color:#FCFCFD" style-focus="outline:2px solid #FCFCFD;outline-offset:2px">{{ ch.label }}</a></li>
           </sc-for>
         </ul>
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:16px">
+        </div>
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px">
           <div style="min-width:0;display:flex;flex-direction:column;gap:4px">
             <h3 style="margin:0;font-size:20px;line-height:28px;font-weight:600;letter-spacing:-0.01em;color:#FCFCFD"><a href="DLSCatalog.dc.html" style="color:#FCFCFD;text-decoration:none;outline:none;border-radius:4px" style-hover="color:#FCFCFD" style-focus="outline:2px solid #FCFCFD;outline-offset:2px">Усі категорії<span aria-hidden="true" style="position:absolute;inset:0;border-radius:16px"></span></a></h3>
-            <span style="font-size:14px;line-height:20px;color:#A9B0BB">1 200+ деталей у 16 категоріях</span>
+            <span style="font-size:14px;line-height:20px;color:#A9B0BB">1 200+ деталей</span>
           </div>
           <span aria-hidden="true" style="position:relative;width:56px;height:56px;box-sizing:border-box;flex-shrink:0;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:50%;background:transparent;color:#E0001B;pointer-events:none">
             <span style="position:absolute;inset:0;border-radius:50%;background:rgba(224,0,27,0.08);pointer-events:none;opacity:{{ all.arrowOp }};transition:opacity 200ms ease-out"></span>
@@ -128,7 +131,7 @@ class Component extends DCLogic {
     const ai = 'all', aon = this.state.hover === ai;
     const all = {
       col: wide ? 'span 2' : '1 / -1', chipsW: '100%',
-      chips: ["Паливна система","Система охолодження","Вихлопна система","Скло","Дзеркала","Кондиціонер","Рульове"].map((label, k) => ({ label, href: 'DLSCatalog.dc.html?cat=other-' + k })),
+      chips: ["Фара передня","Бампер передній","Капот","Турбіна","Стартер","Генератор","Радіатор","Дзеркало","Двері передні","КПП"].map(label => ({ label, href: 'DLSCatalog.dc.html?q=' + encodeURIComponent(label) })),
       arrowOp: aon ? 1 : 0, arrowTf: aon ? 'translateX(2px)' : 'translateX(0px)',
       enter: () => this.setState({ hover: ai }),
       leave: () => this.setState(s => s.hover === ai ? { hover: null } : null)

@@ -21,7 +21,7 @@
 <section ref="{{ rootRef }}" aria-labelledby="dls-notch-h" data-screen-label="Цифри — виріз" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
   <div style="max-width:1312px;margin:0 auto;padding:{{ pad }};display:flex;flex-direction:column;gap:{{ headGap }}">
     <h2 id="dls-notch-h" style="position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0">DLSAuto в цифрах</h2>
-    <div style="display:grid;grid-template-columns:{{ cols }};gap:24px;align-items:stretch">
+    <div style="display:grid;grid-template-columns:{{ cols }};gap:{{ gridGap }};align-items:stretch">
       <sc-for list="{{ cards }}" as="c" hint-placeholder-count="4">
         <article onMouseEnter="{{ c.onEnter }}" onMouseLeave="{{ c.onLeave }}" style="min-width:0;margin-top:{{ c.shift }};opacity:{{ c.op }};transform:{{ c.tf }};transition:opacity 500ms ease-out {{ c.delay }}, transform 500ms ease-out {{ c.delay }}">
         <div style="position:relative;height:100%;box-sizing:border-box;overflow:hidden;background:{{ c.bg }};color:{{ c.fg }};border-radius:16px;padding:{{ cardPad }};display:flex;flex-direction:column;align-items:center;text-align:center;animation:{{ c.anim }};box-shadow:{{ c.shadow }};transition:box-shadow 250ms ease-out">
@@ -31,13 +31,13 @@
             <circle cx="12" cy="12" r="7.5"></circle>
             <path transform="{{ c.rot }}" d="M12 8.5V15.5M8.5 12H15.5"></path>
           </svg>
-          <p style="margin:0;font-size:14px;line-height:1.4;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:{{ c.lab }}">{{ c.label }}</p>
+          <p style="margin:0;font-size:{{ labSize }};line-height:1.4;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:{{ c.lab }}">{{ c.label }}</p>
           <p aria-label="{{ c.final }}" style="margin:12px 0 0;display:flex;align-items:baseline;justify-content:center;gap:4px;white-space:nowrap">
             <sc-if value="{{ c.pre }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="font-size:{{ supSize }};line-height:1;color:{{ c.sub }}">{{ c.pre }}</span></sc-if>
             <span aria-hidden="true" style="font-size:{{ numSize }};line-height:1;font-weight:400;letter-spacing:-0.03em;font-variant-numeric:tabular-nums">{{ c.shown }}</span>
             <sc-if value="{{ c.suf }}" hint-placeholder-val="{{ false }}"><span aria-hidden="true" style="align-self:flex-start;font-size:{{ supSize }};line-height:1;color:{{ c.sub }}">{{ c.suf }}</span></sc-if>
           </p>
-          <p style="margin:16px 0 0;max-width:280px;min-height:{{ textMin }};font-size:16px;line-height:1.5;color:{{ c.sub }};text-wrap:balance">{{ c.text }}</p>
+          <p style="margin:{{ textMt }} 0 0;max-width:280px;min-height:{{ textMin }};font-size:{{ textSize }};line-height:1.5;color:{{ c.sub }};text-wrap:balance">{{ c.text }}</p>
         </div>
         </article>
       </sc-for>
@@ -47,10 +47,10 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:860},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
 const STATS = [
-  { label: 'Досвід', v: 4, suf: '+', text: 'Роки на ринку і понад 20\u00A0000 виконаних замовлень' },
-  { label: 'Гарантія', v: 60, pre: 'до', text: 'Днів на перевірку, обмін або повернення' },
-  { label: 'Наявність', v: 1200, suf: '+', text: 'Деталей на складі зараз, кожна в одному екземплярі' },
-  { label: 'Замовлення', v: 5000, suf: '+', text: 'Відправлених деталей за рік по всій Україні' }
+  { label: 'Досвід', v: 4, suf: '+', text: 'Роки на ринку: самі купуємо, розбираємо і продаємо' },
+  { label: 'Замовлення', v: 5000, suf: '+', text: 'Відправлених деталей за рік по всій Україні' },
+  { label: 'Марки', v: 15, text: 'Марок, основа — пікапи та позашляховики' },
+  { label: 'Перевірка', v: 100, suf: '\u00A0%', text: 'Кожна деталь перевірена на стенді або на авто, дефекти обведені' }
 ];
 const fmt = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '\u00A0');
 const DURATION = 1200;
@@ -93,14 +93,18 @@ class Component extends DCLogic {
     return {
       rootRef: this.rootRef,
       pad: `${RH || (d === 'desktop' ? 100 : 75)}px ${d === 'desktop' ? 64 : d === 'mobile' ? 16 : 32}px`,
-      cols: d === 'desktop' || d === 'laptop' ? 'repeat(4, minmax(0, 1fr))' : d === 'tablet' ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)',
+      cols: d === 'desktop' || d === 'laptop' ? 'repeat(4, minmax(0, 1fr))' : 'repeat(2, minmax(0, 1fr))',
+      gridGap: d === 'mobile' ? '12px' : '24px',
+      textSize: d === 'mobile' ? '14px' : '16px',
+      labSize: d === 'mobile' ? '12px' : '14px',
+      textMt: d === 'mobile' ? '12px' : '16px',
       headGap: d === 'mobile' ? '32px' : '48px',
       h2Size: d === 'desktop' || d === 'laptop' ? '40px' : d === 'tablet' ? '28px' : '24px',
       leadSize: d === 'desktop' ? '18px' : d === 'mobile' ? '14px' : '16px',
-      cardPad: d === 'desktop' ? '96px 24px 64px' : '64px 24px 48px',
-      textMin: d === 'laptop' ? '4.5em' : '3em',
-      numSize: d === 'desktop' ? '76px' : d === 'tablet' ? '64px' : '56px',
-      supSize: d === 'desktop' ? '28px' : '24px',
+      cardPad: d === 'desktop' ? '96px 24px 64px' : d === 'mobile' ? '48px 12px 32px' : '64px 24px 48px',
+      textMin: d === 'laptop' || d === 'mobile' ? '4.5em' : '3em',
+      numSize: d === 'desktop' ? '76px' : d === 'tablet' ? '64px' : '40px',
+      supSize: d === 'desktop' ? '28px' : d === 'mobile' ? '18px' : '24px',
       cards: STATS.map((s, i) => {
         const dark = i % 2 === 0;
         const hv = this.state.hover[i];

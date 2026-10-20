@@ -168,7 +168,6 @@
                   <span style="margin-bottom:8px;align-self:flex-start;padding:4px 8px 4px 6px;display:flex;align-items:center;gap:6px;border-radius:8px;background:#FCFCFD"><img src="{{ carLogo }}" alt="" style="width:16px;height:16px;object-fit:contain;display:block;filter:grayscale(1) brightness(0.35)"><span style="font-size:12px;line-height:16px;font-weight:500;color:#1E232B">Ваше авто</span></span>
                   <span style="font-size:18px;line-height:24px;font-weight:600">{{ carCard.name }}</span>
                   <span style="margin-top:2px;font-size:14px;line-height:20px;color:#4A5260">{{ carCard.meta }}</span>
-                  <span style="margin-top:8px;font-size:14px;line-height:20px;color:#1E232B">{{ carCard.stock }}</span>
                 </span>
                 <span aria-hidden="true" style="width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#FCFCFD;color:#1E232B"><svg viewBox="0 0 24 24" width="18" height="18" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
               </a>
@@ -199,7 +198,6 @@
                 <span style="flex:1;min-width:0;display:flex;flex-direction:column">
                   <span style="font-size:18px;line-height:24px;font-weight:600">{{ m.name }}</span>
                   <span style="margin-top:2px;font-size:14px;line-height:20px;color:#4A5260">{{ m.meta }}</span>
-                  <span style="margin-top:8px;font-size:14px;line-height:20px;color:#1E232B">{{ m.stock }}</span>
                 </span>
                 <span aria-hidden="true" style="width:40px;height:40px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#FCFCFD;color:#1E232B"><svg viewBox="0 0 24 24" width="18" height="18" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg></span>
               </a>
@@ -266,9 +264,9 @@ const enc = encodeURIComponent;
 const plural = (n, a, b, c) => { const m10 = n % 10, m100 = n % 100; return m10 === 1 && m100 !== 11 ? a : m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14) ? b : c; };
 const fullName = (b, m) => `${b} ${m[0]}${m[2] ? ' ' + m[2] : ''}`;
 const card = (b, m) => ({
-  name: m[0], meta: m[2] ? `${m[1]}, ${m[2]}` : m[1],
+  name: m[0], meta: `${m[2] ? `${m[2]} — ` : ''}${m[3]} ${plural(m[3], 'деталь', 'деталі', 'деталей')}`,
   stock: `${m[3]} ${plural(m[3], 'деталь', 'деталі', 'деталей')} у наявності`,
-  line: `${m[2] ? `${m[1]}, ${m[2]}` : m[1]} — ${m[3]} ${plural(m[3], 'деталь', 'деталі', 'деталей')}`,
+  line: `${m[2] ? `${m[2]} — ` : ''}${m[3]} ${plural(m[3], 'деталь', 'деталі', 'деталей')}`,
   href: `DLSCatalog.dc.html?brand=${enc(b)}&model=${enc(m[0] + (m[2] ? ' ' + m[2] : ''))}`
 });
 const PA = 'assets/part-hub.webp', PB = 'assets/part-pickup-hub.jpg';
