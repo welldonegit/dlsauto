@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:#1E232B}a:hover{color:#4A5260}</style>
+<script src="./image-slot.js"></script>
+</helmet>
+<section aria-labelledby="dls-svcw-h" data-screen-label="Що ще ми робимо — широке фото" style="background:#F6F6F6;font-family:'Golos Text',sans-serif;color:#1E232B">
+  <div style="max-width:1312px;margin:0 auto;padding:{{ pad }}">
+    <div style="display:grid;grid-template-columns:{{ headCols }};column-gap:24px;row-gap:16px;align-items:start">
+      <h2 id="dls-svcw-h" style="grid-column:{{ h2Col }};margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B;text-wrap:balance">Що ще ми робимо</h2>
+      <p style="grid-column:{{ pCol }};margin:0;font-size:16px;line-height:1.5;color:#4A5260;text-wrap:pretty">Окрім продажу запчастин, ремонтуємо у власному сервісі — ставимо те, що самі зняли і перевірили. Викуповуємо авто після ДТП і на розбірку. Усе — в одному дворі в Запоріжжі.</p>
+    </div>
+    <div style="position:relative;margin-top:32px;aspect-ratio:{{ wideRatio }};border-radius:16px;overflow:hidden;background:#E6E9EE">
+      <image-slot id="svcw-gate" shape="rect" src="./assets/contacts-gate.jpg" placeholder="Сіра брама з логотипом DLSAuto, вид з дороги"></image-slot>
+    </div>
+    <div style="margin-top:{{ gap }};display:grid;grid-template-columns:{{ cols }};gap:{{ gap }}">
+      <sc-for list="{{ cards }}" as="c" hint-placeholder-count="2">
+        <article onMouseEnter="{{ c.enter }}" onMouseLeave="{{ c.leave }}" style="position:relative;min-width:0;height:{{ cardH }};aspect-ratio:{{ cardRatio }};border-radius:16px;overflow:hidden;background:#2A303A">
+          <div style="position:absolute;inset:0;transform:{{ c.photoTf }};transition:transform 500ms ease-out">
+            <image-slot id="{{ c.id }}" shape="rect" src="{{ c.src }}" placeholder="{{ c.ph }}"></image-slot>
+          </div>
+          <div aria-hidden="true" style="position:absolute;left:0;right:0;bottom:0;height:50%;pointer-events:none;background:linear-gradient(0deg, rgba(18,22,28,0.85) 0%, rgba(18,22,28,0) 100%)"></div>
+          <div aria-hidden="true" style="position:absolute;left:0;right:0;bottom:0;height:65%;pointer-events:none;background:linear-gradient(0deg, rgba(18,22,28,0.95) 0%, rgba(18,22,28,0.7) 45%, rgba(18,22,28,0) 100%);opacity:{{ c.gradOp }};transition:opacity 300ms ease-out"></div>
+          <div style="position:absolute;left:{{ inset }};right:{{ textRight }};bottom:{{ inset }};display:flex;flex-direction:column;pointer-events:none">
+            <h3 style="margin:0;font-size:{{ h3Size }};line-height:1.2;font-weight:600;letter-spacing:-0.01em;color:#FCFCFD;text-wrap:balance;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ c.title }}</h3>
+            <div style="display:grid;grid-template-rows:{{ c.descRows }};transition:grid-template-rows 300ms ease-out">
+              <div style="min-height:0;overflow:hidden">
+                <p style="margin:0;padding-top:12px;font-size:16px;line-height:1.5;color:rgba(252,252,253,0.85);text-wrap:pretty;opacity:{{ c.descOp }};transform:{{ c.descTf }};transition:opacity 300ms ease-out, transform 300ms ease-out">{{ c.text }}</p>
+              </div>
+            </div>
+          </div>
+          <a href="#" aria-label="{{ c.title }}" style="position:absolute;right:{{ inset }};bottom:{{ inset }};width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:{{ c.btnBg }};color:{{ c.btnFg }};transition:background 300ms ease-out, color 300ms ease-out" style-focus="outline:2px solid #FCFCFD;outline-offset:2px">
+            <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:{{ c.arrowTf }};transition:transform 300ms ease-out"><path d="M5 12H19M13 6L19 12L13 18"></path></svg>
+          </a>
+        </article>
+      </sc-for>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1300},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
+const CARDS = [
+  ['svc-sto', './assets/service-sto.jpg', 'Пікап на підйомнику в боксі', 'Ремонт у власному сервісі', 'Діагностика, ходова, двигуни та агрегати. Ставимо деталі з нашої розборки'],
+  ['svc-razborka', './assets/service-razborka.jpg', 'Биті авто в цеху', 'Викуповуємо авто на розбірку', 'Биті, після ДТП, з несправним двигуном — оцінимо за фото за годину, заберемо самі по Запоріжжю та області']
+];
+
+class Component extends DCLogic {
+  state = { vw: null, hover: -1 };
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const RH = this.props.rhythm ? ((this.props.device ? /desktop|laptop/.test(this.props.device) : vw >= 1024) ? 96 : 64) : 0;
+    const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const wide = d === 'desktop' || d === 'laptop';
+    const m = d === 'mobile';
+    return {
+      pad: ((this.props.topPad && RH) ? RH : 0) + 'px ' + (d === 'desktop' ? ('64px ' + (RH || 100) + 'px') : m ? ('16px ' + (RH || 75) + 'px') : ('32px ' + (RH || 75) + 'px')),
+      h2Size: wide ? '40px' : d === 'tablet' ? '28px' : '24px',
+      h3Size: d === 'desktop' ? '28px' : m ? '20px' : '24px',
+      headCols: m ? 'minmax(0, 1fr)' : 'repeat(12, minmax(0, 1fr))',
+      h2Col: m ? '1 / -1' : '1 / span 6', pCol: m ? '1 / -1' : '8 / span 5',
+      wideRatio: m ? '4 / 3' : wide ? '21 / 9' : '16 / 9',
+      cols: m ? 'minmax(0, 1fr)' : 'minmax(0, 4fr) minmax(0, 5fr)',
+      cardH: d === 'desktop' ? '520px' : d === 'laptop' ? '440px' : m ? 'auto' : '400px',
+      cardRatio: m ? '4 / 5' : 'auto',
+      gap: m ? '16px' : '24px',
+      inset: m ? '16px' : '24px',
+      textRight: m ? '80px' : '96px',
+      cards: CARDS.map(([id, src, ph, title, text], i) => {
+        const hv = wide && this.state.hover === i;
+        const on = !wide || hv;
+        return {
+          id: id + '-w', src, ph, title, text,
+          enter: () => this.setState({ hover: i }),
+          leave: () => this.setState(s => (s.hover === i ? { hover: -1 } : null)),
+          photoTf: hv ? 'scale(1.04)' : 'scale(1)',
+          gradOp: on ? 1 : 0,
+          descRows: on ? '1fr' : '0fr', descOp: on ? 1 : 0,
+          descTf: on ? 'translateY(0)' : 'translateY(8px)',
+          btnBg: hv ? '#E0001B' : '#FCFCFD', btnFg: hv ? '#FCFCFD' : '#1E232B',
+          arrowTf: hv ? 'rotate(-45deg)' : 'rotate(0deg)'
+        };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>
