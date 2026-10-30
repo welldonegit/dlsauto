@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Про компанію — DLSAuto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<style>body{margin:0;background:#12161C;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}input::placeholder{color:#6B7380;opacity:1}</style>
+<script src="./image-slot.js"></script>
+</helmet>
+<dc-import name="DLSHeaderHero" hero="{{ false }}" hint-size="100%,168px"></dc-import>
+<section aria-labelledby="about-h1" data-screen-label="Про компанію — перший екран" style="position:relative;overflow:hidden;max-height:70vh;display:flex;align-items:center;background:#12161C;font-family:'Golos Text',sans-serif;color:#FCFCFD">
+  <div style="position:absolute;inset:0">
+    <image-slot id="about-hero" shape="rect" src="./assets/about-hero.jpg" placeholder="Цех авторозбірки, загальний план, команда за роботою, пікап на підйомнику"></image-slot>
+  </div>
+  <div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;background:{{ overlay }}"></div>
+  <div style="position:relative;box-sizing:border-box;width:100%;max-width:1312px;margin:0 auto;padding:{{ pad }};pointer-events:none">
+    <div style="max-width:{{ contentMax }};display:flex;flex-direction:column;align-items:flex-start;pointer-events:auto">
+      <span style="display:inline-flex;align-items:center;padding:4px 12px;border-radius:8px;background:rgba(252,252,253,0.15);font-size:14px;line-height:1.4;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:#FCFCFD">Про компанію</span>
+      <h1 id="about-h1" style="margin:{{ h1Gap }} 0 0;font-size:{{ h1Size }};line-height:1.1;font-weight:600;letter-spacing:-0.02em;color:#FCFCFD;text-wrap:balance">Розбираємо пікапи та позашляховики. Чесно показуємо, що продаємо</h1>
+      <p style="margin:{{ textGap }} 0 0;max-width:640px;font-size:{{ textSize }};line-height:1.5;color:rgba(252,252,253,0.8);text-wrap:pretty">DLSAuto — авторозбірка в Дніпрі. Купуємо авто після ДТП, розбираємо самі, перевіряємо кожну деталь перед продажем і фотографуємо її так, щоб ви бачили все, включно з дефектами. Понад 5000 замовлень на рік по всій Україні.</p>
+    </div>
+  </div>
+</section>
+<dc-import name="DLSStatsNotch" hint-size="100%,860px"></dc-import>
+<dc-import name="DLSFooter" hint-size="100%,1100px"></dc-import>
+<dc-import name="DLSCart" hint-size="0px,0px"></dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;}}">
+class Component extends DCLogic {
+  state = { vw: null };
+  componentDidMount() {
+    this.onResize = () => this.setState({ vw: window.innerWidth });
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+  }
+  componentWillUnmount() { window.removeEventListener('resize', this.onResize); }
+  renderVals() {
+    const vw = this.state.vw ?? (typeof window !== 'undefined' ? window.innerWidth : 1440);
+    const d = this.props.device ?? (vw >= 1360 ? 'desktop' : vw >= 1024 ? 'laptop' : vw >= 768 ? 'tablet' : 'mobile');
+    const wide = d === 'desktop' || d === 'laptop';
+    return {
+      pad: d === 'desktop' ? '96px 64px' : d === 'laptop' ? '96px 32px' : d === 'tablet' ? '64px 32px' : '48px 16px',
+      contentMax: d === 'desktop' ? '55%' : d === 'laptop' ? '70%' : '100%',
+      overlay: wide
+        ? 'linear-gradient(90deg, rgba(18,22,28,0.8) 0%, rgba(18,22,28,0.55) 50%, rgba(18,22,28,0.3) 100%)'
+        : 'rgba(18,22,28,0.65)',
+      h1Size: wide ? '56px' : d === 'tablet' ? '40px' : '32px',
+      h1Gap: d === 'mobile' ? '16px' : '24px',
+      textGap: d === 'mobile' ? '16px' : '24px',
+      textSize: d === 'desktop' ? '18px' : d === 'mobile' ? '14px' : '16px'
+    };
+  }
+}
+</script>
+</body>
+</html>

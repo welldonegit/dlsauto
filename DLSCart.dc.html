@@ -34,6 +34,7 @@
             <div style="width:96px;height:96px;flex-shrink:0;overflow:hidden;border-radius:8px;background:#F3F5F7"><img src="{{ it.photo }}" alt="" style="width:100%;height:100%;object-fit:cover;display:block"></div>
             <div style="flex:1;min-width:0;display:flex;flex-direction:column">
               <p style="margin:0;font-size:18px;line-height:24px;font-weight:600;color:#1E232B;text-wrap:pretty">{{ it.name }}</p>
+              <p style="margin:4px 0 0;display:flex;align-items:center;gap:6px;font-size:13px;line-height:18px;color:#4A5260"><span aria-hidden="true" style="width:8px;height:8px;flex-shrink:0;border-radius:50%;background:#1F8A4C"></span>{{ it.city }}</p>
               <p style="margin:4px 0 0;font-size:14px;line-height:20px;color:#4A5260">{{ it.donor }}</p>
               <p style="margin:0;font-size:14px;line-height:20px;color:#4A5260">OEM {{ it.oem }}</p>
               <p style="margin:4px 0 0;font-size:13px;line-height:18px;color:#4A5260">1 шт, в одному екземплярі</p>
@@ -61,10 +62,6 @@
             </div>
           </div>
         </sc-if>
-        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px">
-          <span style="font-size:15px;line-height:1.4;color:#4A5260">Товарів:</span>
-          <span style="font-size:24px;line-height:1.2;font-weight:600;color:#1E232B">{{ count }}</span>
-        </div>
         <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px">
           <span style="font-size:15px;line-height:1.4;color:#4A5260">Разом:</span>
           <span style="font-size:24px;line-height:1.2;font-weight:600;color:#1E232B;white-space:nowrap">{{ totalText }}</span>
@@ -141,7 +138,7 @@ class Component extends DCLogic {
       isEmpty: list.length === 0,
       hasItems: list.length > 0,
       items: list.map(x => ({
-        ...x, priceText: fmt(x.price || 0),
+        ...x, priceText: fmt(x.price || 0), city: window.DLSWhCity ? window.DLSWhCity(x.oem || x.id, x.warehouse) : '',
         remove: () => { if (!isStatic && store) store.remove(x.id); }
       })),
       count: list.length,

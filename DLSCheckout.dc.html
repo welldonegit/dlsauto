@@ -12,6 +12,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Golos+Text:wght@400;500;600&amp;display=swap" rel="stylesheet">
 <style>body{margin:0;background:#FFFFFF;font-family:'Golos Text',sans-serif;-webkit-font-smoothing:antialiased}a{color:inherit}a:hover{color:inherit}textarea,input,select{font-family:inherit}</style>
+<script src="./dls-cart.js"></script>
 </helmet>
 <dc-import name="DLSHeaderHero" hero="{{ false }}" hint-size="100%,168px"></dc-import>
 
@@ -48,21 +49,12 @@
 
       <section aria-labelledby="co-delivery" style="display:flex;flex-direction:column;gap:24px">
         <h2 id="co-delivery" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Доставка</h2>
-        <div role="radiogroup" aria-labelledby="co-delivery" style="display:flex;flex-direction:column;gap:12px">
+        <div role="radiogroup" aria-labelledby="co-delivery" style="display:flex;flex-direction:column;gap:4px">
           <sc-for list="{{ deliveries }}" as="c" hint-placeholder-count="3">
             <div style="display:flex;flex-direction:column">
-              <button type="button" role="radio" aria-checked="{{ c.active }}" onClick="{{ c.select }}" style="width:100%;box-sizing:border-box;padding:16px;display:grid;grid-template-columns:{{ cardCols }};align-items:center;column-gap:12px;row-gap:4px;border:1px solid {{ c.border }};border-radius:8px;background:{{ c.bg }};box-shadow:{{ c.ring }};font:inherit;text-align:left;color:#1E232B;cursor:pointer;transition:border-color 150ms ease-out, background 150ms ease-out, box-shadow 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">
-                <span aria-hidden="true" style="width:20px;height:20px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border:{{ c.radioBorder }};border-radius:50%;background:#FFFFFF;transition:border 150ms ease-out"><span style="width:10px;height:10px;border-radius:50%;background:#1E232B;transform:{{ c.dotT }};transition:transform 150ms ease-out"></span></span>
-                <span aria-hidden="true" style="width:24px;height:24px;display:flex;color:#1E232B">
-                  <sc-if value="{{ c.isNp }}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"></path><path d="M12 22V12"></path><path d="m3.3 7 8.7 5 8.7-5"></path></svg></sc-if>
-                  <sc-if value="{{ c.isDel }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2"></path><path d="M15 18H9"></path><path d="M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.624l-3.48-4.35A1 1 0 0 0 17.52 8H14"></path><circle cx="17" cy="18" r="2"></circle><circle cx="7" cy="18" r="2"></circle></svg></sc-if>
-                  <sc-if value="{{ c.isPick }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5"></path><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244"></path><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05"></path></svg></sc-if>
-                </span>
-                <span style="min-width:0;display:flex;flex-direction:column">
-                  <span style="font-size:16px;line-height:24px;font-weight:600;color:#1E232B">{{ c.name }}</span>
-                  <span style="font-size:14px;line-height:20px;color:#4A5260;text-wrap:pretty">{{ c.cond }}</span>
-                </span>
-                <span style="grid-column:{{ priceCol }};justify-self:{{ priceJustify }};font-size:14px;line-height:20px;font-weight:500;color:#1E232B;text-align:right;white-space:nowrap">{{ c.price }}</span>
+              <button type="button" role="radio" aria-checked="{{ c.active }}" onClick="{{ c.select }}" style="align-self:flex-start;padding:8px 0;display:flex;align-items:center;gap:12px;border:none;background:none;font:inherit;font-size:16px;line-height:24px;font-weight:500;text-align:left;color:#1E232B;cursor:pointer">
+                <span aria-hidden="true" style="width:20px;height:20px;flex-shrink:0;box-sizing:border-box;border:{{ c.radioBorder }};border-radius:50%;background:#FFFFFF;transition:border 150ms ease-out"></span>
+                <span>{{ c.name }}</span>
               </button>
               <div style="display:grid;grid-template-rows:{{ c.rows }};visibility:{{ c.vis }};transition:grid-template-rows 200ms ease-out, visibility 200ms">
                 <div style="min-height:0;overflow:{{ c.ovf }}">
@@ -145,6 +137,19 @@
                     </div>
                   </sc-if>
                   <sc-if value="{{ c.isPick }}" hint-placeholder-val="{{ false }}">
+                    <div role="radiogroup" aria-label="Пункт видачі" style="padding-top:12px;display:flex;flex-direction:column">
+                      <sc-for list="{{ points }}" as="pt" hint-placeholder-count="2">
+                        <div style="display:flex;flex-direction:column">
+                          <button type="button" role="radio" aria-checked="{{ pt.active }}" onClick="{{ pt.select }}" style="width:100%;box-sizing:border-box;padding:8px 0;display:grid;grid-template-columns:16px minmax(0, 1fr);column-gap:10px;align-items:start;border:none;background:none;font:inherit;text-align:left;color:#1E232B;cursor:pointer">
+                            <span aria-hidden="true" style="margin-top:2px;width:16px;height:16px;box-sizing:border-box;border:{{ pt.radioBorder }};border-radius:50%;background:#FFFFFF;transition:border 150ms ease-out"></span>
+                            <span style="min-width:0;font-size:14px;line-height:20px;text-wrap:pretty"><span style="font-weight:500">{{ pt.city }}</span><span style="color:#4A5260"> · {{ pt.address }}, {{ pt.hours }}</span></span>
+                          </button>
+                          <sc-if value="{{ pt.showNote }}" hint-placeholder-val="{{ false }}">
+                            <p role="status" style="margin:0 0 4px 26px;font-size:13px;line-height:18px;color:#4A5260;text-wrap:pretty">{{ pt.note }}</p>
+                          </sc-if>
+                        </div>
+                      </sc-for>
+                    </div>
                     <p style="margin:0;padding-top:16px;font-size:14px;line-height:1.5;color:#1E232B">Відкладемо деталь на 3 дні. Підготуємо до огляду перед оплатою.</p>
                   </sc-if>
                 </div>
@@ -156,20 +161,11 @@
 
       <section aria-labelledby="co-payment" style="display:flex;flex-direction:column;gap:24px">
         <h2 id="co-payment" style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Оплата</h2>
-        <div role="radiogroup" aria-labelledby="co-payment" style="display:flex;flex-direction:column;gap:12px">
+        <div role="radiogroup" aria-labelledby="co-payment" style="display:flex;flex-direction:column;align-items:flex-start;gap:4px">
           <sc-for list="{{ payments }}" as="c" hint-placeholder-count="2">
-            <button type="button" role="radio" aria-checked="{{ c.active }}" aria-disabled="{{ c.disabled }}" onClick="{{ c.select }}" style="width:100%;box-sizing:border-box;padding:16px;display:grid;grid-template-columns:20px 24px minmax(0,1fr);align-items:center;column-gap:12px;border:1px solid {{ c.border }};border-radius:8px;background:{{ c.bg }};box-shadow:{{ c.ring }};font:inherit;text-align:left;color:#1E232B;cursor:{{ c.cursor }};opacity:{{ c.op }};transition:border-color 150ms ease-out, background 150ms ease-out, box-shadow 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px">
-              <span aria-hidden="true" style="width:20px;height:20px;box-sizing:border-box;display:flex;align-items:center;justify-content:center;border:{{ c.radioBorder }};border-radius:50%;background:#FFFFFF;transition:border 150ms ease-out"><span style="width:10px;height:10px;border-radius:50%;background:#1E232B;transform:{{ c.dotT }};transition:transform 150ms ease-out"></span></span>
-              <span aria-hidden="true" style="width:24px;height:24px;display:flex;color:#1E232B">
-                <sc-if value="{{ c.isCard }}" hint-placeholder-val="{{ true }}"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><rect width="20" height="14" x="2" y="5" rx="2"></rect><path d="M2 10h20"></path></svg></sc-if>
-                <sc-if value="{{ c.isCod }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><rect width="20" height="12" x="2" y="6" rx="2"></rect><circle cx="12" cy="12" r="2"></circle><path d="M6 12h.01M18 12h.01"></path></svg></sc-if>
-                <sc-if value="{{ c.isPart }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 24 24" width="24" height="24" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="M19 5 5 19"></path><circle cx="6.5" cy="6.5" r="2.5"></circle><circle cx="17.5" cy="17.5" r="2.5"></circle></svg></sc-if>
-              </span>
-              <span style="min-width:0;display:flex;flex-direction:column">
-                <span style="font-size:16px;line-height:24px;font-weight:600;color:#1E232B">{{ c.name }}</span>
-                <span style="font-size:14px;line-height:20px;color:#4A5260;text-wrap:pretty">{{ c.cond }}</span>
-                <sc-if value="{{ c.disabled }}" hint-placeholder-val="{{ false }}"><span style="margin-top:4px;font-size:13px;line-height:18px;color:#4A5260">Недоступно для габаритних деталей</span></sc-if>
-              </span>
+            <button type="button" role="radio" aria-checked="{{ c.active }}" aria-disabled="{{ c.disabled }}" onClick="{{ c.select }}" style="padding:8px 0;display:flex;align-items:center;gap:12px;border:none;background:none;font:inherit;font-size:16px;line-height:24px;font-weight:500;text-align:left;color:#1E232B;cursor:{{ c.cursor }};opacity:{{ c.op }}">
+              <span aria-hidden="true" style="width:20px;height:20px;flex-shrink:0;box-sizing:border-box;border:{{ c.radioBorder }};border-radius:50%;background:#FFFFFF;transition:border 150ms ease-out"></span>
+              <span>{{ c.name }}</span>
             </button>
           </sc-for>
         </div>
@@ -228,6 +224,7 @@
               <div style="flex:1;min-width:0">
                 <p style="margin:0;font-size:15px;line-height:20px;font-weight:600;color:#1E232B;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden">{{ it.name }}</p>
                 <p style="margin:2px 0 0;font-size:13px;line-height:18px;color:#4A5260">{{ it.donor }}</p>
+                <p style="margin:2px 0 0;display:flex;align-items:center;gap:6px;font-size:13px;line-height:18px;color:#4A5260"><span aria-hidden="true" style="width:8px;height:8px;flex-shrink:0;border-radius:50%;background:#1F8A4C"></span>{{ it.stockText }}</p>
                 <button type="button" onClick="{{ it.remove }}" style="margin-top:4px;padding:0;border:none;background:none;font:inherit;font-size:13px;line-height:18px;color:#4A5260;cursor:pointer" style-hover="color:#1E232B">Видалити</button>
               </div>
               <span style="flex-shrink:0;font-size:15px;line-height:20px;font-weight:600;color:#1E232B;white-space:nowrap">{{ it.priceText }}</span>
@@ -277,6 +274,9 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;layout&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;wide&quot;,&quot;mid&quot;,&quot;tab&quot;,&quot;mob&quot;],&quot;tsType&quot;:&quot;'wide'|'mid'|'tab'|'mob'|undefined&quot;},&quot;cart&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;default&quot;,&quot;bulky&quot;],&quot;default&quot;:&quot;default&quot;,&quot;tsType&quot;:&quot;'default'|'bulky'&quot;}}">
 const PHOTO = 'assets/part-hub.webp';
+const WH = window.DLS_WAREHOUSES || { dnipro: { city: 'Дніпро', loc: 'Дніпрі', address: '[адреса пункту]', hours: 'Пн–Сб 9–18' }, zp: { city: 'Запоріжжя', loc: 'Запоріжжі', address: '[адреса пункту]', hours: 'Пн–Сб 9–18' } };
+const whOf = x => window.DLSWhOf ? window.DLSWhOf(x.id, x.warehouse) : (x.warehouse || 'dnipro');
+const partsWord = n => { const a = n % 10, b = n % 100; return a === 1 && b !== 11 ? 'деталь' : a >= 2 && a <= 4 && (b < 12 || b > 14) ? 'деталі' : 'деталей'; };
 const CARTS = {
   default: [
     { id: 'UR56-51-040', name: 'Фара ліва галоген', donor: 'Ford Ranger 2006–2012', price: 4500, bulky: false },
@@ -425,7 +425,7 @@ class Component extends DCLogic {
       border: active ? '#1E232B' : '#E6E9EE',
       ring: active ? 'inset 0 0 0 1px #1E232B' : 'none',
       bg: active ? '#F6F6F6' : '#FFFFFF',
-      radioBorder: active ? '6px solid #1E232B' : '1px solid #CDD2DA',
+      radioBorder: active ? '6px solid #E0001B' : '1px solid #CDD2DA',
       dotT: 'scale(0)',
       cursor: disabled ? 'not-allowed' : 'pointer',
       op: disabled ? 0.5 : 1,
@@ -434,8 +434,22 @@ class Component extends DCLogic {
     const DEL = [
       ['np', 'Нова пошта', 'У відділення або поштомат, 1–2 дні', 'за тарифами перевізника'],
       ['delivery', 'Delivery', 'У відділення, 1–3 дні. Для габаритних деталей', 'за тарифами перевізника'],
-      ['pickup', 'Самовивіз', 'Запоріжжя, Південне шосе, Пн–Сб 9:00–18:00', 'безкоштовно']
+      ['pickup', 'Самовивіз', Object.values(WH).map(w => w.city).join(', ') + ' — оберіть пункт видачі', 'безкоштовно']
     ];
+    const whCount = {};
+    cart.forEach(x => { const w = whOf(x); whCount[w] = (whCount[w] || 0) + 1; });
+    const whKeys = Object.keys(WH);
+    const majority = whKeys.reduce((best, k) => (whCount[k] || 0) > (whCount[best] || 0) ? k : best, whKeys[0]);
+    const pickPt = s.pickPt && WH[s.pickPt] ? s.pickPt : majority;
+    const points = whKeys.map(k => {
+      const on = k === pickPt;
+      const away = Object.keys(whCount).filter(w => w !== k && whCount[w] > 0);
+      const note = away.map(w => `${whCount[w]} ${partsWord(whCount[w])} зараз у ${WH[w].loc || WH[w].city}`).join(', ') + ' — привеземо на цей пункт, замовлення буде готове через 1–2 дні';
+      return { ...WH[k], key: k, active: on, showNote: on && away.length > 0, note,
+        shadow: on ? 'inset 0 0 0 1px #1E232B' : 'none', bg: on ? '#F6F6F6' : '#FFFFFF',
+        radioBorder: on ? '5px solid #E0001B' : '1px solid #CDD2DA',
+        select: () => this.setState({ pickPt: k, done: false }) };
+    });
     const deliveries = DEL.map(([key, name, cond, price]) => {
       const a = s.delivery === key;
       const suf = key === 'delivery' ? '_del' : '_np';
@@ -458,7 +472,7 @@ class Component extends DCLogic {
       const dis = key === 'cod' && bulky;
       return {
         ...radio(pay === key, dis), key, name, cond,
-        isCard: key === 'card', isCod: key === 'cod', isPart: key === 'partial',
+        isCard: key === 'card', notCard: key !== 'card', isCod: key === 'cod', isPart: key === 'partial',
         select: () => { if (!dis) this.setState({ pay: key }); }
       };
     });
@@ -508,11 +522,12 @@ class Component extends DCLogic {
       h2Size: wide ? '40px' : (mid || tab) ? '28px' : '24px',
       pairCols: mob ? 'minmax(0, 1fr)' : 'repeat(2, minmax(0, 1fr))',
       cardCols: mob ? '20px 24px minmax(0, 1fr)' : '20px 24px minmax(0, 1fr) auto',
+      delCols: mob ? '20px 76px minmax(0, 1fr)' : '20px 76px minmax(0, 1fr) auto',
       priceCol: mob ? '3' : 'auto',
       priceJustify: mob ? 'start' : 'end',
       fName: this.field('name'), fPhone: this.phoneField(), fEmail: this.field('email'),
       fCity: this.field('city'), fBranch: this.field('branch'), fComment: this.field('comment'),
-      deliveries, payments, ...npVals,
+      deliveries, payments, points, ...npVals,
       showSugg: s.focus === 'city' && sugg.length > 0,
       sugg,
       branches: BRANCHES,
@@ -527,7 +542,7 @@ class Component extends DCLogic {
       count: cart.length,
       hasItems: cart.length > 0,
       isEmpty: cart.length === 0,
-      items: cart.map(x => ({ ...x, photo: PHOTO, priceText: fmt(x.price), remove: () => this.setState(st => ({ removed: { ...st.removed, [x.id]: true } })) })),
+      items: cart.map(x => ({ ...x, photo: PHOTO, stockText: `В наявності, ${WH[whOf(x)].city}`, priceText: fmt(x.price), remove: () => this.setState(st => ({ removed: { ...st.removed, [x.id]: true } })) })),
       totalText: fmt(total),
       shipText: post ? 'за тарифами перевізника' : 'безкоштовно',
       isPartial: pay === 'partial',

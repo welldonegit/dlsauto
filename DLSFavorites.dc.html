@@ -24,7 +24,7 @@
       <span aria-current="page" style="color:#1E232B">Обране</span>
     </nav>
     <div style="margin-top:16px;display:flex;flex-direction:{{ headDir }};justify-content:space-between;align-items:{{ headAlign }};gap:24px">
-      <h1 style="margin:0;display:flex;align-items:baseline;gap:12px;font-size:{{ h1Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Обране<sc-if value="{{ hasItems }}" hint-placeholder-val="{{ true }}"><span style="font-weight:400;color:#6B7380">({{ count }})</span></sc-if></h1>
+      <h1 style="margin:0;display:flex;align-items:baseline;gap:12px;font-size:{{ h1Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Обране</h1>
       <sc-if value="{{ hasItems }}" hint-placeholder-val="{{ true }}">
         <div style="display:flex;flex-direction:{{ actionsDir }};align-items:{{ actionsAlign }};gap:{{ actionsGap }}">
           <button type="button" onClick="{{ addAll }}" disabled="{{ allInCart }}" style="height:48px;box-sizing:border-box;padding:0 24px;display:flex;align-items:center;justify-content:center;border:1px solid {{ addAllBorder }};border-radius:8px;font-family:inherit;font-size:16px;font-weight:600;color:{{ addAllColor }};white-space:nowrap;cursor:{{ addAllCursor }};background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 150ms ease-out, border-color 150ms ease-out" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">{{ addAllText }}</button>

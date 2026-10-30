@@ -139,13 +139,13 @@
 const PHOTO = 'assets/part-hub.webp';
 const TABS = [
   { key: 'lights', name: 'Фари', items: [
-    { id: 'cmp-ur56-1', brand: 'ford', donor: 'Ford Ranger 2006–2012', model: 'Ranger 2006–2012', name: 'Фара ліва галоген', price: 4500, oem: 'UR56-51-040', side: 'Ліва', cond: 'Скло без тріщин, кріплення цілі, дрібні подряпини на корпусі позначені', km: '186 000 км', warranty: '14 днів', check: 'Візуальний огляд, перевірка на авто', photos: '6 фото', video: true, stock: 'В наявності', cat: 'Оптика' },
-    { id: 'cmp-ur56-2', brand: 'ford', donor: 'Ford Ranger 2006–2012', model: 'Ranger 2006–2012', name: 'Фара ліва галоген', price: 3900, oem: 'UR56-51-040', side: 'Ліва', cond: 'Одне зламане вушко кріплення, позначено маркером, скло без дефектів', km: '241 000 км', warranty: '14 днів', check: 'Візуальний огляд', photos: '5 фото', video: false, stock: 'В наявності', cat: 'Оптика' },
-    { id: 'cmp-ur56-3', brand: 'mazda', donor: 'Mazda BT-50 2006–2012', model: 'BT-50 2006–2012', name: 'Фара ліва галоген', price: 4200, oem: 'UR56-51-040', side: 'Ліва', cond: 'Помутніння скла легке, корпус без пошкоджень', km: '163 000 км', warranty: '14 днів', check: 'Візуальний огляд, перевірка на авто', photos: '8 фото', video: true, stock: 'В наявності', cat: 'Оптика' }
+    { id: 'cmp-ur56-1', brand: 'ford', donor: 'Ford Ranger 2006–2012', model: 'Ranger 2006–2012', name: 'Фара ліва галоген', price: 4500, oem: 'UR56-51-040', side: 'Ліва', cond: 'Скло без тріщин, кріплення цілі, дрібні подряпини на корпусі позначені', km: '186 000 км', warranty: '14 днів', check: 'Візуальний огляд, перевірка на авто', photos: '6 фото', video: true, stock: 'В наявності, ' + (window.DLSWhCity ? window.DLSWhCity('UR56-51-040') : 'Дніпро'), cat: 'Оптика' },
+    { id: 'cmp-ur56-2', brand: 'ford', donor: 'Ford Ranger 2006–2012', model: 'Ranger 2006–2012', name: 'Фара ліва галоген', price: 3900, oem: 'UR56-51-040', side: 'Ліва', cond: 'Одне зламане вушко кріплення, позначено маркером, скло без дефектів', km: '241 000 км', warranty: '14 днів', check: 'Візуальний огляд', photos: '5 фото', video: false, stock: 'В наявності, ' + (window.DLSWhCity ? window.DLSWhCity('UR56-51-040') : 'Дніпро'), cat: 'Оптика' },
+    { id: 'cmp-ur56-3', brand: 'mazda', donor: 'Mazda BT-50 2006–2012', model: 'BT-50 2006–2012', name: 'Фара ліва галоген', price: 4200, oem: 'UR56-51-040', side: 'Ліва', cond: 'Помутніння скла легке, корпус без пошкоджень', km: '163 000 км', warranty: '14 днів', check: 'Візуальний огляд, перевірка на авто', photos: '8 фото', video: true, stock: 'В наявності, ' + (window.DLSWhCity ? window.DLSWhCity('UR56-51-040') : 'Дніпро'), cat: 'Оптика' }
   ] },
   { key: 'shocks', name: 'Амортизатори', items: [
-    { id: 'cmp-mn184022', brand: 'mitsubishi', donor: 'Mitsubishi L200 2005–2015', model: 'L200 2005–2015', name: 'Амортизатор задній', price: 1400, oem: 'MN184022', side: 'Лівий', cond: 'Без підтікань, пильник цілий', km: '172 000 км', warranty: '14 днів', check: 'На стенді', photos: '6 фото', video: true, stock: 'В наявності', cat: 'Підвіска та ходова' },
-    { id: 'cmp-56210', brand: 'nissan', donor: 'Nissan Navara / Pathfinder R51 2005–2015', model: 'Navara 2005–2015', name: 'Амортизатор задній', price: 1600, oem: '56210-EB30A', side: 'Правий', cond: 'Без підтікань, сліди корозії на кронштейні позначені', km: '205 000 км', warranty: '14 днів', check: 'Візуальний огляд', photos: '4 фото', video: false, stock: 'В наявності', cat: 'Підвіска та ходова' }
+    { id: 'cmp-mn184022', brand: 'mitsubishi', donor: 'Mitsubishi L200 2005–2015', model: 'L200 2005–2015', name: 'Амортизатор задній', price: 1400, oem: 'MN184022', side: 'Лівий', cond: 'Без підтікань, пильник цілий', km: '172 000 км', warranty: '14 днів', check: 'На стенді', photos: '6 фото', video: true, stock: 'В наявності, ' + (window.DLSWhCity ? window.DLSWhCity('MN184022') : 'Дніпро'), cat: 'Підвіска та ходова' },
+    { id: 'cmp-56210', brand: 'nissan', donor: 'Nissan Navara / Pathfinder R51 2005–2015', model: 'Navara 2005–2015', name: 'Амортизатор задній', price: 1600, oem: '56210-EB30A', side: 'Правий', cond: 'Без підтікань, сліди корозії на кронштейні позначені', km: '205 000 км', warranty: '14 днів', check: 'Візуальний огляд', photos: '4 фото', video: false, stock: 'В наявності, ' + (window.DLSWhCity ? window.DLSWhCity('56210-EB30A') : 'Дніпро'), cat: 'Підвіска та ходова' }
   ] }
 ];
 const ROWS = [
@@ -163,7 +163,7 @@ function storeItems() {
       id: 'st-' + id, storeId: id, brand: x.brand || 'mitsubishi', donor: x.donor || '—', model: x.model || x.donor || '', name: x.name,
       price: parseInt(String(x.price || '0').replace(/\D/g, ''), 10) || 0, oem: x.oem || id, photo: x.photo,
       side: specOf(x.specs, 'Сторона'), cond: specOf(x.specs, 'Стан'), km: specOf(x.specs, 'Пробіг'), warranty: '14 днів',
-      check: specOf(x.specs, 'Перевірка'), photos: (x.photos || 6) + ' фото', video: false, stock: 'В наявності',
+      check: specOf(x.specs, 'Перевірка'), photos: (x.photos || 6) + ' фото', video: false, stock: 'В наявності, ' + (window.DLSWhCity ? window.DLSWhCity(x.oem || id) : 'Дніпро'),
       cat: rule ? rule[3] : 'Інше', tabKey: rule ? rule[1] : 'other', tabName: rule ? rule[2] : 'Інші деталі'
     };
   }).filter(Boolean);

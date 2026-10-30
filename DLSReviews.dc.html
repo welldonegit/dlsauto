@@ -52,7 +52,8 @@
         </article>
       </sc-for>
     </div>
-    <div style="margin-top:48px;display:flex;justify-content:center">
+    <div style="margin-top:48px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px">
+      <button type="button" onClick="{{ openForm }}" style="height:48px;padding:0 24px;box-sizing:border-box;display:flex;align-items:center;border:none;border-radius:8px;font-family:inherit;font-size:16px;font-weight:600;color:#FCFCFD;cursor:pointer;background-color:#E0001B;background-image:radial-gradient(circle, #B80016 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">Залишити відгук</button>
       <a href="#" style="height:48px;padding:0 24px;box-sizing:border-box;display:flex;align-items:center;border:1px solid #E0001B;border-radius:8px;font-size:16px;font-weight:600;color:#E0001B;text-decoration:none;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), color 280ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%">Усі відгуки</a>
     </div>
   </div>
@@ -62,9 +63,81 @@
       <button onClick="{{ closePhoto }}" aria-label="Закрити" style="opacity:{{ lbOpacity }};transform:{{ lbBtnT }};transition:{{ lbBtnTr }};position:absolute;top:16px;right:16px;width:48px;height:48px;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:8px;background:#FCFCFD;color:#1E232B;cursor:pointer;transition:background 150ms ease-out" style-hover="background:#E6E9EE"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
     </div>
   </sc-if>
+  <sc-if value="{{ formOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeForm }}" style="position:fixed;inset:0;z-index:1000;overflow-y:auto;box-sizing:border-box;padding:{{ mPad }};display:flex;align-items:flex-start;justify-content:center;background:rgba(18,22,28,0.6);opacity:{{ fOp }};transition:opacity 250ms ease-out">
+      <div role="dialog" aria-modal="true" aria-labelledby="rv-form-title" onClick="{{ stop }}" style="position:relative;margin:auto 0;width:100%;max-width:640px;box-sizing:border-box;padding:{{ mInner }};background:#FFFFFF;border-radius:16px;box-shadow:0 24px 64px rgba(18,22,28,0.24);transform:{{ fT }};transition:transform 300ms cubic-bezier(0.22, 1, 0.36, 1)">
+        <button type="button" onClick="{{ closeForm }}" aria-label="Закрити" style="position:absolute;top:16px;right:16px;width:40px;height:40px;padding:0;display:flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:#F3F5F7;color:#1E232B;cursor:pointer;transition:background 150ms ease-out" style-hover="background:#E6E9EE" style-focus="outline:2px solid #1E232B;outline-offset:2px"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg></button>
+        <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+          <h2 id="rv-form-title" style="margin:0;padding-right:48px;font-size:{{ mH }};line-height:1.15;font-weight:600;letter-spacing:-0.02em;color:#1E232B">Залишити відгук</h2>
+          <form onSubmit="{{ onSubmit }}" novalidate="{{ true }}" style="margin-top:24px;display:flex;flex-direction:column;gap:16px">
+            <div>
+              <div role="radiogroup" aria-label="Оцінка" onMouseLeave="{{ starLeave }}" style="display:flex;gap:4px">
+                <sc-for list="{{ rateStars }}" as="s" hint-placeholder-count="5">
+                  <button type="button" role="radio" aria-checked="{{ s.on }}" aria-label="{{ s.label }}" onClick="{{ s.pick }}" onMouseEnter="{{ s.hover }}" style="width:44px;height:44px;padding:0;display:flex;align-items:center;justify-content:center;border:none;background:transparent;cursor:pointer;transform:{{ s.scale }};transition:transform 150ms ease-out" style-focus="outline:2px solid #1E232B;outline-offset:2px;border-radius:8px"><svg viewBox="0 0 24 24" width="36" height="36" aria-hidden="true" style="fill:{{ s.fill }};stroke:{{ s.stroke }};stroke-width:1.25;stroke-linejoin:round;transition:fill 150ms ease-out, stroke 150ms ease-out"><path d="M11.53 2.3a.53.53 0 0 1 .94 0l2.31 4.68a2.12 2.12 0 0 0 1.6 1.16l5.16.76a.53.53 0 0 1 .3.9l-3.74 3.64a2.12 2.12 0 0 0-.61 1.88l.88 5.14a.53.53 0 0 1-.77.56l-4.62-2.43a2.12 2.12 0 0 0-1.97 0L6.4 21.02a.53.53 0 0 1-.77-.56l.88-5.14a2.12 2.12 0 0 0-.61-1.88L2.16 9.8a.53.53 0 0 1 .3-.9l5.16-.76a2.12 2.12 0 0 0 1.6-1.16z"></path></svg></button>
+                </sc-for>
+              </div>
+              <sc-if value="{{ rateErr }}" hint-placeholder-val="{{ false }}"><p style="margin:4px 0 0;font-size:13px;line-height:18px;color:#E0001B">Поставте оцінку</p></sc-if>
+            </div>
+            <div>
+              <div style="position:relative;box-sizing:border-box;border:1px solid {{ fText.border }};border-radius:8px;background:#F3F5F7;transition:border-color 150ms ease-out">
+                <label for="rv-text" style="position:absolute;left:16px;top:{{ fText.lTop }};font-size:{{ fText.lSize }};line-height:1.2;color:#6B7380;pointer-events:none;transition:top 150ms ease-out, font-size 150ms ease-out">Ваш відгук*</label>
+                <textarea id="rv-text" rows="5" value="{{ fText.value }}" aria-invalid="{{ fText.hasErr }}" onChange="{{ fText.onChange }}" onFocus="{{ fText.onFocus }}" onBlur="{{ fText.onBlur }}" style="display:block;width:100%;min-height:144px;box-sizing:border-box;padding:28px 16px 12px;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;line-height:24px;color:#1E232B;resize:vertical"></textarea>
+              </div>
+              <sc-if value="{{ fText.hasErr }}" hint-placeholder-val="{{ false }}"><p style="margin:4px 0 0;font-size:13px;line-height:18px;color:#E0001B">Напишіть кілька слів про деталь або сервіс</p></sc-if>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:12px">
+              <sc-if value="{{ canAdd }}" hint-placeholder-val="{{ true }}">
+                <label style="align-self:flex-start;min-height:44px;display:flex;align-items:center;gap:8px;font-size:15px;line-height:22px;font-weight:500;color:#1E232B;cursor:pointer" style-hover="color:#4A5260">
+                  <input type="file" multiple="{{ true }}" accept="image/jpeg,image/png,video/mp4,video/quicktime" onChange="{{ onFiles }}" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none">
+                  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" style="flex-shrink:0;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round"><path d="M12 15V3"></path><path d="m7 8 5-5 5 5"></path><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path></svg>
+                  <span>Додайте до 5 фото або відео</span>
+                </label>
+              </sc-if>
+              <sc-if value="{{ hasFiles }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-wrap:wrap;gap:8px">
+                  <sc-for list="{{ files }}" as="p" hint-placeholder-count="0">
+                    <div style="position:relative;width:72px;height:72px;border-radius:8px;overflow:hidden;background:#E6E9EE">
+                      <sc-if value="{{ p.isImg }}" hint-placeholder-val="{{ true }}"><img src="{{ p.url }}" alt="{{ p.name }}" style="width:100%;height:100%;object-fit:cover;display:block"></sc-if>
+                      <sc-if value="{{ p.isVid }}" hint-placeholder-val="{{ false }}"><div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#1E232B"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" style="fill:#FCFCFD"><path d="M8 5v14l11-7z"></path></svg></div></sc-if>
+                      <button type="button" onClick="{{ p.remove }}" aria-label="Видалити файл" style="position:absolute;top:4px;right:4px;width:24px;height:24px;padding:0;border:none;border-radius:50%;background:rgba(18,22,28,0.72);display:flex;align-items:center;justify-content:center;cursor:pointer" style-hover="background:#12161C"><svg aria-hidden="true" viewBox="0 0 12 12" width="10" height="10" fill="none" stroke="#FCFCFD" stroke-width="1.75" stroke-linecap="round"><path d="M2 2l8 8M10 2l-8 8"></path></svg></button>
+                    </div>
+                  </sc-for>
+                </div>
+              </sc-if>
+              <sc-if value="{{ fileErr }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font-size:13px;line-height:18px;color:#E0001B">{{ fileErr }}</p></sc-if>
+            </div>
+            <div style="display:grid;grid-template-columns:{{ pairCols }};gap:16px">
+            <div>
+              <div style="position:relative;height:56px;box-sizing:border-box;border:1px solid {{ fName.border }};border-radius:8px;background:#F3F5F7;transition:border-color 150ms ease-out">
+                <label for="rv-name" style="position:absolute;left:16px;top:{{ fName.lTop }};font-size:{{ fName.lSize }};line-height:1.2;color:#6B7380;pointer-events:none;transition:top 150ms ease-out, font-size 150ms ease-out">Ім'я</label>
+                <input id="rv-name" autocomplete="given-name" value="{{ fName.value }}" aria-invalid="{{ fName.hasErr }}" onChange="{{ fName.onChange }}" onFocus="{{ fName.onFocus }}" onBlur="{{ fName.onBlur }}" style="width:100%;height:100%;box-sizing:border-box;padding:22px 16px 6px;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;line-height:20px;color:#1E232B">
+              </div>
+            </div>
+            <div>
+              <div style="position:relative;height:56px;box-sizing:border-box;border:1px solid {{ fPhone.border }};border-radius:8px;background:#F3F5F7;transition:border-color 150ms ease-out">
+                <label for="rv-phone" style="position:absolute;left:16px;top:{{ fPhone.lTop }};font-size:{{ fPhone.lSize }};line-height:1.2;color:#6B7380;pointer-events:none;transition:top 150ms ease-out, font-size 150ms ease-out">Телефон*</label>
+                <input id="rv-phone" type="tel" inputmode="tel" autocomplete="tel" value="{{ fPhone.value }}" aria-invalid="{{ fPhone.hasErr }}" onChange="{{ fPhone.onChange }}" onFocus="{{ fPhone.onFocus }}" onBlur="{{ fPhone.onBlur }}" style="width:100%;height:100%;box-sizing:border-box;padding:22px 16px 6px;border:none;outline:none;background:transparent;font-family:inherit;font-size:16px;line-height:20px;color:#1E232B">
+              </div>
+              <sc-if value="{{ fPhone.hasErr }}" hint-placeholder-val="{{ false }}"><p style="margin:4px 0 0;font-size:13px;line-height:18px;color:#E0001B">Вкажіть номер повністю</p></sc-if>
+            </div>
+            </div>
+            <p style="margin:0;font-size:13px;line-height:18px;color:#4A5260;text-wrap:pretty">Телефон не публікуємо — він потрібен, щоб звірити відгук із замовленням</p>
+            <button type="submit" style="margin-top:8px;width:100%;height:56px;border:none;border-radius:8px;background-color:#E0001B;background-image:radial-gradient(circle, #B80016 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;color:#FCFCFD;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px">Надіслати відгук</button>
+          </form>
+        </sc-if>
+        <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+          <div role="status" style="min-height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;text-align:center">
+            <svg aria-hidden="true" viewBox="0 0 56 56" width="56" height="56" fill="none"><circle cx="28" cy="28" r="26" stroke="#1E9E5A" stroke-width="2"></circle><path d="M18 28.5l7 7 13-14" stroke="#1E9E5A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <p style="margin:0;max-width:360px;font-size:20px;line-height:1.4;font-weight:600;color:#1E232B;text-wrap:balance">Дякуємо! Відгук з'явиться на сайті після перевірки</p>
+            <button type="button" onClick="{{ closeForm }}" style="height:48px;padding:0 24px;border:1px solid #E0001B;border-radius:8px;background:transparent;color:#E0001B;font-family:inherit;font-size:16px;font-weight:600;cursor:pointer;transition:background 150ms ease-out" style-hover="background:rgba(224,0,27,0.08)">Закрити</button>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
 </section>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1100},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440,&quot;height&quot;:1100},&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'tablet'|'mobile'&quot;},&quot;demoForm&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}">
 const REVIEWS = [
   [5, 'Замовляв фару на Ranger, переживав через стан — на фото маркером були позначені дві подряпини, у реалі так і є, нічого зайвого. Поставив, працює. Відправили в той же день.', 'Олександр', 'Фара ліва Ford Ranger', '28.09.2026', 'Фото: деталь на столі'],
   [5, 'СТО з Дніпра, беремо запчастини для клієнтів регулярно. Привозять самі, якщо деталь не підходить — міняють без питань. Це головне.', 'Віталій, СТО «АвтоМайстер»', 'Радіатор Mitsubishi L200', '21.09.2026', null],
@@ -75,7 +148,58 @@ const REVIEWS = [
 ];
 
 class Component extends DCLogic {
-  state = { vw: null, photo: null, shown: false };
+  state = { vw: null, photo: null, shown: false, form: false, fShown: false, rate: 0, hov: 0, v: { text: '', name: '', phone: '' }, focus: null, errs: {}, files: [], fileErr: '', sent: false };
+  openForm(e) {
+    if (e) e.preventDefault();
+    clearTimeout(this.fTimer);
+    this.setState({ form: true, fShown: false, rate: 0, hov: 0, v: { text: '', name: '', phone: '' }, errs: {}, files: [], fileErr: '', sent: false }, () => requestAnimationFrame(() => requestAnimationFrame(() => this.setState({ fShown: true }))));
+    document.body.style.overflow = 'hidden';
+  }
+  closeForm() {
+    if (!this.state.form) return;
+    this.setState({ fShown: false });
+    clearTimeout(this.fTimer);
+    this.fTimer = setTimeout(() => { this.state.files.forEach(f => URL.revokeObjectURL(f.url)); this.setState({ form: false }); document.body.style.overflow = ''; }, 250);
+  }
+  fmtPhone(d) {
+    if (!d) return '';
+    let s = '+380 ' + d.slice(0, 2);
+    if (d.length > 2) s += ' ' + d.slice(2, 5);
+    if (d.length > 5) s += ' ' + d.slice(5, 7);
+    if (d.length > 7) s += ' ' + d.slice(7, 9);
+    return s;
+  }
+  field(k) {
+    const s = this.state, val = s.v[k], focused = s.focus === k, up = focused || !!val, err = !!s.errs[k];
+    return {
+      value: k === 'phone' ? (val ? this.fmtPhone(val) : (focused ? '+380 ' : '')) : val,
+      onChange: e => {
+        let x = e.target.value;
+        if (k === 'phone') { x = x.replace(/\D/g, ''); if (x.startsWith('380')) x = x.slice(3); else if (x.startsWith('0')) x = x.slice(1); x = x.slice(0, 9); }
+        this.setState(st => ({ v: { ...st.v, [k]: x }, errs: { ...st.errs, [k]: false } }));
+      },
+      onFocus: () => this.setState({ focus: k }),
+      onBlur: () => this.setState(st => (st.focus === k ? { focus: null } : null)),
+      lTop: up ? (k === 'text' ? '10px' : '8px') : '18px', lSize: up ? '12px' : '16px',
+      border: err ? '#E0001B' : (focused ? '#1E232B' : 'transparent'), hasErr: err
+    };
+  }
+  addFiles(list) {
+    const files = Array.from(list || []);
+    const room = 5 - this.state.files.length;
+    const ok = files.filter(f => (/^image\/(jpeg|png)$/.test(f.type) && f.size <= 10 * 1024 * 1024) || (/^video\//.test(f.type) && f.size <= 100 * 1024 * 1024));
+    const take = ok.slice(0, Math.max(0, room));
+    const rejected = files.length - take.length;
+    const add = take.map(f => ({ id: Math.random().toString(36).slice(2), name: f.name, url: URL.createObjectURL(f), vid: /^video\//.test(f.type) }));
+    this.setState(st => ({ files: [...st.files, ...add], fileErr: rejected ? 'Частину файлів не додано: фото JPG або PNG до 10 МБ, відео до 100 МБ, не більше 5 файлів' : '' }));
+  }
+  submit(e) {
+    e.preventDefault();
+    const s = this.state, errs = { text: !s.v.text.trim(), phone: s.v.phone.length < 9, rate: !s.rate };
+    if (errs.text || errs.phone || errs.rate) { this.setState({ errs }); return; }
+    this.setState({ sent: true });
+  }
+
   openPhoto(photo) {
     clearTimeout(this.lbTimer);
     this.setState({ photo, shown: false }, () => {
@@ -90,7 +214,8 @@ class Component extends DCLogic {
   }
   componentDidMount() {
     this.onResize = () => this.setState({ vw: window.innerWidth });
-    this.onKey = (e) => { if (e.key === 'Escape') this.closePhoto(); };
+    this.onKey = (e) => { if (e.key === 'Escape') { this.closePhoto(); this.closeForm(); } };
+    if (this.props.demoForm) this.openForm();
     window.addEventListener('resize', this.onResize);
     window.addEventListener('keydown', this.onKey);
   }
@@ -109,6 +234,19 @@ class Component extends DCLogic {
       headGap: RH ? RG + 'px' : (m ? '32px' : '48px'),
       cols: device === 'desktop' ? 'repeat(3, minmax(0, 1fr))' : device === 'tablet' ? 'repeat(2, minmax(0, 1fr))' : 'minmax(0, 1fr)',
       summaryStars: [0, 1, 2, 3, 4],
+      formOpen: this.state.form, fOp: this.state.fShown ? 1 : 0, fT: this.state.fShown ? 'translateY(0)' : 'translateY(16px)',
+      openForm: e => this.openForm(e), closeForm: () => this.closeForm(), stop: e => e.stopPropagation(),
+      mPad: m ? '16px' : '32px', mInner: m ? '24px 16px' : '40px', mH: m ? '28px' : '32px', pairCols: m ? 'minmax(0, 1fr)' : 'minmax(0, 1fr) minmax(0, 1fr)',
+      notSent: !this.state.sent, sent: this.state.sent,
+      rateStars: [1, 2, 3, 4, 5].map(n => { const lit = n <= (this.state.hov || this.state.rate); return { on: n === this.state.rate, label: `${n} з 5`, fill: lit ? '#E0001B' : 'none', stroke: lit ? '#E0001B' : '#CDD2DA', scale: this.state.hov === n ? 'scale(1.12)' : 'scale(1)', pick: () => this.setState(st => ({ rate: n, errs: { ...st.errs, rate: false } })), hover: () => this.setState({ hov: n }) }; }),
+      starLeave: () => this.setState({ hov: 0 }),
+      rateErr: !!this.state.errs.rate,
+      fText: this.field('text'), fName: this.field('name'), fPhone: this.field('phone'),
+      onSubmit: e => this.submit(e),
+      canAdd: this.state.files.length < 5, hasFiles: this.state.files.length > 0,
+      files: this.state.files.map(f => ({ ...f, isImg: !f.vid, isVid: f.vid, remove: () => this.setState(st => ({ files: st.files.filter(x => x.id !== f.id) })) })),
+      fileErr: this.state.fileErr,
+      onFiles: e => { this.addFiles(e.target.files); e.target.value = ''; },
       lightboxOpen: !!this.state.photo,
       lightboxAlt: this.state.photo || '',
       closePhoto: () => this.closePhoto(),

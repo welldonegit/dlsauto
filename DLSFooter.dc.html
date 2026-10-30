@@ -30,7 +30,7 @@
               <nav aria-label="{{ c.title }}" style="display:flex;flex-direction:column;gap:24px">
                 <p style="margin:0;font-size:16px;line-height:24px;font-weight:600;color:#1E232B">{{ c.title }}</p>
                 <div style="display:flex;flex-direction:column;gap:12px">
-                  <sc-for list="{{ c.items }}" as="it" hint-placeholder-count="6"><a href="{{ it.href }}" style="font-size:16px;line-height:24px;color:#4A5260;text-decoration:none" style-hover="color:#1E232B">{{ it.label }}</a></sc-for>
+                  <sc-for list="{{ c.items }}" as="it" hint-placeholder-count="6"><a href="{{ it.href }}" style="font-size:16px;line-height:24px;color:#4A5260;text-decoration:none" style-hover="color:#1E232B;--dls-ul:100%"><span style="background-image:linear-gradient(currentColor, currentColor);background-repeat:no-repeat;background-position:0 100%;background-size:var(--dls-ul, 0%) 1px;transition:background-size 450ms cubic-bezier(0.22, 1, 0.36, 1)">{{ it.label }}</span></a></sc-for>
                 </div>
               </nav>
             </sc-for>
@@ -89,15 +89,15 @@
       </div>
 
       <div style="margin-top:{{ stripGap }};padding:24px 0;display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 24px;border-top:1px solid #CDD2DA;border-bottom:1px solid #CDD2DA">
-        <a href="#" style="font-size:18px;line-height:1.5;color:#4A5260;text-decoration:none;text-wrap:pretty" style-hover="color:#1E232B">Ремонтуєте авто клієнтів? Зв'яжіться з нами — для СТО є окремі умови на доставку та ціни →</a>
+        <a href="#" onMouseEnter="{{ stoEnter }}" onMouseLeave="{{ stoLeave }}" style="display:flex;align-items:center;gap:16px;font-size:18px;line-height:1.5;color:#4A5260;text-decoration:none;text-wrap:pretty" style-hover="color:#1E232B"><span>Ремонтуєте авто клієнтів? Зв'яжіться з нами — для СТО є окремі умови на доставку та ціни</span><span aria-hidden="true" style="width:48px;height:48px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:{{ stoBg }};color:{{ stoFg }};transition:background 300ms ease-out, color 300ms ease-out"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="transform:{{ stoTf }};transition:transform 300ms ease-out"><path d="M5 12H19M13 6L19 12L13 18"></path></svg></span></a>
       </div>
 
       <div style="padding:24px 0 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px 24px;font-size:14px;line-height:20px;color:#4A5260">
         <span>© 2026 DLSAuto</span>
         <div style="display:flex;flex-direction:{{ legalDir }};align-items:flex-start;flex-wrap:wrap;gap:12px 24px">
-          <a href="DLSAuto-Політика-конфіденційності.dc.html" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B">Політика конфіденційності</a>
-          <a href="#" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B">Публічна оферта</a>
-          <a href="#" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B">Умови повернення</a>
+          <a href="DLSAuto-Політика-конфіденційності.dc.html" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B;--dls-ul:100%"><span style="background-image:linear-gradient(currentColor, currentColor);background-repeat:no-repeat;background-position:0 100%;background-size:var(--dls-ul, 0%) 1px;transition:background-size 450ms cubic-bezier(0.22, 1, 0.36, 1)">Політика конфіденційності</span></a>
+          <a href="#" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B;--dls-ul:100%"><span style="background-image:linear-gradient(currentColor, currentColor);background-repeat:no-repeat;background-position:0 100%;background-size:var(--dls-ul, 0%) 1px;transition:background-size 450ms cubic-bezier(0.22, 1, 0.36, 1)">Публічна оферта</span></a>
+          <a href="#" style="color:#4A5260;text-decoration:none" style-hover="color:#1E232B;--dls-ul:100%"><span style="background-image:linear-gradient(currentColor, currentColor);background-repeat:no-repeat;background-position:0 100%;background-size:var(--dls-ul, 0%) 1px;transition:background-size 450ms cubic-bezier(0.22, 1, 0.36, 1)">Умови повернення</span></a>
           <a href="https://well-done.com.ua/" target="_blank" rel="noopener" aria-label="Створено з душею — welldone" style="display:flex;align-items:center;gap:8px;color:#4A5260;text-decoration:none;transition:opacity 150ms ease-out" style-hover="opacity:0.7">Створено з душею<img src="assets/welldone-logo.svg" alt="welldone" style="height:16px;width:auto;display:block"></a>
         </div>
       </div>
@@ -125,7 +125,7 @@ function formatPhone(raw) {
 }
 
 class Component extends DCLogic {
-  state = { vw: null, open: {}, phone: '', agree: false, err: '', sent: false };
+  state = { vw: null, stoHv: false, open: {}, phone: '', agree: false, err: '', sent: false };
 
   componentDidMount() {
     this.onResize = () => this.setState({ vw: window.innerWidth });
@@ -140,6 +140,8 @@ class Component extends DCLogic {
     const d = device === 'desktop', m = device === 'mobile';
     const digits = s.phone.replace(/\D/g, '').length;
     return {
+      stoBg: s.stoHv ? '#E0001B' : '#FCFCFD', stoFg: s.stoHv ? '#FCFCFD' : '#1E232B', stoTf: s.stoHv ? 'rotate(-45deg)' : 'rotate(0deg)',
+      stoEnter: () => this.setState({ stoHv: true }), stoLeave: () => this.setState({ stoHv: false }),
       notMobile: !m, isMobile: m, legalDir: m ? 'column' : 'row',
       topPad: d ? '96px 64px 64px' : device === 'tablet' ? '64px 32px 48px' : '48px 16px 32px',
       lowPad: d ? '64px 64px 32px' : device === 'tablet' ? '48px 32px 32px' : '32px 16px 24px',

@@ -33,6 +33,22 @@
 
       <div style="position:{{ galPos }};top:24px;min-width:0">
         <div style="display:grid;grid-template-columns:{{ galCols }};gap:12px">
+          <sc-if value="{{ holiday }}" hint-placeholder-val="{{ true }}"><div aria-hidden="true" style="grid-column:{{ photoCol }};grid-row:1;align-self:start;position:relative;height:0;z-index:6;pointer-events:none"><svg viewBox="0 0 72 64" width="112" height="100" aria-hidden="true" style="position:absolute;top:-40px;left:-28px;z-index:6;pointer-events:none;overflow:visible;transform:rotate(-12deg);filter:drop-shadow(0 6px 8px rgba(0,0,0,0.3)) drop-shadow(0 1px 1px rgba(0,0,0,0.2))">
+<defs>
+<radialGradient id="ppkL" cx="0.35" cy="0.3" r="0.8"><stop offset="0" stop-color="#FFB25C"></stop><stop offset="0.45" stop-color="#F07A16"></stop><stop offset="1" stop-color="#9C3A05"></stop></radialGradient>
+<radialGradient id="ppkM" cx="0.4" cy="0.28" r="0.8"><stop offset="0" stop-color="#FFC27A"></stop><stop offset="0.5" stop-color="#F7871E"></stop><stop offset="1" stop-color="#A84206"></stop></radialGradient>
+<radialGradient id="ppkG" cx="0.5" cy="0.6" r="0.6"><stop offset="0" stop-color="#FFF6B0"></stop><stop offset="0.45" stop-color="#FFC234"></stop><stop offset="1" stop-color="#E05A00"></stop></radialGradient>
+<linearGradient id="ppkS" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#3B2A12"></stop><stop offset="0.5" stop-color="#7A6232"></stop><stop offset="1" stop-color="#2E200C"></stop></linearGradient>
+</defs>
+<ellipse cx="14" cy="40" rx="13" ry="20" fill="url(#ppkL)"></ellipse><ellipse cx="58" cy="40" rx="13" ry="20" fill="url(#ppkL)"></ellipse><ellipse cx="24" cy="40" rx="14" ry="20" fill="url(#ppkM)"></ellipse><ellipse cx="48" cy="40" rx="14" ry="20" fill="url(#ppkM)"></ellipse><ellipse cx="36" cy="40" rx="15" ry="20" fill="url(#ppkM)"></ellipse>
+<path d="M24 22c-3 10-3 26 0 36M48 22c3 10 3 26 0 36M36 20v40M14 26c-4 8-4 22 0 28M58 26c4 8 4 22 0 28" stroke="#8A3304" stroke-width="1.2" fill="none" opacity="0.55"></path>
+<path d="M30 24c2-1 6-1 8 0" stroke="#FFD9A8" stroke-width="2" stroke-linecap="round" opacity="0.6" fill="none"></path>
+<path d="M33 22c-1-6 0-12 4-16 2-1 4 0 4 2-3 3-4 8-3 14z" fill="url(#ppkS)"></path>
+<path d="M38 10c4-3 9-3 12 0-4 0-8 1-11 3z" fill="#4E7A2A"></path>
+<path d="M20 36l8-5 2 8zM52 36l-8-5-2 8z" fill="url(#ppkG)" stroke="#5A1F00" stroke-width="0.8"></path>
+<path d="M33 41h6l-3 5z" fill="url(#ppkG)" stroke="#5A1F00" stroke-width="0.8"></path>
+<path d="M18 46c5 6 31 6 36 0-1 7-8 11-18 11s-17-4-18-11z m7 3l2 4 3-3z m9 1l2 4 3-4z m9-1l2 3 2-4z" fill="url(#ppkG)" fill-rule="evenodd" stroke="#5A1F00" stroke-width="0.8"></path>
+</svg></div></sc-if>
           <div onMouseEnter="{{ photoEnter }}" onMouseLeave="{{ photoLeave }}" style="grid-column:{{ photoCol }};grid-row:1;position:relative;aspect-ratio:4 / 3;overflow:hidden;border-radius:16px;background:#F3F5F7">
             <sc-if value="{{ slideIsPhoto }}" hint-placeholder-val="{{ true }}">
               <img src="{{ slideSrc }}" alt="{{ slideAlt }}" onClick="{{ openLb }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;cursor:zoom-in">
@@ -111,7 +127,7 @@
             </span>
           </div>
           <div style="display:flex;flex-wrap:wrap;gap:8px">
-            <span style="padding:6px 10px;display:flex;align-items:center;gap:6px;border-radius:8px;background:#F3F5F7;font-size:13px;line-height:18px;color:#1E232B"><span aria-hidden="true" style="width:8px;height:8px;flex-shrink:0;border-radius:50%;background:#1F8A4C;animation:dlsPdPulse 1.8s ease-in-out infinite"></span>В наявності, 1 шт</span>
+            <span style="padding:6px 10px;display:flex;align-items:center;gap:6px;border-radius:8px;background:#F3F5F7;font-size:13px;line-height:18px;color:#1E232B"><span aria-hidden="true" style="width:8px;height:8px;flex-shrink:0;border-radius:50%;background:#1F8A4C;animation:dlsPdPulse 1.8s ease-in-out infinite"></span>В наявності, {{ stockCity }}</span>
           </div>
         </div>
 
@@ -131,7 +147,6 @@
                 <span>{{ cartText }}</span>
               </button>
               <button type="button" onClick="{{ toggleFav }}" aria-label="{{ favLabel }}" aria-pressed="{{ fav }}" style="width:56px;height:56px;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:8px;color:#E0001B;cursor:pointer;background-color:transparent;background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1)" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="fill:{{ favFill }};stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;transition:fill 200ms ease-out"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path></svg></button>
-              <button type="button" onClick="{{ toggleCmp }}" aria-label="{{ cmpLabel }}" aria-pressed="{{ cmp }}" style="width:56px;height:56px;flex-shrink:0;padding:0;display:flex;align-items:center;justify-content:center;border:1px solid #E0001B;border-radius:8px;color:#E0001B;cursor:pointer;background-color:{{ cmpBg }};background-image:radial-gradient(circle, rgba(224,0,27,0.08) 0 49%, rgba(0,0,0,0) 50%);background-position:center;background-repeat:no-repeat;background-size:0% 0%;transition:background-size 480ms cubic-bezier(0.22, 1, 0.36, 1), background-color 150ms ease-out" style-hover="background-size:300% 300%" style-focus="outline:2px solid #1E232B;outline-offset:2px"><svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" style="fill:none;stroke:currentColor;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"></path><path d="M7 21h10"></path><path d="M12 3v18"></path><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"></path></svg></button>
             </div>
           <sc-if value="{{ inCart }}" hint-placeholder-val="{{ false }}">
             <a href="#" onClick="{{ openCart }}" style="margin-top:-4px;align-self:flex-start;font-size:14px;line-height:20px;font-weight:600;color:#1E232B;text-decoration:underline;text-decoration-color:#A9B0BB;text-underline-offset:4px;transition:text-decoration-color 150ms ease-out" style-hover="text-decoration-color:#1E232B" style-focus="outline:2px solid #1E232B;outline-offset:2px">Відкрити кошик</a>
@@ -287,8 +302,10 @@
 <dc-import name="DLSCart" hint-size="0px,0px"></dc-import>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;device&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;desktop&quot;,&quot;laptop&quot;,&quot;tablet&quot;,&quot;mobile&quot;],&quot;tsType&quot;:&quot;'desktop'|'laptop'|'tablet'|'mobile'&quot;},&quot;car&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;ranger&quot;,&quot;l200&quot;,&quot;none&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'ranger'|'l200'|'none'&quot;},&quot;promo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;critical&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;history&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;demo&quot;,&quot;cookie&quot;,&quot;empty&quot;],&quot;default&quot;:&quot;demo&quot;,&quot;tsType&quot;:&quot;'demo'|'cookie'|'empty'&quot;}}">
+const WH = window.DLS_WAREHOUSES || { dnipro: { city: 'Дніпро', address: '[адреса пункту]', hours: 'Пн–Сб 9–18' }, zp: { city: 'Запоріжжя', address: '[адреса пункту]', hours: 'Пн–Сб 9–18' } };
 const ID = 'UR56-51-040';
 const ITEM = { id: ID, name: 'Фара ліва галоген', oem: ID, donor: 'Ford Ranger 2006–2012', model: 'Ford Ranger 2006–2012', brand: 'ford', price: '4 500 ₴', photo: 'assets/part-hub.webp' };
+ITEM.warehouse = window.DLSWhOf ? window.DLSWhOf(ITEM.id) : 'zp';
 const A = 'assets/part-hub.webp', B = 'assets/part-pickup-hub.jpg';
 const SLIDES = [A, B, A, B, A, B, A, 'video'];
 const VIDEO_AT = SLIDES.length - 1;
@@ -302,7 +319,7 @@ const CARS = {
   Volkswagen: ['Crafter', 'T5 2003–2009', 'Touareg 2002–2010'], Volvo: ['XC90 2002–2015']
 };
 const SPECS = [['Сторона', 'Ліва'], ['Тип', 'Галоген, з електрокоректором'], ['Авто-донор', 'Ford Ranger 2.5 TDCi, 2009'], ['Пробіг донора', '186 000 км'], ['Дата перевірки', '28.09.2026'], ['Сумісність', 'Ford Ranger 2006–2012, Mazda BT-50 2006–2012']];
-const DEL = [['np', 'Нова пошта', 'Нова пошта', 'У відділення або поштомат, 1–2 дні', 'за тарифом перевізника'], ['delivery', 'Delivery', 'Delivery', 'У відділення, 1–3 дні', 'за тарифом перевізника'], ['pickup', 'Самовивіз', 'Самовивіз, Запоріжжя', 'Самовивіз: Запоріжжя, Південне шосе, Пн–Сб 9:00–18:00', 'безкоштовно']];
+const DEL = [['np', 'Нова пошта', 'Нова пошта', 'У відділення або поштомат, 1–2 дні', 'за тарифом перевізника'], ['delivery', 'Delivery', 'Delivery', 'У відділення, 1–3 дні', 'за тарифом перевізника'], ['pickup', 'Самовивіз', `Самовивіз, ${WH[ITEM.warehouse].city}`, `Самовивіз — ${WH[ITEM.warehouse].city}, ${WH[ITEM.warehouse].address}, ${WH[ITEM.warehouse].hours}`, 'безкоштовно']];
 const WITH = [
   { id: 'UR56-51-030', name: 'Фара права галоген', price: 4500, photo: A },
   { id: 'UR56-50-710', name: 'Решітка радіатора', price: 2200, photo: B },
@@ -387,6 +404,7 @@ class Component extends DCLogic {
     const fits = !!car && COMPAT.includes(car);
 
     return {
+      holiday: this.props.holiday ?? true,
       recentHistory: this.props.history ?? 'demo',
       recDevice: this.props.device,
       recentDevice: this.props.device ? { desktop: 'desktop', laptop: 'tablet', tablet: 'tablet', mobile: 'mobile' }[device] : undefined,
@@ -465,6 +483,7 @@ class Component extends DCLogic {
       cmp, cmpBg: cmp ? 'rgba(224,0,27,0.08)' : 'transparent', cmpLabel: cmp ? 'Прибрати з порівняння' : 'Додати до порівняння',
       toggleCmp: () => P && P.set(ITEM, !cmp),
 
+      stockCity: WH[ITEM.warehouse].city,
       deliveries: DEL.map(([key, name, short, cond, price], i) => ({ name, short, cond, price, isNp: key === 'np', isDel: key === 'delivery', isPick: key === 'pickup', hasLogo: key !== 'pickup', noLogo: key === 'pickup', logo: key === 'np' ? 'assets/logos/novaposhta-color.svg' : 'assets/logos/delivery-color.svg', logoH: key === 'np' ? '15px' : '24px', free: key === 'pickup', paid: key !== 'pickup', border: i === DEL.length - 1 ? 'none' : '1px solid #E6E9EE' })),
 
       withDisplay: m ? 'flex' : 'grid', withOv: m ? 'auto' : 'visible', withW: m ? '160px' : 'auto',

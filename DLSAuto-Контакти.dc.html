@@ -26,8 +26,7 @@
         <h1 style="margin:0;font-size:{{ h1Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em">Контакти</h1>
         <p style="margin:16px 0 0;display:flex;align-items:center;flex-wrap:wrap;gap:8px;font-size:16px;line-height:24px">
           <span aria-hidden="true" style="width:8px;height:8px;border-radius:50%;background:{{ dot }};flex-shrink:0"></span>
-          <span style="font-weight:600;color:#1E232B">{{ statusText }}</span>
-          <span style="color:#4A5260">{{ statusSub }}</span>
+          <span style="font-weight:500;color:#1E232B">{{ statusText }}</span>
         </p>
         <div style="margin-top:32px;display:flex;flex-direction:column;gap:12px">
           <sc-for list="{{ channels }}" as="c" hint-placeholder-count="3">
@@ -58,10 +57,10 @@
       <div style="min-width:0;display:flex;flex-direction:column">
         <h2 style="margin:0;font-size:{{ h2Size }};line-height:1.15;font-weight:600;letter-spacing:-0.02em">Як нас знайти</h2>
         <p style="margin:24px 0 0;font-size:{{ pSize }};line-height:1.5;color:#1E232B;text-wrap:pretty">Заїзд з вулиці [X], сіра брама з логотипом. Паркування біля воріт. Якщо заблукали — зателефонуйте, зустрінемо.</p>
-        <ul style="margin:32px 0 0;padding-left:24px;display:flex;flex-direction:column;gap:12px;font-size:16px;line-height:24px">
-          <li style="padding-left:4px">Самовивіз — покажемо деталь і авто-донора до оплати</li>
-          <li style="padding-left:4px">Відкладемо деталь на 3 дні після замовлення</li>
-          <li style="padding-left:4px">Для СТО — доставка в бокс по Запоріжжю</li>
+        <ul style="margin:32px 0 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:12px;font-size:16px;line-height:24px">
+          <li style="display:flex;align-items:baseline;gap:14px"><span aria-hidden="true" style="width:6px;height:6px;flex-shrink:0;border-radius:50%;background:#E0001B;transform:translate(9px, -3px);margin-right:9px"></span>Самовивіз — покажемо деталь і авто-донора до оплати</li>
+          <li style="display:flex;align-items:baseline;gap:14px"><span aria-hidden="true" style="width:6px;height:6px;flex-shrink:0;border-radius:50%;background:#E0001B;transform:translate(9px, -3px);margin-right:9px"></span>Відкладемо деталь на 3 дні після замовлення</li>
+          <li style="display:flex;align-items:baseline;gap:14px"><span aria-hidden="true" style="width:6px;height:6px;flex-shrink:0;border-radius:50%;background:#E0001B;transform:translate(9px, -3px);margin-right:9px"></span>Для СТО — доставка в бокс по Запоріжжю</li>
         </ul>
       </div>
     </div>
@@ -300,7 +299,7 @@ class Component extends DCLogic {
       plateRight: m ? '16px' : 'auto',
       routeFlex: m ? '1 1 100%' : '0 0 auto',
       dot: st.open ? '#1E9E5A' : '#A9B0BB',
-      statusText: st.open ? 'Зараз відкрито' : 'Зачинено',
+      statusText: st.open ? 'Зараз відкрито, працюємо до 18:00' : `Зачинено, ${st.sub}`,
       statusSub: st.sub,
       routeHref: `https://www.google.com/maps/dir/?api=1&destination=${POS[0]},${POS[1]}`,
       mapRef: this.mapRef,
