@@ -1,0 +1,33 @@
+# VCS / CI
+.git
+.github
+.gitignore
+
+# dependencies & build output (rebuilt inside the image)
+node_modules
+.next
+out
+build
+dist
+coverage
+.pnpm-store
+
+# env & secrets
+.env
+.env*.local
+
+# specification / reference & runtime media — must never enter the image
+docs
+uploads
+data
+
+# local tooling
+.husky
+.vscode
+.idea
+.devcontainer
+*.md
+!README.md
+Dockerfile
+.dockerignore
+docker-compose.yml

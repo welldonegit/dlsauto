@@ -1,0 +1,14 @@
+# Generated / vendored
+.next/
+out/
+build/
+dist/
+node_modules/
+pnpm-lock.yaml
+src/payload-types.ts
+src/app/(payload)/
+src/migrations/
+
+# Specification / reference — not formatted
+docs/
+uploads/

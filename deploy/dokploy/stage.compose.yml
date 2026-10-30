@@ -1,0 +1,113 @@
+# DLSAuto — STAGE compose для Dokploy.
+#
+# ВАЖНО: значения env задаются в Dokploy (UI приложения), НЕ в этом файле и
+# НЕ в коммит. Образы web/worker собираются в GitHub Actions и пушатся в GHCR;
+# сервер только тянет и запускает. Dokploy подставляет WEB_IMAGE и WORKER_IMAGE.
+#
+# Хост: stage.${DOMAIN}. Cloudflare проксирует трафик в режиме Full (strict):
+# Traefik терминирует TLS через letsencrypt, Cloudflare держит свой edge-серт.
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    volumes:
+      - dlsauto-stage-pgdata:/var/lib/postgresql/data
+      # Init-скрипты из /docker-entrypoint-initdb.d выполняются только при
+      # первой инициализации пустого тома. Здесь создаются расширения
+      # pg_trgm и unaccent (нужны для поиска Payload). Файл init/extensions.sql
+      # лежит рядом в репозитории и монтируется read-only.
+      - ./init/extensions.sql:/docker-entrypoint-initdb.d/10-extensions.sql:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    networks:
+      - internal
+
+  web:
+    image: ${WEB_IMAGE}
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DOMAIN: ${DOMAIN}
+      # DATABASE_URL указывает на сервис postgres внутри compose-сети.
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      PAYLOAD_SECRET: ${PAYLOAD_SECRET}
+      PAYLOAD_ADMIN_EMAIL: ${PAYLOAD_ADMIN_EMAIL}
+      PAYLOAD_ADMIN_PASSWORD: ${PAYLOAD_ADMIN_PASSWORD}
+      NEXT_PUBLIC_BUILD_SHA: ${NEXT_PUBLIC_BUILD_SHA}
+    expose:
+      - '3000'
+    healthcheck:
+      # Внутренний healthcheck контейнера через node fetch на /api/health.
+      test:
+        [
+          'CMD-SHELL',
+          'node -e "fetch(''http://127.0.0.1:3000/api/health'').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"',
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    labels:
+      - 'traefik.enable=true'
+      - 'traefik.http.routers.dlsauto-stage.rule=Host(`stage.${DOMAIN}`)'
+      - 'traefik.http.routers.dlsauto-stage.entrypoints=websecure'
+      - 'traefik.http.routers.dlsauto-stage.tls=true'
+      - 'traefik.http.routers.dlsauto-stage.tls.certresolver=letsencrypt'
+      - 'traefik.http.services.dlsauto-stage.loadbalancer.server.port=3000'
+    networks:
+      - internal
+      - dokploy-network
+
+  worker:
+    image: ${WORKER_IMAGE}
+    restart: unless-stopped
+    # Apply Payload migrations on boot (production has push off), then run the
+    # worker. Idempotent: payload tracks applied migrations.
+    command: ['sh', '-c', 'pnpm payload migrate && pnpm worker']
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DOMAIN: ${DOMAIN}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      PAYLOAD_SECRET: ${PAYLOAD_SECRET}
+      WORKER_PORT: ${WORKER_PORT}
+      NEXT_PUBLIC_BUILD_SHA: ${NEXT_PUBLIC_BUILD_SHA}
+    # Без публичного маршрута — только внутренняя сеть.
+    expose:
+      - '3001'
+    healthcheck:
+      test:
+        [
+          'CMD-SHELL',
+          'node -e "fetch(''http://127.0.0.1:3001/health'').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"',
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - internal
+
+volumes:
+  dlsauto-stage-pgdata:
+    name: dlsauto-stage-pgdata
+
+networks:
+  internal:
+  # Сеть Traefik/Dokploy — создаётся Dokploy, подключаемся как external.
+  dokploy-network:
+    external: true

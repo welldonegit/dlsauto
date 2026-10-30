@@ -1,0 +1,47 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [stage, main]
+  push:
+    branches: [stage, main]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    env:
+      NODE_OPTIONS: --no-deprecation
+      NEXT_TELEMETRY_DISABLED: '1'
+      # Build/typecheck need these present but never connect to a real DB.
+      PAYLOAD_SECRET: ci-secret
+      DATABASE_URL: postgres://ci:ci@localhost:5432/ci
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.11.0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.16.0
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Generate Payload types
+        run: pnpm generate:types
+
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+
+      - name: Build
+        run: pnpm build
+        env:
+          BUILD_SHA: ${{ github.sha }}
+          NEXT_PUBLIC_BUILD_SHA: ${{ github.sha }}

@@ -1,5 +1,8 @@
-*.png filter=lfs diff=lfs merge=lfs -text
-*.jpg filter=lfs diff=lfs merge=lfs -text
-*.jpeg filter=lfs diff=lfs merge=lfs -text
-*.webp filter=lfs diff=lfs merge=lfs -text
-*.mp4 filter=lfs diff=lfs merge=lfs -text
+# Git LFS — scoped to the Claude Design export (reference media only).
+# Deliberately NOT global: app images under public//src/ must stay regular git
+# blobs, or CI checkout (no LFS) + Docker build would get pointer files.
+docs/design-export/**/*.png filter=lfs diff=lfs merge=lfs -text
+docs/design-export/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+docs/design-export/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
+docs/design-export/**/*.webp filter=lfs diff=lfs merge=lfs -text
+docs/design-export/**/*.mp4 filter=lfs diff=lfs merge=lfs -text

@@ -1,0 +1,6 @@
+# pnpm 10 blocks dependency build scripts by default; allow the native ones we need.
+onlyBuiltDependencies:
+  - sharp
+  - esbuild
+  - unrs-resolver
+  - '@tailwindcss/oxide'

@@ -1,0 +1,24 @@
+# Local development: Postgres only. The app runs on the host via `pnpm dev`.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: dlsauto-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-dlsauto}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-dlsauto}
+      POSTGRES_DB: ${POSTGRES_DB:-dlsauto}
+    ports:
+      - '${POSTGRES_PORT:-5432}:5432'
+    volumes:
+      - dlsauto-pgdata:/var/lib/postgresql/data
+      # Runs once on an empty volume: enables pg_trgm + unaccent.
+      - ./docker/postgres/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-dlsauto} -d ${POSTGRES_DB:-dlsauto}']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  dlsauto-pgdata:

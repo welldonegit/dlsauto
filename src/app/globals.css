@@ -1,0 +1,24 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens — DLSAuto.
+ * Scaffold only. Values are defined in stage 1 (tokens → primitives → components → /ui → pages).
+ * Do not add page-level styles here. See docs/DESIGN_RULES.md and docs/DESIGN_TOKENS.md.
+ * Rules: cool-gray neutral scale, primary #E0001B, light surface #F6F6F6, no pure #000/#FFF.
+ */
+:root {
+  /* ------------------------------ Colors ------------------------------ */
+  /* primary, neutral scale (cool grays), surfaces, success (status green) */
+
+  /* ---------------------------- Typography ---------------------------- */
+  /* font families, sizes, weights, line-heights */
+
+  /* ----------------------------- Spacing ------------------------------ */
+  /* space scale (…-16, -24, -32, -64, -96) */
+
+  /* ------------------------------ Radii ------------------------------- */
+  /* corner-radius scale */
+
+  /* ----------------------------- Shadows ------------------------------ */
+  /* elevation scale */
+}
