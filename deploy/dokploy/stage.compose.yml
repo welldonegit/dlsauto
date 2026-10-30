@@ -31,10 +31,29 @@ services:
     networks:
       - internal
 
+  # One-shot: apply Payload migrations, then exit. web/worker wait for this to
+  # finish. Uses the worker image (full prod deps + src + config); the web
+  # standalone image has no payload CLI. Idempotent — payload tracks applied.
+  migrate:
+    image: ${WORKER_IMAGE}
+    command: ['pnpm', 'payload', 'migrate']
+    restart: 'no'
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      PAYLOAD_SECRET: ${PAYLOAD_SECRET}
+    networks:
+      - internal
+
   web:
     image: ${WEB_IMAGE}
     restart: unless-stopped
     depends_on:
+      migrate:
+        condition: service_completed_successfully
       postgres:
         condition: service_healthy
     environment:
@@ -73,10 +92,9 @@ services:
   worker:
     image: ${WORKER_IMAGE}
     restart: unless-stopped
-    # Apply Payload migrations on boot (production has push off), then run the
-    # worker. Idempotent: payload tracks applied migrations.
-    command: ['sh', '-c', 'pnpm payload migrate && pnpm worker']
     depends_on:
+      migrate:
+        condition: service_completed_successfully
       postgres:
         condition: service_healthy
     environment:
