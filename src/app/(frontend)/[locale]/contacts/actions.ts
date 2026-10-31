@@ -7,12 +7,13 @@
  */
 export type LeadResult = { ok: true }
 
-export async function submitPartQuestion(_input: {
+export async function submitPartQuestion(input: {
   car: string
   what: string
   phone: string
   photoCount: number
 }): Promise<LeadResult> {
   // TODO(stage 5/6): create a `leads` record and notify Telegram.
+  void input
   return { ok: true }
 }
