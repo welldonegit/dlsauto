@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { notFound } from 'next/navigation'
 
 import { ContactForm } from '@/components/blocks/ContactForm'
@@ -118,11 +119,13 @@ export default async function ContactsPage({ params }: { params: Promise<{ local
                 className="relative overflow-hidden"
                 style={{ aspectRatio: '4 / 3', borderRadius: 'var(--radius-lg)', background: 'var(--color-neutral-200)' }}
               >
-                <div className="absolute inset-0 flex items-center justify-center text-center" style={{ padding: 'var(--space-24)' }}>
-                  <span style={{ fontSize: 'var(--text-14)', color: 'var(--color-neutral-500)' }}>
-                    Фото: сіра брама з логотипом DLSAuto [плейсхолдер]
-                  </span>
-                </div>
+                <Image
+                  src="/images/contacts-gate.jpg"
+                  alt="Сіра брама з логотипом DLSAuto, вид з дороги"
+                  fill
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  style={{ objectFit: 'cover' }}
+                />
               </div>
               <div className="flex min-w-0 flex-col">
                 <SectionHeading>Як нас знайти</SectionHeading>
