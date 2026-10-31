@@ -93,6 +93,7 @@ export function TextField({
   onChange,
   defaultValue,
   value,
+  placeholder,
   ...rest
 }: TextFieldProps) {
   const id = useId()
@@ -113,6 +114,8 @@ export function TextField({
           aria-invalid={error ? true : undefined}
           value={value}
           defaultValue={defaultValue}
+          // Show the placeholder only on focus so it never sits under the resting label.
+          placeholder={focused ? placeholder : undefined}
           onFocus={(e) => {
             setFocused(true)
             onFocus?.(e)
@@ -213,6 +216,7 @@ export function TextArea({
   onBlur,
   onChange,
   defaultValue,
+  placeholder,
   ...rest
 }: TextAreaProps) {
   const id = useId()
@@ -233,6 +237,7 @@ export function TextArea({
           required={required}
           aria-invalid={error ? true : undefined}
           defaultValue={defaultValue}
+          placeholder={focused ? placeholder : undefined}
           onFocus={(e) => {
             setFocused(true)
             onFocus?.(e)

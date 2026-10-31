@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { Accordion } from '@/components/ui/Accordion'
@@ -240,6 +241,17 @@ export function Footer() {
               </a>
               <a href="#" className="no-underline" style={{ color: 'var(--color-neutral-600)' }}>
                 <span className="dls-underline">Умови повернення</span>
+              </a>
+              <a
+                href="https://well-done.com.ua/"
+                target="_blank"
+                rel="noopener"
+                aria-label="Створено з душею — welldone"
+                className="flex items-center no-underline"
+                style={{ gap: 'var(--space-8)', color: 'var(--color-neutral-600)' }}
+              >
+                Створено з душею
+                <Image src="/images/welldone-logo.svg" alt="welldone" width={97} height={16} />
               </a>
             </div>
           </div>

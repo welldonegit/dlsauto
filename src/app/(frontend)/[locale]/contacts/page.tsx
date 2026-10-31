@@ -12,6 +12,7 @@ import {
 import { Footer } from '@/components/layout/Footer'
 import { Header } from '@/components/layout/Header'
 import { SectionHeading } from '@/components/ui/SectionHeading'
+import { StatusDot } from '@/components/ui/StatusDot'
 import { Container, Section } from '@/components/ui/layout'
 import { isLocale } from '@/i18n/config'
 import { DEFAULT_SCHEDULE, pickupStatus } from '@/lib/hours'
@@ -52,12 +53,15 @@ export default async function ContactsPage({ params }: { params: Promise<{ local
   if (!isLocale(locale)) notFound()
 
   const now = new Date()
+  // Main-point status shown as the page status line (Запоріжжя); the cards carry
+  // address + schedule only, so the status is not duplicated.
+  const zpStatus = pickupStatus(now, DEFAULT_SCHEDULE)
   const pickups: Pickup[] = [
     {
       city: 'Запоріжжя',
       address: 'Південне шосе, [номер]',
       schedule: 'Пн–Сб 9:00–18:00',
-      status: pickupStatus(now, DEFAULT_SCHEDULE),
+      status: null,
     },
     {
       // Дніпро — address and schedule pending client confirmation (PROJECT_CONTEXT §1).
@@ -77,12 +81,17 @@ export default async function ContactsPage({ params }: { params: Promise<{ local
           <Container>
             <div className="grid grid-cols-1 items-stretch gap-[var(--space-32)] lg:grid-cols-2 wide:grid-cols-[minmax(0,45fr)_minmax(0,55fr)] wide:gap-[var(--space-48)]">
               <div className="flex min-w-0 flex-col" style={{ gap: 'var(--space-32)' }}>
-                <h1
-                  className="font-semibold text-28 md:text-32 lg:text-40"
-                  style={{ margin: 0, letterSpacing: '-0.02em' }}
-                >
-                  Контакти
-                </h1>
+                <div className="flex flex-col" style={{ gap: 'var(--space-16)' }}>
+                  <h1
+                    className="font-semibold text-28 md:text-32 lg:text-40"
+                    style={{ margin: 0, letterSpacing: '-0.02em' }}
+                  >
+                    Контакти
+                  </h1>
+                  <p style={{ margin: 0, fontSize: 'var(--text-16)', lineHeight: 'var(--text-16--line-height)' }}>
+                    <StatusDot open={zpStatus.open}>{zpStatus.label}</StatusDot>
+                  </p>
+                </div>
                 <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 'var(--space-12)' }}>
                   {pickups.map((p) => (
                     <PickupCard key={p.city} pickup={p} />

@@ -32,6 +32,8 @@
 | `--color-success-open` | `#1e9e5a` | "Зараз відкрито" status dot |
 | `--color-success-tint` | `#e7f4ec` | success fill |
 | `--color-error` | `#c62828` | form error |
+| `--color-brand-telegram` | `#26a5e4` |  |
+| `--color-brand-viber` | `#7360f2` |  |
 | `--color-scrim` | `rgba(18, 22, 28, 0.6)` | hero overlay, modal backdrop |
 | `--color-primary-tint` | `rgba(224, 0, 27, 0.08)` | secondary button hover |
 | `--color-marker-shadow` | `rgba(0, 0, 0, 0.45)` | map marker |

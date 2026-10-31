@@ -36,13 +36,7 @@ export function PickupCard({ pickup }: { pickup: Pickup }) {
         <InfoRow icon={<MapPinIcon size="20" />}>{pickup.address}</InfoRow>
         <InfoRow icon={<ClockIcon size="20" />}>{pickup.schedule}</InfoRow>
       </ul>
-      {pickup.status ? (
-        <StatusDot open={pickup.status.open}>{pickup.status.label}</StatusDot>
-      ) : (
-        <span style={{ fontSize: 'var(--text-14)', color: 'var(--color-neutral-500)' }}>
-          Графік уточнюється
-        </span>
-      )}
+      {pickup.status ? <StatusDot open={pickup.status.open}>{pickup.status.label}</StatusDot> : null}
     </article>
   )
 }
@@ -72,6 +66,13 @@ const CHANNEL_ICON = {
   phone: PhoneIcon,
 }
 
+// Messenger marks keep their brand colour (recognition); the phone is neutral.
+const CHANNEL_COLOR = {
+  telegram: 'var(--color-brand-telegram)',
+  viber: 'var(--color-brand-viber)',
+  phone: 'var(--color-neutral-900)',
+}
+
 export function ChannelCard({ channel }: { channel: Channel }) {
   const Icon = CHANNEL_ICON[channel.kind]
   return (
@@ -90,7 +91,7 @@ export function ChannelCard({ channel }: { channel: Channel }) {
         color: 'var(--color-neutral-900)',
       }}
     >
-      <span className="flex items-center justify-center" style={{ width: 'var(--icon-32)', height: 'var(--icon-32)', color: 'var(--color-neutral-900)' }}>
+      <span className="flex items-center justify-center" style={{ width: 'var(--icon-32)', height: 'var(--icon-32)', color: CHANNEL_COLOR[channel.kind] }}>
         <Icon size="24" />
       </span>
       <span className="flex min-w-0 flex-col" style={{ gap: 'var(--space-4)' }}>

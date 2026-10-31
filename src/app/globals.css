@@ -50,6 +50,10 @@
   --color-success-tint: #e7f4ec; /* success fill */
   --color-error: #c62828; /* form error */
 
+  /* Messenger brand colours (channel-card icons on Контакти). */
+  --color-brand-telegram: #26a5e4;
+  --color-brand-viber: #7360f2;
+
   /* Overlays / scrims / tints used by stage-1 components. */
   --color-scrim: rgba(18, 22, 28, 0.6); /* hero overlay, modal backdrop */
   --color-primary-tint: rgba(224, 0, 27, 0.08); /* secondary button hover */
