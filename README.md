@@ -139,3 +139,4 @@ hreflang, sitemap и CSP.
 | `husky`, `lint-staged`                                   | проверки на pre-commit |
 | `@commitlint/cli`, `@commitlint/config-conventional`     | Conventional Commits   |
 | `vitest`                                                 | тесты                  |
+| `@playwright/test`                                       | скриншоты и сверка дизайна (этап 1, `scripts/design-compare`) |
