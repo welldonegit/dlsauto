@@ -22,7 +22,7 @@
  * Run: pnpm tsx scripts/design-audit.ts
  */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync } from 'node:fs'
-import { join, basename, dirname } from 'node:path'
+import { join, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
@@ -91,8 +91,7 @@ function pxList(v: string): string[] {
 }
 
 /** Parse a block of `prop:value;prop:value` declarations. */
-function parseDeclarations(css: string, file: string, scoped = false) {
-  // Interactive-ish elements for control-height heuristic are handled at call site.
+function parseDeclarations(css: string, file: string) {
   const decls = css.split(';')
   for (const raw of decls) {
     const idx = raw.indexOf(':')
