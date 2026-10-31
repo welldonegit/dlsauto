@@ -43,6 +43,7 @@
 | `--radius-sm` | `8px` |  |
 | `--radius-md` | `12px` |  |
 | `--radius-lg` | `16px` |  |
+| `--radius-full` | `9999px` | pills, circles |
 | `--radius-card` | `var(--radius-lg)` | alias → rounded-card |
 | `--radius-inner` | `var(--radius-sm)` | alias → rounded-inner |
 
@@ -124,3 +125,4 @@
 | `--container-max` | `1312px` | content max-width across the site |
 | `--border-hairline` | `1px` |  |
 | `--border-thick` | `2px` |  |
+| `--breakpoint-wide` | `1360px` |  |

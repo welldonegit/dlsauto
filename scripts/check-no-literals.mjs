@@ -38,14 +38,19 @@ try {
 }
 
 for (const file of files) {
-  const lines = readFileSync(file, 'utf8').split('\n')
+  const raw = readFileSync(file, 'utf8')
+  // Drop block comments (/* … */) and JSX comments so doc text can mention px/hex.
+  const noBlocks = raw.replace(/\/\*[\s\S]*?\*\//g, '')
+  const lines = noBlocks.split('\n')
   lines.forEach((line, i) => {
+    const code = line.replace(/\/\/.*$/, '') // strip line comments
+    if (/^\s*\*/.test(line)) return // jsdoc continuation line
     // Strip obvious SVG geometry so icon shapes don't trip the check.
     const isSvgGeom =
       /\b(viewBox|d|cx|cy|r|x|y|x1|x2|y1|y2|points|width|height|strokeWidth|stroke-width)\s*[=:]/.test(
-        line,
+        code,
       )
-    const stripped = line.replace(/\bvar\(--[a-z0-9-]+\)/gi, '')
+    const stripped = code.replace(/\bvar\(--[a-z0-9-]+\)/gi, '')
     if (HEX.test(stripped)) violations.push(`${file}:${i + 1}  hex  ${line.trim()}`)
     if (!isSvgGeom && PX.test(stripped)) violations.push(`${file}:${i + 1}  px   ${line.trim()}`)
   })

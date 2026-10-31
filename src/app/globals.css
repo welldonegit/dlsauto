@@ -60,9 +60,9 @@
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
+  --radius-full: 9999px; /* pills, circles */
   --radius-card: var(--radius-lg); /* alias → rounded-card */
   --radius-inner: var(--radius-sm); /* alias → rounded-inner */
-  /* full = 9999 via Tailwind's built-in rounded-full */
 
   /* ---------------------------------------------------------- Type scale */
   /* size / line-height / weight / letter-spacing (Golos Text). */
@@ -163,6 +163,9 @@
   --container-max: 1312px; /* content max-width across the site */
   --border-hairline: 1px;
   --border-thick: 2px;
+
+  /* Breakpoint matching the export's "desktop" step (side padding 64). */
+  --breakpoint-wide: 1360px;
 }
 
 @layer base {
@@ -191,6 +194,56 @@
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
       scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  /*
+   * Line-icon base — the single linear icon set. Keeps stroke width bound to
+   * --icon-stroke so there is exactly one stroke weight across the site.
+   */
+  .dls-icon {
+    fill: none;
+    stroke: currentColor;
+    stroke-width: var(--icon-stroke);
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /*
+   * Signature button fill. A primary-coloured circle grows from the centre on
+   * hover (transform/opacity-free, animates background-size only). The fill
+   * colour is set per variant via --dls-fill. Used by every CTA so the
+   * interaction is identical everywhere (DESIGN_RULES §4).
+   */
+  .dls-fill {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 0% 0%;
+    background-image: radial-gradient(circle, var(--dls-fill, transparent) 0 49%, transparent 50%);
+    transition:
+      background-size var(--duration-600) var(--ease-brand),
+      color var(--duration-300) var(--ease-brand),
+      border-color var(--duration-300) var(--ease-brand);
+  }
+  @media (hover: hover) {
+    .dls-fill:hover {
+      background-size: 300% 300%;
+    }
+  }
+
+  /* Animated underline for text links (footer, legal). */
+  .dls-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: var(--dls-ul, 0%) var(--border-hairline);
+    transition: background-size var(--duration-600) var(--ease-brand);
+  }
+  @media (hover: hover) {
+    a:hover > .dls-underline {
+      --dls-ul: 100%;
     }
   }
 }

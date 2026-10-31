@@ -80,7 +80,7 @@ ${table(pick(/^--icon-/))}
 ${table(pick(/^--(duration|ease)-/))}
 
 ## Лейаут
-${table(pick(/^--(container|border)-/))}
+${table(pick(/^--(container|border|breakpoint)-/))}
 `
 
 if (process.argv.includes('--check')) {
