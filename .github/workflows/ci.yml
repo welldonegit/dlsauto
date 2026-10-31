@@ -40,6 +40,11 @@ jobs:
       - run: pnpm typecheck
       - run: pnpm test
 
+      - name: Design tokens in sync (globals.css ↔ DESIGN_TOKENS.md)
+        run: pnpm tokens:check
+      - name: No literal px/hex in components
+        run: pnpm check:literals
+
       - name: Build
         run: pnpm build
         env:

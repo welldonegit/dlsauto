@@ -1,24 +1,196 @@
 @import 'tailwindcss';
 
 /*
- * Design tokens — DLSAuto.
- * Scaffold only. Values are defined in stage 1 (tokens → primitives → components → /ui → pages).
- * Do not add page-level styles here. See docs/DESIGN_RULES.md and docs/DESIGN_TOKENS.md.
- * Rules: cool-gray neutral scale, primary #E0001B, light surface #F6F6F6, no pure #000/#FFF.
+ * ============================================================================
+ *  DLSAuto — design tokens (stage 1).
+ * ============================================================================
+ *  Single source of truth. Generated reference: docs/DESIGN_TOKENS.md
+ *  (run `pnpm tsx scripts/export-tokens.ts` — CI fails if it drifts).
+ *
+ *  Derived from the Claude Design export via docs/stages/stage1/AUDIT.md
+ *  (owner-approved mapping, 31.10.2026):
+ *    - colours are 1:1 with the export — every distinct colour is its own
+ *      token, near-duplicates are NOT merged (#FFFFFF ≠ #FCFCFD, etc.);
+ *    - spacing / radius / border / icon / control-height / shadow / duration
+ *      are unified onto the scales from the stage-1 prompt (step 2);
+ *    - type scale is fixed at 56…11, weights 400/500/600 (Golos Text).
+ *
+ *  Values live here as literals; components must use var(--token) or
+ *  token-bound Tailwind utilities — literal px/hex in src/components is a CI
+ *  error (scripts/check-no-literals.mjs).
+ * ============================================================================
  */
-:root {
-  /* ------------------------------ Colors ------------------------------ */
-  /* primary, neutral scale (cool grays), surfaces, success (status green) */
 
-  /* ---------------------------- Typography ---------------------------- */
-  /* font families, sizes, weights, line-heights */
+@theme {
+  /* ------------------------------------------------------------------ Font */
+  /* Golos Text is injected by next/font as --font-golos (see layout.tsx). */
+  --font-sans: var(--font-golos), sans-serif;
 
-  /* ----------------------------- Spacing ------------------------------ */
-  /* space scale (…-16, -24, -32, -64, -96) */
+  /* --------------------------------------------------------------- Colours */
+  /* Cool-gray neutral scale. Each step is a distinct export colour (1:1). */
+  --color-neutral-0: #fcfcfd; /* page + on-dark text */
+  --color-neutral-white: #ffffff; /* card surfaces (kept as-is, own token) */
+  --color-neutral-50: #f6f6f6; /* light full-width band */
+  --color-neutral-100: #f3f5f7; /* input / sunken fill */
+  --color-neutral-200: #e6e9ee; /* default border, subtle fill */
+  --color-neutral-300: #cdd2da; /* dividers, border-on-dark, dashed */
+  --color-neutral-400: #a9b0bb; /* placeholder / disabled, "closed" dot */
+  --color-neutral-500: #6b7380; /* muted text */
+  --color-neutral-600: #4a5260; /* secondary text */
+  --color-neutral-800: #2a303a; /* chip hover on dark */
+  --color-neutral-900: #1e232b; /* primary text, dark buttons/chips */
+  --color-neutral-950: #12161c; /* dark header bar, hero overlay base */
 
-  /* ------------------------------ Radii ------------------------------- */
-  /* corner-radius scale */
+  /* Semantic — near-duplicates kept separate per owner decision. */
+  --color-primary: #e0001b; /* action / accent */
+  --color-primary-dark: #c00017; /* radial-fill centre, header buttons */
+  --color-primary-dark-2: #b80016; /* radial-fill centre, form buttons */
+  --color-success: #1f8a4c; /* "перевірено" checks, success row */
+  --color-success-open: #1e9e5a; /* "Зараз відкрито" status dot */
+  --color-success-tint: #e7f4ec; /* success fill */
+  --color-error: #c62828; /* form error */
 
-  /* ----------------------------- Shadows ------------------------------ */
-  /* elevation scale */
+  /* Overlays / scrims / tints used by stage-1 components. */
+  --color-scrim: rgba(18, 22, 28, 0.6); /* hero overlay, modal backdrop */
+  --color-primary-tint: rgba(224, 0, 27, 0.08); /* secondary button hover */
+  --color-marker-shadow: rgba(0, 0, 0, 0.45); /* map marker */
+
+  /* --------------------------------------------------------------- Radius */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-card: var(--radius-lg); /* alias → rounded-card */
+  --radius-inner: var(--radius-sm); /* alias → rounded-inner */
+  /* full = 9999 via Tailwind's built-in rounded-full */
+
+  /* ---------------------------------------------------------- Type scale */
+  /* size / line-height / weight / letter-spacing (Golos Text). */
+  --text-d: 56px; /* hero H1 (desktop) */
+  --text-d--line-height: 1.1;
+  --text-d--font-weight: 600;
+  --text-d--letter-spacing: -0.02em;
+
+  --text-40: 40px; /* H1 / H2 desktop */
+  --text-40--line-height: 1.15;
+  --text-40--font-weight: 600;
+  --text-40--letter-spacing: -0.02em;
+
+  --text-32: 32px; /* H1 mobile / H2 */
+  --text-32--line-height: 1.15;
+  --text-32--font-weight: 600;
+  --text-32--letter-spacing: -0.02em;
+
+  --text-28: 28px; /* H2 tablet */
+  --text-28--line-height: 1.2;
+  --text-28--font-weight: 600;
+  --text-28--letter-spacing: -0.02em;
+
+  --text-24: 24px; /* H2 mobile */
+  --text-24--line-height: 1.25;
+  --text-24--font-weight: 600;
+  --text-24--letter-spacing: -0.02em;
+
+  --text-20: 20px; /* lead / subhead */
+  --text-20--line-height: 1.4;
+
+  --text-18: 18px; /* body-lg / card title */
+  --text-18--line-height: 1.5;
+
+  --text-16: 16px; /* body (base) */
+  --text-16--line-height: 1.5;
+
+  --text-14: 14px; /* small */
+  --text-14--line-height: 20px;
+
+  --text-13: 13px; /* xs / hints / errors */
+  --text-13--line-height: 18px;
+
+  --text-12: 12px; /* label */
+  --text-12--line-height: 16px;
+
+  --text-11: 11px; /* badge */
+  --text-11--line-height: 1;
+
+  /* --------------------------------------------------------------- Shadow */
+  --shadow-sm: 0 1px 3px rgba(18, 22, 28, 0.16); /* resting card / bar */
+  --shadow-md: 0 12px 32px rgba(18, 22, 28, 0.16); /* hover / dropdown / toast */
+  --shadow-lg: 0 24px 64px rgba(18, 22, 28, 0.24); /* modal */
+
+  /* ------------------------------------------------------------- Spacing */
+  /* Scale: multiples of 8 (≥16), of 4 below; 2 for hairlines. */
+  --space-2: 2px;
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --space-80: 80px;
+  --space-96: 96px;
+  --space-128: 128px;
+  --space-160: 160px;
+  --space-200: 200px;
+  --space-240: 240px;
+  --space-320: 320px;
+
+  /* ------------------------------------------------- Control heights (fixed) */
+  --control-h-32: 32px; /* S — chips, small */
+  --control-h-40: 40px; /* M — inner search input */
+  --control-h-44: 44px; /* mobile touch target (a11y, documented exception) */
+  --control-h-48: 48px; /* L — buttons, header controls */
+  --control-h-56: 56px; /* XL — form fields, hero capsule */
+
+  /* ----------------------------------------------------------- Icon sizes */
+  --icon-16: 16px; /* in text / badges */
+  --icon-20: 20px; /* in buttons / actions */
+  --icon-24: 24px; /* standalone */
+  --icon-32: 32px; /* feature */
+  --icon-40: 40px; /* feature-lg */
+  --icon-stroke: 1.75; /* single stroke width for the line set */
+
+  /* --------------------------------------------------------- Durations */
+  --duration-150: 150ms; /* micro (colour/border) */
+  --duration-200: 200ms; /* default */
+  --duration-300: 300ms; /* emphasis */
+  --duration-600: 600ms; /* signature (button fill, capsule ring) */
+  --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ------------------------------------------------------- Layout */
+  --container-max: 1312px; /* content max-width across the site */
+  --border-hairline: 1px;
+  --border-thick: 2px;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-neutral-0);
+    color: var(--color-neutral-900);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::placeholder {
+    color: var(--color-neutral-400);
+    opacity: 1;
+  }
+
+  /* Animations are transform/opacity only; respect reduced motion globally. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Golos_Text } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import type { ReactNode } from 'react'
 
@@ -7,6 +8,15 @@ import { getDictionary } from '@/i18n/dictionaries'
 import { getSiteUrl } from '@/lib/env'
 
 import '../../globals.css'
+
+// Design font. Weights 400/500/600 per the audit; exposed as --font-golos
+// and consumed by --font-sans in globals.css.
+const golos = Golos_Text({
+  subsets: ['latin', 'cyrillic'],
+  weight: ['400', '500', '600'],
+  display: 'swap',
+  variable: '--font-golos',
+})
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
@@ -47,7 +57,7 @@ export default async function LocaleLayout({
   if (!isLocale(locale)) notFound()
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className={golos.variable}>
       <body>{children}</body>
     </html>
   )
