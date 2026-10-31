@@ -124,7 +124,21 @@ export function Button(props: ButtonProps) {
       </a>
     )
   }
-  const { type = 'button', disabled, ...rest } = props as AsButton
+  // Strip the component-only props so they never reach the DOM button.
+  const {
+    type = 'button',
+    disabled,
+    variant: _v,
+    size: _s,
+    onDark: _o,
+    fullWidth: _f,
+    iconLeft: _il,
+    iconRight: _ir,
+    forceState: _fs,
+    children: _c,
+    ...rest
+  } = props as AsButton
+  void [_v, _s, _o, _f, _il, _ir, _fs, _c]
   return (
     <button
       type={type}

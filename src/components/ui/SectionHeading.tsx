@@ -18,7 +18,8 @@ export function SectionHeading({
   step?: { num: string; title: ReactNode }
   as?: 'h1' | 'h2'
 }) {
-  const sizeClass = As === 'h1' ? 'text-32 wide:text-40' : 'text-24 md:text-28 wide:text-40'
+  const sizeClass =
+    As === 'h1' ? 'text-28 md:text-32 lg:text-40' : 'text-24 md:text-28 lg:text-40'
   return (
     <div className="flex flex-col" style={{ gap: 'var(--space-16)' }}>
       {eyebrow ? (
