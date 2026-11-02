@@ -1,7 +1,13 @@
 {
   "common": {
     "brand": "DLSAuto",
-    "underConstruction": "DLSAuto — в разработке"
+    "underConstruction": "DLSAuto — в разработке",
+    "home": "Главная"
+  },
+  "legal": {
+    "contents": "Содержание",
+    "updated": "Обновлено",
+    "requisites": "Реквизиты"
   },
   "meta": {
     "homeTitle": "DLSAuto — б/у автозапчасти",
