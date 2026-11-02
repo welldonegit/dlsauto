@@ -3,8 +3,16 @@ import { fileURLToPath } from 'url'
 
 import { postgresAdapter } from '@payloadcms/db-postgres'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
-import { buildConfig } from 'payload'
+import { buildConfig, type CollectionConfig } from 'payload'
 import sharp from 'sharp'
+
+import {
+  afterWriteRevalidate,
+  globalRevalidate,
+  pageTag,
+  productTag,
+  TAG,
+} from './lib/data/revalidate'
 
 import { Banners } from './payload/collections/Banners'
 import { Brands } from './payload/collections/Brands'
@@ -23,6 +31,23 @@ import { Settings } from './payload/globals/Settings'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
+/** Append cache-revalidation hooks without clobbering a collection's own hooks. */
+function withRevalidate(
+  col: CollectionConfig,
+  base: string,
+  perDoc?: (doc: Record<string, unknown> & { slug?: string }) => string[],
+): CollectionConfig {
+  const { afterChange, afterDelete } = afterWriteRevalidate(base, perDoc)
+  return {
+    ...col,
+    hooks: {
+      ...col.hooks,
+      afterChange: [...(col.hooks?.afterChange ?? []), afterChange],
+      afterDelete: [...(col.hooks?.afterDelete ?? []), afterDelete],
+    },
+  }
+}
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -31,20 +56,28 @@ export default buildConfig({
     },
   },
   collections: [
-    Brands,
-    Models,
-    Categories,
-    Products,
-    PickupPoints,
+    withRevalidate(Brands, TAG.brands),
+    withRevalidate(Models, TAG.models),
+    withRevalidate(Categories, TAG.categories),
+    withRevalidate(Products, TAG.products, (doc) => (doc.slug ? [productTag(doc.slug)] : [])),
+    withRevalidate(PickupPoints, TAG.pickupPoints),
     Media,
-    Pages,
-    Banners,
-    Reviews,
+    withRevalidate(Pages, TAG.pages, (doc) => (doc.slug ? [pageTag(doc.slug)] : [])),
+    withRevalidate(Banners, TAG.banners),
+    withRevalidate(Reviews, TAG.reviews),
     Orders,
     Leads,
     Users,
   ],
-  globals: [Settings],
+  globals: [
+    {
+      ...Settings,
+      hooks: {
+        ...Settings.hooks,
+        afterChange: [...(Settings.hooks?.afterChange ?? []), globalRevalidate(TAG.settings)],
+      },
+    },
+  ],
   // Content localization — fields are localized starting in stage 2.
   localization: {
     locales: [
