@@ -67,6 +67,17 @@ export interface Config {
   };
   blocks: {};
   collections: {
+    brands: Brand;
+    models: Model;
+    categories: Category;
+    products: Product;
+    'pickup-points': PickupPoint;
+    media: Media;
+    pages: Page;
+    banners: Banner;
+    reviews: Review;
+    orders: Order;
+    leads: Lead;
     users: User;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
@@ -75,6 +86,17 @@ export interface Config {
   };
   collectionsJoins: {};
   collectionsSelect: {
+    brands: BrandsSelect<false> | BrandsSelect<true>;
+    models: ModelsSelect<false> | ModelsSelect<true>;
+    categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    products: ProductsSelect<false> | ProductsSelect<true>;
+    'pickup-points': PickupPointsSelect<false> | PickupPointsSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
+    banners: BannersSelect<false> | BannersSelect<true>;
+    reviews: ReviewsSelect<false> | ReviewsSelect<true>;
+    orders: OrdersSelect<false> | OrdersSelect<true>;
+    leads: LeadsSelect<false> | LeadsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -85,8 +107,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('uk' | 'ru') | ('uk' | 'ru')[];
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    settings: Setting;
+  };
+  globalsSelect: {
+    settings: SettingsSelect<false> | SettingsSelect<true>;
+  };
   locale: 'uk' | 'ru';
   widgets: {
     collections: CollectionsWidget;
@@ -114,6 +140,627 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands".
+ */
+export interface Brand {
+  id: number;
+  _order?: string | null;
+  name: string;
+  /**
+   * URL-адреса. Генерується з назви, можна змінити вручну.
+   */
+  slug?: string | null;
+  /**
+   * Для міток карток, чипів, мега-меню.
+   */
+  logoMono?: (number | null) | Media;
+  /**
+   * Для плиток у блоці «Деталі для вашого авто».
+   */
+  logoColor?: (number | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  /**
+   * Опис зображення для доступності та SEO. Обовʼязково.
+   */
+  alt: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumb?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    gallery?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "models".
+ */
+export interface Model {
+  id: number;
+  _order?: string | null;
+  brand: number | Brand;
+  /**
+   * Напр. «L200».
+   */
+  name: string;
+  /**
+   * URL-адреса. Генерується з назви, можна змінити вручну.
+   */
+  slug?: string | null;
+  /**
+   * Напр. «IV», «WK». Необовʼязково.
+   */
+  generation?: string | null;
+  yearFrom?: number | null;
+  /**
+   * Порожньо = дотепер.
+   */
+  yearTo?: number | null;
+  /**
+   * Лише для секцій «на пікапи» / «на позашляховики». В інтерфейсі не показується.
+   */
+  bodyType?: ('pickup' | 'suv' | 'passenger') | null;
+  /**
+   * Напр. «Pathfinder». Необовʼязково.
+   */
+  twinName?: string | null;
+  /**
+   * Поки не показується (увімкнеться, коли буде у всіх).
+   */
+  donorPhoto?: (number | null) | Media;
+  /**
+   * Показувати на сайті.
+   */
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories".
+ */
+export interface Category {
+  id: number;
+  _order?: string | null;
+  name: string;
+  /**
+   * URL-адреса. Генерується з назви, можна змінити вручну.
+   */
+  slug?: string | null;
+  /**
+   * Обтравлене фото деталі на білому.
+   */
+  photo?: (number | null) | Media;
+  description?: string | null;
+  /**
+   * Якщо порожньо — підставиться назва за шаблоном.
+   */
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  /**
+   * Показувати на сайті.
+   */
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  _order?: string | null;
+  /**
+   * Унікальний артикул KeyCRM. Обовʼязковий для синхронізації.
+   */
+  sku: string;
+  /**
+   * Необовʼязково.
+   */
+  promId?: string | null;
+  oem?:
+    | {
+        number: string;
+        id?: string | null;
+      }[]
+    | null;
+  oemNormalized?: string[] | null;
+  name: string;
+  /**
+   * URL-адреса. Генерується з назви, можна змінити вручну.
+   */
+  slug?: string | null;
+  category: number | Category;
+  model?: (number | null) | Model;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  condition?: {
+    text?: string | null;
+    defects?: (number | Media)[] | null;
+  };
+  /**
+   * Порядок перетягуванням, перше — головне, відео (mp4) — останнім.
+   */
+  photos?: (number | Media)[] | null;
+  price: number;
+  discountPercent?: number | null;
+  status: 'in_stock' | 'sold' | 'hidden';
+  pickupPoint?: (number | null) | PickupPoint;
+  /**
+   * Проставляється автоматично.
+   */
+  soldAt?: string | null;
+  featured?: boolean | null;
+  pinnedNew?: boolean | null;
+  seasonalDecor?: boolean | null;
+  alsoFits?: (number | Model)[] | null;
+  boughtTogether?: (number | Product)[] | null;
+  alternatives?: (number | Product)[] | null;
+  /**
+   * Якщо порожньо — підставиться назва за шаблоном.
+   */
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  /**
+   * Проставляється імпортом з Prom, коли є лише російський текст.
+   */
+  needsTranslation?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pickup-points".
+ */
+export interface PickupPoint {
+  id: number;
+  _order?: string | null;
+  name: string;
+  address: string;
+  phone?: string | null;
+  schedule?: {
+    dayFrom?: ('1' | '2' | '3' | '4' | '5' | '6' | '7') | null;
+    dayTo?: ('1' | '2' | '3' | '4' | '5' | '6' | '7') | null;
+    openHour?: number | null;
+    closeHour?: number | null;
+  };
+  /**
+   * Для маркера на карті.
+   */
+  mapCoords?: {
+    lat?: number | null;
+    lng?: number | null;
+  };
+  isDefault?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  title: string;
+  /**
+   * URL-адреса. Генерується з назви, можна змінити вручну.
+   */
+  slug?: string | null;
+  /**
+   * Перетягуванням змінюйте порядок. Порожній блок не показується.
+   */
+  layout?:
+    | (
+        | {
+            variant?: ('a' | 'b') | null;
+            eyebrow?: string | null;
+            heading?: string | null;
+            subheading?: string | null;
+            background?: (number | null) | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            heading?: string | null;
+            items?:
+              | {
+                  eyebrow?: string | null;
+                  value?: string | null;
+                  text?: string | null;
+                  accent?: boolean | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'stats';
+          }
+        | {
+            heading?: string | null;
+            variant?: ('a' | 'b') | null;
+            /**
+             * Порожньо — усі опубліковані за порядком.
+             */
+            categories?: (number | Category)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'categoriesBlock';
+          }
+        | {
+            heading?: string | null;
+            defaultBrand?: (number | null) | Brand;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'modelsPicker';
+          }
+        | {
+            heading?: string | null;
+            limit?: number | null;
+            /**
+             * Решта — автоматично, найновіші в наявності.
+             */
+            pinned?: (number | Product)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'newArrivals';
+          }
+        | {
+            heading?: string | null;
+            items?:
+              | {
+                  title?: string | null;
+                  text?: string | null;
+                  image?: (number | null) | Media;
+                  link?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'services';
+          }
+        | {
+            heading?: string | null;
+            limit?: number | null;
+            /**
+             * Решта — автоматично, найновіші в наявності.
+             */
+            pinned?: (number | Product)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'pickupsParts';
+          }
+        | {
+            heading?: string | null;
+            limit?: number | null;
+            /**
+             * Решта — автоматично, найновіші в наявності.
+             */
+            pinned?: (number | Product)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'suvsParts';
+          }
+        | {
+            heading?: string | null;
+            text?: string | null;
+            video?: (number | null) | Media;
+            poster?: (number | null) | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'videoCheck';
+          }
+        | {
+            heading?: string | null;
+            items?:
+              | {
+                  question?: string | null;
+                  answer?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'faq';
+          }
+        | {
+            heading?: string | null;
+            limit?: number | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'reviewsBlock';
+          }
+        | {
+            items?:
+              | {
+                  title?: string | null;
+                  value?: string | null;
+                  text?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'benefits';
+          }
+        | {
+            heading?: string | null;
+            text?: string | null;
+            cards?:
+              | {
+                  title?: string | null;
+                  text?: string | null;
+                  image?: (number | null) | Media;
+                  id?: string | null;
+                }[]
+              | null;
+            video?: (number | null) | Media;
+            videoPoster?: (number | null) | Media;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'whatElseWeDo';
+          }
+        | {
+            eyebrow?: string | null;
+            heading?: string | null;
+            text?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'aboutHero';
+          }
+        | {
+            heading?: string | null;
+            items?:
+              | {
+                  step?: string | null;
+                  title?: string | null;
+                  text?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'whyDisassembly';
+          }
+        | {
+            heading?: string | null;
+            steps?:
+              | {
+                  title?: string | null;
+                  text?: string | null;
+                  image?: (number | null) | Media;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'partPath';
+          }
+        | {
+            heading?: string | null;
+            text?: string | null;
+            photos?: (number | Media)[] | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'team';
+          }
+        | {
+            heading?: string | null;
+            text?: string | null;
+            buttonLabel?: string | null;
+            buttonLink?: string | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'ctaText';
+          }
+        | {
+            content?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'richText';
+          }
+        | {
+            heading?: string | null;
+            intro?: string | null;
+            showForm?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'contactsBlock';
+          }
+      )[]
+    | null;
+  /**
+   * Якщо порожньо — підставиться назва за шаблоном.
+   */
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  /**
+   * Показувати на сайті.
+   */
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "banners".
+ */
+export interface Banner {
+  id: number;
+  _order?: string | null;
+  text: string;
+  link?: string | null;
+  variant: 'dark' | 'light' | 'primary-tint';
+  season?: ('any' | 'halloween' | 'new_year' | 'easter') | null;
+  dateFrom?: string | null;
+  dateTo?: string | null;
+  dismissible?: boolean | null;
+  /**
+   * Показувати на сайті.
+   */
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews".
+ */
+export interface Review {
+  id: number;
+  author: string;
+  rating: number;
+  text: string;
+  product?: (number | null) | Product;
+  published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Дзеркало KeyCRM. Редагується у KeyCRM, тут — лише перегляд.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: number;
+  number: string;
+  keycrmId?: string | null;
+  status?: string | null;
+  syncStatus?: ('pending' | 'synced' | 'failed') | null;
+  items?:
+    | {
+        product?: (number | null) | Product;
+        price?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  customer?: {
+    name?: string | null;
+    phone?: string | null;
+    email?: string | null;
+  };
+  delivery?: {
+    type?: ('np' | 'delivery' | 'pickup') | null;
+    warehouse?: string | null;
+    point?: (number | null) | PickupPoint;
+    address?: string | null;
+  };
+  payment?: {
+    type?: string | null;
+    prepaymentAmount?: number | null;
+    monopayInvoiceId?: string | null;
+    paid?: boolean | null;
+  };
+  totals?: {
+    subtotal?: number | null;
+    total?: number | null;
+  };
+  /**
+   * Джерело переходу (first-touch).
+   */
+  utm?: {
+    source?: string | null;
+    medium?: string | null;
+    campaign?: string | null;
+    content?: string | null;
+    term?: string | null;
+  };
+  comment?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads".
+ */
+export interface Lead {
+  id: number;
+  type: 'callback' | 'ask-about-part' | 'sto';
+  name?: string | null;
+  phone: string;
+  message?: string | null;
+  photo?: (number | null) | Media;
+  product?: (number | null) | Product;
+  utm?: {
+    source?: string | null;
+    medium?: string | null;
+    campaign?: string | null;
+    content?: string | null;
+    term?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -166,10 +813,55 @@ export interface PayloadKv {
  */
 export interface PayloadLockedDocument {
   id: number;
-  document?: {
-    relationTo: 'users';
-    value: number | User;
-  } | null;
+  document?:
+    | ({
+        relationTo: 'brands';
+        value: number | Brand;
+      } | null)
+    | ({
+        relationTo: 'models';
+        value: number | Model;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: number | Category;
+      } | null)
+    | ({
+        relationTo: 'products';
+        value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'pickup-points';
+        value: number | PickupPoint;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
+        relationTo: 'banners';
+        value: number | Banner;
+      } | null)
+    | ({
+        relationTo: 'reviews';
+        value: number | Review;
+      } | null)
+    | ({
+        relationTo: 'orders';
+        value: number | Order;
+      } | null)
+    | ({
+        relationTo: 'leads';
+        value: number | Lead;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: number | User;
+      } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
@@ -211,6 +903,530 @@ export interface PayloadMigration {
   batch?: number | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "brands_select".
+ */
+export interface BrandsSelect<T extends boolean = true> {
+  _order?: T;
+  name?: T;
+  slug?: T;
+  logoMono?: T;
+  logoColor?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "models_select".
+ */
+export interface ModelsSelect<T extends boolean = true> {
+  _order?: T;
+  brand?: T;
+  name?: T;
+  slug?: T;
+  generation?: T;
+  yearFrom?: T;
+  yearTo?: T;
+  bodyType?: T;
+  twinName?: T;
+  donorPhoto?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "categories_select".
+ */
+export interface CategoriesSelect<T extends boolean = true> {
+  _order?: T;
+  name?: T;
+  slug?: T;
+  photo?: T;
+  description?: T;
+  seoTitle?: T;
+  seoDescription?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products_select".
+ */
+export interface ProductsSelect<T extends boolean = true> {
+  _order?: T;
+  sku?: T;
+  promId?: T;
+  oem?:
+    | T
+    | {
+        number?: T;
+        id?: T;
+      };
+  oemNormalized?: T;
+  name?: T;
+  slug?: T;
+  category?: T;
+  model?: T;
+  description?: T;
+  condition?:
+    | T
+    | {
+        text?: T;
+        defects?: T;
+      };
+  photos?: T;
+  price?: T;
+  discountPercent?: T;
+  status?: T;
+  pickupPoint?: T;
+  soldAt?: T;
+  featured?: T;
+  pinnedNew?: T;
+  seasonalDecor?: T;
+  alsoFits?: T;
+  boughtTogether?: T;
+  alternatives?: T;
+  seoTitle?: T;
+  seoDescription?: T;
+  needsTranslation?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pickup-points_select".
+ */
+export interface PickupPointsSelect<T extends boolean = true> {
+  _order?: T;
+  name?: T;
+  address?: T;
+  phone?: T;
+  schedule?:
+    | T
+    | {
+        dayFrom?: T;
+        dayTo?: T;
+        openHour?: T;
+        closeHour?: T;
+      };
+  mapCoords?:
+    | T
+    | {
+        lat?: T;
+        lng?: T;
+      };
+  isDefault?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumb?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        gallery?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  title?: T;
+  slug?: T;
+  layout?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              variant?: T;
+              eyebrow?: T;
+              heading?: T;
+              subheading?: T;
+              background?: T;
+              id?: T;
+              blockName?: T;
+            };
+        stats?:
+          | T
+          | {
+              heading?: T;
+              items?:
+                | T
+                | {
+                    eyebrow?: T;
+                    value?: T;
+                    text?: T;
+                    accent?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        categoriesBlock?:
+          | T
+          | {
+              heading?: T;
+              variant?: T;
+              categories?: T;
+              id?: T;
+              blockName?: T;
+            };
+        modelsPicker?:
+          | T
+          | {
+              heading?: T;
+              defaultBrand?: T;
+              id?: T;
+              blockName?: T;
+            };
+        newArrivals?:
+          | T
+          | {
+              heading?: T;
+              limit?: T;
+              pinned?: T;
+              id?: T;
+              blockName?: T;
+            };
+        services?:
+          | T
+          | {
+              heading?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    text?: T;
+                    image?: T;
+                    link?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        pickupsParts?:
+          | T
+          | {
+              heading?: T;
+              limit?: T;
+              pinned?: T;
+              id?: T;
+              blockName?: T;
+            };
+        suvsParts?:
+          | T
+          | {
+              heading?: T;
+              limit?: T;
+              pinned?: T;
+              id?: T;
+              blockName?: T;
+            };
+        videoCheck?:
+          | T
+          | {
+              heading?: T;
+              text?: T;
+              video?: T;
+              poster?: T;
+              id?: T;
+              blockName?: T;
+            };
+        faq?:
+          | T
+          | {
+              heading?: T;
+              items?:
+                | T
+                | {
+                    question?: T;
+                    answer?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        reviewsBlock?:
+          | T
+          | {
+              heading?: T;
+              limit?: T;
+              id?: T;
+              blockName?: T;
+            };
+        benefits?:
+          | T
+          | {
+              items?:
+                | T
+                | {
+                    title?: T;
+                    value?: T;
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        whatElseWeDo?:
+          | T
+          | {
+              heading?: T;
+              text?: T;
+              cards?:
+                | T
+                | {
+                    title?: T;
+                    text?: T;
+                    image?: T;
+                    id?: T;
+                  };
+              video?: T;
+              videoPoster?: T;
+              id?: T;
+              blockName?: T;
+            };
+        aboutHero?:
+          | T
+          | {
+              eyebrow?: T;
+              heading?: T;
+              text?: T;
+              id?: T;
+              blockName?: T;
+            };
+        whyDisassembly?:
+          | T
+          | {
+              heading?: T;
+              items?:
+                | T
+                | {
+                    step?: T;
+                    title?: T;
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        partPath?:
+          | T
+          | {
+              heading?: T;
+              steps?:
+                | T
+                | {
+                    title?: T;
+                    text?: T;
+                    image?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        team?:
+          | T
+          | {
+              heading?: T;
+              text?: T;
+              photos?: T;
+              id?: T;
+              blockName?: T;
+            };
+        ctaText?:
+          | T
+          | {
+              heading?: T;
+              text?: T;
+              buttonLabel?: T;
+              buttonLink?: T;
+              id?: T;
+              blockName?: T;
+            };
+        richText?:
+          | T
+          | {
+              content?: T;
+              id?: T;
+              blockName?: T;
+            };
+        contactsBlock?:
+          | T
+          | {
+              heading?: T;
+              intro?: T;
+              showForm?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  seoTitle?: T;
+  seoDescription?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "banners_select".
+ */
+export interface BannersSelect<T extends boolean = true> {
+  _order?: T;
+  text?: T;
+  link?: T;
+  variant?: T;
+  season?: T;
+  dateFrom?: T;
+  dateTo?: T;
+  dismissible?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "reviews_select".
+ */
+export interface ReviewsSelect<T extends boolean = true> {
+  author?: T;
+  rating?: T;
+  text?: T;
+  product?: T;
+  published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders_select".
+ */
+export interface OrdersSelect<T extends boolean = true> {
+  number?: T;
+  keycrmId?: T;
+  status?: T;
+  syncStatus?: T;
+  items?:
+    | T
+    | {
+        product?: T;
+        price?: T;
+        id?: T;
+      };
+  customer?:
+    | T
+    | {
+        name?: T;
+        phone?: T;
+        email?: T;
+      };
+  delivery?:
+    | T
+    | {
+        type?: T;
+        warehouse?: T;
+        point?: T;
+        address?: T;
+      };
+  payment?:
+    | T
+    | {
+        type?: T;
+        prepaymentAmount?: T;
+        monopayInvoiceId?: T;
+        paid?: T;
+      };
+  totals?:
+    | T
+    | {
+        subtotal?: T;
+        total?: T;
+      };
+  utm?:
+    | T
+    | {
+        source?: T;
+        medium?: T;
+        campaign?: T;
+        content?: T;
+        term?: T;
+      };
+  comment?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "leads_select".
+ */
+export interface LeadsSelect<T extends boolean = true> {
+  type?: T;
+  name?: T;
+  phone?: T;
+  message?: T;
+  photo?: T;
+  product?: T;
+  utm?:
+    | T
+    | {
+        source?: T;
+        medium?: T;
+        campaign?: T;
+        content?: T;
+        term?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -276,6 +1492,116 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings".
+ */
+export interface Setting {
+  id: number;
+  phones?:
+    | {
+        number: string;
+        id?: string | null;
+      }[]
+    | null;
+  email?: string | null;
+  messengers?: {
+    telegram?: string | null;
+    viber?: string | null;
+  };
+  socials?: {
+    telegram?: string | null;
+    viber?: string | null;
+    tiktok?: string | null;
+    instagram?: string | null;
+    facebook?: string | null;
+  };
+  promRating?: number | null;
+  promReviewsCount?: number | null;
+  marketplaces?: {
+    prom?: string | null;
+    avtopro?: string | null;
+    olx?: string | null;
+  };
+  minOrder?: number | null;
+  dispatchCutoffHour?: number | null;
+  prepaymentConditions?: string | null;
+  acceptBlock?: string | null;
+  keycrmBaseUrl?: string | null;
+  fop?: {
+    name?: string | null;
+    edrpou?: string | null;
+    address?: string | null;
+  };
+  season?: {
+    current?: ('none' | 'halloween' | 'new_year' | 'easter') | null;
+    manualOverride?: boolean | null;
+    dateFrom?: string | null;
+    dateTo?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "settings_select".
+ */
+export interface SettingsSelect<T extends boolean = true> {
+  phones?:
+    | T
+    | {
+        number?: T;
+        id?: T;
+      };
+  email?: T;
+  messengers?:
+    | T
+    | {
+        telegram?: T;
+        viber?: T;
+      };
+  socials?:
+    | T
+    | {
+        telegram?: T;
+        viber?: T;
+        tiktok?: T;
+        instagram?: T;
+        facebook?: T;
+      };
+  promRating?: T;
+  promReviewsCount?: T;
+  marketplaces?:
+    | T
+    | {
+        prom?: T;
+        avtopro?: T;
+        olx?: T;
+      };
+  minOrder?: T;
+  dispatchCutoffHour?: T;
+  prepaymentConditions?: T;
+  acceptBlock?: T;
+  keycrmBaseUrl?: T;
+  fop?:
+    | T
+    | {
+        name?: T;
+        edrpou?: T;
+        address?: T;
+      };
+  season?:
+    | T
+    | {
+        current?: T;
+        manualOverride?: T;
+        dateFrom?: T;
+        dateTo?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

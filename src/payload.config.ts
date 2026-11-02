@@ -6,7 +6,19 @@ import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { buildConfig } from 'payload'
 import sharp from 'sharp'
 
+import { Banners } from './payload/collections/Banners'
+import { Brands } from './payload/collections/Brands'
+import { Categories } from './payload/collections/Categories'
+import { Leads } from './payload/collections/Leads'
+import { Media } from './payload/collections/Media'
+import { Models } from './payload/collections/Models'
+import { Orders } from './payload/collections/Orders'
+import { Pages } from './payload/collections/Pages'
+import { PickupPoints } from './payload/collections/PickupPoints'
+import { Products } from './payload/collections/Products'
+import { Reviews } from './payload/collections/Reviews'
 import { Users } from './payload/collections/Users'
+import { Settings } from './payload/globals/Settings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -18,7 +30,21 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users],
+  collections: [
+    Brands,
+    Models,
+    Categories,
+    Products,
+    PickupPoints,
+    Media,
+    Pages,
+    Banners,
+    Reviews,
+    Orders,
+    Leads,
+    Users,
+  ],
+  globals: [Settings],
   // Content localization — fields are localized starting in stage 2.
   localization: {
     locales: [
@@ -41,6 +67,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || '',
     },
+    migrationDir: path.resolve(dirname, 'migrations'),
   }),
   sharp,
   // Create the first admin from env on an empty database. Idempotent: only
