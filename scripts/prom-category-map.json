@@ -1,0 +1,12 @@
+{
+  "_comment": "Prom category id → site category slug. Edit when a real Prom export is imported; unmapped categories are logged and their offers skipped.",
+  "100": "dviguny",
+  "110": "kpp-ta-rozdatky",
+  "200": "pidviska-ta-khodova",
+  "300": "kuzovni-detali",
+  "400": "optyka",
+  "500": "elektryka",
+  "600": "salon",
+  "700": "halmivna-systema",
+  "800": "shyny-ta-dysky"
+}

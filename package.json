@@ -30,6 +30,7 @@
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
     "db:migrate": "cross-env NODE_OPTIONS=--no-deprecation payload migrate",
     "db:seed": "cross-env NODE_OPTIONS=--no-deprecation tsx scripts/seed.ts",
+    "import:prom": "cross-env NODE_OPTIONS=--no-deprecation tsx scripts/import-prom.ts",
     "worker": "cross-env NODE_OPTIONS=--no-deprecation tsx src/worker/index.ts",
     "worker:dev": "cross-env NODE_OPTIONS=--no-deprecation tsx watch src/worker/index.ts",
     "prepare": "husky"
@@ -40,6 +41,7 @@
     "@payloadcms/richtext-lexical": "3.92.1",
     "@payloadcms/ui": "3.92.1",
     "cross-env": "10.1.0",
+    "fast-xml-parser": "^5.11.2",
     "graphql": "16.14.2",
     "next": "16.4.3",
     "payload": "3.92.1",

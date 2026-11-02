@@ -127,16 +127,17 @@ hreflang, sitemap и CSP.
 | `sharp`                        | обработка изображений (WebP, размеры)                             |
 | `tsx`                          | запуск TS-скриптов и воркера без отдельной сборки                 |
 | `cross-env`                    | кроссплатформенные env в npm-скриптах (payload CLI, NODE_OPTIONS) |
+| `fast-xml-parser`              | парсинг YML-выгрузки Prom.ua при импорте (`scripts/import-prom`)  |
 
 **Dev**
 
-| Пакет                                                    | Причина                |
-| -------------------------------------------------------- | ---------------------- |
-| `typescript`, `@types/*`                                 | типы                   |
-| `tailwindcss`, `@tailwindcss/postcss`                    | стили через токены     |
-| `eslint`, `eslint-config-next`, `eslint-config-prettier` | линтинг                |
-| `prettier`                                               | форматирование         |
-| `husky`, `lint-staged`                                   | проверки на pre-commit |
-| `@commitlint/cli`, `@commitlint/config-conventional`     | Conventional Commits   |
-| `vitest`                                                 | тесты                  |
+| Пакет                                                    | Причина                                                       |
+| -------------------------------------------------------- | ------------------------------------------------------------- |
+| `typescript`, `@types/*`                                 | типы                                                          |
+| `tailwindcss`, `@tailwindcss/postcss`                    | стили через токены                                            |
+| `eslint`, `eslint-config-next`, `eslint-config-prettier` | линтинг                                                       |
+| `prettier`                                               | форматирование                                                |
+| `husky`, `lint-staged`                                   | проверки на pre-commit                                        |
+| `@commitlint/cli`, `@commitlint/config-conventional`     | Conventional Commits                                          |
+| `vitest`                                                 | тесты                                                         |
 | `@playwright/test`                                       | скриншоты и сверка дизайна (этап 1, `scripts/design-compare`) |

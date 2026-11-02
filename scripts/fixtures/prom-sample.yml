@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Prom.ua YML export fixture (10 offers) for scripts/import-prom.ts.
+Structure follows the standard yml_catalog → shop → categories/offers.
+<picture> values are local paths (relative to docs/design-export) so the
+import test runs offline; real exports use absolute http(s) URLs, which the
+importer fetches.
+-->
+<yml_catalog date="2026-11-02 10:00">
+<shop>
+<name>DLSAuto</name>
+<company>DLSAuto</company>
+<categories>
+<category id="100">Двигуни</category>
+<category id="110">КПП та роздатки</category>
+<category id="200">Підвіска та ходова</category>
+<category id="300">Кузовні деталі</category>
+<category id="400">Оптика</category>
+<category id="500">Електрика та електроніка</category>
+<category id="600">Салон</category>
+<category id="700">Гальмівна система</category>
+<category id="800">Шини та диски</category>
+</categories>
+<offers>
+<offer id="PR1001" available="true">
+<name>Амортизатор задній Mitsubishi L200</name>
+<vendorCode>IMP-1001</vendorCode>
+<categoryId>200</categoryId>
+<price>1500</price>
+<currencyId>UAH</currencyId>
+<vendor>Mitsubishi</vendor>
+<picture>assets/cat-suspension.jpg</picture>
+<description>Амортизатор задний, б/у, проверен. Снят с L200.</description>
+<param name="OEM">MR554321</param>
+</offer>
+<offer id="PR1002" available="true">
+<name>Бампер передній Ford Ranger</name>
+<vendorCode>IMP-1002</vendorCode>
+<categoryId>300</categoryId>
+<price>3200</price>
+<currencyId>UAH</currencyId>
+<vendor>Ford</vendor>
+<picture>assets/cat-body.jpg</picture>
+<picture>uploads/detail 1.jpg</picture>
+<description>Передний бампер, без трещин.</description>
+<param name="OEM">UR56-50031</param>
+</offer>
+<offer id="PR1003" available="true">
+<name>Фара ліва Nissan Navara</name>
+<vendorCode>IMP-1003</vendorCode>
+<categoryId>400</categoryId>
+<price>2500</price>
+<currencyId>UAH</currencyId>
+<vendor>Nissan</vendor>
+<picture>uploads/electric 1.jpg</picture>
+<description>Фара левая, стекло целое.</description>
+<param name="OEM">26060-EB70A</param>
+</offer>
+<offer id="PR1004" available="true">
+<name>Генератор Mazda BT-50</name>
+<vendorCode>IMP-1004</vendorCode>
+<categoryId>500</categoryId>
+<price>1800</price>
+<currencyId>UAH</currencyId>
+<vendor>Mazda</vendor>
+<picture>assets/cat-electric.jpg</picture>
+<description>Генератор, проверен на стенде.</description>
+<param name="OEM">WLAA-18-300</param>
+</offer>
+<offer id="PR1005" available="true">
+<name>Супорт передній лівий Toyota Hilux</name>
+<vendorCode>IMP-1005</vendorCode>
+<categoryId>700</categoryId>
+<price>900</price>
+<currencyId>UAH</currencyId>
+<vendor>Toyota</vendor>
+<picture>assets/part-pickup-hub.jpg</picture>
+<description>Суппорт передний, рабочий.</description>
+<param name="OEM">47750-0K050</param>
+</offer>
+<offer id="PR1006" available="true">
+<name>Двигун у зборі Mitsubishi Pajero Sport</name>
+<vendorCode>IMP-1006</vendorCode>
+<categoryId>100</categoryId>
+<price>65000</price>
+<currencyId>UAH</currencyId>
+<vendor>Mitsubishi</vendor>
+<picture>uploads/dvigun 1.jpg</picture>
+<description>Двигатель в сборе, 4D56.</description>
+<param name="OEM">1000C-4D56</param>
+</offer>
+<offer id="PR1007" available="true">
+<name>Сидіння водія Jeep Grand Cherokee</name>
+<vendorCode>IMP-1007</vendorCode>
+<categoryId>600</categoryId>
+<price>2200</price>
+<currencyId>UAH</currencyId>
+<vendor>Jeep</vendor>
+<picture>uploads/detail 1.jpg</picture>
+<description>Сиденье водительское, кожа.</description>
+</offer>
+<offer id="PR1008" available="true">
+<name>Диск литий R16 Hyundai Terracan</name>
+<vendorCode>IMP-1008</vendorCode>
+<categoryId>800</categoryId>
+<price>1200</price>
+<currencyId>UAH</currencyId>
+<vendor>Hyundai</vendor>
+<picture>assets/cat-wheels.jpg</picture>
+<description>Диск литой R16, без повреждений.</description>
+</offer>
+<offer id="PR1009" available="true">
+<name>КПП механічна Kia Sorento</name>
+<vendorCode>IMP-1009</vendorCode>
+<categoryId>110</categoryId>
+<price>18000</price>
+<currencyId>UAH</currencyId>
+<vendor>Kia</vendor>
+<picture>uploads/bort 1.jpg</picture>
+<description>КПП механическая, 5-ступ.</description>
+<param name="OEM">4300039500</param>
+</offer>
+<offer id="PR1010" available="true">
+<name>Капот Ford Ranger T6</name>
+<vendorCode>IMP-1010</vendorCode>
+<categoryId>300</categoryId>
+<price>2800</price>
+<currencyId>UAH</currencyId>
+<vendor>Ford</vendor>
+<picture>assets/cat-body.jpg</picture>
+<description>Капот, под покраску.</description>
+<param name="OEM">AB39-16612</param>
+</offer>
+</offers>
+</shop>
+</yml_catalog>
