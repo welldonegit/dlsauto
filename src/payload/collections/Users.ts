@@ -5,9 +5,11 @@ const isAdminField: FieldAccess = ({ req: { user } }) => user?.role === 'admin'
 
 export const Users: CollectionConfig = {
   slug: 'users',
+  labels: { singular: 'Користувач', plural: 'Користувачі' },
   admin: {
     useAsTitle: 'email',
     defaultColumns: ['name', 'email', 'role'],
+    group: 'Система',
   },
   auth: true,
   access: {
