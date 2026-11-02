@@ -11,7 +11,7 @@
     "source=claude-code-config-${devcontainerId},target=/home/node/.claude,type=volume",
     "source=npm-cache-${devcontainerId},target=/home/node/.npm,type=volume"
   ],
-  "postCreateCommand": "corepack enable && if [ -f package.json ]; then pnpm install; fi",
+  "postCreateCommand": "sudo corepack enable && pnpm install",
   "customizations": {
     "vscode": {
       "extensions": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"],
