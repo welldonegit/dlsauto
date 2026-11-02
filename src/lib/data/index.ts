@@ -2,7 +2,16 @@ import { unstable_cache } from 'next/cache'
 
 import type { Locale } from '@/i18n/config'
 import { getPayloadClient } from '@/lib/payload'
-import type { Brand, Category, Model, Page, PickupPoint, Product, Setting } from '@/payload-types'
+import type {
+  Brand,
+  Category,
+  Model,
+  Page,
+  PickupPoint,
+  Product,
+  Review,
+  Setting,
+} from '@/payload-types'
 
 import { pageTag, productTag, TAG } from './revalidate'
 
@@ -157,6 +166,40 @@ export const getPage = unstable_cache(
   },
   ['page'],
   { tags: [TAG.pages] },
+)
+
+// -------------------------------------------------------------- reviews
+export type ReviewsResult = { reviews: Review[]; average: number; count: number }
+
+/** Published reviews (newest first) plus the average rating over all published. */
+export const getReviews = unstable_cache(
+  async (limit = 8): Promise<ReviewsResult> => {
+    const payload = await getPayloadClient()
+    const res = await payload.find({
+      collection: 'reviews',
+      where: { published: { equals: true } },
+      sort: '-createdAt',
+      limit,
+      depth: 0,
+    })
+    // Average over all published reviews, not just the shown page.
+    const all =
+      res.totalDocs <= res.docs.length
+        ? res.docs
+        : (
+            await payload.find({
+              collection: 'reviews',
+              where: { published: { equals: true } },
+              limit: 1000,
+              depth: 0,
+            })
+          ).docs
+    const count = all.length
+    const average = count ? all.reduce((s, r) => s + (r.rating ?? 0), 0) / count : 0
+    return { reviews: res.docs, average, count }
+  },
+  ['reviews'],
+  { tags: [TAG.reviews] },
 )
 
 // Re-export tag helpers for callers that need targeted revalidation.

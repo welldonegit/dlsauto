@@ -538,33 +538,125 @@ async function run(): Promise<void> {
     { blockType: 'reviewsBlock', heading: 'Відгуки', limit: 8 },
   ]
 
+  // About-page media. Team captions describe the work (no invented names); the
+  // workshop/service photos and a cex video are placeholders from the export.
+  const teamWorkshop = await media(
+    'assets/about-ceh.jpg',
+    'Цех у Запоріжжі, Південне шосе',
+    'about-team-ceh.jpg',
+  )
+  const teamP1 = await media(
+    'assets/team-mechanic1.jpg',
+    'Перевірка двигунів і КПП на стенді',
+    'team-p1.jpg',
+  )
+  const teamP2 = await media(
+    'assets/team-mechanic2.jpg',
+    'Підбір деталей і перевірка сумісності',
+    'team-p2.jpg',
+  )
+  const teamP3 = await media('assets/team-mechanic3.jpg', 'Розбирання і демонтаж', 'team-p3.jpg')
+  const svcSto = await media('assets/service-sto.jpg', 'Пікап на підйомнику в боксі', 'svc-sto.jpg')
+  const svcRazborka = await media(
+    'assets/service-razborka.jpg',
+    'Биті авто в цеху на розбірці',
+    'svc-razborka.jpg',
+  )
+  const svcVideoPoster = await media(
+    'assets/about-ceh.jpg',
+    'Постер відео: цех і двір розбірки',
+    'svc-video-poster.jpg',
+  )
+  const svcVideo = await media(
+    'assets/videos/video1.mp4',
+    'Відео: наш цех і двір',
+    'svc-cex-video.mp4',
+  )
+
   const about = [
     {
       blockType: 'aboutHero',
       eyebrow: 'Про компанію',
       heading: 'Авторозбірка у Запоріжжі',
-      text: 'Самі купуємо авто, розбираємо і продаємо перевірені деталі.',
+      text: 'Купуємо авто після ДТП, перевіряємо кожну деталь і фотографуємо її з усіма дефектами.',
     },
     { blockType: 'stats', heading: 'DLSAuto в цифрах', items: statItems },
     {
       blockType: 'whyDisassembly',
       heading: 'Чому розбірка, а не магазин',
       items: [
-        { step: '01', title: 'Оригінал', text: 'Заводська деталь, а не аналог.' },
-        { step: '02', title: 'Перевірка', text: 'На стенді або на авто.' },
-        { step: '03', title: 'Ціна', text: 'Дешевше за нову.' },
+        {
+          step: '01',
+          title: 'Оригінал',
+          text: 'Заводська деталь із конкретного авто, а не аналог невідомої якості.',
+        },
+        {
+          step: '02',
+          title: 'Перевірка',
+          text: 'Двигуни і КПП запускаємо на стенді, оптику та електрику перевіряємо на авто.',
+        },
+        {
+          step: '03',
+          title: 'Ціна',
+          text: 'Дешевше за нову оригінальну деталь, з реальними фото та гарантією.',
+        },
       ],
     },
     {
       blockType: 'partPath',
-      heading: 'Шлях деталі',
+      heading: 'Від битого авто до вашої посилки',
       steps: [
-        { title: 'Приймання авто', text: 'Купуємо авто на розбір.' },
-        { title: 'Демонтаж', text: 'Знімаємо та маркуємо.' },
-        { title: 'Перевірка', text: 'Тестуємо та фотографуємо.' },
+        {
+          title: 'Купуємо авто',
+          text: 'Купуємо авто після ДТП цілком. Тому знаємо пробіг, рік і що саме з ним сталося.',
+        },
+        {
+          title: 'Розбираємо',
+          text: 'Розбираємо самі. Кожна деталь отримує свій номер і прив’язку до авто-донора.',
+        },
+        {
+          title: 'Перевіряємо',
+          text: 'Двигуни і коробки запускаємо на стенді, оптику та електрику перевіряємо на авто. Знімаємо відео.',
+        },
+        {
+          title: 'Позначаємо дефекти',
+          text: 'Кожну подряпину обводимо білим маркером перед фото. Ви бачите стан до оплати, а не після.',
+        },
+        {
+          title: 'Публікуємо',
+          text: 'Публікуємо з реальними фото, ціною та гарантією. Відео перевірки — в картці.',
+        },
+        {
+          title: 'Відправляємо',
+          text: 'Відправляємо в день замовлення Новою поштою або Delivery. По Запоріжжю — самовивіз або доставка в бокс СТО.',
+        },
       ],
     },
-    { blockType: 'team', heading: 'Команда і цех', text: 'Усе в одному дворі у Запоріжжі.' },
+    {
+      blockType: 'team',
+      heading: 'Команда і цех',
+      text: 'Усе — в одному дворі у Запоріжжі.',
+      photos: [teamWorkshop, teamP1, teamP2, teamP3],
+    },
+    {
+      blockType: 'whatElseWeDo',
+      heading: 'Що ще ми робимо',
+      text: 'Окрім продажу запчастин, ремонтуємо у власному сервісі — ставимо те, що самі зняли і перевірили. Викуповуємо авто після ДТП і на розбірку. Усе — в одному дворі в Запоріжжі.',
+      cards: [
+        {
+          title: 'Ремонт у власному сервісі',
+          text: 'Ставимо деталі, які самі зняли і перевірили',
+          image: svcSto,
+        },
+        {
+          title: 'Викуповуємо авто на розбірку',
+          text: 'Оцінимо за фото за годину, заберемо самі',
+          image: svcRazborka,
+        },
+      ],
+      video: svcVideo,
+      videoPoster: svcVideoPoster,
+    },
     { blockType: 'reviewsBlock', heading: 'Відгуки', limit: 8 },
     {
       blockType: 'ctaText',

@@ -241,6 +241,70 @@
     }
   }
 
+  /*
+   * "DLSAuto в цифрах" v2 card hover micro-animations (transform-only). Dark
+   * cards sway up; red cards shake then settle larger. Reduced-motion is
+   * neutralised by the global rule above.
+   */
+  @keyframes dls-sway-in {
+    0% {
+      transform: translateY(0) rotate(0);
+    }
+    25% {
+      transform: translateY(-8px) rotate(-1deg);
+    }
+    75% {
+      transform: translateY(-8px) rotate(1deg);
+    }
+    100% {
+      transform: translateY(-8px) rotate(0);
+    }
+  }
+  @keyframes dls-sway-out {
+    from {
+      transform: translateY(-8px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  @keyframes dls-shake {
+    0% {
+      transform: translateX(0);
+    }
+    20% {
+      transform: translateX(-2px);
+    }
+    40% {
+      transform: translateX(2px);
+    }
+    60% {
+      transform: translateX(-1px);
+    }
+    80% {
+      transform: translateX(1px);
+    }
+    100% {
+      transform: translateX(0);
+    }
+  }
+  @keyframes dls-grow-in {
+    from {
+      transform: scale(1);
+    }
+    to {
+      transform: scale(1.02);
+    }
+  }
+  @keyframes dls-grow-out {
+    from {
+      transform: scale(1.02);
+    }
+    to {
+      transform: scale(1);
+    }
+  }
+
   /* Animated underline for text links (footer, legal). */
   .dls-underline {
     background-image: linear-gradient(currentColor, currentColor);

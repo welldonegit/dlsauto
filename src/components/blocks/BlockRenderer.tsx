@@ -1,6 +1,15 @@
 import type { Locale } from '@/i18n/config'
 import type { Page } from '@/payload-types'
 
+import { AboutHero } from './AboutHero'
+import { CtaText } from './CtaText'
+import { PartPath } from './PartPath'
+import { ReviewsBlock } from './ReviewsBlock'
+import { StatsBlock } from './StatsBlock'
+import { TeamBlock } from './TeamBlock'
+import { WhatElseWeDo } from './WhatElseWeDo'
+import { WhyDisassembly } from './WhyDisassembly'
+
 /**
  * Renders a page's block layout (DEV_CONTEXT §3). One component per block type;
  * an empty block renders nothing. Real block components land per page across
@@ -15,13 +24,23 @@ export type BlockComponentProps<T extends PageBlock['blockType']> = Extract<
   { blockType: T }
 > & { locale: Locale }
 
-// Registry of implemented blocks, extended as each page is built.
-type Registry = {
-  [K in PageBlock['blockType']]?: React.ComponentType<BlockComponentProps<K>>
-}
+// Registry of implemented blocks, extended as each page is built. Components may
+// be async server components (e.g. reviews fetch their data).
+type BlockComponent<K extends PageBlock['blockType']> = (
+  props: BlockComponentProps<K>,
+) => React.ReactNode | Promise<React.ReactNode>
+type Registry = { [K in PageBlock['blockType']]?: BlockComponent<K> }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- heterogeneous map, keys self-check above
-const REGISTRY: Registry = {} as any
+const REGISTRY: Registry = {
+  aboutHero: AboutHero,
+  stats: StatsBlock,
+  whyDisassembly: WhyDisassembly,
+  partPath: PartPath,
+  team: TeamBlock,
+  whatElseWeDo: WhatElseWeDo,
+  reviewsBlock: ReviewsBlock,
+  ctaText: CtaText,
+}
 
 export function BlockRenderer({ blocks, locale }: { blocks: Page['layout']; locale: Locale }) {
   if (!blocks?.length) return null
@@ -29,7 +48,8 @@ export function BlockRenderer({ blocks, locale }: { blocks: Page['layout']; loca
     <>
       {blocks.map((block) => {
         const Component = REGISTRY[block.blockType] as
-          React.ComponentType<PageBlock & { locale: Locale }> | undefined
+          | ((props: PageBlock & { locale: Locale }) => React.ReactNode | Promise<React.ReactNode>)
+          | undefined
         const key = block.id ?? block.blockType
         if (Component) return <Component key={key} {...block} locale={locale} />
         return <BlockPlaceholder key={key} type={block.blockType} />
