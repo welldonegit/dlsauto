@@ -225,19 +225,23 @@ function RotatingSlot({
   const last = useRef<number | undefined>(undefined)
 
   useEffect(() => {
+    // Only run the animation loop while on screen and in motion — no rAF churn
+    // during load or when the section is parked off-screen.
+    if (reduce || !inView || hover) {
+      last.current = undefined
+      return
+    }
     const tick = (now: number) => {
       const dt = last.current ? Math.min(now - last.current, 100) : 0
       last.current = now
-      if (!reduce && !hover && inView) {
-        setP((prev) => {
-          const next = prev + dt / DWELL
-          if (next >= 1) {
-            setActive((a) => (a + 1) % cards.length)
-            return 0
-          }
-          return next
-        })
-      }
+      setP((prev) => {
+        const next = prev + dt / DWELL
+        if (next >= 1) {
+          setActive((a) => (a + 1) % cards.length)
+          return 0
+        }
+        return next
+      })
       raf.current = requestAnimationFrame(tick)
     }
     raf.current = requestAnimationFrame(tick)

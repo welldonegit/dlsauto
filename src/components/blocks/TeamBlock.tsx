@@ -35,12 +35,7 @@ export function TeamBlock({ heading, photos }: BlockComponentProps<'team'>) {
               aspectRatio: '4 / 3',
             }}
           >
-            <MediaImage
-              media={lead}
-              size="gallery"
-              sizes="(min-width: 1024px) 50vw, 100vw"
-              priority
-            />
+            <MediaImage media={lead} size="gallery" sizes="(min-width: 1024px) 50vw, 100vw" />
             {lead.alt ? <Caption>{lead.alt}</Caption> : null}
           </figure>
 

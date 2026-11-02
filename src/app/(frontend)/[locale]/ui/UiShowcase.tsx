@@ -5,7 +5,9 @@ import { useState, type ReactNode } from 'react'
 import { Accordion } from '@/components/ui/Accordion'
 import { Badge } from '@/components/ui/Badge'
 import { Button, CircleArrow } from '@/components/ui/Button'
+import { RichText, type LexRoot } from '@/components/ui/RichText'
 import { SectionHeading } from '@/components/ui/SectionHeading'
+import { Stars } from '@/components/ui/Stars'
 import { StatusDot } from '@/components/ui/StatusDot'
 import { Toast } from '@/components/ui/Toast'
 import { Tooltip } from '@/components/ui/Tooltip'
@@ -65,10 +67,43 @@ const SHADOWS = [
   { name: 'lg', v: 'var(--shadow-lg)' },
 ]
 
+/* richText typography sample for the UI kit (headings, lists, link, marks). */
+const RICHTEXT_SAMPLE: LexRoot = {
+  root: {
+    type: 'root',
+    children: [
+      { type: 'heading', tag: 'h2', children: [{ type: 'text', text: 'Заголовок розділу' }] },
+      {
+        type: 'paragraph',
+        children: [
+          { type: 'text', text: 'Абзац із ' },
+          { type: 'text', format: 1, text: 'жирним' },
+          { type: 'text', text: ', ' },
+          { type: 'text', format: 2, text: 'курсивом' },
+          { type: 'text', text: ' та ' },
+          { type: 'link', fields: { url: '/' }, children: [{ type: 'text', text: 'посиланням' }] },
+          { type: 'text', text: '.' },
+        ],
+      },
+      {
+        type: 'list',
+        listType: 'bullet',
+        children: [
+          { type: 'listitem', children: [{ type: 'text', text: 'Перший пункт списку' }] },
+          { type: 'listitem', children: [{ type: 'text', text: 'Другий пункт списку' }] },
+        ],
+      },
+    ],
+  },
+}
+
 function Block({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section style={{ marginTop: 'var(--space-64)' }}>
-      <h2 className="font-semibold text-28" style={{ margin: '0 0 var(--space-24)', letterSpacing: '-0.02em' }}>
+      <h2
+        className="font-semibold text-28"
+        style={{ margin: '0 0 var(--space-24)', letterSpacing: '-0.02em' }}
+      >
         {title}
       </h2>
       {children}
@@ -118,7 +153,13 @@ export function UiShowcase() {
       <h1 className="font-semibold text-40" style={{ margin: 0, letterSpacing: '-0.02em' }}>
         DLSAuto — UI kit
       </h1>
-      <p style={{ margin: 'var(--space-8) 0 0', color: 'var(--color-neutral-600)', fontSize: 'var(--text-16)' }}>
+      <p
+        style={{
+          margin: 'var(--space-8) 0 0',
+          color: 'var(--color-neutral-600)',
+          fontSize: 'var(--text-16)',
+        }}
+      >
         Токени й компоненти системи. Значення — з <code>globals.css</code> (
         <code>docs/DESIGN_TOKENS.md</code>).
       </p>
@@ -127,7 +168,10 @@ export function UiShowcase() {
       <Block title="Палітра">
         <div
           className="grid"
-          style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(var(--space-160), 1fr))', gap: 'var(--space-16)' }}
+          style={{
+            gridTemplateColumns: 'repeat(auto-fill, minmax(var(--space-160), 1fr))',
+            gap: 'var(--space-16)',
+          }}
         >
           {COLORS.map((c) => (
             <div key={c.name} className="flex flex-col" style={{ gap: 'var(--space-8)' }}>
@@ -152,13 +196,19 @@ export function UiShowcase() {
       <Block title="Типографіка">
         <div className="flex flex-col" style={{ gap: 'var(--space-16)' }}>
           {TYPE.map((t) => (
-            <div key={t.name} className="flex flex-wrap items-baseline" style={{ gap: 'var(--space-16)' }}>
+            <div
+              key={t.name}
+              className="flex flex-wrap items-baseline"
+              style={{ gap: 'var(--space-16)' }}
+            >
               <span
                 style={{
                   fontSize: `var(--text-${t.name})`,
                   lineHeight: `var(--text-${t.name}--line-height)`,
                   fontWeight: 600,
-                  letterSpacing: ['d', '40', '32', '28', '24'].includes(t.name) ? '-0.02em' : undefined,
+                  letterSpacing: ['d', '40', '32', '28', '24'].includes(t.name)
+                    ? '-0.02em'
+                    : undefined,
                 }}
               >
                 Б/в запчастини
@@ -181,10 +231,23 @@ export function UiShowcase() {
         <div className="flex flex-col" style={{ gap: 'var(--space-8)' }}>
           {SPACES.map((s) => (
             <div key={s} className="flex items-center" style={{ gap: 'var(--space-16)' }}>
-              <span style={{ width: 'var(--space-48)', fontSize: 'var(--text-13)', color: 'var(--color-neutral-500)' }}>
+              <span
+                style={{
+                  width: 'var(--space-48)',
+                  fontSize: 'var(--text-13)',
+                  color: 'var(--color-neutral-500)',
+                }}
+              >
                 {s}
               </span>
-              <span style={{ height: 'var(--space-16)', width: `var(--space-${s})`, background: 'var(--color-primary)', borderRadius: 'var(--radius-xs)' }} />
+              <span
+                style={{
+                  height: 'var(--space-16)',
+                  width: `var(--space-${s})`,
+                  background: 'var(--color-primary)',
+                  borderRadius: 'var(--radius-xs)',
+                }}
+              />
             </div>
           ))}
         </div>
@@ -194,17 +257,48 @@ export function UiShowcase() {
       <Block title="Радіуси · тіні · рамки">
         <Row>
           {RADII.map((r) => (
-            <div key={r.name} className="flex flex-col items-center" style={{ gap: 'var(--space-8)' }}>
-              <div style={{ width: 'var(--space-80)', height: 'var(--space-80)', background: 'var(--color-neutral-white)', border: 'var(--border-hairline) solid var(--color-neutral-300)', borderRadius: r.v }} />
-              <span style={{ fontSize: 'var(--text-13)', color: 'var(--color-neutral-500)' }}>radius-{r.name}</span>
+            <div
+              key={r.name}
+              className="flex flex-col items-center"
+              style={{ gap: 'var(--space-8)' }}
+            >
+              <div
+                style={{
+                  width: 'var(--space-80)',
+                  height: 'var(--space-80)',
+                  background: 'var(--color-neutral-white)',
+                  border: 'var(--border-hairline) solid var(--color-neutral-300)',
+                  borderRadius: r.v,
+                }}
+              />
+              <span style={{ fontSize: 'var(--text-13)', color: 'var(--color-neutral-500)' }}>
+                radius-{r.name}
+              </span>
             </div>
           ))}
         </Row>
-        <div className="flex flex-wrap" style={{ gap: 'var(--space-24)', marginTop: 'var(--space-24)' }}>
+        <div
+          className="flex flex-wrap"
+          style={{ gap: 'var(--space-24)', marginTop: 'var(--space-24)' }}
+        >
           {SHADOWS.map((sh) => (
-            <div key={sh.name} className="flex flex-col items-center" style={{ gap: 'var(--space-8)' }}>
-              <div style={{ width: 'var(--space-128)', height: 'var(--space-80)', background: 'var(--color-neutral-white)', borderRadius: 'var(--radius-lg)', boxShadow: sh.v }} />
-              <span style={{ fontSize: 'var(--text-13)', color: 'var(--color-neutral-500)' }}>shadow-{sh.name}</span>
+            <div
+              key={sh.name}
+              className="flex flex-col items-center"
+              style={{ gap: 'var(--space-8)' }}
+            >
+              <div
+                style={{
+                  width: 'var(--space-128)',
+                  height: 'var(--space-80)',
+                  background: 'var(--color-neutral-white)',
+                  borderRadius: 'var(--radius-lg)',
+                  boxShadow: sh.v,
+                }}
+              />
+              <span style={{ fontSize: 'var(--text-13)', color: 'var(--color-neutral-500)' }}>
+                shadow-{sh.name}
+              </span>
             </div>
           ))}
         </div>
@@ -275,7 +369,10 @@ export function UiShowcase() {
 
       {/* ----------------------------------------------------------- Forms */}
       <Block title="Поля форми">
-        <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 'var(--space-16)', maxWidth: 'var(--space-320)' }}>
+        <div
+          className="grid grid-cols-1 md:grid-cols-2"
+          style={{ gap: 'var(--space-16)', maxWidth: 'var(--space-320)' }}
+        >
           <TextField label="Марка і модель авто" />
           <TextField label="Що шукаєте" required />
           <TextField label="З помилкою" required error="Заповніть це поле" />
@@ -301,12 +398,20 @@ export function UiShowcase() {
       <Block title="Tooltip · Accordion · Toast">
         <Row>
           <Tooltip content="Ranger 2006–2012">
-            <span style={{ fontSize: 'var(--text-14)', color: 'var(--color-neutral-600)', textDecoration: 'underline' }}>
+            <span
+              style={{
+                fontSize: 'var(--text-14)',
+                color: 'var(--color-neutral-600)',
+                textDecoration: 'underline',
+              }}
+            >
               Донор (наведіть)
             </span>
           </Tooltip>
           <Tooltip content="Завжди видно" forceOpen>
-            <span style={{ fontSize: 'var(--text-14)', color: 'var(--color-neutral-600)' }}>forceOpen</span>
+            <span style={{ fontSize: 'var(--text-14)', color: 'var(--color-neutral-600)' }}>
+              forceOpen
+            </span>
           </Tooltip>
           <Button variant="secondary" size="sm" onClick={() => setToastOpen(true)}>
             Показати тост
@@ -316,12 +421,69 @@ export function UiShowcase() {
           <Accordion
             defaultOpen={['a']}
             items={[
-              { id: 'a', title: 'Яка гарантія?', content: <p style={{ margin: 0, color: 'var(--color-neutral-600)' }}>14 / 30 / до 60 днів.</p> },
-              { id: 'b', title: 'Як оплатити?', content: <p style={{ margin: 0, color: 'var(--color-neutral-600)' }}>Карткою онлайн або готівкою.</p> },
+              {
+                id: 'a',
+                title: 'Яка гарантія?',
+                content: (
+                  <p style={{ margin: 0, color: 'var(--color-neutral-600)' }}>
+                    14 / 30 / до 60 днів.
+                  </p>
+                ),
+              },
+              {
+                id: 'b',
+                title: 'Як оплатити?',
+                content: (
+                  <p style={{ margin: 0, color: 'var(--color-neutral-600)' }}>
+                    Карткою онлайн або готівкою.
+                  </p>
+                ),
+              },
             ]}
           />
         </div>
-        <Toast open={toastOpen} title="Додано в обране" description="Фара ліва Ford Ranger" onClose={() => setToastOpen(false)} />
+        <Toast
+          open={toastOpen}
+          title="Додано в обране"
+          description="Фара ліва Ford Ranger"
+          onClose={() => setToastOpen(false)}
+        />
+      </Block>
+
+      {/* ------------------------------------------------ Stage 3a pieces */}
+      <Block title="Етап 3a — нові елементи">
+        <p
+          style={{
+            margin: '0 0 var(--space-16)',
+            color: 'var(--color-neutral-600)',
+            fontSize: 'var(--text-14)',
+          }}
+        >
+          Зірки відгуків і типографіка richText. Складені блоки сторінок (диск «Про компанію»,
+          «DLSAuto в цифрах», «Шлях деталі», «Що ще ми робимо», відгуки, CTA) — у русі на{' '}
+          <code>/about</code>; юридична типографіка — на <code>/policy</code> та{' '}
+          <code>/oferta</code>; 404 — на будь-якій неіснуючій адресі.
+        </p>
+        <Row>
+          {[0, 1, 2, 3, 4, 5].map((n) => (
+            <div key={n} className="flex items-center" style={{ gap: 'var(--space-8)' }}>
+              <Stars rating={n} size="20" label={`${n} з 5`} />
+              <span style={{ color: 'var(--color-neutral-600)', fontSize: 'var(--text-13)' }}>
+                {n}/5
+              </span>
+            </div>
+          ))}
+        </Row>
+        <div
+          style={{
+            marginTop: 'var(--space-24)',
+            maxWidth: '47.5rem',
+            fontSize: 'var(--text-16)',
+            color: 'var(--color-neutral-900)',
+          }}
+        >
+          <RichText content={RICHTEXT_SAMPLE} />
+        </div>
       </Block>
 
       {/* ----------------------------------------- Headings / breadcrumbs */}
@@ -336,9 +498,24 @@ export function UiShowcase() {
 
       {/* --------------------------------------------- Mobile width preview */}
       <Block title="Мобільна ширина (390px)">
-        <div style={{ width: 'var(--space-390, 24.375rem)', maxWidth: '100%', border: 'var(--border-hairline) solid var(--color-neutral-200)', borderRadius: 'var(--radius-lg)', padding: 'var(--space-16)' }}>
+        <div
+          style={{
+            width: 'var(--space-390, 24.375rem)',
+            maxWidth: '100%',
+            border: 'var(--border-hairline) solid var(--color-neutral-200)',
+            borderRadius: 'var(--radius-lg)',
+            padding: 'var(--space-16)',
+          }}
+        >
           <SectionHeading as="h2">Як нас знайти</SectionHeading>
-          <div style={{ marginTop: 'var(--space-16)', display: 'flex', flexDirection: 'column', gap: 'var(--space-12)' }}>
+          <div
+            style={{
+              marginTop: 'var(--space-16)',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--space-12)',
+            }}
+          >
             <Button variant="primary" size="lg" fullWidth>
               Надіслати
             </Button>

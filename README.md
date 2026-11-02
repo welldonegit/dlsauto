@@ -131,13 +131,14 @@ hreflang, sitemap и CSP.
 
 **Dev**
 
-| Пакет                                                    | Причина                                                       |
-| -------------------------------------------------------- | ------------------------------------------------------------- |
-| `typescript`, `@types/*`                                 | типы                                                          |
-| `tailwindcss`, `@tailwindcss/postcss`                    | стили через токены                                            |
-| `eslint`, `eslint-config-next`, `eslint-config-prettier` | линтинг                                                       |
-| `prettier`                                               | форматирование                                                |
-| `husky`, `lint-staged`                                   | проверки на pre-commit                                        |
-| `@commitlint/cli`, `@commitlint/config-conventional`     | Conventional Commits                                          |
-| `vitest`                                                 | тесты                                                         |
-| `@playwright/test`                                       | скриншоты и сверка дизайна (этап 1, `scripts/design-compare`) |
+| Пакет                                                    | Причина                                                                |
+| -------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `typescript`, `@types/*`                                 | типы                                                                   |
+| `tailwindcss`, `@tailwindcss/postcss`                    | стили через токены                                                     |
+| `eslint`, `eslint-config-next`, `eslint-config-prettier` | линтинг                                                                |
+| `prettier`                                               | форматирование                                                         |
+| `husky`, `lint-staged`                                   | проверки на pre-commit                                                 |
+| `@commitlint/cli`, `@commitlint/config-conventional`     | Conventional Commits                                                   |
+| `vitest`                                                 | тесты                                                                  |
+| `@playwright/test`                                       | скриншоты и сверка дизайна (этап 1, `scripts/design-compare`)          |
+| `lighthouse`                                             | мобильный аудит Performance/Accessibility (`pnpm lighthouse`, этап 3a) |
