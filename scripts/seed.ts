@@ -391,6 +391,12 @@ async function run(): Promise<void> {
         telegram: 'https://t.me/dlsauto',
         viber: 'viber://chat?number=%2B380986401357',
       },
+      channelNotes: {
+        telegram:
+          'Найшвидше. Надішліть фото деталі та номер — відповімо за 5–10 хвилин у робочий час',
+        viber: 'Те саме, якщо зручніше у Viber',
+        phone: 'Якщо треба обговорити голосом. Пн–Сб 9:00–18:00',
+      },
       socials: {
         telegram: 'https://t.me/dlsauto',
         viber: '#',

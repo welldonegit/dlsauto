@@ -1510,6 +1510,14 @@ export interface Setting {
     telegram?: string | null;
     viber?: string | null;
   };
+  /**
+   * Короткий опис під кожним каналом. Порожньо — підставиться типовий текст.
+   */
+  channelNotes?: {
+    telegram?: string | null;
+    viber?: string | null;
+    phone?: string | null;
+  };
   socials?: {
     telegram?: string | null;
     viber?: string | null;
@@ -1560,6 +1568,13 @@ export interface SettingsSelect<T extends boolean = true> {
     | {
         telegram?: T;
         viber?: T;
+      };
+  channelNotes?:
+    | T
+    | {
+        telegram?: T;
+        viber?: T;
+        phone?: T;
       };
   socials?:
     | T

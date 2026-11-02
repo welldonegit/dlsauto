@@ -37,6 +37,20 @@ export const Settings: GlobalConfig = {
               ],
             },
             {
+              name: 'channelNotes',
+              type: 'group',
+              label: 'Підписи каналів (сторінка «Контакти»)',
+              admin: {
+                description:
+                  'Короткий опис під кожним каналом. Порожньо — підставиться типовий текст.',
+              },
+              fields: [
+                { name: 'telegram', type: 'textarea', localized: true, label: 'Telegram — підпис' },
+                { name: 'viber', type: 'textarea', localized: true, label: 'Viber — підпис' },
+                { name: 'phone', type: 'textarea', localized: true, label: 'Телефон — підпис' },
+              ],
+            },
+            {
               name: 'socials',
               type: 'group',
               label: 'Соцмережі',

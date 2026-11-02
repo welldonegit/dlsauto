@@ -28,8 +28,7 @@ export const metadata: Metadata = {
     'Два пункти видачі — Запоріжжя та Дніпро. Телефон, Telegram, Viber, графік роботи та форма запиту про деталь.',
 }
 
-// Editorial copy per channel (not admin data); hrefs and the phone number come
-// from settings.
+// Default copy per channel; overridden by settings.channelNotes when set.
 const CHANNEL_TEXT: Record<Channel['kind'], string> = {
   telegram: 'Найшвидше. Надішліть фото деталі та номер — відповімо за 5–10 хвилин у робочий час',
   viber: 'Те саме, якщо зручніше у Viber',
@@ -54,24 +53,25 @@ export default async function ContactsPage({ params }: { params: Promise<{ local
   }))
 
   const phone = settings.phones?.[0]?.number
+  const notes = settings.channelNotes ?? {}
   const channels: Channel[] = [
     settings.messengers?.telegram && {
       kind: 'telegram' as const,
       name: 'Telegram',
-      text: CHANNEL_TEXT.telegram,
+      text: notes.telegram || CHANNEL_TEXT.telegram,
       href: settings.messengers.telegram,
       target: '_blank',
     },
     settings.messengers?.viber && {
       kind: 'viber' as const,
       name: 'Viber',
-      text: CHANNEL_TEXT.viber,
+      text: notes.viber || CHANNEL_TEXT.viber,
       href: settings.messengers.viber,
     },
     phone && {
       kind: 'phone' as const,
       name: phone,
-      text: CHANNEL_TEXT.phone,
+      text: notes.phone || CHANNEL_TEXT.phone,
       href: `tel:${phone.replace(/[^+\d]/g, '')}`,
     },
   ].filter(Boolean) as Channel[]
