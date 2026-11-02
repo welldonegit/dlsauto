@@ -28,9 +28,22 @@ import {
  * the correct trigger; contents land in a later stage.
  */
 
-const PHONE = '+380 98 640 13 57'
-const PHONE_HREF = 'tel:+380986401357'
-const HOURS = 'Пн–Сб 9:00–18:00'
+/**
+ * Chrome data (phone, hours, messenger links) comes from `settings` /
+ * `pickup-points` via the SiteHeader server wrapper. Defaults keep the header
+ * self-contained on pages (e.g. /ui) that render it without data.
+ */
+export type HeaderProps = {
+  phone?: string
+  phoneHref?: string
+  hours?: string
+  telegramHref?: string
+  viberHref?: string
+}
+
+const DEFAULT_PHONE = '+380 98 640 13 57'
+const DEFAULT_PHONE_HREF = 'tel:+380986401357'
+const DEFAULT_HOURS = 'Пн–Сб 9:00–18:00'
 
 function useScrollReveal() {
   const [hidden, setHidden] = useState(false)
@@ -115,13 +128,31 @@ function LanguageToggle({ dark = true }: { dark?: boolean }) {
   )
 }
 
-function SocialLinks({ color }: { color: string }) {
+function SocialLinks({
+  color,
+  telegramHref = '#',
+  viberHref = '#',
+}: {
+  color: string
+  telegramHref?: string
+  viberHref?: string
+}) {
   return (
     <div className="flex" style={{ gap: 'var(--space-8)' }}>
-      <a href="#" aria-label="Telegram" className="flex items-center justify-center" style={{ width: 'var(--icon-24)', height: 'var(--icon-24)', color }}>
+      <a
+        href={telegramHref}
+        aria-label="Telegram"
+        className="flex items-center justify-center"
+        style={{ width: 'var(--icon-24)', height: 'var(--icon-24)', color }}
+      >
         <TelegramIcon size="16" />
       </a>
-      <a href="#" aria-label="Viber" className="flex items-center justify-center" style={{ width: 'var(--icon-24)', height: 'var(--icon-24)', color }}>
+      <a
+        href={viberHref}
+        aria-label="Viber"
+        className="flex items-center justify-center"
+        style={{ width: 'var(--icon-24)', height: 'var(--icon-24)', color }}
+      >
         <ViberIcon size="16" />
       </a>
     </div>
@@ -250,13 +281,22 @@ function CatalogTrigger({ open, onClick }: { open: boolean; onClick: () => void 
       Каталог
       <ChevronDownIcon
         size="16"
-        style={{ transform: open ? 'rotate(180deg)' : 'rotate(0deg)', transition: 'transform var(--duration-200) ease' }}
+        style={{
+          transform: open ? 'rotate(180deg)' : 'rotate(0deg)',
+          transition: 'transform var(--duration-200) ease',
+        }}
       />
     </button>
   )
 }
 
-export function Header() {
+export function Header({
+  phone = DEFAULT_PHONE,
+  phoneHref = DEFAULT_PHONE_HREF,
+  hours = DEFAULT_HOURS,
+  telegramHref = '#',
+  viberHref = '#',
+}: HeaderProps = {}) {
   const { hidden, stuck } = useScrollReveal()
   const [menuOpen, setMenuOpen] = useState(false)
   const toggleMenu = () => setMenuOpen((o) => !o)
@@ -265,7 +305,8 @@ export function Header() {
     background: 'var(--color-neutral-0)',
     transform: hidden ? 'translateY(-100%)' : 'translateY(0)',
     boxShadow: stuck && !hidden ? 'var(--shadow-md)' : 'none',
-    transition: 'transform var(--duration-300) var(--ease-brand), box-shadow var(--duration-300) var(--ease-brand)',
+    transition:
+      'transform var(--duration-300) var(--ease-brand), box-shadow var(--duration-300) var(--ease-brand)',
   }
 
   return (
@@ -274,11 +315,20 @@ export function Header() {
       {/* mobile */}
       <div
         className="flex items-center justify-between md:hidden"
-        style={{ padding: '0 var(--space-16)', height: 'var(--control-h-48)', fontSize: 'var(--text-14)', color: 'var(--color-neutral-300)' }}
+        style={{
+          padding: '0 var(--space-16)',
+          height: 'var(--control-h-48)',
+          fontSize: 'var(--text-14)',
+          color: 'var(--color-neutral-300)',
+        }}
       >
-        <span>{HOURS}</span>
-        <a href={PHONE_HREF} className="flex items-center font-medium no-underline" style={{ height: 'var(--control-h-48)', color: 'var(--color-neutral-0)' }}>
-          {PHONE}
+        <span>{hours}</span>
+        <a
+          href={phoneHref}
+          className="flex items-center font-medium no-underline"
+          style={{ height: 'var(--control-h-48)', color: 'var(--color-neutral-0)' }}
+        >
+          {phone}
         </a>
       </div>
       {/* tablet + desktop */}
@@ -302,16 +352,28 @@ export function Header() {
             <a href="#" className="no-underline" style={{ color: 'var(--color-neutral-300)' }}>
               Гарантія та повернення
             </a>
-            <Link href="/contacts" className="no-underline" style={{ color: 'var(--color-neutral-300)' }}>
+            <Link
+              href="/contacts"
+              className="no-underline"
+              style={{ color: 'var(--color-neutral-300)' }}
+            >
               Контакти
             </Link>
           </nav>
           <div className="flex items-center" style={{ gap: 'var(--space-16)', marginLeft: 'auto' }}>
-            <span className="hidden wide:inline">{HOURS}</span>
-            <a href={PHONE_HREF} className="font-medium no-underline" style={{ color: 'var(--color-neutral-0)' }}>
-              {PHONE}
+            <span className="hidden wide:inline">{hours}</span>
+            <a
+              href={phoneHref}
+              className="font-medium no-underline"
+              style={{ color: 'var(--color-neutral-0)' }}
+            >
+              {phone}
             </a>
-            <SocialLinks color="var(--color-neutral-300)" />
+            <SocialLinks
+              color="var(--color-neutral-300)"
+              telegramHref={telegramHref}
+              viberHref={viberHref}
+            />
             <LanguageToggle />
           </div>
         </div>
@@ -321,20 +383,37 @@ export function Header() {
       <div className="sticky top-0 z-[900]">
         <div style={barStyle}>
           {/* mobile main bar */}
-          <div className="flex items-center md:hidden" style={{ padding: '0 var(--space-16)', height: 'var(--space-64)', gap: 'var(--space-12)' }}>
+          <div
+            className="flex items-center md:hidden"
+            style={{
+              padding: '0 var(--space-16)',
+              height: 'var(--space-64)',
+              gap: 'var(--space-12)',
+            }}
+          >
             <button
               type="button"
               aria-label="Меню"
               aria-expanded={menuOpen}
               onClick={toggleMenu}
               className="flex cursor-pointer items-center justify-center"
-              style={{ width: 'var(--control-h-44)', height: 'var(--control-h-44)', border: 'none', borderRadius: 'var(--radius-sm)', background: 'var(--color-neutral-100)', color: 'var(--color-neutral-900)' }}
+              style={{
+                width: 'var(--control-h-44)',
+                height: 'var(--control-h-44)',
+                border: 'none',
+                borderRadius: 'var(--radius-sm)',
+                background: 'var(--color-neutral-100)',
+                color: 'var(--color-neutral-900)',
+              }}
             >
               {menuOpen ? <CloseIcon size="24" /> : <MenuIcon size="24" />}
             </button>
             <Logo size="sm" />
-            <div className="flex items-center" style={{ gap: 'var(--space-8)', marginLeft: 'auto' }}>
-              <IconAction label={`Зателефонувати: ${PHONE}`} href={PHONE_HREF} size="44">
+            <div
+              className="flex items-center"
+              style={{ gap: 'var(--space-8)', marginLeft: 'auto' }}
+            >
+              <IconAction label={`Зателефонувати: ${phone}`} href={phoneHref} size="44">
                 <PhoneIcon size="24" />
               </IconAction>
               <IconAction label="Обране" size="44">
@@ -344,7 +423,14 @@ export function Header() {
                 href="#"
                 aria-label="Кошик"
                 className="flex shrink-0 items-center justify-center"
-                style={{ width: 'var(--control-h-44)', height: 'var(--control-h-44)', border: 'none', borderRadius: 'var(--radius-sm)', background: 'var(--color-primary)', color: 'var(--color-neutral-0)' }}
+                style={{
+                  width: 'var(--control-h-44)',
+                  height: 'var(--control-h-44)',
+                  border: 'none',
+                  borderRadius: 'var(--radius-sm)',
+                  background: 'var(--color-primary)',
+                  color: 'var(--color-neutral-0)',
+                }}
               >
                 <CartIcon size="24" />
               </a>
@@ -370,7 +456,14 @@ export function Header() {
                 aria-expanded={menuOpen}
                 onClick={toggleMenu}
                 className="flex cursor-pointer items-center justify-center wide:hidden"
-                style={{ width: 'var(--control-h-48)', height: 'var(--control-h-48)', border: 'none', borderRadius: 'var(--radius-sm)', background: 'var(--color-neutral-100)', color: 'var(--color-neutral-900)' }}
+                style={{
+                  width: 'var(--control-h-48)',
+                  height: 'var(--control-h-48)',
+                  border: 'none',
+                  borderRadius: 'var(--radius-sm)',
+                  background: 'var(--color-neutral-100)',
+                  color: 'var(--color-neutral-900)',
+                }}
               >
                 {menuOpen ? <CloseIcon size="24" /> : <MenuIcon size="24" />}
               </button>

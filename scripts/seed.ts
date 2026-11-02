@@ -235,7 +235,8 @@ async function run(): Promise<void> {
     {
       name: 'Дніпро',
       address: 'вул. [адреса]',
-      schedule: { dayFrom: '1', dayTo: '6', openHour: 9, closeHour: 18 },
+      // Hours unconfirmed (PROJECT_CONTEXT §1) → "графік уточнюється", no status.
+      schedule: { dayFrom: '1', dayTo: '6', openHour: null, closeHour: null },
       mapCoords: { lat: 48.4647, lng: 35.0462 },
       isDefault: false,
     },

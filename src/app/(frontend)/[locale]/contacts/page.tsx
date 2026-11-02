@@ -11,12 +11,13 @@ import {
   type Pickup,
 } from '@/components/blocks/contacts'
 import { Footer } from '@/components/layout/Footer'
-import { Header } from '@/components/layout/Header'
+import { SiteHeader } from '@/components/layout/SiteHeader'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { StatusDot } from '@/components/ui/StatusDot'
 import { Container, Section } from '@/components/ui/layout'
 import { isLocale } from '@/i18n/config'
-import { DEFAULT_SCHEDULE, pickupStatus } from '@/lib/hours'
+import { getPickupPoints, getSettings } from '@/lib/data'
+import { formatScheduleLabel, pickupOpenStatus } from '@/lib/schedule'
 
 // Live open/closed status depends on the current time → render per request.
 export const dynamic = 'force-dynamic'
@@ -27,55 +28,57 @@ export const metadata: Metadata = {
     'Два пункти видачі — Запоріжжя та Дніпро. Телефон, Telegram, Viber, графік роботи та форма запиту про деталь.',
 }
 
-const CHANNELS: Channel[] = [
-  {
-    kind: 'telegram',
-    name: 'Telegram',
-    text: 'Найшвидше. Надішліть фото деталі та номер — відповімо за 5–10 хвилин у робочий час',
-    href: 'https://t.me/',
-    target: '_blank',
-  },
-  {
-    kind: 'viber',
-    name: 'Viber',
-    text: 'Те саме, якщо зручніше у Viber',
-    href: 'viber://chat?number=%2B380986401357',
-  },
-  {
-    kind: 'phone',
-    name: '+380 98 640 13 57',
-    text: 'Якщо треба обговорити голосом. Пн–Сб 9:00–18:00',
-    href: 'tel:+380986401357',
-  },
-]
+// Editorial copy per channel (not admin data); hrefs and the phone number come
+// from settings.
+const CHANNEL_TEXT: Record<Channel['kind'], string> = {
+  telegram: 'Найшвидше. Надішліть фото деталі та номер — відповімо за 5–10 хвилин у робочий час',
+  viber: 'Те саме, якщо зручніше у Viber',
+  phone: 'Якщо треба обговорити голосом. Пн–Сб 9:00–18:00',
+}
 
 export default async function ContactsPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   if (!isLocale(locale)) notFound()
 
+  const [settings, points] = await Promise.all([getSettings(locale), getPickupPoints(locale)])
   const now = new Date()
+  const defaultPoint = points.find((p) => p.isDefault) ?? points[0]
   // Main-point status shown as the page status line (Запоріжжя); the cards carry
   // address + schedule only, so the status is not duplicated.
-  const zpStatus = pickupStatus(now, DEFAULT_SCHEDULE)
-  const pickups: Pickup[] = [
-    {
-      city: 'Запоріжжя',
-      address: 'Південне шосе, [номер]',
-      schedule: 'Пн–Сб 9:00–18:00',
-      status: null,
+  const zpStatus = defaultPoint ? pickupOpenStatus(defaultPoint.schedule, now) : null
+  const pickups: Pickup[] = points.map((p) => ({
+    city: p.name,
+    address: p.address,
+    schedule: formatScheduleLabel(p.schedule),
+    status: null,
+  }))
+
+  const phone = settings.phones?.[0]?.number
+  const channels: Channel[] = [
+    settings.messengers?.telegram && {
+      kind: 'telegram' as const,
+      name: 'Telegram',
+      text: CHANNEL_TEXT.telegram,
+      href: settings.messengers.telegram,
+      target: '_blank',
     },
-    {
-      // Дніпро — address and schedule pending client confirmation (PROJECT_CONTEXT §1).
-      city: 'Дніпро',
-      address: 'вул. [адреса]',
-      schedule: 'графік уточнюється',
-      status: null,
+    settings.messengers?.viber && {
+      kind: 'viber' as const,
+      name: 'Viber',
+      text: CHANNEL_TEXT.viber,
+      href: settings.messengers.viber,
     },
-  ]
+    phone && {
+      kind: 'phone' as const,
+      name: phone,
+      text: CHANNEL_TEXT.phone,
+      href: `tel:${phone.replace(/[^+\d]/g, '')}`,
+    },
+  ].filter(Boolean) as Channel[]
 
   return (
     <>
-      <Header />
+      <SiteHeader />
       <main style={{ background: 'var(--color-neutral-0)', color: 'var(--color-neutral-900)' }}>
         {/* ----------------------------------- pickup points + channels + map */}
         <Section padTop="header" aria-label="Контакти — пункти видачі та канали">
@@ -89,9 +92,17 @@ export default async function ContactsPage({ params }: { params: Promise<{ local
                   >
                     Контакти
                   </h1>
-                  <p style={{ margin: 0, fontSize: 'var(--text-16)', lineHeight: 'var(--text-16--line-height)' }}>
-                    <StatusDot open={zpStatus.open}>{zpStatus.label}</StatusDot>
-                  </p>
+                  {zpStatus ? (
+                    <p
+                      style={{
+                        margin: 0,
+                        fontSize: 'var(--text-16)',
+                        lineHeight: 'var(--text-16--line-height)',
+                      }}
+                    >
+                      <StatusDot open={zpStatus.open}>{zpStatus.label}</StatusDot>
+                    </p>
+                  ) : null}
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2" style={{ gap: 'var(--space-12)' }}>
                   {pickups.map((p) => (
@@ -99,13 +110,13 @@ export default async function ContactsPage({ params }: { params: Promise<{ local
                   ))}
                 </div>
                 <div className="flex flex-col" style={{ gap: 'var(--space-12)' }}>
-                  {CHANNELS.map((c) => (
+                  {channels.map((c) => (
                     <ChannelCard key={c.name} channel={c} />
                   ))}
                 </div>
               </div>
               <div className="min-w-0">
-                <MapStub markers={['Запоріжжя', 'Дніпро']} />
+                <MapStub markers={points.map((p) => p.name)} />
               </div>
             </div>
           </Container>
@@ -117,7 +128,11 @@ export default async function ContactsPage({ params }: { params: Promise<{ local
             <div className="grid grid-cols-1 items-center gap-[var(--space-32)] lg:grid-cols-2 wide:gap-[var(--space-48)]">
               <div
                 className="relative overflow-hidden"
-                style={{ aspectRatio: '4 / 3', borderRadius: 'var(--radius-lg)', background: 'var(--color-neutral-200)' }}
+                style={{
+                  aspectRatio: '4 / 3',
+                  borderRadius: 'var(--radius-lg)',
+                  background: 'var(--color-neutral-200)',
+                }}
               >
                 <Image
                   src="/images/contacts-gate.jpg"
@@ -131,22 +146,49 @@ export default async function ContactsPage({ params }: { params: Promise<{ local
                 <SectionHeading>Як нас знайти</SectionHeading>
                 <p
                   className="text-14 md:text-16 wide:text-18"
-                  style={{ margin: 'var(--space-24) 0 0', color: 'var(--color-neutral-900)', textWrap: 'pretty' }}
+                  style={{
+                    margin: 'var(--space-24) 0 0',
+                    color: 'var(--color-neutral-900)',
+                    textWrap: 'pretty',
+                  }}
                 >
-                  Заїзд з вулиці [X], сіра брама з логотипом. Паркування біля воріт. Якщо заблукали —
-                  зателефонуйте, зустрінемо.
+                  Заїзд з вулиці [X], сіра брама з логотипом. Паркування біля воріт. Якщо заблукали
+                  — зателефонуйте, зустрінемо.
                 </p>
                 <ul
                   className="flex flex-col"
-                  style={{ margin: 'var(--space-32) 0 0', padding: 0, listStyle: 'none', gap: 'var(--space-12)' }}
+                  style={{
+                    margin: 'var(--space-32) 0 0',
+                    padding: 0,
+                    listStyle: 'none',
+                    gap: 'var(--space-12)',
+                  }}
                 >
                   {[
                     'Самовивіз — покажемо деталь і авто-донора до оплати',
                     'Відкладемо деталь на 3 дні після замовлення',
                     'Для СТО — доставка в бокс по Запоріжжю',
                   ].map((t) => (
-                    <li key={t} className="flex items-baseline" style={{ gap: 'var(--space-12)', fontSize: 'var(--text-16)', lineHeight: 'var(--text-16--line-height)' }}>
-                      <span aria-hidden="true" className="relative shrink-0" style={{ top: 'var(--space-8)', width: 'var(--space-8)', height: 'var(--space-8)', borderRadius: 'var(--radius-full)', background: 'var(--color-primary)' }} />
+                    <li
+                      key={t}
+                      className="flex items-baseline"
+                      style={{
+                        gap: 'var(--space-12)',
+                        fontSize: 'var(--text-16)',
+                        lineHeight: 'var(--text-16--line-height)',
+                      }}
+                    >
+                      <span
+                        aria-hidden="true"
+                        className="relative shrink-0"
+                        style={{
+                          top: 'var(--space-8)',
+                          width: 'var(--space-8)',
+                          height: 'var(--space-8)',
+                          borderRadius: 'var(--radius-full)',
+                          background: 'var(--color-primary)',
+                        }}
+                      />
                       {t}
                     </li>
                   ))}
@@ -164,10 +206,14 @@ export default async function ContactsPage({ params }: { params: Promise<{ local
                 <SectionHeading>Запитати про деталь</SectionHeading>
                 <p
                   className="text-14 md:text-16 wide:text-18"
-                  style={{ margin: 'var(--space-24) 0 0', color: 'var(--color-neutral-600)', textWrap: 'pretty' }}
+                  style={{
+                    margin: 'var(--space-24) 0 0',
+                    color: 'var(--color-neutral-600)',
+                    textWrap: 'pretty',
+                  }}
                 >
-                  Найшвидший спосіб дізнатись, чи підійде деталь: надішліть фото або номер — перевіримо
-                  сумісність і відповімо протягом 15 хвилин у робочий час
+                  Найшвидший спосіб дізнатись, чи підійде деталь: надішліть фото або номер —
+                  перевіримо сумісність і відповімо протягом 15 хвилин у робочий час
                 </p>
               </div>
               <div className="min-w-0">
