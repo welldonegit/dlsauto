@@ -7,15 +7,20 @@ export function middleware(request: NextRequest) {
   const isRu = pathname === '/ru' || pathname.startsWith('/ru/')
   const locale = isRu ? 'ru' : defaultLocale
 
+  // Expose the resolved locale to server components that can't read params
+  // (e.g. not-found.tsx) via a request header.
+  const requestHeaders = new Headers(request.headers)
+  requestHeaders.set('x-dls-locale', locale)
+
   let response: NextResponse
   if (locale === defaultLocale) {
     // uk has no URL prefix → rewrite onto the internal /[locale] segment.
     const url = request.nextUrl.clone()
     url.pathname = `/${defaultLocale}${pathname === '/' ? '' : pathname}`
-    response = NextResponse.rewrite(url)
+    response = NextResponse.rewrite(url, { request: { headers: requestHeaders } })
   } else {
     // /ru/... already maps onto the [locale] segment.
-    response = NextResponse.next()
+    response = NextResponse.next({ request: { headers: requestHeaders } })
   }
 
   // Remember the current language. No automatic redirect by Accept-Language.

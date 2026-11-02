@@ -9,6 +9,7 @@
 | токен | значення | нотатка |
 |---|---|---|
 | `--font-sans` | `var(--font-golos), sans-serif` |  |
+| `--font-mono` | `var(--font-jetbrains), ui-monospace, monospace` |  |
 
 ## Кольори
 | токен | значення | нотатка |
@@ -25,7 +26,9 @@
 | `--color-neutral-800` | `#2a303a` | chip hover on dark |
 | `--color-neutral-900` | `#1e232b` | primary text, dark buttons/chips |
 | `--color-neutral-950` | `#12161c` | dark header bar, hero overlay base |
+| `--color-neutral-hero` | `#16141a` | "Про компанію" hero base (export, ≠ 950) |
 | `--color-primary` | `#e0001b` | action / accent |
+| `--color-primary-light` | `#ff5c6c` | disc inner highlight ring ("Про компанію") |
 | `--color-primary-dark` | `#c00017` | radial-fill centre, header buttons |
 | `--color-primary-dark-2` | `#b80016` | radial-fill centre, form buttons |
 | `--color-success` | `#1f8a4c` | "перевірено" checks, success row |

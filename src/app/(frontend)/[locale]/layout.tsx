@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Golos_Text } from 'next/font/google'
+import { Golos_Text, JetBrains_Mono } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import type { ReactNode } from 'react'
 
@@ -18,31 +18,33 @@ const golos = Golos_Text({
   variable: '--font-golos',
 })
 
+// Monospace for SKU / part-number tags (404 art, "Шлях деталі"); --font-mono.
+const jetbrains = JetBrains_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  display: 'swap',
+  variable: '--font-jetbrains',
+})
+
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
 }
 
+// Layout sets metadataBase and a title default. Concrete
+// title/description/canonical/hreflang live on each page (home, catch-all CMS
+// pages), which set an absolute title that overrides the default. not-found.tsx
+// has no metadata hook and cannot hoist its own <title> (Next owns it), so the
+// default here is the 404 title — only ever shown when no page title is set.
 export async function generateMetadata({
   params,
 }: {
   params: Promise<{ locale: string }>
 }): Promise<Metadata> {
   const { locale } = await params
-  if (!isLocale(locale)) return {}
-
-  const dict = getDictionary(locale)
+  const dict = getDictionary(isLocale(locale) ? locale : 'uk')
   return {
     metadataBase: new URL(getSiteUrl()),
-    title: dict.meta.homeTitle,
-    description: dict.meta.homeDescription,
-    alternates: {
-      canonical: locale === 'uk' ? '/' : '/ru',
-      languages: {
-        uk: '/',
-        ru: '/ru',
-        'x-default': '/',
-      },
-    },
+    title: { default: dict.notFound.title, template: '%s' },
   }
 }
 
@@ -57,7 +59,7 @@ export default async function LocaleLayout({
   if (!isLocale(locale)) notFound()
 
   return (
-    <html lang={locale} className={golos.variable}>
+    <html lang={locale} className={`${golos.variable} ${jetbrains.variable}`}>
       <body>{children}</body>
     </html>
   )
