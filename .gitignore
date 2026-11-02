@@ -28,6 +28,10 @@ next-env.d.ts
 # runtime media (served from /data/media on the server; never committed)
 /data/
 
+# Claude Code: commit shared settings.json; keep local overrides and agent notes out
+/AGENTS.md
+.claude/settings.local.json
+
 # misc
 .DS_Store
 *.pem
