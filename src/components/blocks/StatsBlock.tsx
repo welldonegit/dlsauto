@@ -117,12 +117,11 @@ export function StatsBlock({ heading, items }: BlockComponentProps<'stats'>) {
                 }}
               >
                 <div
-                  className="relative flex h-full flex-col items-center overflow-hidden text-center"
+                  className="relative flex h-full flex-col items-center overflow-hidden text-center pt-[var(--space-48)] pr-[var(--space-12)] pb-[var(--space-32)] pl-[var(--space-12)] md:pt-[var(--space-64)] md:pr-[var(--space-24)] md:pb-[var(--space-48)] md:pl-[var(--space-24)] wide:pt-[var(--space-96)] wide:pb-[var(--space-64)]"
                   style={{
                     background: c.accent ? 'var(--color-primary)' : 'var(--color-neutral-950)',
                     color: 'var(--color-neutral-0)',
                     borderRadius: 'var(--radius-lg)',
-                    padding: 'var(--space-48) var(--space-12) var(--space-32)',
                     boxShadow: hv === 'in' ? 'var(--shadow-md)' : 'none',
                     transition: 'box-shadow var(--duration-300) ease-out',
                     animation: anim,
@@ -219,9 +218,9 @@ export function StatsBlock({ heading, items }: BlockComponentProps<'stats'>) {
                     ) : null}
                   </p>
                   <p
-                    className="text-14 md:text-16"
+                    className="text-14 md:text-16 min-h-[4.5em] md:min-h-[3em]"
                     style={{
-                      margin: 'var(--space-12) 0 0',
+                      margin: 'var(--space-16) 0 0',
                       maxWidth: '17.5rem',
                       lineHeight: 1.5,
                       color: c.accent ? 'rgba(252,252,253,0.8)' : 'var(--color-neutral-400)',

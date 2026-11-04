@@ -93,7 +93,7 @@
 
 **banners** — полоса над шапкой: text (uk/ru), link (опц.), variant (из набора системы: dark / light / primary-tint), season (`any` | конкретный сезон), dateFrom, dateTo, dismissible, published, sortOrder. Показывается первый подходящий по сезону и датам; закрытие запоминается в localStorage по id баннера.
 
-**reviews** — author, rating 1–5, text, product (опц.), published (модерация), createdAt. Средняя считается по published.
+**reviews** — author, rating 1–5, text, photo (опц., одно изображение детали из отзыва), product (опц.), published (модерация), createdAt. Средняя считается по published.
 
 **pages** — контент страниц блоками (главная, о компании, контакты, оферта, политика, 404). Каждый блок — свой тип с полями; пустой блок не рендерится. Порядок блоков — drag-and-drop.
 

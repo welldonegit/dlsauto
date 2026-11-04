@@ -95,6 +95,14 @@ export function AboutHero({ eyebrow, heading, text }: BlockComponentProps<'about
   }, [])
 
   const d = deviceFor(metrics.vw)
+  const wide = d === 'desktop' || d === 'laptop'
+  // Two lines from a single CMS heading (split on newline). Each line carries
+  // its own top-to-bottom gradient — matching the export, where line 2 reads as
+  // light→dark on its own rather than inheriting the dim tail of one h1-wide
+  // gradient. Line 1 stays on one line on wide screens.
+  const headingLines = (heading ?? '').split('\n')
+  const lineGradient =
+    'linear-gradient(180deg, var(--color-neutral-0) 35%, var(--color-neutral-400) 100%)'
   const ringsPx = d === 'desktop' ? 360 : d === 'laptop' ? 320 : d === 'tablet' ? 220 : 140
   const sc = Math.max(metrics.hw / 1600, ringsPx / 400)
   const D = Math.round(1120 * sc)
@@ -244,7 +252,7 @@ export function AboutHero({ eyebrow, heading, text }: BlockComponentProps<'about
         className="mx-auto box-border flex w-full flex-col items-center px-[var(--space-16)] text-center md:px-[var(--space-32)] wide:px-[var(--space-64)]"
         style={{
           maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))',
-          paddingTop: 'var(--space-64)',
+          paddingTop: wide ? 'var(--space-96)' : 'var(--space-64)',
           paddingBottom:
             d === 'desktop'
               ? 'max(var(--space-240), calc(13.75vw + var(--space-48)))'
@@ -277,21 +285,33 @@ export function AboutHero({ eyebrow, heading, text }: BlockComponentProps<'about
             fontWeight: 400,
             lineHeight: 1.05,
             letterSpacing: '-0.035em',
-            background:
-              'linear-gradient(180deg, var(--color-neutral-0) 35%, var(--color-neutral-400) 100%)',
-            WebkitBackgroundClip: 'text',
-            backgroundClip: 'text',
-            color: 'transparent',
+            color: 'var(--color-neutral-0)',
             textWrap: 'balance',
           }}
         >
-          {heading}
+          {headingLines.map((ln, i) => (
+            <span
+              key={i}
+              style={{
+                display: 'block',
+                whiteSpace: i === 0 && wide ? 'nowrap' : 'normal',
+                paddingBottom: '0.1em',
+                marginBottom: '-0.1em',
+                background: lineGradient,
+                WebkitBackgroundClip: 'text',
+                backgroundClip: 'text',
+                color: 'transparent',
+              }}
+            >
+              {ln}
+            </span>
+          ))}
         </h1>
         {text ? (
           <p
             className="text-14 md:text-16 wide:text-18"
             style={{
-              margin: 'var(--space-32) 0 0',
+              margin: `${d === 'mobile' ? 'var(--space-24)' : 'var(--space-32)'} 0 0`,
               maxWidth: d === 'mobile' ? '100%' : '45rem',
               lineHeight: 1.5,
               color: 'rgba(252,252,253,0.75)',
@@ -301,6 +321,15 @@ export function AboutHero({ eyebrow, heading, text }: BlockComponentProps<'about
             {text}
           </p>
         ) : null}
+        {/* invisible 56px button slot from the export — keeps the content block
+            vertically balanced above the disc. */}
+        <div
+          aria-hidden="true"
+          style={{
+            marginTop: d === 'mobile' ? 'var(--space-32)' : 'var(--space-48)',
+            height: 'var(--control-h-56)',
+          }}
+        />
       </div>
     </section>
   )

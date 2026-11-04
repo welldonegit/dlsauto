@@ -17,8 +17,11 @@ const START = 250
 export function CtaText({
   heading,
   text,
+  address,
   buttonLabel,
   buttonLink,
+  linkLabel,
+  linkHref,
 }: BlockComponentProps<'ctaText'>) {
   const rootRef = useRef<HTMLDivElement>(null)
   const [shown, setShown] = useState(false)
@@ -102,6 +105,20 @@ export function CtaText({
               {text}
             </p>
           ) : null}
+          {address ? (
+            <p
+              className="text-14 md:text-16"
+              style={{
+                margin: 'var(--space-8) 0 0',
+                lineHeight: 1.5,
+                color: 'rgba(252,252,253,0.85)',
+                textWrap: 'balance',
+                ...line(2),
+              }}
+            >
+              {address}
+            </p>
+          ) : null}
           {buttonLabel ? (
             <a
               href={buttonLink || '#'}
@@ -111,7 +128,7 @@ export function CtaText({
                 height: 'var(--control-h-56)',
                 padding: '0 var(--space-24)',
                 borderRadius: 'var(--radius-sm)',
-                background: 'var(--color-neutral-0)',
+                backgroundColor: 'var(--color-neutral-0)',
                 color: 'var(--color-neutral-900)',
                 fontSize: 'var(--text-16)',
                 ['--dls-fill' as string]: 'var(--color-neutral-200)',
@@ -119,6 +136,22 @@ export function CtaText({
               }}
             >
               {buttonLabel}
+            </a>
+          ) : null}
+          {linkLabel ? (
+            <a
+              href={linkHref || '#'}
+              className="text-14 underline"
+              style={{
+                marginTop: 'var(--space-16)',
+                lineHeight: 1.4,
+                color: 'var(--color-neutral-0)',
+                textDecorationColor: 'rgba(252,252,253,0.6)',
+                textUnderlineOffset: '0.1875rem',
+                ...line(4),
+              }}
+            >
+              {linkLabel}
             </a>
           ) : null}
         </div>

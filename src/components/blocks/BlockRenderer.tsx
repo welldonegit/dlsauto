@@ -8,7 +8,6 @@ import { ReviewsBlock } from './ReviewsBlock'
 import { StatsBlock } from './StatsBlock'
 import { TeamBlock } from './TeamBlock'
 import { WhatElseWeDo } from './WhatElseWeDo'
-import { WhyDisassembly } from './WhyDisassembly'
 
 /**
  * Renders a page's block layout (DEV_CONTEXT §3). One component per block type;
@@ -34,7 +33,6 @@ type Registry = { [K in PageBlock['blockType']]?: BlockComponent<K> }
 const REGISTRY: Registry = {
   aboutHero: AboutHero,
   stats: StatsBlock,
-  whyDisassembly: WhyDisassembly,
   partPath: PartPath,
   team: TeamBlock,
   whatElseWeDo: WhatElseWeDo,

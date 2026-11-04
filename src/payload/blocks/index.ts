@@ -223,18 +223,19 @@ export const whatElseWeDoBlock: Block = {
   fields: [
     heading,
     area('text', 'Текст справа'),
+    { name: 'wideImage', type: 'upload', relationTo: 'media', label: 'Широке фото (зверху)' },
     {
       name: 'cards',
       type: 'array',
       label: 'Картки-послуги',
+      maxRows: 2,
       fields: [
         text('title', 'Назва'),
         area('text', 'Опис'),
         { name: 'image', type: 'upload', relationTo: 'media', label: 'Фото' },
+        text('link', 'Посилання', false),
       ],
     },
-    { name: 'video', type: 'upload', relationTo: 'media', label: 'Відео' },
-    { name: 'videoPoster', type: 'upload', relationTo: 'media', label: 'Постер відео' },
   ],
 }
 
@@ -242,24 +243,6 @@ export const aboutHeroBlock: Block = {
   slug: 'aboutHero',
   labels: { singular: 'Перший екран «Про компанію»', plural: 'Перші екрани «Про компанію»' },
   fields: [eyebrow, heading, area('text', 'Текст')],
-}
-
-export const whyDisassemblyBlock: Block = {
-  slug: 'whyDisassembly',
-  labels: { singular: 'Чому розбірка, а не магазин', plural: 'Чому розбірка' },
-  fields: [
-    heading,
-    {
-      name: 'items',
-      type: 'array',
-      label: 'Кроки',
-      fields: [
-        text('step', 'Номер (напр. «01»)', false),
-        text('title', 'Заголовок'),
-        area('text', 'Текст'),
-      ],
-    },
-  ],
 }
 
 export const partPathBlock: Block = {
@@ -282,11 +265,21 @@ export const partPathBlock: Block = {
 
 export const teamBlock: Block = {
   slug: 'team',
-  labels: { singular: 'Команда і цех', plural: 'Команда і цех' },
+  labels: { singular: 'Хто розбирає ваше авто', plural: 'Хто розбирає ваше авто' },
   fields: [
     heading,
-    area('text', 'Текст'),
-    { name: 'photos', type: 'upload', relationTo: 'media', hasMany: true, label: 'Фото' },
+    { name: 'lead', type: 'upload', relationTo: 'media', label: 'Широке фото (цех)' },
+    text('leadCaption', 'Підпис на широкому фото'),
+    {
+      name: 'members',
+      type: 'array',
+      label: 'Люди',
+      fields: [
+        { name: 'photo', type: 'upload', relationTo: 'media', label: 'Фото' },
+        text('name', "Ім'я"),
+        text('role', 'Роль'),
+      ],
+    },
   ],
 }
 
@@ -296,8 +289,11 @@ export const ctaTextBlock: Block = {
   fields: [
     heading,
     area('text', 'Текст'),
+    text('address', 'Адреса / графік (необовʼязково)'),
     text('buttonLabel', 'Напис на кнопці'),
     text('buttonLink', 'Посилання кнопки', false),
+    text('linkLabel', 'Напис текстового посилання (необовʼязково)'),
+    text('linkHref', 'Адреса текстового посилання', false),
   ],
 }
 
@@ -338,7 +334,6 @@ export const pageBlocks: Block[] = [
   benefitsBlock,
   whatElseWeDoBlock,
   aboutHeroBlock,
-  whyDisassemblyBlock,
   partPathBlock,
   teamBlock,
   ctaTextBlock,

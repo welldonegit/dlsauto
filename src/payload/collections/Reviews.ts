@@ -3,9 +3,9 @@ import type { CollectionConfig } from 'payload'
 import { anyone, isAdmin, isAdminOrManager } from '../access'
 
 /**
- * Reviews (DEV_CONTEXT §4): author, rating 1–5, text, product (opt), published
- * (moderation). The average is computed over published reviews in the data
- * layer. Submitted publicly; moderated by staff.
+ * Reviews (DEV_CONTEXT §4): author, rating 1–5, text, photo (opt), product
+ * (opt), published (moderation). The average is computed over published reviews
+ * in the data layer. Submitted publicly; moderated by staff.
  */
 export const Reviews: CollectionConfig = {
   slug: 'reviews',
@@ -37,6 +37,15 @@ export const Reviews: CollectionConfig = {
       ],
     },
     { name: 'text', type: 'textarea', required: true, label: 'Текст' },
+    {
+      name: 'photo',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Фото (необовʼязково)',
+      admin: {
+        description: 'Знімок деталі з відгуку. Показується мініатюрою, збільшується по кліку.',
+      },
+    },
     {
       name: 'product',
       type: 'relationship',

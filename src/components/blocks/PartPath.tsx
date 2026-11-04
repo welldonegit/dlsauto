@@ -212,7 +212,7 @@ export function PartPath({ heading, steps }: BlockComponentProps<'partPath'>) {
           style={{ position: 'sticky', top: 0, height: wide ? '100vh' : 'auto' }}
         >
           <div
-            className="mx-auto box-border grid w-full items-center gap-[var(--space-32)] px-[var(--space-16)] py-[var(--space-24)] md:px-[var(--space-32)] lg:grid-cols-[minmax(0,40fr)_minmax(0,60fr)] lg:gap-[var(--space-48)] lg:px-[var(--space-48)] lg:py-[var(--space-48)] wide:px-[var(--space-64)] wide:py-[var(--space-64)]"
+            className="mx-auto box-border grid w-full items-center gap-[var(--space-32)] px-[var(--space-16)] py-[var(--space-64)] md:px-[var(--space-32)] lg:grid-cols-[minmax(0,40fr)_minmax(0,60fr)] lg:gap-[var(--space-48)] lg:px-[var(--space-48)] lg:py-[var(--space-96)] wide:px-[var(--space-64)]"
             style={{ maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))' }}
           >
             {/* left: heading + vertical stepper (desktop) */}

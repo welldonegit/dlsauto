@@ -318,4 +318,28 @@
       --dls-ul: 100%;
     }
   }
+
+  /* "Що ще ми робимо" service cards — equal height per breakpoint (export:
+     mobile 4/5 aspect, 400 / 440 / 520px at ≥768 / ≥1024 / ≥1360). Fixed height
+     (not aspect) so the 4fr and 5fr columns stay the same height. */
+  .dls-svc-card {
+    position: relative;
+    aspect-ratio: 4 / 5;
+  }
+  @media (min-width: 768px) {
+    .dls-svc-card {
+      aspect-ratio: auto;
+      height: 400px;
+    }
+  }
+  @media (min-width: 1024px) {
+    .dls-svc-card {
+      height: 440px;
+    }
+  }
+  @media (min-width: 1360px) {
+    .dls-svc-card {
+      height: 520px;
+    }
+  }
 }

@@ -538,8 +538,9 @@ async function run(): Promise<void> {
     { blockType: 'reviewsBlock', heading: 'Відгуки', limit: 8 },
   ]
 
-  // About-page media. Team captions describe the work (no invented names); the
-  // workshop/service photos and a cex video are placeholders from the export.
+  // About-page media. The six people reuse three export headshots (placeholders
+  // — swap for real photos later); the gate, workshop/service and review photos
+  // are the export assets.
   const teamWorkshop = await media(
     'assets/about-ceh.jpg',
     'Цех у Запоріжжі, Південне шосе',
@@ -547,61 +548,53 @@ async function run(): Promise<void> {
   )
   const teamP1 = await media(
     'assets/team-mechanic1.jpg',
-    'Перевірка двигунів і КПП на стенді',
+    'Майстер біля двигуна на стенді',
     'team-p1.jpg',
   )
   const teamP2 = await media(
     'assets/team-mechanic2.jpg',
-    'Підбір деталей і перевірка сумісності',
+    'Майстер зі схрещеними руками в цеху',
     'team-p2.jpg',
   )
-  const teamP3 = await media('assets/team-mechanic3.jpg', 'Розбирання і демонтаж', 'team-p3.jpg')
+  const teamP3 = await media(
+    'assets/team-mechanic3.jpg',
+    'Майстер з ключем біля пікапа',
+    'team-p3.jpg',
+  )
+  const gatePhoto = await media(
+    'assets/contacts-gate.jpg',
+    'Сіра брама з логотипом DLSAuto, вид з дороги',
+    'about-gate.jpg',
+  )
   const svcSto = await media('assets/service-sto.jpg', 'Пікап на підйомнику в боксі', 'svc-sto.jpg')
   const svcRazborka = await media(
     'assets/service-razborka.jpg',
     'Биті авто в цеху на розбірці',
     'svc-razborka.jpg',
   )
-  const svcVideoPoster = await media(
-    'assets/about-ceh.jpg',
-    'Постер відео: цех і двір розбірки',
-    'svc-video-poster.jpg',
+  const reviewHub = await media(
+    'assets/part-hub.webp',
+    'Фото з відгуку: маточина на столі',
+    'review-hub.webp',
   )
-  const svcVideo = await media(
-    'assets/videos/video1.mp4',
-    'Відео: наш цех і двір',
-    'svc-cex-video.mp4',
+  const reviewEngine = await media(
+    'assets/part-pickup-hub.jpg',
+    'Фото з відгуку: двигун на піддоні',
+    'review-engine.jpg',
+  )
+  const reviewBumper = await media(
+    'assets/part-hub.webp',
+    'Фото з відгуку: бампер в упаковці',
+    'review-bumper.webp',
   )
 
   const about = [
     {
       blockType: 'aboutHero',
-      eyebrow: 'Про компанію',
-      heading: 'Авторозбірка у Запоріжжі',
-      text: 'Купуємо авто після ДТП, перевіряємо кожну деталь і фотографуємо її з усіма дефектами.',
+      heading: 'Самі купуємо. Самі розбираємо.\nСамі відповідаємо.',
+      text: 'DLSAuto — авторозбірка в Запоріжжі. Купуємо авто після ДТП, перевіряємо кожну деталь і фотографуємо її з усіма дефектами.',
     },
     { blockType: 'stats', heading: 'DLSAuto в цифрах', items: statItems },
-    {
-      blockType: 'whyDisassembly',
-      heading: 'Чому розбірка, а не магазин',
-      items: [
-        {
-          step: '01',
-          title: 'Оригінал',
-          text: 'Заводська деталь із конкретного авто, а не аналог невідомої якості.',
-        },
-        {
-          step: '02',
-          title: 'Перевірка',
-          text: 'Двигуни і КПП запускаємо на стенді, оптику та електрику перевіряємо на авто.',
-        },
-        {
-          step: '03',
-          title: 'Ціна',
-          text: 'Дешевше за нову оригінальну деталь, з реальними фото та гарантією.',
-        },
-      ],
-    },
     {
       blockType: 'partPath',
       heading: 'Від битого авто до вашої посилки',
@@ -633,37 +626,47 @@ async function run(): Promise<void> {
       ],
     },
     {
-      blockType: 'team',
-      heading: 'Команда і цех',
-      text: 'Усе — в одному дворі у Запоріжжі.',
-      photos: [teamWorkshop, teamP1, teamP2, teamP3],
-    },
-    {
       blockType: 'whatElseWeDo',
       heading: 'Що ще ми робимо',
       text: 'Окрім продажу запчастин, ремонтуємо у власному сервісі — ставимо те, що самі зняли і перевірили. Викуповуємо авто після ДТП і на розбірку. Усе — в одному дворі в Запоріжжі.',
+      wideImage: gatePhoto,
       cards: [
         {
           title: 'Ремонт у власному сервісі',
-          text: 'Ставимо деталі, які самі зняли і перевірили',
+          text: 'Діагностика, ходова, двигуни та агрегати. Ставимо деталі з нашої розборки',
           image: svcSto,
         },
         {
           title: 'Викуповуємо авто на розбірку',
-          text: 'Оцінимо за фото за годину, заберемо самі',
+          text: 'Биті, після ДТП, з несправним двигуном — оцінимо за фото за годину, заберемо самі по Запоріжжю та області',
           image: svcRazborka,
         },
       ],
-      video: svcVideo,
-      videoPoster: svcVideoPoster,
     },
-    { blockType: 'reviewsBlock', heading: 'Відгуки', limit: 8 },
+    {
+      blockType: 'team',
+      heading: 'Хто розбирає ваше авто',
+      lead: teamWorkshop,
+      leadCaption: 'Запоріжжя, Південне шосе',
+      members: [
+        { photo: teamP1, name: 'Дмитро', role: 'Перевірка двигунів і КПП' },
+        { photo: teamP2, name: 'Олена', role: 'Менеджер, підбір і сумісність' },
+        { photo: teamP3, name: 'Андрій', role: 'Розбирання' },
+        { photo: teamP1, name: 'Сергій', role: 'Фото і опис деталей' },
+        { photo: teamP3, name: 'Ігор', role: 'Пакування і відправка' },
+        { photo: teamP2, name: 'Максим', role: 'Приймання авто' },
+      ],
+    },
+    { blockType: 'reviewsBlock', heading: 'Відгуки покупців', limit: 8 },
     {
       blockType: 'ctaText',
-      heading: 'Не знайшли деталь?',
-      text: 'Напишіть нам — знайдемо або запропонуємо аналог.',
-      buttonLabel: 'Написати',
+      heading: 'Зв’яжіться з нами',
+      text: 'Питання щодо деталей, пропозиції про співпрацю або просто хочете уточнити наявність — напишіть, і ми відповімо протягом робочого дня',
+      address: 'Запоріжжя, Південне шосе · Пн–Сб 9:00–18:00',
+      buttonLabel: 'Написати нам',
       buttonLink: '/contacts',
+      linkLabel: 'або зателефонувати: +380 98 640 13 57',
+      linkHref: 'tel:+380986401357',
     },
   ]
 
@@ -800,16 +803,68 @@ async function run(): Promise<void> {
   log(`pages: ${PAGES.length}`)
 
   // ---------------------------------------------------------------- reviews
-  const REVIEWS: [string, number, string][] = [
-    ['Олександр', 5, 'Швидко знайшли деталь на L200, відправили того ж дня.'],
-    ['Ірина', 5, 'Допомогли підібрати фару, все підійшло.'],
-    ['СТО «Драйв»', 4, 'Беремо регулярно, зручні умови для СТО.'],
+  // [author, rating, text, photo (media id | null), date]. Copy + photos from
+  // the Claude Design export; dates drive the newest-first order and the shown
+  // date. Three carry a placeholder photo (swap for the real part shots later).
+  const REVIEWS: [string, number, string, number | null, string][] = [
+    [
+      'Олександр',
+      5,
+      'Замовляв фару на Ranger, переживав через стан — на фото маркером були позначені дві подряпини, у реалі так і є, нічого зайвого. Поставив, працює. Відправили в той же день.',
+      reviewHub,
+      '2026-09-28',
+    ],
+    [
+      'Віталій, СТО «АвтоМайстер»',
+      5,
+      'СТО з Дніпра, беремо запчастини для клієнтів регулярно. Привозять самі, якщо деталь не підходить — міняють без питань. Це головне.',
+      null,
+      '2026-09-21',
+    ],
+    [
+      'Андрій',
+      4,
+      'Двигун на Навару приїхав з відео запуску і пробігом донора. Один мінус — довго погоджували передплату, але це моя обережність, не їхня.',
+      reviewEngine,
+      '2026-09-14',
+    ],
+    [
+      'Дмитро',
+      5,
+      'Шукав дзеркало на Grand Cherokee по всій Україні, тут було в наявності. Менеджер за 5 хвилин перевірив, чи підійде на мій рік.',
+      null,
+      '2026-09-09',
+    ],
+    [
+      'Сергій',
+      5,
+      'Забирав самовивозом, показали деталь до оплати, дали оглянути. Нормальні люди, не перший раз вже.',
+      null,
+      '2026-09-02',
+    ],
+    [
+      'Ігор',
+      5,
+      'Бампер прийшов у плівці, без нових пошкоджень. Ціна в півтора рази нижча за нову копію, стан кращий.',
+      reviewBumper,
+      '2026-08-27',
+    ],
   ]
-  for (const [author, rating, text] of REVIEWS) {
+  // Reviews are fully owned by this seed — reset to exactly the export set so
+  // earlier placeholder authors don't linger and inflate the count.
+  await payload.delete({ collection: 'reviews', where: { id: { exists: true } } })
+  for (const [author, rating, text, photo, date] of REVIEWS) {
     await upsert(
       'reviews',
       { author: { equals: author } },
-      { author, rating, text, published: true },
+      {
+        author,
+        rating,
+        text,
+        published: true,
+        createdAt: `${date}T10:00:00.000Z`,
+        ...(photo ? { photo } : {}),
+      },
     )
   }
   log(`reviews: ${REVIEWS.length}`)

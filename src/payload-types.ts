@@ -542,16 +542,16 @@ export interface Page {
         | {
             heading?: string | null;
             text?: string | null;
+            wideImage?: (number | null) | Media;
             cards?:
               | {
                   title?: string | null;
                   text?: string | null;
                   image?: (number | null) | Media;
+                  link?: string | null;
                   id?: string | null;
                 }[]
               | null;
-            video?: (number | null) | Media;
-            videoPoster?: (number | null) | Media;
             id?: string | null;
             blockName?: string | null;
             blockType: 'whatElseWeDo';
@@ -563,20 +563,6 @@ export interface Page {
             id?: string | null;
             blockName?: string | null;
             blockType: 'aboutHero';
-          }
-        | {
-            heading?: string | null;
-            items?:
-              | {
-                  step?: string | null;
-                  title?: string | null;
-                  text?: string | null;
-                  id?: string | null;
-                }[]
-              | null;
-            id?: string | null;
-            blockName?: string | null;
-            blockType: 'whyDisassembly';
           }
         | {
             heading?: string | null;
@@ -594,8 +580,16 @@ export interface Page {
           }
         | {
             heading?: string | null;
-            text?: string | null;
-            photos?: (number | Media)[] | null;
+            lead?: (number | null) | Media;
+            leadCaption?: string | null;
+            members?:
+              | {
+                  photo?: (number | null) | Media;
+                  name?: string | null;
+                  role?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'team';
@@ -603,8 +597,11 @@ export interface Page {
         | {
             heading?: string | null;
             text?: string | null;
+            address?: string | null;
             buttonLabel?: string | null;
             buttonLink?: string | null;
+            linkLabel?: string | null;
+            linkHref?: string | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'ctaText';
@@ -681,6 +678,10 @@ export interface Review {
   author: string;
   rating: number;
   text: string;
+  /**
+   * Знімок деталі з відгуку. Показується мініатюрою, збільшується по кліку.
+   */
+  photo?: (number | null) | Media;
   product?: (number | null) | Product;
   published?: boolean | null;
   updatedAt: string;
@@ -1223,16 +1224,16 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               heading?: T;
               text?: T;
+              wideImage?: T;
               cards?:
                 | T
                 | {
                     title?: T;
                     text?: T;
                     image?: T;
+                    link?: T;
                     id?: T;
                   };
-              video?: T;
-              videoPoster?: T;
               id?: T;
               blockName?: T;
             };
@@ -1242,21 +1243,6 @@ export interface PagesSelect<T extends boolean = true> {
               eyebrow?: T;
               heading?: T;
               text?: T;
-              id?: T;
-              blockName?: T;
-            };
-        whyDisassembly?:
-          | T
-          | {
-              heading?: T;
-              items?:
-                | T
-                | {
-                    step?: T;
-                    title?: T;
-                    text?: T;
-                    id?: T;
-                  };
               id?: T;
               blockName?: T;
             };
@@ -1279,8 +1265,16 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               heading?: T;
-              text?: T;
-              photos?: T;
+              lead?: T;
+              leadCaption?: T;
+              members?:
+                | T
+                | {
+                    photo?: T;
+                    name?: T;
+                    role?: T;
+                    id?: T;
+                  };
               id?: T;
               blockName?: T;
             };
@@ -1289,8 +1283,11 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               heading?: T;
               text?: T;
+              address?: T;
               buttonLabel?: T;
               buttonLink?: T;
+              linkLabel?: T;
+              linkHref?: T;
               id?: T;
               blockName?: T;
             };
@@ -1342,6 +1339,7 @@ export interface ReviewsSelect<T extends boolean = true> {
   author?: T;
   rating?: T;
   text?: T;
+  photo?: T;
   product?: T;
   published?: T;
   updatedAt?: T;

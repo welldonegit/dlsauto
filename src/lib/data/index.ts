@@ -180,7 +180,7 @@ export const getReviews = unstable_cache(
       where: { published: { equals: true } },
       sort: '-createdAt',
       limit,
-      depth: 0,
+      depth: 1, // populate photo for the review thumbnails
     })
     // Average over all published reviews, not just the shown page.
     const all =
