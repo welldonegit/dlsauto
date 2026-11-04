@@ -113,6 +113,17 @@ export const Products: CollectionConfig = {
       ],
     },
     {
+      name: 'specs',
+      type: 'array',
+      label: 'Характеристики',
+      labels: { singular: 'Характеристика', plural: 'Характеристики' },
+      admin: { description: 'Пари ключ/значення для картки та швидкого перегляду.' },
+      fields: [
+        { name: 'label', type: 'text', required: true, localized: true, label: 'Назва' },
+        { name: 'value', type: 'text', required: true, localized: true, label: 'Значення' },
+      ],
+    },
+    {
       name: 'photos',
       type: 'upload',
       relationTo: 'media',

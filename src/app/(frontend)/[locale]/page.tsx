@@ -1,10 +1,19 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 
-import { isLocale } from '@/i18n/config'
+import { BlockRenderer } from '@/components/blocks/BlockRenderer'
+import { Footer } from '@/components/layout/Footer'
+import { SiteHeader } from '@/components/layout/SiteHeader'
+import { isLocale, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
-import { getBuildSha } from '@/lib/env'
+import { getPage } from '@/lib/data'
 import { localeAlternates } from '@/lib/meta'
+
+/**
+ * Home page `/` (STAGE_3B). Renders the `home` page's block layout (Головна-B)
+ * through BlockRenderer, same as the CMS slug route. The layout order and
+ * composition come from the Claude Design export.
+ */
 
 export async function generateMetadata({
   params,
@@ -24,13 +33,18 @@ export async function generateMetadata({
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params
   if (!isLocale(locale)) notFound()
+  const loc = locale as Locale
 
-  const dict = getDictionary(locale)
+  const page = await getPage('home', loc)
+  if (!page) notFound()
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-3 p-8 text-center">
-      <h1 className="text-2xl font-semibold">{dict.common.underConstruction}</h1>
-      <p className="text-sm opacity-60">build {getBuildSha()}</p>
-    </main>
+    <>
+      <SiteHeader />
+      <main style={{ background: 'var(--color-neutral-50)', color: 'var(--color-neutral-900)' }}>
+        <BlockRenderer blocks={page.layout} locale={loc} />
+      </main>
+      <Footer />
+    </>
   )
 }

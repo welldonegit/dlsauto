@@ -334,6 +334,16 @@ export interface Product {
     defects?: (number | Media)[] | null;
   };
   /**
+   * Пари ключ/значення для картки та швидкого перегляду.
+   */
+  specs?:
+    | {
+        label: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * Порядок перетягуванням, перше — головне, відео (mp4) — останнім.
    */
   photos?: (number | Media)[] | null;
@@ -978,6 +988,13 @@ export interface ProductsSelect<T extends boolean = true> {
     | {
         text?: T;
         defects?: T;
+      };
+  specs?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
       };
   photos?: T;
   price?: T;

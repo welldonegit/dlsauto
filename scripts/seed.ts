@@ -487,12 +487,12 @@ async function run(): Promise<void> {
       subheading: 'Пікапи, позашляховики та легкові. Кожна деталь перевірена.',
     },
     { blockType: 'stats', heading: 'DLSAuto в цифрах', items: statItems },
-    { blockType: 'categoriesBlock', heading: 'Категорії запчастин', variant: 'a' },
     {
       blockType: 'modelsPicker',
       heading: 'Деталі для вашого авто',
       defaultBrand: brandId.get('Mitsubishi'),
     },
+    { blockType: 'categoriesBlock', heading: 'Категорії запчастин', variant: 'a' },
     { blockType: 'newArrivals', heading: 'Нові надходження', limit: 15 },
     { blockType: 'pickupsParts', heading: 'Запчастини на пікапи', limit: 12 },
     { blockType: 'suvsParts', heading: 'Запчастини на позашляховики', limit: 12 },
@@ -501,22 +501,7 @@ async function run(): Promise<void> {
       heading: 'Перевіряємо перед продажем',
       text: 'Кожна деталь — на стенді або на авто.',
     },
-    {
-      blockType: 'benefits',
-      items: [
-        {
-          title: 'Відправка',
-          value: 'Сьогодні',
-          text: 'Замовлення до 15:00 — відправка в день замовлення.',
-        },
-        { title: 'Оплата', value: 'Онлайн', text: 'Картка онлайн або готівка при самовивозі.' },
-        {
-          title: 'Гарантія',
-          value: 'до 60 днів',
-          text: '14 / 30 для агрегатів, до 60 — на відновлені.',
-        },
-      ],
-    },
+    { blockType: 'reviewsBlock', heading: 'Відгуки', limit: 8 },
     {
       blockType: 'faq',
       heading: 'Часті питання',
@@ -535,7 +520,22 @@ async function run(): Promise<void> {
         },
       ],
     },
-    { blockType: 'reviewsBlock', heading: 'Відгуки', limit: 8 },
+    {
+      blockType: 'benefits',
+      items: [
+        {
+          title: 'Відправка',
+          value: 'Сьогодні',
+          text: 'Замовлення до 15:00 — відправка в день замовлення.',
+        },
+        { title: 'Оплата', value: 'Онлайн', text: 'Картка онлайн або готівка при самовивозі.' },
+        {
+          title: 'Гарантія',
+          value: 'до 60 днів',
+          text: '14 / 30 для агрегатів, до 60 — на відновлені.',
+        },
+      ],
+    },
   ]
 
   // About-page media. The six people reuse three export headshots (placeholders
