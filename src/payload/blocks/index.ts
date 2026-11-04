@@ -174,6 +174,7 @@ export const faqBlock: Block = {
   labels: { singular: 'Часті питання', plural: 'Часті питання' },
   fields: [
     heading,
+    area('subheading', 'Підзаголовок'),
     {
       name: 'items',
       type: 'array',

@@ -518,6 +518,7 @@ export interface Page {
           }
         | {
             heading?: string | null;
+            subheading?: string | null;
             items?:
               | {
                   question?: string | null;
@@ -1204,6 +1205,7 @@ export interface PagesSelect<T extends boolean = true> {
           | T
           | {
               heading?: T;
+              subheading?: T;
               items?:
                 | T
                 | {

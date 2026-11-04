@@ -3,6 +3,7 @@ import type { Page } from '@/payload-types'
 
 import { AboutHero } from './AboutHero'
 import { CtaText } from './CtaText'
+import { FaqBlock } from './FaqBlock'
 import { PartPath } from './PartPath'
 import { ReviewsBlock } from './ReviewsBlock'
 import { StatsBlock } from './StatsBlock'
@@ -38,6 +39,7 @@ const REGISTRY: Registry = {
   whatElseWeDo: WhatElseWeDo,
   reviewsBlock: ReviewsBlock,
   ctaText: CtaText,
+  faq: FaqBlock,
 }
 
 export function BlockRenderer({ blocks, locale }: { blocks: Page['layout']; locale: Locale }) {
