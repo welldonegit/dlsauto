@@ -4,12 +4,10 @@ import type { Locale } from '@/i18n/config'
 
 /**
  * Shared layout for the two legal pages (STAGE_3A §2): breadcrumb, H1, "updated"
- * date, a sticky table of contents on the left and the rich-text body on the
- * right with one anchored section per H2. Оферта additionally shows the ФОП
- * requisites from settings. The content itself is a richText block from Payload.
+ * date and the rich-text body, one section per H2. Оферта additionally shows the
+ * ФОП requisites from settings. The content itself is a richText block from
+ * Payload.
  */
-
-import { LegalToc } from './LegalToc'
 
 export type LegalLabels = {
   home: string
@@ -52,12 +50,6 @@ export function LegalPage({
   const hasRequisites =
     !!requisites && !!(requisites.name || requisites.edrpou || requisites.address)
 
-  // ToC entries: titled sections + an appended requisites entry for Оферта.
-  const tocSections = sections
-    .filter((s) => s.title)
-    .map((s) => ({ id: s.id, title: s.title as string }))
-  if (hasRequisites) tocSections.push({ id: 'sec-requisites', title: labels.requisites })
-
   const updated = formatUpdated(updatedAt, locale)
   const homeHref = locale === 'uk' ? '/' : '/ru'
 
@@ -86,50 +78,43 @@ export function LegalPage({
         </p>
       ) : null}
 
-      <div
-        className="grid grid-cols-1 gap-[var(--space-32)] lg:grid-cols-[minmax(0,15rem)_minmax(0,1fr)] lg:gap-[var(--space-48)]"
-        style={{ marginTop: 'var(--space-48)', alignItems: 'start' }}
+      <article
+        className="flex min-w-0 flex-col gap-[var(--space-48)] text-14 md:text-16 lg:gap-[var(--space-64)] wide:text-18"
+        style={{
+          marginTop: 'var(--space-48)',
+          maxWidth: '47.5rem',
+          color: 'var(--color-neutral-900)',
+        }}
       >
-        {tocSections.length ? (
-          <LegalToc sections={tocSections} contentsLabel={labels.contents} />
-        ) : (
-          <div />
-        )}
-
-        <article
-          className="flex min-w-0 flex-col gap-[var(--space-48)] text-14 md:text-16 lg:gap-[var(--space-64)] wide:text-18"
-          style={{ maxWidth: '47.5rem', color: 'var(--color-neutral-900)' }}
-        >
-          {sections.map((s) => (
-            <section
-              key={s.id}
-              id={s.title ? s.id : undefined}
-              style={{ scrollMarginTop: 'var(--space-96)' }}
-            >
-              <RichTextNodes nodes={s.nodes} />
-            </section>
-          ))}
-          {hasRequisites ? (
-            <section id="sec-requisites" style={{ scrollMarginTop: 'var(--space-96)' }}>
-              <div className="flex flex-col" style={{ gap: 'var(--space-16)' }}>
-                <h2
-                  className="text-24 font-semibold lg:text-28"
-                  style={{ margin: 0, letterSpacing: '-0.02em' }}
-                >
-                  {labels.requisites}
-                </h2>
-                <dl className="flex flex-col" style={{ margin: 0, gap: 'var(--space-8)' }}>
-                  {requisites?.name ? <RequisiteRow value={requisites.name} /> : null}
-                  {requisites?.edrpou ? (
-                    <RequisiteRow label="ЄДРПОУ / ІПН" value={requisites.edrpou} />
-                  ) : null}
-                  {requisites?.address ? <RequisiteRow value={requisites.address} /> : null}
-                </dl>
-              </div>
-            </section>
-          ) : null}
-        </article>
-      </div>
+        {sections.map((s) => (
+          <section
+            key={s.id}
+            id={s.title ? s.id : undefined}
+            style={{ scrollMarginTop: 'var(--space-96)' }}
+          >
+            <RichTextNodes nodes={s.nodes} />
+          </section>
+        ))}
+        {hasRequisites ? (
+          <section id="sec-requisites" style={{ scrollMarginTop: 'var(--space-96)' }}>
+            <div className="flex flex-col" style={{ gap: 'var(--space-16)' }}>
+              <h2
+                className="text-24 font-semibold lg:text-28"
+                style={{ margin: 0, letterSpacing: '-0.02em' }}
+              >
+                {labels.requisites}
+              </h2>
+              <dl className="flex flex-col" style={{ margin: 0, gap: 'var(--space-8)' }}>
+                {requisites?.name ? <RequisiteRow value={requisites.name} /> : null}
+                {requisites?.edrpou ? (
+                  <RequisiteRow label="ЄДРПОУ / ІПН" value={requisites.edrpou} />
+                ) : null}
+                {requisites?.address ? <RequisiteRow value={requisites.address} /> : null}
+              </dl>
+            </div>
+          </section>
+        ) : null}
+      </article>
     </div>
   )
 }

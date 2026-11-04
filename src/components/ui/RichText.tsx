@@ -68,11 +68,45 @@ function renderInline(node: LexNode, key: string): ReactNode {
   }
 }
 
-function listItems(node: LexNode): ReactNode {
+// Custom list markers: the <ul>/<ol> is display:flex (for the gap), which hides
+// native markers, so each item draws its own — a red circle for bullets, a red
+// number for ordered lists. The marker sits in a fixed column, text flows beside.
+const bulletMarker = (
+  <span
+    aria-hidden="true"
+    style={{
+      flexShrink: 0,
+      width: '0.375rem',
+      height: '0.375rem',
+      marginTop: '0.56em',
+      borderRadius: 'var(--radius-full)',
+      backgroundColor: 'var(--color-primary)',
+    }}
+  />
+)
+
+function listItems(node: LexNode, ordered: boolean): ReactNode {
   const kids = (node.children as LexNode[] | undefined) ?? []
+  const start = typeof node.start === 'number' ? (node.start as number) : 1
   return kids.map((li, i) => (
-    <li key={i} style={{ paddingLeft: 'var(--space-4)' }}>
-      {children(li)}
+    <li key={i} className="flex" style={{ gap: 'var(--space-12)' }}>
+      {ordered ? (
+        <span
+          aria-hidden="true"
+          style={{
+            flexShrink: 0,
+            minWidth: '1.25rem',
+            color: 'var(--color-primary)',
+            fontWeight: 500,
+            fontVariantNumeric: 'tabular-nums',
+          }}
+        >
+          {start + i}.
+        </span>
+      ) : (
+        bulletMarker
+      )}
+      <span className="min-w-0">{children(li)}</span>
     </li>
   ))
 }
@@ -110,9 +144,9 @@ export function renderBlock(node: LexNode, key: string): ReactNode {
         <Tag
           key={key}
           className="flex flex-col"
-          style={{ margin: 0, paddingLeft: 'var(--space-24)', gap: 'var(--space-8)' }}
+          style={{ margin: 0, paddingLeft: 'var(--space-4)', gap: 'var(--space-8)' }}
         >
-          {listItems(node)}
+          {listItems(node, ordered)}
         </Tag>
       )
     }
