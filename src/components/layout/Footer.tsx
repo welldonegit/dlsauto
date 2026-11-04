@@ -303,9 +303,9 @@ export async function Footer() {
             </a>
           </div>
 
-          {/* legal row */}
+          {/* legal row — stacked under © on mobile, split row from md up */}
           <div
-            className="flex flex-wrap justify-between"
+            className="flex flex-col md:flex-row md:flex-wrap md:justify-between"
             style={{
               padding: 'var(--space-24) 0 0',
               gap: 'var(--space-12) var(--space-24)',

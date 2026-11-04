@@ -39,22 +39,25 @@ type AsAnchor = Common & { href: string; target?: string; rel?: string; type?: n
 export type ButtonProps = AsButton | AsAnchor
 
 function variantStyle(variant: ButtonVariant, onDark: boolean): CSSProperties {
+  // Use background-COLOR (not the `background` shorthand) so the .dls-fill
+  // radial-gradient and its background-size survive — the shorthand would reset
+  // background-image/size and kill the hover fill.
   if (variant === 'primary') {
     return onDark
       ? {
-          background: 'var(--color-neutral-0)',
+          backgroundColor: 'var(--color-neutral-0)',
           color: 'var(--color-neutral-900)',
           ['--dls-fill' as string]: 'var(--color-neutral-200)',
         }
       : {
-          background: 'var(--color-primary)',
+          backgroundColor: 'var(--color-primary)',
           color: 'var(--color-neutral-0)',
           ['--dls-fill' as string]: 'var(--color-primary-dark)',
         }
   }
   if (variant === 'secondary') {
     return {
-      background: 'transparent',
+      backgroundColor: 'transparent',
       color: onDark ? 'var(--color-neutral-0)' : 'var(--color-primary)',
       border: `var(--border-hairline) solid ${onDark ? 'var(--color-neutral-0)' : 'var(--color-primary)'}`,
       ['--dls-fill' as string]: onDark ? 'var(--color-neutral-0)' : 'var(--color-primary-tint)',
@@ -62,7 +65,7 @@ function variantStyle(variant: ButtonVariant, onDark: boolean): CSSProperties {
   }
   // tertiary — text button, underline handled by the inner span
   return {
-    background: 'transparent',
+    backgroundColor: 'transparent',
     color: onDark ? 'var(--color-neutral-0)' : 'var(--color-primary)',
   }
 }
