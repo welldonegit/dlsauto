@@ -151,6 +151,46 @@ export const getNewestProducts = unstable_cache(
   { tags: [TAG.products] },
 )
 
+export type VehicleModelGroup = { model: Model; products: Product[] }
+
+/**
+ * Models of a body type (pickup / suv) that have in-stock parts, each with its
+ * products — the source for the "Запчастини на пікапи / позашляховики" tabs
+ * (DEV_CONTEXT §5). Models with no in-stock parts are omitted.
+ */
+export const getVehicleModels = unstable_cache(
+  async (
+    bodyType: 'pickup' | 'suv',
+    locale: Locale = 'uk',
+    perModel = 24,
+  ): Promise<VehicleModelGroup[]> => {
+    const payload = await getPayloadClient()
+    const models = await payload.find({
+      collection: 'models',
+      locale,
+      where: { and: [{ bodyType: { equals: bodyType } }, { published: { equals: true } }] },
+      limit: 100,
+      depth: 2, // model.brand populated
+    })
+    const groups = await Promise.all(
+      models.docs.map(async (model) => {
+        const prods = await payload.find({
+          collection: 'products',
+          locale,
+          where: { and: [{ model: { equals: model.id } }, { status: { equals: 'in_stock' } }] },
+          sort: '-createdAt',
+          limit: perModel,
+          depth: 2,
+        })
+        return { model, products: prods.docs }
+      }),
+    )
+    return groups.filter((g) => g.products.length > 0)
+  },
+  ['vehicle-models'],
+  { tags: [TAG.models, TAG.products] },
+)
+
 export const getProductsByModel = unstable_cache(
   async (modelSlug: string, locale: Locale = 'uk', limit = 24): Promise<Product[]> => {
     const payload = await getPayloadClient()

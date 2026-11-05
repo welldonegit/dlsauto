@@ -516,6 +516,8 @@ export interface Page {
              * Решта — автоматично, найновіші в наявності.
              */
             pinned?: (number | Product)[] | null;
+            subheading?: string | null;
+            video?: (number | null) | Media;
             id?: string | null;
             blockName?: string | null;
             blockType: 'pickupsParts';
@@ -527,6 +529,8 @@ export interface Page {
              * Решта — автоматично, найновіші в наявності.
              */
             pinned?: (number | Product)[] | null;
+            subheading?: string | null;
+            video?: (number | null) | Media;
             id?: string | null;
             blockName?: string | null;
             blockType: 'suvsParts';
@@ -1218,6 +1222,8 @@ export interface PagesSelect<T extends boolean = true> {
               heading?: T;
               limit?: T;
               pinned?: T;
+              subheading?: T;
+              video?: T;
               id?: T;
               blockName?: T;
             };
@@ -1227,6 +1233,8 @@ export interface PagesSelect<T extends boolean = true> {
               heading?: T;
               limit?: T;
               pinned?: T;
+              subheading?: T;
+              video?: T;
               id?: T;
               blockName?: T;
             };

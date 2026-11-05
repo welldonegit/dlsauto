@@ -564,8 +564,20 @@ async function run(): Promise<void> {
         },
       ],
     },
-    { blockType: 'pickupsParts', heading: 'Запчастини на пікапи', limit: 12 },
-    { blockType: 'suvsParts', heading: 'Запчастини на позашляховики', limit: 12 },
+    {
+      blockType: 'pickupsParts',
+      heading: 'Запчастини на пікапи',
+      subheading: 'Б/в оригінальні деталі на L200, Ranger та Navara',
+      limit: 12,
+      video: await media('uploads/puckup-truck1.mp4', 'Пікап на бездоріжжі', 'pickup-banner.mp4'),
+    },
+    {
+      blockType: 'suvsParts',
+      heading: 'Запчастини на позашляховики',
+      subheading: 'Б/в оригінальні деталі на Pajero, X-Trail та Grand Cherokee',
+      limit: 12,
+      video: await media('uploads/suv.mp4', 'Позашляховик на бездоріжжі', 'suv-banner.mp4'),
+    },
     {
       blockType: 'videoCheck',
       heading: 'Перевіряємо перед продажем',

@@ -179,13 +179,21 @@ export const servicesBlock: Block = {
 export const pickupsPartsBlock: Block = {
   slug: 'pickupsParts',
   labels: { singular: 'Запчастини на пікапи', plural: 'Запчастини на пікапи' },
-  fields: autoFillFields('products'),
+  fields: [
+    ...autoFillFields('products'),
+    area('subheading', 'Підзаголовок (банер)'),
+    { name: 'video', type: 'upload', relationTo: 'media', label: 'Відео банера' },
+  ],
 }
 
 export const suvsPartsBlock: Block = {
   slug: 'suvsParts',
   labels: { singular: 'Запчастини на позашляховики', plural: 'Запчастини на позашляховики' },
-  fields: autoFillFields('products'),
+  fields: [
+    ...autoFillFields('products'),
+    area('subheading', 'Підзаголовок (банер)'),
+    { name: 'video', type: 'upload', relationTo: 'media', label: 'Відео банера' },
+  ],
 }
 
 export const videoCheckBlock: Block = {

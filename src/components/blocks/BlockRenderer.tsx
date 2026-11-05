@@ -8,6 +8,7 @@ import { FaqBlock } from './FaqBlock'
 import { HeroBlock } from './HeroBlock'
 import { ModelsPickerBlock } from './ModelsPickerBlock'
 import { NewArrivalsBlock } from './NewArrivalsBlock'
+import { PickupsBlock, SuvsBlock } from './VehiclePartsBlock'
 import { PartPath } from './PartPath'
 import { ReviewsBlock } from './ReviewsBlock'
 import { StatsBlock } from './StatsBlock'
@@ -40,6 +41,8 @@ const REGISTRY: Registry = {
   modelsPicker: ModelsPickerBlock,
   categoriesBlock: CategoriesBentoBlock,
   newArrivals: NewArrivalsBlock,
+  pickupsParts: PickupsBlock,
+  suvsParts: SuvsBlock,
   aboutHero: AboutHero,
   stats: StatsBlock,
   partPath: PartPath,

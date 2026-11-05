@@ -380,6 +380,17 @@
     }
   }
 
+  /* "Гортайте" swipe hint (pickups / suvs model tabs when they overflow). */
+  @keyframes dls-swipe {
+    0%,
+    100% {
+      transform: translateX(-0.375rem);
+    }
+    50% {
+      transform: translateX(0.375rem);
+    }
+  }
+
   /* Animated underline for text links (footer, legal). */
   .dls-underline {
     background-image: linear-gradient(currentColor, currentColor);
