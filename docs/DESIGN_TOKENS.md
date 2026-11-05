@@ -24,6 +24,7 @@
 | `--color-neutral-500` | `#6b7380` | muted text |
 | `--color-neutral-600` | `#4a5260` | secondary text |
 | `--color-neutral-800` | `#2a303a` | chip hover on dark |
+| `--color-neutral-850` | `#232830` | dark promo panel ("Усі категорії" bento) |
 | `--color-neutral-900` | `#1e232b` | primary text, dark buttons/chips |
 | `--color-neutral-950` | `#12161c` | dark header bar, hero overlay base |
 | `--color-neutral-hero` | `#16141a` | "Про компанію" hero base (export, ≠ 950) |

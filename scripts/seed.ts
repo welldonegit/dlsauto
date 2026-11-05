@@ -127,16 +127,19 @@ async function run(): Promise<void> {
 
   // ---------------------------------------------------------------- categories
   // name, slug, photo file (null = placeholder). 9 categories from the export.
+  // Photos are the bento cut-out PNGs from the Головна-B export (transparent,
+  // object-contain). Categories without a dedicated cut-out reuse the export's
+  // own demo filler (part-pickup-hub2) — replace with real cut-outs later.
   const CATEGORIES: [string, string, string | null][] = [
-    ['Двигуни', 'dviguny', 'assets/cat-engine.jpg'],
-    ['КПП та роздатки', 'kpp-ta-rozdatky', 'assets/cat-gearbox.jpg'],
-    ['Підвіска та ходова', 'pidviska-ta-khodova', 'assets/cat-suspension.jpg'],
-    ['Кузовні деталі', 'kuzovni-detali', 'assets/cat-body.jpg'],
-    ['Оптика', 'optyka', null],
-    ['Електрика та електроніка', 'elektryka', 'assets/cat-electric.jpg'],
-    ['Салон', 'salon', null],
-    ['Гальмівна система', 'halmivna-systema', null],
-    ['Шини та диски', 'shyny-ta-dysky', 'assets/cat-wheels.jpg'],
+    ['Двигуни', 'dviguny', 'uploads/cat-engine2 1.png'],
+    ['КПП та роздатки', 'kpp-ta-rozdatky', 'uploads/2 1.png'],
+    ['Підвіска та ходова', 'pidviska-ta-khodova', 'uploads/cat-suspension2 1.png'],
+    ['Кузовні деталі', 'kuzovni-detali', 'uploads/part-pickup-hub2 1.png'],
+    ['Оптика', 'optyka', 'uploads/part-pickup-hub2 1.png'],
+    ['Електрика та електроніка', 'elektryka', 'uploads/cat-electric2 1.png'],
+    ['Салон', 'salon', 'uploads/part-pickup-hub2 1.png'],
+    ['Гальмівна система', 'halmivna-systema', 'uploads/part-pickup-hub2 1.png'],
+    ['Шини та диски', 'shyny-ta-dysky', 'uploads/cat-wheels2 1.png'],
   ]
   const catId = new Map<string, number>()
   for (let i = 0; i < CATEGORIES.length; i += 1) {
@@ -498,7 +501,36 @@ async function run(): Promise<void> {
       heading: 'Деталі для вашого авто',
       defaultBrand: brandId.get('Mitsubishi'),
     },
-    { blockType: 'categoriesBlock', heading: 'Категорії запчастин', variant: 'a' },
+    {
+      blockType: 'categoriesBlock',
+      heading: 'Категорії запчастин',
+      variant: 'a',
+      // Bento order from the Головна-B export (A layout): engine leads, then the
+      // rest row by row. The first category is the 2-wide lead card.
+      categories: [
+        'Двигуни',
+        'Кузовні деталі',
+        'Підвіска та ходова',
+        'Електрика та електроніка',
+        'КПП та роздатки',
+        'Оптика',
+        'Гальмівна система',
+        'Салон',
+        'Шини та диски',
+      ].map((n) => catId.get(n)),
+      searchChips: [
+        'Фара передня',
+        'Бампер передній',
+        'Капот',
+        'Турбіна',
+        'Стартер',
+        'Генератор',
+        'Радіатор',
+        'Дзеркало',
+        'Двері передні',
+        'КПП',
+      ].map((label) => ({ label })),
+    },
     { blockType: 'newArrivals', heading: 'Нові надходження', limit: 15 },
     { blockType: 'pickupsParts', heading: 'Запчастини на пікапи', limit: 12 },
     { blockType: 'suvsParts', heading: 'Запчастини на позашляховики', limit: 12 },

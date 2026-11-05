@@ -463,6 +463,15 @@ export interface Page {
              * Порожньо — усі опубліковані за порядком.
              */
             categories?: (number | Category)[] | null;
+            /**
+             * Популярні запити у промо-панелі «Усі категорії».
+             */
+            searchChips?:
+              | {
+                  label?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'categoriesBlock';
@@ -1161,6 +1170,12 @@ export interface PagesSelect<T extends boolean = true> {
               heading?: T;
               variant?: T;
               categories?: T;
+              searchChips?:
+                | T
+                | {
+                    label?: T;
+                    id?: T;
+                  };
               id?: T;
               blockName?: T;
             };

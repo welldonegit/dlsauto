@@ -2,6 +2,7 @@ import type { Locale } from '@/i18n/config'
 import type { Page } from '@/payload-types'
 
 import { AboutHero } from './AboutHero'
+import { CategoriesBentoBlock } from './CategoriesBentoBlock'
 import { CtaText } from './CtaText'
 import { FaqBlock } from './FaqBlock'
 import { HeroBlock } from './HeroBlock'
@@ -36,6 +37,7 @@ type Registry = { [K in PageBlock['blockType']]?: BlockComponent<K> }
 const REGISTRY: Registry = {
   hero: HeroBlock,
   modelsPicker: ModelsPickerBlock,
+  categoriesBlock: CategoriesBentoBlock,
   aboutHero: AboutHero,
   stats: StatsBlock,
   partPath: PartPath,

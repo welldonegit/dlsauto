@@ -127,6 +127,13 @@ export const categoriesBlock: Block = {
       label: 'Категорії',
       admin: { description: 'Порожньо — усі опубліковані за порядком.' },
     },
+    {
+      name: 'searchChips',
+      type: 'array',
+      label: 'Чипи «Часто шукають» (тёмна панель)',
+      admin: { description: 'Популярні запити у промо-панелі «Усі категорії».' },
+      fields: [text('label', 'Запит')],
+    },
   ],
 }
 
