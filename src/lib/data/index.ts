@@ -133,6 +133,24 @@ export const getProduct = unstable_cache(
   { tags: [TAG.products] },
 )
 
+/** Newest in-stock products (DEV_CONTEXT §5) — the "Нові надходження" source. */
+export const getNewestProducts = unstable_cache(
+  async (locale: Locale = 'uk', limit = 15): Promise<Product[]> => {
+    const payload = await getPayloadClient()
+    const res = await payload.find({
+      collection: 'products',
+      locale,
+      where: { status: { equals: 'in_stock' } },
+      sort: '-createdAt',
+      limit,
+      depth: 2, // model → brand, category, photos, pickup point
+    })
+    return res.docs
+  },
+  ['newest-products'],
+  { tags: [TAG.products] },
+)
+
 export const getProductsByModel = unstable_cache(
   async (modelSlug: string, locale: Locale = 'uk', limit = 24): Promise<Product[]> => {
     const payload = await getPayloadClient()

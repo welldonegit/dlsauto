@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState, type ReactNode } from 'react'
 
 import { Button } from '@/components/ui/Button'
+import { useWishlistCount } from '@/lib/wishlist'
 import {
   CartIcon,
   CatalogIcon,
@@ -164,18 +165,21 @@ function IconAction({
   label,
   href = '#',
   size = '48',
+  badge = 0,
   children,
 }: {
   label: string
   href?: string
   size?: '48' | '44'
+  /** Count badge (e.g. wishlist size); hidden when 0. */
+  badge?: number
   children: ReactNode
 }) {
   return (
     <a
       href={href}
-      aria-label={label}
-      className="flex shrink-0 items-center justify-center"
+      aria-label={badge > 0 ? `${label} (${badge})` : label}
+      className="relative flex shrink-0 items-center justify-center"
       style={{
         width: size === '48' ? 'var(--control-h-48)' : 'var(--control-h-44)',
         height: size === '48' ? 'var(--control-h-48)' : 'var(--control-h-44)',
@@ -185,6 +189,28 @@ function IconAction({
       }}
     >
       {children}
+      {badge > 0 ? (
+        <span
+          aria-hidden="true"
+          className="absolute flex items-center justify-center text-11"
+          style={{
+            top: 'calc(var(--space-4) * -1)',
+            right: 'calc(var(--space-4) * -1)',
+            minWidth: '1.125rem',
+            height: '1.125rem',
+            padding: '0 0.3125rem',
+            boxSizing: 'border-box',
+            borderRadius: 'var(--radius-full)',
+            background: 'var(--color-primary)',
+            color: 'var(--color-neutral-0)',
+            lineHeight: 1,
+            fontWeight: 600,
+            fontVariantNumeric: 'tabular-nums',
+          }}
+        >
+          {badge}
+        </span>
+      ) : null}
     </a>
   )
 }
@@ -300,6 +326,7 @@ export function Header({
   const { hidden, stuck } = useScrollReveal()
   const [menuOpen, setMenuOpen] = useState(false)
   const toggleMenu = () => setMenuOpen((o) => !o)
+  const favCount = useWishlistCount()
 
   const barStyle = {
     background: 'var(--color-neutral-0)',
@@ -416,7 +443,7 @@ export function Header({
               <IconAction label={`Зателефонувати: ${phone}`} href={phoneHref} size="44">
                 <PhoneIcon size="24" />
               </IconAction>
-              <IconAction label="Обране" size="44">
+              <IconAction label="Обране" size="44" badge={favCount}>
                 <HeartIcon size="24" />
               </IconAction>
               <a
@@ -480,7 +507,7 @@ export function Header({
                     Замовити дзвінок
                   </Button>
                 </div>
-                <IconAction label="Обране">
+                <IconAction label="Обране" badge={favCount}>
                   <HeartIcon size="24" />
                 </IconAction>
                 <a

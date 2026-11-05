@@ -7,6 +7,7 @@ import { CtaText } from './CtaText'
 import { FaqBlock } from './FaqBlock'
 import { HeroBlock } from './HeroBlock'
 import { ModelsPickerBlock } from './ModelsPickerBlock'
+import { NewArrivalsBlock } from './NewArrivalsBlock'
 import { PartPath } from './PartPath'
 import { ReviewsBlock } from './ReviewsBlock'
 import { StatsBlock } from './StatsBlock'
@@ -38,6 +39,7 @@ const REGISTRY: Registry = {
   hero: HeroBlock,
   modelsPicker: ModelsPickerBlock,
   categoriesBlock: CategoriesBentoBlock,
+  newArrivals: NewArrivalsBlock,
   aboutHero: AboutHero,
   stats: StatsBlock,
   partPath: PartPath,

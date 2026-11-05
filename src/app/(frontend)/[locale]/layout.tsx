@@ -3,6 +3,7 @@ import { Golos_Text, JetBrains_Mono } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import type { ReactNode } from 'react'
 
+import { ToastHost } from '@/components/ui/ToastHost'
 import { isLocale, locales } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
 import { getSiteUrl } from '@/lib/env'
@@ -60,7 +61,10 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} className={`${golos.variable} ${jetbrains.variable}`}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <ToastHost />
+      </body>
     </html>
   )
 }

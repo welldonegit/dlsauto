@@ -41,16 +41,24 @@
   - **Токен:** додано `--color-neutral-850: #232830` (фон тёмної панелі — окремий відтінок, не зводиться до 800/900); `DESIGN_TOKENS.md` пересинхронізовано.
   - **Сверка** (манифест §5, 1280/390): 9 карток + 10 чипів; обидва списки розходжень порожні; на мобайлі перевірено, що назви не налазять на стрілку (зазор 17px).
 
-Коміти fundament/faq запушені в `origin/stage`; heroB, modelsPicker, categoriesBlock — локальні коміти (пуш за командою).
+- **ProductCard (keystone) + newArrivals.**
+  - `src/components/ProductCard.tsx` — спільна картка (DLSProductCard), усі стани з даних: `in_stock` · знижка (`−N%` бейдж, перекреслена стара ціна = `price/(1−pct)`, червона поточна) · `featured` (бігуча коніч-рамка) · `popular` · `sold` (приглушене фото, «Продано», «Знайти схожу») · `fits` (зелена плашка «Підходить на ваше авто» замість донора). Hover: підйом, біла підкладка, каруселька (стрілки+крапки), панель «Характеристики». Клієнтський (стан наведення/фото/обране).
+  - **Поведінка (етап 3b):** серце → `src/lib/wishlist.ts` (localStorage, `useSyncExternalStore`, крос-табова синхронізація) + бейдж у хедері (`IconAction badge`, повернув елемент з експорту — при 0 прихований, хедер без змін); «В кошик» → тост «Кошик — етап 5» через глобальний `ToastHost` (вікно-подія, змонтований у лейауті); швидкий перегляд → опц. хендлер (QuickView на блоці 7). Посилання — реальні §8.
+  - **newArrivals** (`NewArrivals.tsx` + `NewArrivalsBlock.tsx`): таб-ліст (Усі + категорії з товарів) над full-bleed snap-каруселлю карток (224px, вирівняні по контент-колонці, з запасом знизу під hover-панель), кросфейд при зміні табу, стрілки prev/next (48, вимикаються на краях). Дані — `getNewestProducts` (15 найновіших in_stock) + мапер `src/lib/productCard.ts` (бренд-лого з `getBrands`).
+  - Картка на **`/ui`** — 5 станів (в наявності / знижка+рамка / підходить / продано / повна кнопка). Перевірено вживу: обране→бейдж «1» і переживає перезавантаження; «В кошик»→тост; перемикання табів фільтрує; hover показує каруселю+характеристики.
+  - **CSS:** додано `@property --dlsA` + keyframes `dls-spin`/`dls-stock-pulse`/`dls-heart-pop-a/b` та клас `.dls-round-fill` (круглі кнопки серця/ока) у globals.
+  - **Рамка-деферал:** сезонні наклейки (гарбуз/шапка/писанка…) і car-fit фільтр («Показуємо новинки на …») — відкладено: при поточному стані (season=none, немає cookie авто) вони невидимі, тож дефолтний рендер збігається з експортом. Увімкнуться з селектором авто / фестивальними ассетами (див. питання пакету).
+  - **Сверка** (манифест §6, ProductCard-спека): обидва списки розходжень порожні на дефолтному стані.
+
+Коміти fundament/faq запушені в `origin/stage`; heroB, modelsPicker, categoriesBlock, ProductCard+newArrivals — локальні коміти (пуш за командою).
 
 ### Осталось (в порядке экспорта, каждый — отдельный коммит со сверкой)
-1. **ProductCard** (ключевой шаред-компонент, все состояния: in_stock / −N% + бегущая рамка / sold / «Популярне» / fits / wishlist / quick-view / фото-карусель / панель характеристик) **+ newArrivals** (таб-карусель).
-2. **whatElseWeDo** — переиспользовать About-компонент (контент идентичен: ворота + Ремонт/Викуповуємо), добавить в сид главной.
-3. **pickupsParts / suvsParts** (DLSPickups / DLSSuvs) — видео-баннер (pickup.mp4 / suv.mp4) + карусель карточек по вкладкам-моделям (7 пікапів / 16 SUV).
-4. **videoCheck → videos** (DLSVideos) — карусель из 5 роликов (video1–5.mp4), hover-play, бейдж/длительность/play-кнопка.
-5. **benefits** (DLSBenefits) — тёмная полоса `#12161C`, 3 карточки, живий «день відправки» по Киеву (из `src/lib/rules`), пары key/value, плашка+тег.
-6. **Мега-меню v3** (в хедере `DLSHeaderHero`, спеку вытащить из `DLSMegaMenu3.dc.html`) + **quick-view** (`DLSQuickView`) — динамический импорт.
-7. **SEO/аналитика/перф**: мета, hreflang, Organization + FAQPage schema.org; `dataLayer`-события `view_item_list` / `select_item` / `add_to_wishlist`; Lighthouse mobile ≥ 90 (видео lazy, `next/image` sizes, меню/модалки — dynamic import).
+1. **whatElseWeDo** — переиспользовать About-компонент (контент идентичен: ворота + Ремонт/Викуповуємо), добавить в сид главной.
+2. **pickupsParts / suvsParts** (DLSPickups / DLSSuvs) — видео-баннер (pickup.mp4 / suv.mp4) + карусель карточек по вкладкам-моделям (7 пікапів / 16 SUV).
+3. **videoCheck → videos** (DLSVideos) — карусель из 5 роликов (video1–5.mp4), hover-play, бейдж/длительность/play-кнопка.
+4. **benefits** (DLSBenefits) — тёмная полоса `#12161C`, 3 карточки, живий «день відправки» по Киеву (из `src/lib/rules`), пары key/value, плашка+тег.
+5. **Мега-меню v3** (в хедере `DLSHeaderHero`, спеку вытащить из `DLSMegaMenu3.dc.html`) + **quick-view** (`DLSQuickView`) — динамический импорт.
+6. **SEO/аналитика/перф**: мета, hreflang, Organization + FAQPage schema.org; `dataLayer`-события `view_item_list` / `select_item` / `add_to_wishlist`; Lighthouse mobile ≥ 90 (видео lazy, `next/image` sizes, меню/модалки — dynamic import).
 
 ---
 

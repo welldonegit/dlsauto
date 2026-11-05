@@ -2,6 +2,7 @@
 
 import { useState, type ReactNode } from 'react'
 
+import { ProductCard, type ProductCardData } from '@/components/ProductCard'
 import { Accordion } from '@/components/ui/Accordion'
 import { Badge } from '@/components/ui/Badge'
 import { Button, CircleArrow } from '@/components/ui/Button'
@@ -27,6 +28,7 @@ const COLORS: { name: string; v: string; hex: string }[] = [
   { name: 'neutral-500', v: 'var(--color-neutral-500)', hex: '#6B7380' },
   { name: 'neutral-600', v: 'var(--color-neutral-600)', hex: '#4A5260' },
   { name: 'neutral-800', v: 'var(--color-neutral-800)', hex: '#2A303A' },
+  { name: 'neutral-850', v: 'var(--color-neutral-850)', hex: '#232830' },
   { name: 'neutral-900', v: 'var(--color-neutral-900)', hex: '#1E232B' },
   { name: 'neutral-950', v: 'var(--color-neutral-950)', hex: '#12161C' },
   { name: 'primary', v: 'var(--color-primary)', hex: '#E0001B' },
@@ -535,6 +537,62 @@ export function UiShowcase() {
           </div>
         </div>
       </Block>
+
+      <Block title="Картка товару (ProductCard)">
+        <p style={{ margin: '0 0 var(--space-24)', color: 'var(--color-neutral-600)' }}>
+          Наведіть на картку — підіймається, зʼявляється каруселька фото і панель «Характеристики».
+          Серце → обране (localStorage, бейдж у хедері). «В кошик» → тост (кошик на етапі 5).
+        </p>
+        <div
+          className="flex flex-wrap"
+          style={{ gap: 'var(--space-24)', paddingBottom: 'var(--space-160)' }}
+        >
+          {PRODUCT_SAMPLES.map(({ label, data, fullCart }) => (
+            <div key={label} style={{ width: '14rem' }}>
+              <p
+                className="text-13"
+                style={{ margin: '0 0 var(--space-8)', color: 'var(--color-neutral-500)' }}
+              >
+                {label}
+              </p>
+              <div style={{ position: 'relative' }}>
+                <ProductCard data={data} fullCart={fullCart} />
+              </div>
+            </div>
+          ))}
+        </div>
+      </Block>
     </main>
   )
 }
+
+const SAMPLE_PHOTO = '/images/ui-sample-part.jpg'
+const SAMPLE_SPECS = [
+  { k: 'Стан', v: 'Б/в, оригінал' },
+  { k: 'Сторона', v: 'Ліва' },
+  { k: 'Тип лампи', v: 'Галоген H4' },
+  { k: 'Гарантія', v: '14 днів' },
+]
+const baseSample: ProductCardData = {
+  id: 'ui-sample',
+  href: '#',
+  name: 'Фара ліва галоген',
+  oem: 'UR56-51-040',
+  price: 4500,
+  model: 'Ranger 2006–2012',
+  brandLogo: null,
+  status: 'in_stock',
+  photos: [SAMPLE_PHOTO, SAMPLE_PHOTO],
+  city: 'Запоріжжя',
+  specs: SAMPLE_SPECS,
+}
+const PRODUCT_SAMPLES: { label: string; data: ProductCardData; fullCart?: boolean }[] = [
+  { label: 'В наявності', data: { ...baseSample, id: 'ui-in-stock' } },
+  {
+    label: 'Знижка + бігуча рамка',
+    data: { ...baseSample, id: 'ui-promo', discountPercent: 20, featured: true },
+  },
+  { label: 'Підходить на авто', data: { ...baseSample, id: 'ui-fits', fits: true } },
+  { label: 'Продано', data: { ...baseSample, id: 'ui-sold', status: 'sold' } },
+  { label: 'Повна кнопка', data: { ...baseSample, id: 'ui-full' }, fullCart: true },
+]
