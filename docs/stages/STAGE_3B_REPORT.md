@@ -58,12 +58,14 @@
 - **videoCheck → videos (DLSVideos).** `Videos.tsx` (клієнт) + `VideoCheckBlock.tsx` (сервер). h2 «Перевіряємо перед продажем» + підзаголовок, далі full-bleed snap-каруселя з 5 відео-плиток (4/5, radius16, тёмний фон): бейдж-категорія (top-left), play-кнопка 56 по центру, scrim знизу. На hover плитка програє своє відео (інші — пауза+rewind), play-кнопка згасає, зʼявляється тривалість (top-right). Стрілки prev/next. Відео `preload="metadata"`. Блок `videoCheck` перероблено: замість одного `video`/`poster` — масив `videos[{video, badge, duration}]`; у сіді 5 роликів (video1–5.mp4) з бейджами/тривалостями з експорту. Перевірено вживу — hover-play працює.
   - **Сверка**: обидва списки розходжень порожні.
 
-Коміти fundament/faq запушені в `origin/stage`; heroB, modelsPicker, categoriesBlock, ProductCard+newArrivals, whatElseWeDo, pickups/suvs, videos — локальні коміти (пуш за командою).
+- **benefits (DLSBenefits).** `Benefits.tsx` (клієнт) + `BenefitsBlock.tsx` (сервер). Тёмна смуга `#12161C`, 3 світлі картки (Відправка/Оплата/Гарантія): напис зверху + бейдж, велике значення, дільник, 3 пари ключ/значення, тёмна плашка з іконкою (протектор/картка/ключ) + приміткою + зеленим тегом. Значення 1-ї картки — **живий день відправки** (`dispatchLabel`, §5; оновлюється щохвилини; початкове значення рахує сервер, щоб уникнути hydration-mismatch — перевірено «Завтра» о 18:01). IO-reveal зі stagger + hover-lift. Блок `benefits` розширено під експорт-контент (label/badge/shipDay/value/icon/note/tag/pairs). Перевірено вживу.
+  - **Сверка**: обидва списки розходжень порожні.
+
+Коміти fundament/faq запушені в `origin/stage`; heroB, modelsPicker, categoriesBlock, ProductCard+newArrivals, whatElseWeDo, pickups/suvs, videos, benefits — локальні коміти (пуш за командою).
 
 ### Осталось (в порядке экспорта, каждый — отдельный коммит со сверкой)
-1. **benefits** (DLSBenefits) — тёмная полоса `#12161C`, 3 карточки, живий «день відправки» по Киеву (из `src/lib/rules`), пары key/value, плашка+тег.
-2. **Мега-меню v3** (в хедере `DLSHeaderHero`, спеку вытащить из `DLSMegaMenu3.dc.html`) + **quick-view** (`DLSQuickView`) — динамический импорт.
-3. **SEO/аналитика/перф**: мета, hreflang, Organization + FAQPage schema.org; `dataLayer`-события `view_item_list` / `select_item` / `add_to_wishlist`; Lighthouse mobile ≥ 90 (видео lazy, `next/image` sizes, меню/модалки — dynamic import).
+1. **Мега-меню v3** (в хедере `DLSHeaderHero`, спеку вытащить из `DLSMegaMenu3.dc.html`) + **quick-view** (`DLSQuickView`) — динамический импорт.
+2. **SEO/аналитика/перф**: мета, hreflang, Organization + FAQPage schema.org; `dataLayer`-события `view_item_list` / `select_item` / `add_to_wishlist`; Lighthouse mobile ≥ 90 (видео lazy, `next/image` sizes, меню/модалки — dynamic import).
 
 ---
 

@@ -574,9 +574,20 @@ export interface Page {
         | {
             items?:
               | {
-                  title?: string | null;
+                  label?: string | null;
+                  badge?: string | null;
+                  shipDay?: boolean | null;
                   value?: string | null;
-                  text?: string | null;
+                  icon?: ('tread' | 'card' | 'wrench') | null;
+                  note?: string | null;
+                  tag?: string | null;
+                  pairs?:
+                    | {
+                        k?: string | null;
+                        v?: string | null;
+                        id?: string | null;
+                      }[]
+                    | null;
                   id?: string | null;
                 }[]
               | null;
@@ -1289,9 +1300,20 @@ export interface PagesSelect<T extends boolean = true> {
               items?:
                 | T
                 | {
-                    title?: T;
+                    label?: T;
+                    badge?: T;
+                    shipDay?: T;
                     value?: T;
-                    text?: T;
+                    icon?: T;
+                    note?: T;
+                    tag?: T;
+                    pairs?:
+                      | T
+                      | {
+                          k?: T;
+                          v?: T;
+                          id?: T;
+                        };
                     id?: T;
                   };
               id?: T;

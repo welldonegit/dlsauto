@@ -2,6 +2,7 @@ import type { Locale } from '@/i18n/config'
 import type { Page } from '@/payload-types'
 
 import { AboutHero } from './AboutHero'
+import { BenefitsBlock } from './BenefitsBlock'
 import { CategoriesBentoBlock } from './CategoriesBentoBlock'
 import { CtaText } from './CtaText'
 import { FaqBlock } from './FaqBlock'
@@ -45,6 +46,7 @@ const REGISTRY: Registry = {
   pickupsParts: PickupsBlock,
   suvsParts: SuvsBlock,
   videoCheck: VideoCheckBlock,
+  benefits: BenefitsBlock,
   aboutHero: AboutHero,
   stats: StatsBlock,
   partPath: PartPath,
