@@ -481,10 +481,17 @@ async function run(): Promise<void> {
   const home = [
     {
       blockType: 'hero',
-      variant: 'a',
-      eyebrow: 'DLSAuto',
-      heading: 'Вживані автозапчастини з власної розбірки',
-      subheading: 'Пікапи, позашляховики та легкові. Кожна деталь перевірена.',
+      variant: 'b',
+      heading: 'Б/в запчастини, які підійдуть з першого разу',
+      subheading:
+        'Фото реальної запчастини, перевірка перед продажем, відправка в день замовлення.',
+      background: await media('uploads/hero2.jpg', 'Фон першого екрана'),
+      tiles: [
+        { value: '1 200+', caption: 'деталей', icon: 'tread' },
+        { value: 'до 60 днів', caption: 'гарантії', icon: 'wrench' },
+        { value: '4.8', caption: 'на Prom.ua', icon: 'star' },
+        { value: 'Відправка', caption: 'сьогодні', icon: 'speed' },
+      ],
     },
     { blockType: 'stats', heading: 'DLSAuto в цифрах', items: statItems },
     {

@@ -6,6 +6,7 @@
 export { slugify, transliterate } from './slug'
 export { normalizeOem, normalizeOemList } from './oem'
 export { pluralUk, partsWord, partsLabel } from './plural'
+export { modelDisplayName, modelYears, modelLabel } from './modelName'
 export { isNew, NEW_WINDOW_DAYS } from './isNew'
 export { dispatchDay, dispatchLabel, DISPATCH_LABEL_UK, type Dispatch } from './shipping'
 export { pickupStatus, DEFAULT_SCHEDULE, type Schedule, type OpenStatus } from '@/lib/hours'

@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 
 import { isAdmin, publishedOrStaff } from '../access'
-import { slugField } from '../fields'
+import { publishedField, slugField } from '../fields'
 
 /**
  * Brands (DEV_CONTEXT §4): name, slug, logo (mono + colour), order, published.
@@ -36,5 +36,6 @@ export const Brands: CollectionConfig = {
       label: 'Логотип (кольоровий)',
       admin: { description: 'Для плиток у блоці «Деталі для вашого авто».' },
     },
+    publishedField,
   ],
 }

@@ -58,6 +58,29 @@ export const heroBlock: Block = {
     heading,
     area('subheading', 'Підзаголовок'),
     { name: 'background', type: 'upload', relationTo: 'media', label: 'Фонове фото' },
+    {
+      name: 'tiles',
+      type: 'array',
+      label: 'Плитки довіри (варіант B)',
+      maxRows: 4,
+      admin: { description: 'Чотири плитки під лідом у варіанті B.' },
+      fields: [
+        text('value', 'Значення (напр. «1 200+»)'),
+        text('caption', 'Підпис (напр. «деталей»)'),
+        {
+          name: 'icon',
+          type: 'select',
+          label: 'Іконка',
+          defaultValue: 'tread',
+          options: [
+            { label: 'Протектор', value: 'tread' },
+            { label: 'Ключ', value: 'wrench' },
+            { label: 'Зірка', value: 'star' },
+            { label: 'Спідометр', value: 'speed' },
+          ],
+        },
+      ],
+    },
   ],
 }
 

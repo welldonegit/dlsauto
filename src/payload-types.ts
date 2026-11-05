@@ -161,6 +161,10 @@ export interface Brand {
    * Для плиток у блоці «Деталі для вашого авто».
    */
   logoColor?: (number | null) | Media;
+  /**
+   * Показувати на сайті.
+   */
+  published?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -422,6 +426,17 @@ export interface Page {
             heading?: string | null;
             subheading?: string | null;
             background?: (number | null) | Media;
+            /**
+             * Чотири плитки під лідом у варіанті B.
+             */
+            tiles?:
+              | {
+                  value?: string | null;
+                  caption?: string | null;
+                  icon?: ('tread' | 'wrench' | 'star' | 'speed') | null;
+                  id?: string | null;
+                }[]
+              | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'hero';
@@ -926,6 +941,7 @@ export interface BrandsSelect<T extends boolean = true> {
   slug?: T;
   logoMono?: T;
   logoColor?: T;
+  published?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1112,6 +1128,14 @@ export interface PagesSelect<T extends boolean = true> {
               heading?: T;
               subheading?: T;
               background?: T;
+              tiles?:
+                | T
+                | {
+                    value?: T;
+                    caption?: T;
+                    icon?: T;
+                    id?: T;
+                  };
               id?: T;
               blockName?: T;
             };

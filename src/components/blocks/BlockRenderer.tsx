@@ -4,6 +4,7 @@ import type { Page } from '@/payload-types'
 import { AboutHero } from './AboutHero'
 import { CtaText } from './CtaText'
 import { FaqBlock } from './FaqBlock'
+import { HeroBlock } from './HeroBlock'
 import { PartPath } from './PartPath'
 import { ReviewsBlock } from './ReviewsBlock'
 import { StatsBlock } from './StatsBlock'
@@ -32,6 +33,7 @@ type BlockComponent<K extends PageBlock['blockType']> = (
 type Registry = { [K in PageBlock['blockType']]?: BlockComponent<K> }
 
 const REGISTRY: Registry = {
+  hero: HeroBlock,
   aboutHero: AboutHero,
   stats: StatsBlock,
   partPath: PartPath,

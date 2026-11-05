@@ -8,8 +8,10 @@
 |---|---|---|---|---|
 | 0 | Репозиторій, Docker, CI → GHCR, i18n-маршрутизація, скрипти сервера і Dokploy (без сервера) | ✅ готово | `docs/stages/stage-0.md` | — |
 | 1 | Дизайн-система в коді: токени, примітиви, складові компоненти, `/ui`, сверка десктоп/мобайл + пілот «Контакти» | ✅ готово | `docs/stages/stage1/` | `docs/stages/STAGE_1_REPORT.md` |
-| 2 | Модель даних, Payload-колекції з локалізацією, адмінка, блоки сторінок, імпорт з Prom | 🟡 на перевірці | `docs/stages/STAGE_2_PROMPT.md` | `docs/stages/STAGE_2_REPORT.md` |
-| 3a | Статичні сторінки: 404, Оферта, Політика, Про компанію (блоки через BlockRenderer) | 🟡 на перевірці | `docs/stages/STAGE_3A_PROMPT.md` | `docs/stages/STAGE_3A_REPORT.md` |
+| 2 | Модель даних, Payload-колекції з локалізацією, адмінка, блоки сторінок, імпорт з Prom | ✅ прийнято | `docs/stages/STAGE_2_PROMPT.md` | `docs/stages/STAGE_2_REPORT.md` |
+| 3a | Статичні сторінки: 404, Оферта, Політика, Про компанію (блоки через BlockRenderer) | ✅ прийнято | `docs/stages/STAGE_3A_PROMPT.md` | `docs/stages/STAGE_3A_REPORT.md` |
+| 3b | Головна `/` за експортом «Головна-B»: блок за блоком через BlockRenderer | 🟡 в роботі | `docs/stages/STAGE_3B_PROMPT.md` | `docs/stages/STAGE_3B_REPORT.md` |
+| 3c | Сторінки каталогу і товару | ⬜ | — | — |
 | 3 | Купівля VPS, перший деплой на stage. Публічні сторінки без кошика | ⬜ | — | — |
 | 4 | Пошук і автокомпліт, сторінка результатів | ⬜ | — | — |
 | 5 | Кошик, чекаут, НП, Delivery, monoPay, передплата, email | ⬜ | — | — |
