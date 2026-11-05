@@ -50,15 +50,16 @@
   - **Рамка-деферал:** сезонні наклейки (гарбуз/шапка/писанка…) і car-fit фільтр («Показуємо новинки на …») — відкладено: при поточному стані (season=none, немає cookie авто) вони невидимі, тож дефолтний рендер збігається з експортом. Увімкнуться з селектором авто / фестивальними ассетами (див. питання пакету).
   - **Сверка** (манифест §6, ProductCard-спека): обидва списки розходжень порожні на дефолтному стані.
 
-Коміти fundament/faq запушені в `origin/stage`; heroB, modelsPicker, categoriesBlock, ProductCard+newArrivals — локальні коміти (пуш за командою).
+- **whatElseWeDo — на головній.** Переіспользований компонент `WhatElseWeDo` (DLSServicesWide, збудований у 3a) змонтовано на `/` тим самим контентом, що й на «Про компанію» (ворота + Ремонт/Викуповуємо). У сіді home додано блок `whatElseWeDo` після `newArrivals` (медіа — інлайн через `media()`, дедуп за іменем). Перевірено вживу — рендериться.
+
+Коміти fundament/faq запушені в `origin/stage`; heroB, modelsPicker, categoriesBlock, ProductCard+newArrivals, whatElseWeDo — локальні коміти (пуш за командою).
 
 ### Осталось (в порядке экспорта, каждый — отдельный коммит со сверкой)
-1. **whatElseWeDo** — переиспользовать About-компонент (контент идентичен: ворота + Ремонт/Викуповуємо), добавить в сид главной.
-2. **pickupsParts / suvsParts** (DLSPickups / DLSSuvs) — видео-баннер (pickup.mp4 / suv.mp4) + карусель карточек по вкладкам-моделям (7 пікапів / 16 SUV).
-3. **videoCheck → videos** (DLSVideos) — карусель из 5 роликов (video1–5.mp4), hover-play, бейдж/длительность/play-кнопка.
-4. **benefits** (DLSBenefits) — тёмная полоса `#12161C`, 3 карточки, живий «день відправки» по Киеву (из `src/lib/rules`), пары key/value, плашка+тег.
-5. **Мега-меню v3** (в хедере `DLSHeaderHero`, спеку вытащить из `DLSMegaMenu3.dc.html`) + **quick-view** (`DLSQuickView`) — динамический импорт.
-6. **SEO/аналитика/перф**: мета, hreflang, Organization + FAQPage schema.org; `dataLayer`-события `view_item_list` / `select_item` / `add_to_wishlist`; Lighthouse mobile ≥ 90 (видео lazy, `next/image` sizes, меню/модалки — dynamic import).
+1. **pickupsParts / suvsParts** (DLSPickups / DLSSuvs) — видео-баннер (pickup.mp4 / suv.mp4) + карусель карточек по вкладкам-моделям (7 пікапів / 16 SUV).
+2. **videoCheck → videos** (DLSVideos) — карусель из 5 роликов (video1–5.mp4), hover-play, бейдж/длительность/play-кнопка.
+3. **benefits** (DLSBenefits) — тёмная полоса `#12161C`, 3 карточки, живий «день відправки» по Киеву (из `src/lib/rules`), пары key/value, плашка+тег.
+4. **Мега-меню v3** (в хедере `DLSHeaderHero`, спеку вытащить из `DLSMegaMenu3.dc.html`) + **quick-view** (`DLSQuickView`) — динамический импорт.
+5. **SEO/аналитика/перф**: мета, hreflang, Organization + FAQPage schema.org; `dataLayer`-события `view_item_list` / `select_item` / `add_to_wishlist`; Lighthouse mobile ≥ 90 (видео lazy, `next/image` sizes, меню/модалки — dynamic import).
 
 ---
 

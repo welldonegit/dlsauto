@@ -532,6 +532,38 @@ async function run(): Promise<void> {
       ].map((label) => ({ label })),
     },
     { blockType: 'newArrivals', heading: 'Нові надходження', limit: 15 },
+    {
+      // Same content as the "Про компанію" block (DLSServicesWide). Media is
+      // loaded inline; media() dedupes by filename, so no duplicate uploads.
+      blockType: 'whatElseWeDo',
+      heading: 'Що ще ми робимо',
+      text: 'Окрім продажу запчастин, ремонтуємо у власному сервісі — ставимо те, що самі зняли і перевірили. Викуповуємо авто після ДТП і на розбірку. Усе — в одному дворі в Запоріжжі.',
+      wideImage: await media(
+        'assets/contacts-gate.jpg',
+        'Сіра брама з логотипом DLSAuto, вид з дороги',
+        'about-gate.jpg',
+      ),
+      cards: [
+        {
+          title: 'Ремонт у власному сервісі',
+          text: 'Діагностика, ходова, двигуни та агрегати. Ставимо деталі з нашої розборки',
+          image: await media(
+            'assets/service-sto.jpg',
+            'Пікап на підйомнику в боксі',
+            'svc-sto.jpg',
+          ),
+        },
+        {
+          title: 'Викуповуємо авто на розбірку',
+          text: 'Биті, після ДТП, з несправним двигуном — оцінимо за фото за годину, заберемо самі по Запоріжжю та області',
+          image: await media(
+            'assets/service-razborka.jpg',
+            'Биті авто в цеху на розбірці',
+            'svc-razborka.jpg',
+          ),
+        },
+      ],
+    },
     { blockType: 'pickupsParts', heading: 'Запчастини на пікапи', limit: 12 },
     { blockType: 'suvsParts', heading: 'Запчастини на позашляховики', limit: 12 },
     {
