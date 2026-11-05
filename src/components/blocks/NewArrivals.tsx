@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { ProductCard, type ProductCardData } from '@/components/ProductCard'
 import { Button } from '@/components/ui/Button'
+import { useSelectedCar } from '@/lib/selectedCar'
 
 /**
  * "Нові надходження" (DLSNewArrivals export). A category tablist over a
@@ -37,9 +38,22 @@ export function NewArrivals({
   const [fading, setFading] = useState(false)
   const [atStart, setAtStart] = useState(true)
   const [atEnd, setAtEnd] = useState(false)
+  const [ignoreCar, setIgnoreCar] = useState(false)
   const fadeT = useRef<ReturnType<typeof setTimeout>>(undefined)
 
-  const shown = tab === 'all' ? cards : cards.filter((c) => c.cat === tab)
+  const car = useSelectedCar()
+  // A newly chosen car re-applies the filter and resets the row (render-phase
+  // derived-state reset — the React-recommended way, no effect needed).
+  const [prevCar, setPrevCar] = useState(car)
+  if (car !== prevCar) {
+    setPrevCar(car)
+    setIgnoreCar(false)
+    setTab('all')
+  }
+  const activeCar = car && !ignoreCar ? car : null
+  // Car selected → only parts that fit it; "Показати всі" drops the filter.
+  const pool = activeCar ? cards.filter((c) => c.modelSlug === activeCar.slug) : cards
+  const shown = tab === 'all' ? pool : pool.filter((c) => c.cat === tab)
 
   const syncEdges = useCallback(() => {
     const el = scrollRef.current
@@ -142,6 +156,22 @@ export function NewArrivals({
             )
           })}
         </div>
+        {activeCar ? (
+          <p
+            className="mt-[var(--space-12)] text-14"
+            style={{ margin: 'var(--space-12) 0 0', color: 'var(--color-neutral-600)' }}
+          >
+            Показуємо новинки на {activeCar.label} ·{' '}
+            <button
+              type="button"
+              onClick={() => setIgnoreCar(true)}
+              className="cursor-pointer border-0 bg-transparent p-0 font-sans text-14 underline"
+              style={{ color: 'var(--color-neutral-900)', textUnderlineOffset: '0.1875rem' }}
+            >
+              Показати всі
+            </button>
+          </p>
+        ) : null}
       </div>
 
       {/* carousel */}

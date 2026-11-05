@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { ProductCard, type ProductCardData } from '@/components/ProductCard'
+import { useSelectedCar } from '@/lib/selectedCar'
 
 /**
  * Shared "Запчастини на пікапи / позашляховики" section (DLSPickups / DLSSuvs).
@@ -51,6 +52,18 @@ export function VehicleCarousel({
   const [atEnd, setAtEnd] = useState(false)
   const [tabsOverflow, setTabsOverflow] = useState(false)
   const fadeT = useRef<ReturnType<typeof setTimeout>>(undefined)
+  const car = useSelectedCar()
+
+  // If the visitor's car matches one of the model tabs, select it automatically
+  // (render-phase derived-state reset on car change — no effect needed).
+  const [prevCar, setPrevCar] = useState(car)
+  if (car !== prevCar) {
+    setPrevCar(car)
+    if (car) {
+      const idx = models.findIndex((m) => m.key === car.slug)
+      if (idx >= 0) setActive(idx)
+    }
+  }
 
   const current = models[active] ?? models[0]
 

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { Button } from '@/components/ui/Button'
 import type { Locale } from '@/i18n/config'
 import { partsLabel } from '@/lib/rules'
+import { clearSelectedCar, setSelectedCar } from '@/lib/selectedCar'
 
 /**
  * "Підібрати за моїм авто" — the white search card on the home first screen
@@ -175,6 +176,7 @@ export function HeroCarPicker({ brands, locale }: { brands: PickerBrand[]; local
                 setBrand(e.target.value)
                 setModel('')
                 setQuery('')
+                clearSelectedCar()
               }}
               onFocus={() => setFocus('brand')}
               onBlur={() => setFocus(null)}
@@ -225,8 +227,17 @@ export function HeroCarPicker({ brands, locale }: { brands: PickerBrand[]; local
               value={model}
               disabled={!hasBrand}
               onChange={(e) => {
-                setModel(e.target.value)
+                const slug = e.target.value
+                setModel(slug)
                 setQuery('')
+                // Picking a model sets "моє авто" (cookie) so cards below show
+                // "Підходить на ваше авто"; clearing it removes the selection.
+                const picked = models.find((m) => m.slug === slug)
+                if (picked && brandObj) {
+                  setSelectedCar({ slug, label: `${brandObj.name} ${picked.label}` })
+                } else {
+                  clearSelectedCar()
+                }
               }}
               onFocus={() => setFocus('model')}
               onBlur={() => setFocus(null)}

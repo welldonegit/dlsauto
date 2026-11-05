@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import { showToast } from '@/components/ui/ToastHost'
+import { useSelectedCar } from '@/lib/selectedCar'
 import { useWishlisted, wishlistToggle } from '@/lib/wishlist'
 
 /**
@@ -35,6 +36,8 @@ export type ProductCardData = {
   discountPercent?: number | null
   /** Donor/model label shown in the pill (e.g. "Ranger 2006–2012"). */
   model: string
+  /** Model slug — matched against the selected car to show the "fits" pill. */
+  modelSlug?: string | null
   brandLogo?: string | null
   status: 'in_stock' | 'sold'
   featured?: boolean
@@ -62,6 +65,9 @@ export function ProductCard({
   const [photo, setPhoto] = useState(0)
   const [pop, setPop] = useState(0)
   const fav = useWishlisted(data.id)
+  const car = useSelectedCar()
+  // "Підходить на ваше авто" when the chosen car matches this part's model.
+  const fits = !!data.fits || (!!car && !!data.modelSlug && car.slug === data.modelSlug)
 
   const sold = data.status === 'sold'
   const promo = !!data.discountPercent && data.discountPercent > 0 && !sold
@@ -269,7 +275,7 @@ export function ProductCard({
         </div>
 
         {/* fit / donor pill */}
-        {data.fits ? (
+        {fits ? (
           <Pill>
             <svg
               viewBox="0 0 24 24"

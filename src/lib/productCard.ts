@@ -41,6 +41,7 @@ export function toProductCardData(
     price: p.price,
     discountPercent: p.discountPercent ?? null,
     model: model ? modelShort(model) : '',
+    modelSlug: model?.slug ?? null,
     brandLogo: brand ? brandLogo(brand.id) : null,
     status: p.status === 'sold' ? 'sold' : 'in_stock',
     featured: !!p.featured,
