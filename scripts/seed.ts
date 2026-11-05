@@ -87,40 +87,39 @@ async function run(): Promise<void> {
   }
 
   // ---------------------------------------------------------------- brands
-  // name, logo basename, has colour logo, sortOrder (by export part counts).
-  const BRANDS: [string, string, boolean][] = [
-    ['Mitsubishi', 'mitsubishi', true],
-    ['Ford', 'ford', true],
-    ['Mazda', 'mazda', true],
-    ['Nissan', 'nissan', false],
-    ['Jeep', 'jeep', true],
-    ['Volkswagen', 'volkswagen', false],
-    ['Kia', 'kia', true],
-    ['Hyundai', 'hyundai', true],
-    ['Toyota', 'toyota', false],
-    ['Mercedes-Benz', 'mercedes', true],
-    ['SsangYong', 'ssangyong', false],
-    ['Volvo', 'volvo', false],
-    ['BMW', 'bmw', true],
-    ['Fiat', 'fiat', true],
-    ['Isuzu', 'isuzu', true],
-    ['Peugeot', 'peugeot', false],
+  // name, logo basename (sortOrder follows export part counts). Every brand has
+  // both a monochrome and a colour logo in the export (assets/logos + color/).
+  const BRANDS: [string, string][] = [
+    ['Mitsubishi', 'mitsubishi'],
+    ['Ford', 'ford'],
+    ['Mazda', 'mazda'],
+    ['Nissan', 'nissan'],
+    ['Jeep', 'jeep'],
+    ['Volkswagen', 'volkswagen'],
+    ['Kia', 'kia'],
+    ['Hyundai', 'hyundai'],
+    ['Toyota', 'toyota'],
+    ['Mercedes-Benz', 'mercedes'],
+    ['SsangYong', 'ssangyong'],
+    ['Volvo', 'volvo'],
+    ['BMW', 'bmw'],
+    ['Fiat', 'fiat'],
+    ['Isuzu', 'isuzu'],
+    ['Peugeot', 'peugeot'],
   ]
   const brandId = new Map<string, number>()
-  for (const [name, file, hasColor] of BRANDS) {
+  for (const [name, file] of BRANDS) {
     const slug = file === 'mercedes' ? 'mercedes-benz' : file
     const logoMono = await media(`assets/logos/${file}.svg`, `${name} логотип`, `${file}-mono.svg`)
-    const logoColor = hasColor
-      ? await media(
-          `assets/logos/color/${file}.svg`,
-          `${name} логотип кольоровий`,
-          `${file}-color.svg`,
-        )
-      : undefined
+    const logoColor = await media(
+      `assets/logos/color/${file}.svg`,
+      `${name} логотип кольоровий`,
+      `${file}-color.svg`,
+    )
     const id = await upsert(
       'brands',
       { slug: { equals: slug } },
-      { name, slug, logoMono, ...(logoColor ? { logoColor } : {}), published: true },
+      { name, slug, logoMono, logoColor, published: true },
     )
     brandId.set(name, id)
   }
