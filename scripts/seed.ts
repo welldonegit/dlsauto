@@ -581,7 +581,42 @@ async function run(): Promise<void> {
     {
       blockType: 'videoCheck',
       heading: 'Перевіряємо перед продажем',
-      text: 'Кожна деталь — на стенді або на авто.',
+      text: 'Знімаємо запуск двигунів, роботу агрегатів і стан деталей.',
+      videos: [
+        {
+          video: await media('uploads/video1.mp4', 'Запуск двигуна на стенді', 'video1.mp4'),
+          badge: 'Запуск двигуна',
+          duration: '0:58',
+        },
+        {
+          video: await media('uploads/video2.mp4', 'Тест АКПП на стенді', 'video2.mp4'),
+          badge: 'Тест на стенді',
+          duration: '0:42',
+        },
+        {
+          video: await media(
+            'uploads/video3.mp4',
+            'Огляд фари з позначеними дефектами',
+            'video3.mp4',
+          ),
+          badge: 'Огляд деталі',
+          duration: '0:24',
+        },
+        {
+          video: await media('uploads/video4.mp4', 'Перевірка стартера', 'video4.mp4'),
+          badge: 'Тест на стенді',
+          duration: '0:31',
+        },
+        {
+          video: await media(
+            'uploads/video5.mp4',
+            'Огляд бампера з маркуванням дефектів',
+            'video5.mp4',
+          ),
+          badge: 'Огляд деталі',
+          duration: '0:19',
+        },
+      ],
     },
     { blockType: 'reviewsBlock', heading: 'Відгуки', limit: 8 },
     {

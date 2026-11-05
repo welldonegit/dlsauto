@@ -9,6 +9,7 @@ import { HeroBlock } from './HeroBlock'
 import { ModelsPickerBlock } from './ModelsPickerBlock'
 import { NewArrivalsBlock } from './NewArrivalsBlock'
 import { PickupsBlock, SuvsBlock } from './VehiclePartsBlock'
+import { VideoCheckBlock } from './VideoCheckBlock'
 import { PartPath } from './PartPath'
 import { ReviewsBlock } from './ReviewsBlock'
 import { StatsBlock } from './StatsBlock'
@@ -43,6 +44,7 @@ const REGISTRY: Registry = {
   newArrivals: NewArrivalsBlock,
   pickupsParts: PickupsBlock,
   suvsParts: SuvsBlock,
+  videoCheck: VideoCheckBlock,
   aboutHero: AboutHero,
   stats: StatsBlock,
   partPath: PartPath,

@@ -538,8 +538,14 @@ export interface Page {
         | {
             heading?: string | null;
             text?: string | null;
-            video?: (number | null) | Media;
-            poster?: (number | null) | Media;
+            videos?:
+              | {
+                  video?: (number | null) | Media;
+                  badge?: string | null;
+                  duration?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
             id?: string | null;
             blockName?: string | null;
             blockType: 'videoCheck';
@@ -1243,8 +1249,14 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               heading?: T;
               text?: T;
-              video?: T;
-              poster?: T;
+              videos?:
+                | T
+                | {
+                    video?: T;
+                    badge?: T;
+                    duration?: T;
+                    id?: T;
+                  };
               id?: T;
               blockName?: T;
             };

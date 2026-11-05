@@ -55,13 +55,15 @@
 - **pickupsParts / suvsParts (DLSPickups / DLSSuvs).** Спільний клієнтський `VehicleCarousel.tsx` + серверні обгортки `PickupsBlock`/`SuvsBlock` (`VehiclePartsBlock.tsx`). Зліва — відео-банер 9/16 (autoplay muted loop playsInline, пауза поза вьюпортом через IntersectionObserver) з заголовком/підзаголовком і CTA «Усі пікапи/позашляховики»; справа — таб-рейл моделей (лого бренду + назва + лічильник, активний тёмний з білим лого) над full-bleed snap-каруселлю ProductCard-ів цієї моделі; кросфейд при зміні, стрілки prev/next, підказка «Гортайте» коли таби не влазять. Дані — `getVehicleModels(bodyType)` (моделі з bodyType + їх in_stock товари; моделі з 0 деталей приховані). Блоки отримали поля `subheading` + `video`; у сіді — `puckup-truck1.mp4` / `suv.mp4` і підзаголовки. Токен-фрейм `dls-swipe` додано в globals.
   - **Сверка** (манифест §8–9, 1280/390): обидва списки порожні на дефолті (сезонні наклейки і car-fit лишаються відкладеними, як у newArrivals — невидимі при season=none / без cookie авто).
 
-Коміти fundament/faq запушені в `origin/stage`; heroB, modelsPicker, categoriesBlock, ProductCard+newArrivals, whatElseWeDo, pickups/suvs — локальні коміти (пуш за командою).
+- **videoCheck → videos (DLSVideos).** `Videos.tsx` (клієнт) + `VideoCheckBlock.tsx` (сервер). h2 «Перевіряємо перед продажем» + підзаголовок, далі full-bleed snap-каруселя з 5 відео-плиток (4/5, radius16, тёмний фон): бейдж-категорія (top-left), play-кнопка 56 по центру, scrim знизу. На hover плитка програє своє відео (інші — пауза+rewind), play-кнопка згасає, зʼявляється тривалість (top-right). Стрілки prev/next. Відео `preload="metadata"`. Блок `videoCheck` перероблено: замість одного `video`/`poster` — масив `videos[{video, badge, duration}]`; у сіді 5 роликів (video1–5.mp4) з бейджами/тривалостями з експорту. Перевірено вживу — hover-play працює.
+  - **Сверка**: обидва списки розходжень порожні.
+
+Коміти fundament/faq запушені в `origin/stage`; heroB, modelsPicker, categoriesBlock, ProductCard+newArrivals, whatElseWeDo, pickups/suvs, videos — локальні коміти (пуш за командою).
 
 ### Осталось (в порядке экспорта, каждый — отдельный коммит со сверкой)
-1. **videoCheck → videos** (DLSVideos) — карусель из 5 роликов (video1–5.mp4), hover-play, бейдж/длительность/play-кнопка.
-2. **benefits** (DLSBenefits) — тёмная полоса `#12161C`, 3 карточки, живий «день відправки» по Киеву (из `src/lib/rules`), пары key/value, плашка+тег.
-3. **Мега-меню v3** (в хедере `DLSHeaderHero`, спеку вытащить из `DLSMegaMenu3.dc.html`) + **quick-view** (`DLSQuickView`) — динамический импорт.
-4. **SEO/аналитика/перф**: мета, hreflang, Organization + FAQPage schema.org; `dataLayer`-события `view_item_list` / `select_item` / `add_to_wishlist`; Lighthouse mobile ≥ 90 (видео lazy, `next/image` sizes, меню/модалки — dynamic import).
+1. **benefits** (DLSBenefits) — тёмная полоса `#12161C`, 3 карточки, живий «день відправки» по Киеву (из `src/lib/rules`), пары key/value, плашка+тег.
+2. **Мега-меню v3** (в хедере `DLSHeaderHero`, спеку вытащить из `DLSMegaMenu3.dc.html`) + **quick-view** (`DLSQuickView`) — динамический импорт.
+3. **SEO/аналитика/перф**: мета, hreflang, Organization + FAQPage schema.org; `dataLayer`-события `view_item_list` / `select_item` / `add_to_wishlist`; Lighthouse mobile ≥ 90 (видео lazy, `next/image` sizes, меню/модалки — dynamic import).
 
 ---
 

@@ -201,9 +201,18 @@ export const videoCheckBlock: Block = {
   labels: { singular: 'Перевіряємо перед продажем', plural: 'Перевіряємо перед продажем' },
   fields: [
     heading,
-    area('text', 'Текст'),
-    { name: 'video', type: 'upload', relationTo: 'media', label: 'Відео' },
-    { name: 'poster', type: 'upload', relationTo: 'media', label: 'Постер' },
+    area('text', 'Підзаголовок'),
+    {
+      name: 'videos',
+      type: 'array',
+      label: 'Відео',
+      maxRows: 12,
+      fields: [
+        { name: 'video', type: 'upload', relationTo: 'media', label: 'Відео (mp4)' },
+        text('badge', 'Бейдж (категорія)'),
+        text('duration', 'Тривалість (напр. 0:58)', false),
+      ],
+    },
   ],
 }
 
