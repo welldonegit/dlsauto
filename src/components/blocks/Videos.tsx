@@ -124,7 +124,10 @@ export function Videos({
                 ref={(el) => {
                   vids.current[i] = el
                 }}
-                src={v.src}
+                // Media-fragment start time forces the browser to decode and
+                // paint a still frame at rest — without a poster, preload
+                // "metadata" leaves the tile blank until the first play.
+                src={v.src.includes('#') ? v.src : `${v.src}#t=0.1`}
                 aria-label={v.badge}
                 muted
                 loop

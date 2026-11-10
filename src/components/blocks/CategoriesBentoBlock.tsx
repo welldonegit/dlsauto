@@ -1,3 +1,4 @@
+import { CardArrow } from '@/components/ui/CardArrow'
 import { MediaImage } from '@/components/ui/MediaImage'
 import { getCategoryTree, type CategoryWithCount } from '@/lib/data'
 import { partsLabel } from '@/lib/rules'
@@ -115,7 +116,7 @@ export async function CategoriesBentoBlock({
                     </div>
                   )}
                 </div>
-                <div className="relative flex flex-none items-center justify-between gap-[var(--space-16)]">
+                <div className="relative flex flex-none flex-col gap-[var(--space-12)] md:flex-row md:items-center md:justify-between md:gap-[var(--space-16)]">
                   <div className="flex min-w-0 flex-col gap-[var(--space-4)]">
                     <h3
                       className="text-20"
@@ -129,11 +130,24 @@ export async function CategoriesBentoBlock({
                     >
                       {c.name}
                     </h3>
-                    <span className="text-14" style={{ color: 'var(--color-neutral-500)' }}>
+                    {/* desktop: count under the name; mobile: moved beside the arrow */}
+                    <span
+                      className="hidden text-14 md:block"
+                      style={{ color: 'var(--color-neutral-500)' }}
+                    >
                       {partsLabel(c.partsCount)}
                     </span>
                   </div>
-                  <BentoArrow />
+                  {/* mobile keeps the arrow on the count's line (as the Моделі cards do); desktop shows the arrow only */}
+                  <div className="flex items-center justify-between gap-[var(--space-16)] md:block">
+                    <span
+                      className="text-14 md:hidden"
+                      style={{ color: 'var(--color-neutral-500)' }}
+                    >
+                      {partsLabel(c.partsCount)}
+                    </span>
+                    <CardArrow />
+                  </div>
                 </div>
               </a>
             )
@@ -203,50 +217,11 @@ export async function CategoriesBentoBlock({
                   {partsLabel(total)}
                 </span>
               </div>
-              <BentoArrow />
+              <CardArrow />
             </div>
           </div>
         </div>
       </div>
     </section>
-  )
-}
-
-/** 56px circle arrow: red ring, tint that fades in and a nudge on card hover. */
-function BentoArrow() {
-  return (
-    <span
-      aria-hidden="true"
-      className="relative box-border flex shrink-0 items-center justify-center rounded-full"
-      style={{
-        width: 'var(--control-h-56)',
-        height: 'var(--control-h-56)',
-        border: 'var(--border-hairline) solid var(--color-primary)',
-        color: 'var(--color-primary)',
-      }}
-    >
-      <span
-        className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100"
-        style={{ background: 'var(--color-primary-tint)' }}
-      />
-      <svg
-        viewBox="0 0 24 24"
-        width="24"
-        height="24"
-        className="relative transition-transform duration-200 ease-out group-hover:translate-x-[0.125rem]"
-        style={{
-          width: 'var(--icon-24)',
-          height: 'var(--icon-24)',
-          fill: 'none',
-          stroke: 'currentColor',
-          strokeWidth: 2,
-          strokeLinecap: 'round',
-          strokeLinejoin: 'round',
-        }}
-      >
-        <path d="M5 12h14" />
-        <path d="m12 5 7 7-7 7" />
-      </svg>
-    </span>
   )
 }

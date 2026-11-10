@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
+import { CardArrow } from '@/components/ui/CardArrow'
 import type { Locale } from '@/i18n/config'
 import { partsLabel } from '@/lib/rules'
 
@@ -333,7 +334,7 @@ export function ModelsPicker({
           id="models-picker-panel"
           role="tabpanel"
           aria-label={`Моделі ${brand.name}`}
-          className="mt-[var(--space-16)] grid grid-cols-1 content-start gap-[var(--space-16)] md:grid-cols-2 md:gap-[var(--space-24)] lg:grid-cols-4"
+          className="mt-[var(--space-16)] grid grid-cols-2 content-start gap-[var(--space-16)] md:grid-cols-2 md:gap-[var(--space-24)] lg:grid-cols-4"
           style={{ minHeight: 'var(--space-200)' }}
         >
           {models.map((m, i) => {
@@ -411,41 +412,6 @@ export function ModelsPicker({
         </div>
       </div>
     </section>
-  )
-}
-
-function CardArrow({ bg }: { bg: string }) {
-  return (
-    <span
-      aria-hidden="true"
-      className="box-border flex shrink-0 items-center justify-center rounded-full"
-      style={{
-        width: 'var(--control-h-32)',
-        height: 'var(--control-h-32)',
-        border: 'var(--border-hairline) solid var(--color-primary)',
-        background: bg,
-        color: 'var(--color-primary)',
-        transition: 'background var(--duration-150) ease-out',
-      }}
-    >
-      <svg
-        viewBox="0 0 24 24"
-        width="16"
-        height="16"
-        style={{
-          width: 'var(--icon-16)',
-          height: 'var(--icon-16)',
-          fill: 'none',
-          stroke: 'currentColor',
-          strokeWidth: 2,
-          strokeLinecap: 'round',
-          strokeLinejoin: 'round',
-        }}
-      >
-        <path d="M5 12h14" />
-        <path d="m12 5 7 7-7 7" />
-      </svg>
-    </span>
   )
 }
 
