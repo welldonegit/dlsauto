@@ -32,6 +32,9 @@ next-env.d.ts
 /AGENTS.md
 .claude/settings.local.json
 
+# Client data: raw Prom export (contains client product data) — never commit
+docs/products/export-products-*.xlsx
+
 # misc
 .DS_Store
 *.pem
