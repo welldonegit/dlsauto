@@ -6,6 +6,7 @@ import { ProductCard, type ProductCardData } from '@/components/ProductCard'
 import { Accordion } from '@/components/ui/Accordion'
 import { Badge } from '@/components/ui/Badge'
 import { Button, CircleArrow } from '@/components/ui/Button'
+import { Container } from '@/components/ui/layout'
 import { RichText, type LexRoot } from '@/components/ui/RichText'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { Stars } from '@/components/ui/Stars'
@@ -143,12 +144,12 @@ export function UiShowcase() {
   const [toastOpen, setToastOpen] = useState(false)
 
   return (
-    <main
+    <Container
+      as="main"
       className="font-sans"
       style={{
-        maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))',
-        margin: '0 auto',
-        padding: 'var(--space-48) var(--space-24) var(--space-128)',
+        paddingTop: 'var(--space-48)',
+        paddingBottom: 'var(--space-128)',
         color: 'var(--color-neutral-900)',
       }}
     >
@@ -562,7 +563,7 @@ export function UiShowcase() {
           ))}
         </div>
       </Block>
-    </main>
+    </Container>
   )
 }
 

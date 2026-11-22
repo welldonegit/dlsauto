@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useEffect, useState, type ReactNode } from 'react'
 
 import { Button } from '@/components/ui/Button'
+import { Container } from '@/components/ui/layout'
 import { useWishlistCount } from '@/lib/wishlist'
 import {
   CartIcon,
@@ -360,12 +361,9 @@ export function Header({
       </div>
       {/* tablet + desktop */}
       <div className="hidden md:block">
-        <div
-          className="mx-auto flex items-center justify-between"
+        <Container
+          className="flex items-center justify-between"
           style={{
-            maxWidth: 'calc(var(--container-max) + 2 * var(--dls-pad))',
-            ['--dls-pad' as string]: 'var(--space-32)',
-            paddingInline: 'var(--dls-pad)',
             height: 'var(--control-h-40)',
             gap: 'var(--space-24)',
             fontSize: 'var(--text-14)',
@@ -403,7 +401,7 @@ export function Header({
             />
             <LanguageToggle />
           </div>
-        </div>
+        </Container>
       </div>
 
       {/* ------------------------------------------------- white main bar */}
@@ -466,12 +464,9 @@ export function Header({
 
           {/* tablet + desktop main bar */}
           <div className="hidden md:block">
-            <div
-              className="mx-auto flex items-center"
+            <Container
+              className="flex items-center"
               style={{
-                maxWidth: 'calc(var(--container-max) + 2 * var(--dls-pad))',
-                ['--dls-pad' as string]: 'var(--space-32)',
-                paddingInline: 'var(--dls-pad)',
                 height: 'var(--space-80)',
                 gap: 'var(--space-16)',
               }}
@@ -530,20 +525,12 @@ export function Header({
                   Кошик
                 </a>
               </div>
-            </div>
+            </Container>
             {/* tablet search row */}
             <div className="wide:hidden">
-              <div
-                className="mx-auto"
-                style={{
-                  maxWidth: 'calc(var(--container-max) + 2 * var(--dls-pad))',
-                  ['--dls-pad' as string]: 'var(--space-32)',
-                  paddingInline: 'var(--dls-pad)',
-                  paddingBottom: 'var(--space-16)',
-                }}
-              >
+              <Container style={{ paddingBottom: 'var(--space-16)' }}>
                 <SearchBar />
-              </div>
+              </Container>
             </div>
           </div>
         </div>

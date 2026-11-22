@@ -121,14 +121,14 @@ export function VehicleCarousel({
   const scrollBy = (dir: number) =>
     scrollRef.current?.scrollBy({ left: dir * (224 + 24), behavior: 'smooth' })
 
-  const side = 'max(var(--dls-pad), calc((100% - var(--container-max)) / 2))'
+  const side = 'var(--dls-bleed)'
 
   if (!current) return null
 
   return (
     <section
       aria-labelledby={titleId}
-      className="bg-neutral-50 pb-[var(--space-64)] [--dls-pad:var(--space-16)] md:[--dls-pad:var(--space-32)] lg:pb-[var(--space-96)] wide:[--dls-pad:var(--space-64)]"
+      className="dls-bleed bg-neutral-50 pb-[var(--space-64)] [--dls-pad:var(--space-16)] md:[--dls-pad:var(--space-32)] lg:pb-[var(--space-96)]"
     >
       <div
         className="grid grid-cols-1 items-stretch gap-[var(--space-24)] md:grid-cols-[17rem_minmax(0,1fr)] wide:grid-cols-[20.5rem_minmax(0,1fr)]"
@@ -136,7 +136,7 @@ export function VehicleCarousel({
       >
         {/* video banner aside */}
         <aside
-          className="relative min-w-0 self-start overflow-hidden mr-[max(var(--dls-pad),calc((100%-var(--container-max))/2))] md:mr-0"
+          className="relative min-w-0 self-start overflow-hidden mr-[var(--dls-bleed)] md:mr-0"
           style={{
             aspectRatio: '9 / 16',
             borderRadius: 'var(--radius-lg)',

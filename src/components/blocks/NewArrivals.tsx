@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { ProductCard, type ProductCardData } from '@/components/ProductCard'
 import { Button } from '@/components/ui/Button'
+import { Container } from '@/components/ui/layout'
 import { useSelectedCar } from '@/lib/selectedCar'
 
 /**
@@ -95,10 +96,7 @@ export function NewArrivals({
       aria-labelledby="arrivals-title"
       className="bg-neutral-50 pt-[var(--space-64)] lg:pt-[var(--space-96)]"
     >
-      <div
-        className="mx-auto box-border flex w-full items-start justify-between gap-[var(--space-24)] px-[var(--space-16)] max-md:flex-col md:px-[var(--space-32)] wide:px-[var(--space-64)]"
-        style={{ maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))' }}
-      >
+      <Container className="flex items-start justify-between gap-[var(--space-24)] max-md:flex-col">
         <h2
           id="arrivals-title"
           className="text-24 md:text-28 wide:text-40"
@@ -119,13 +117,10 @@ export function NewArrivals({
             Усі надходження
           </Button>
         </div>
-      </div>
+      </Container>
 
       {/* category tabs */}
-      <div
-        className="mx-auto mt-[var(--space-24)] box-border w-full px-[var(--space-16)] md:mt-[var(--space-32)] md:px-[var(--space-32)] wide:px-[var(--space-64)]"
-        style={{ maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))' }}
-      >
+      <Container className="mt-[var(--space-24)] md:mt-[var(--space-32)]">
         <div
           ref={tabsRef}
           role="tablist"
@@ -172,7 +167,7 @@ export function NewArrivals({
             </button>
           </p>
         ) : null}
-      </div>
+      </Container>
 
       {/* carousel */}
       <div style={{ opacity: fading ? 0 : 1, transition: 'opacity var(--duration-200) ease-out' }}>
@@ -180,14 +175,12 @@ export function NewArrivals({
           <div
             ref={scrollRef}
             onScroll={syncEdges}
-            className="flex items-stretch gap-[var(--space-24)] overflow-x-auto [--dls-pad:var(--space-16)] md:[--dls-pad:var(--space-32)] wide:[--dls-pad:var(--space-64)]"
+            className="dls-rail flex items-stretch gap-[var(--space-24)] overflow-x-auto"
             style={{
               scrollSnapType: 'x mandatory',
               scrollbarWidth: 'none',
               paddingTop: 'var(--space-24)',
               paddingBottom: '10.5rem',
-              paddingInline: 'max(var(--dls-pad), calc((100% - var(--container-max)) / 2))',
-              scrollPaddingLeft: 'max(var(--dls-pad), calc((100% - var(--container-max)) / 2))',
               marginTop: 'var(--space-8)',
               marginBottom: '-9rem',
             }}
@@ -208,25 +201,22 @@ export function NewArrivals({
             ))}
           </div>
         ) : (
-          <div
-            className="mx-auto box-border w-full px-[var(--space-16)] py-[var(--space-48)] md:px-[var(--space-32)] wide:px-[var(--space-64)]"
-            style={{ maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))' }}
-          >
+          <Container className="py-[var(--space-48)]">
             <p className="text-16" style={{ margin: 0, color: 'var(--color-neutral-600)' }}>
               Нових карток цієї категорії тут поки немає.
             </p>
-          </div>
+          </Container>
         )}
       </div>
 
       {/* arrows (desktop/tablet) */}
-      <div
-        className="relative mx-auto box-border hidden w-full justify-end gap-[var(--space-8)] px-[var(--space-16)] pb-[var(--space-64)] md:flex md:px-[var(--space-32)] lg:pb-[var(--space-96)] wide:px-[var(--space-64)]"
-        style={{ zIndex: 2, maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))' }}
+      <Container
+        className="relative hidden justify-end gap-[var(--space-8)] pb-[var(--space-64)] md:flex lg:pb-[var(--space-96)]"
+        style={{ zIndex: 2 }}
       >
         <ScrollArrow dir="prev" disabled={atStart} onClick={() => scrollBy(-1)} />
         <ScrollArrow dir="next" disabled={atEnd} onClick={() => scrollBy(1)} />
-      </div>
+      </Container>
     </section>
   )
 }

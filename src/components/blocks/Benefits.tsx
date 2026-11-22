@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 
+import { Container } from '@/components/ui/layout'
 import { dispatchLabel } from '@/lib/rules'
 
 /**
@@ -79,10 +80,7 @@ export function Benefits({ items, shipLabel }: { items: BenefitCard[]; shipLabel
       aria-label="Наші переваги"
       className="bg-neutral-950 pt-[var(--space-64)] pb-[var(--space-64)] lg:pt-[var(--space-96)] lg:pb-[var(--space-96)]"
     >
-      <div
-        className="mx-auto box-border grid w-full grid-cols-1 items-stretch gap-[var(--space-16)] px-[var(--space-16)] md:px-[var(--space-32)] lg:grid-cols-3 wide:gap-[var(--space-24)] wide:px-[var(--space-64)]"
-        style={{ maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))' }}
-      >
+      <Container className="grid grid-cols-1 items-stretch gap-[var(--space-16)] lg:grid-cols-3 wide:gap-[var(--space-24)]">
         {items.map((c, i) => {
           const on = hov === i
           const value = c.shipDay ? live : c.value
@@ -211,7 +209,7 @@ export function Benefits({ items, shipLabel }: { items: BenefitCard[]; shipLabel
             </article>
           )
         })}
-      </div>
+      </Container>
     </section>
   )
 }

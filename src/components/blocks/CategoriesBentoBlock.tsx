@@ -1,4 +1,5 @@
 import { CardArrow } from '@/components/ui/CardArrow'
+import { Container } from '@/components/ui/layout'
 import { MediaImage } from '@/components/ui/MediaImage'
 import { getCategoryTree, type CategoryWithCount } from '@/lib/data'
 import { partsLabel } from '@/lib/rules'
@@ -42,10 +43,7 @@ export async function CategoriesBentoBlock({
       aria-labelledby="cats-bento-title"
       className="bg-neutral-50 pt-[var(--space-64)] pb-[var(--space-64)] lg:pt-[var(--space-96)] lg:pb-[var(--space-96)]"
     >
-      <div
-        className="mx-auto box-border w-full px-[var(--space-16)] md:px-[var(--space-32)] wide:px-[var(--space-64)]"
-        style={{ maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))' }}
-      >
+      <Container>
         <h2
           id="cats-bento-title"
           className="text-24 md:text-28 wide:text-40"
@@ -221,7 +219,7 @@ export async function CategoriesBentoBlock({
             </div>
           </div>
         </div>
-      </div>
+      </Container>
     </section>
   )
 }

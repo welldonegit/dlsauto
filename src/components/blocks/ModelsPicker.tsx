@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import { CardArrow } from '@/components/ui/CardArrow'
+import { Container } from '@/components/ui/layout'
 import type { Locale } from '@/i18n/config'
 import { partsLabel } from '@/lib/rules'
 
@@ -188,10 +189,7 @@ export function ModelsPicker({
       aria-labelledby="models-picker-title"
       className="bg-neutral-50 pt-[var(--space-64)] pb-[var(--space-64)] lg:pt-[var(--space-96)] lg:pb-[var(--space-96)]"
     >
-      <div
-        className="mx-auto box-border w-full px-[var(--space-16)] md:px-[var(--space-32)] wide:px-[var(--space-64)]"
-        style={{ maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))' }}
-      >
+      <Container>
         <h2
           id="models-picker-title"
           className="text-24 md:text-28 wide:text-40"
@@ -410,7 +408,7 @@ export function ModelsPicker({
             />
           ) : null}
         </div>
-      </div>
+      </Container>
     </section>
   )
 }

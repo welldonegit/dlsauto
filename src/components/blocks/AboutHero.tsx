@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 
+import { Container } from '@/components/ui/layout'
+
 import type { BlockComponentProps } from './BlockRenderer'
 
 /**
@@ -248,10 +250,9 @@ export function AboutHero({ eyebrow, heading, text }: BlockComponentProps<'about
       </div>
 
       {/* content */}
-      <div
-        className="mx-auto box-border flex w-full flex-col items-center px-[var(--space-16)] text-center md:px-[var(--space-32)] wide:px-[var(--space-64)]"
+      <Container
+        className="flex flex-col items-center text-center"
         style={{
-          maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))',
           paddingTop: wide ? 'var(--space-96)' : 'var(--space-64)',
           paddingBottom:
             d === 'desktop'
@@ -330,7 +331,7 @@ export function AboutHero({ eyebrow, heading, text }: BlockComponentProps<'about
             height: 'var(--control-h-56)',
           }}
         />
-      </div>
+      </Container>
     </section>
   )
 }

@@ -1,4 +1,5 @@
 import { Breadcrumbs } from '@/components/layout/Breadcrumbs'
+import { Container } from '@/components/ui/layout'
 import { RichTextNodes, splitLexicalSections, type LexRoot } from '@/components/ui/RichText'
 import type { Locale } from '@/i18n/config'
 
@@ -54,10 +55,8 @@ export function LegalPage({
   const homeHref = locale === 'uk' ? '/' : '/ru'
 
   return (
-    <div
-      className="mx-auto box-border w-full px-[var(--space-16)] md:px-[var(--space-32)] wide:px-[var(--space-64)]"
+    <Container
       style={{
-        maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))',
         paddingTop: 'var(--space-24)',
         paddingBottom: 'var(--space-64)',
       }}
@@ -115,7 +114,7 @@ export function LegalPage({
           </section>
         ) : null}
       </article>
-    </div>
+    </Container>
   )
 }
 

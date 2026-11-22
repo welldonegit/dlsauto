@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 import { Button } from '@/components/ui/Button'
+import { Container } from '@/components/ui/layout'
 
 /**
  * 404 content (STAGE_3A §1): a self-drawing line pickup missing its left
@@ -41,10 +42,9 @@ export function NotFound404({ text, locale }: { text: NotFoundText; locale: 'uk'
   return (
     <section
       aria-labelledby="nf-h1"
-      className="mx-auto box-border w-full px-[var(--space-16)] py-[var(--space-48)] md:px-[var(--space-32)] md:py-[var(--space-64)] wide:px-[var(--space-64)] wide:py-[var(--space-96)]"
-      style={{ maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))' }}
+      className="py-[var(--space-48)] md:py-[var(--space-64)] wide:py-[var(--space-96)]"
     >
-      <div className="grid grid-cols-1 items-center gap-[var(--space-32)] lg:grid-cols-2 lg:gap-[var(--space-48)] wide:gap-[var(--space-64)]">
+      <Container className="grid grid-cols-1 items-center gap-[var(--space-32)] lg:grid-cols-2 lg:gap-[var(--space-48)] wide:gap-[var(--space-64)]">
         {/* text — second on narrow (art leads), first from laptop up */}
         <div className="order-2 flex min-w-0 flex-col lg:order-1">
           <h1
@@ -101,7 +101,7 @@ export function NotFound404({ text, locale }: { text: NotFoundText; locale: 'uk'
         <div className="order-1 flex min-w-0 justify-center lg:order-2">
           <PickupArt label={text.artLabel} tag={text.artTag} />
         </div>
-      </div>
+      </Container>
     </section>
   )
 }

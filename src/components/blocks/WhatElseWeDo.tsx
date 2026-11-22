@@ -1,5 +1,6 @@
 import Link from 'next/link'
 
+import { Container } from '@/components/ui/layout'
 import { MediaImage, type MediaLike } from '@/components/ui/MediaImage'
 
 import type { BlockComponentProps } from './BlockRenderer'
@@ -33,10 +34,7 @@ export function WhatElseWeDo({
       aria-labelledby="wewd-h"
       className="bg-neutral-50 pt-[var(--space-64)] pb-[var(--space-64)] lg:pt-[var(--space-96)] lg:pb-[var(--space-96)]"
     >
-      <div
-        className="mx-auto box-border w-full px-[var(--space-16)] md:px-[var(--space-32)] wide:px-[var(--space-64)]"
-        style={{ maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))' }}
-      >
+      <Container>
         {/* header: H2 left, lead right */}
         <div className="grid grid-cols-1 items-start gap-x-[var(--space-24)] gap-y-[var(--space-16)] md:grid-cols-12">
           <h2
@@ -176,7 +174,7 @@ export function WhatElseWeDo({
             ))}
           </div>
         ) : null}
-      </div>
+      </Container>
     </section>
   )
 }

@@ -44,6 +44,8 @@ jobs:
         run: pnpm tokens:check
       - name: No literal px/hex in components
         run: pnpm check:literals
+      - name: Page width only via <Container>
+        run: pnpm check:container
 
       - name: Build
         run: pnpm build

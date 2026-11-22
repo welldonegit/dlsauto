@@ -1,4 +1,4 @@
-import type { CSSProperties, ElementType, ReactNode } from 'react'
+import type { ComponentPropsWithoutRef, CSSProperties, ElementType, ReactNode } from 'react'
 
 /**
  * Layout primitives. One container width, one vertical-rhythm rule
@@ -8,26 +8,31 @@ import type { CSSProperties, ElementType, ReactNode } from 'react'
  */
 
 /**
- * Centered content column. Reproduces the export: inner content is capped at
- * --container-max with side padding 16 / 32 / 64 (mobile / ≥768 / ≥1360) added
- * outside the cap, so the content box stays constant regardless of padding.
+ * Centered content column — the single source of page width (owner 22.11).
+ * Inner content is capped at --container-max (1376) with side padding 16 / 32
+ * (mobile / ≥768) added outside the cap, so the content box stays constant
+ * regardless of padding. No ≥1360 step. This is the only place --container-max
+ * may be referenced in a component (guarded by scripts/check-container.mjs);
+ * horizontal rails use the `.dls-rail` utility, which reads it in globals.css.
  */
 export function Container({
   children,
   className = '',
   style,
   as: As = 'div',
+  ...rest
 }: {
   children: ReactNode
   className?: string
   style?: CSSProperties
   as?: ElementType
-}) {
+} & Omit<ComponentPropsWithoutRef<'div'>, 'className' | 'style' | 'children'>) {
   return (
     <As
+      {...rest}
       className={[
         'mx-auto w-full box-border',
-        '[--dls-pad:var(--space-16)] md:[--dls-pad:var(--space-32)] wide:[--dls-pad:var(--space-64)]',
+        '[--dls-pad:var(--space-16)] md:[--dls-pad:var(--space-32)]',
         className,
       ]
         .filter(Boolean)

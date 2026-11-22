@@ -169,7 +169,7 @@
   --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
 
   /* ------------------------------------------------------- Layout */
-  --container-max: 1312px; /* content max-width across the site */
+  --container-max: 1376px; /* content max-width across the site (owner 22.11; export 1312 not restored) */
   --border-hairline: 1px;
   --border-thick: 2px;
 
@@ -225,6 +225,36 @@
     stroke-width: var(--icon-stroke);
     stroke-linecap: round;
     stroke-linejoin: round;
+  }
+
+  /*
+   * Horizontal rail (carousels, chip strips). The scroll track bleeds
+   * full-width; the first and last items sit at the container inset (16 / 32,
+   * mobile / ≥768), and on wide screens the first item aligns to the page
+   * container edge. One definition of the inset for every rail, so rails match
+   * the Container (owner 22.11). `--container-max` is read only here and in
+   * Container — the single sources of page width. The track itself keeps its
+   * own `overflow-x-auto` / flex / gap in the component.
+   */
+  .dls-rail {
+    --dls-pad: var(--space-16);
+    padding-inline: max(var(--dls-pad), calc((100% - var(--container-max)) / 2));
+    scroll-padding-inline: max(var(--dls-pad), calc((100% - var(--container-max)) / 2));
+  }
+  @media (min-width: 768px) {
+    .dls-rail {
+      --dls-pad: var(--space-32);
+    }
+  }
+
+  /*
+   * Bleed inset as a variable, for rails that live inside a custom layout
+   * (e.g. a video banner + carousel grid) and can't use `.dls-rail` directly.
+   * Reads the element's own `--dls-pad`; exposes `--dls-bleed` to use in
+   * padding/margin. Keeps `--container-max` out of components.
+   */
+  .dls-bleed {
+    --dls-bleed: max(var(--dls-pad), calc((100% - var(--container-max)) / 2));
   }
 
   /*

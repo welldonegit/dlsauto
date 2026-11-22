@@ -128,7 +128,7 @@
 ## Лейаут
 | токен | значення | нотатка |
 |---|---|---|
-| `--container-max` | `1312px` | content max-width across the site |
+| `--container-max` | `1376px` | content max-width across the site (owner 22.11; export 1312 not restored) |
 | `--border-hairline` | `1px` |  |
 | `--border-thick` | `2px` |  |
 | `--breakpoint-wide` | `1360px` |  |

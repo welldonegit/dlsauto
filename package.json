@@ -22,6 +22,7 @@
     "tokens": "tsx scripts/export-tokens.ts",
     "tokens:check": "tsx scripts/export-tokens.ts --check",
     "check:literals": "node scripts/check-no-literals.mjs",
+    "check:container": "node scripts/check-container.mjs",
     "design:compare": "node scripts/design-compare.mjs",
     "design:compare:3a": "node scripts/design-compare-3a.mjs",
     "lighthouse": "node scripts/lighthouse.mjs",

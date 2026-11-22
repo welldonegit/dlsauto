@@ -2,6 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import { Container } from '@/components/ui/layout'
+
 export type VideoTile = { src: string; badge: string; duration: string }
 
 /**
@@ -53,18 +55,14 @@ export function Videos({
   const scrollBy = (dir: number) =>
     scrollRef.current?.scrollBy({ left: dir * (296 + 16), behavior: 'smooth' })
 
-  const side = 'max(var(--dls-pad), calc((100% - var(--container-max)) / 2))'
   if (!videos.length) return null
 
   return (
     <section
       aria-labelledby="videos-title"
-      className="bg-neutral-50 pt-[var(--space-64)] lg:pt-[var(--space-96)] [--dls-pad:var(--space-16)] md:[--dls-pad:var(--space-32)] wide:[--dls-pad:var(--space-64)]"
+      className="bg-neutral-50 pt-[var(--space-64)] lg:pt-[var(--space-96)]"
     >
-      <div
-        className="mx-auto box-border w-full px-[var(--space-16)] md:px-[var(--space-32)] wide:px-[var(--space-64)]"
-        style={{ maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))' }}
-      >
+      <Container>
         <h2
           id="videos-title"
           className="text-24 md:text-28 wide:text-40"
@@ -92,15 +90,13 @@ export function Videos({
             {subtitle}
           </p>
         ) : null}
-      </div>
+      </Container>
 
       <div
         ref={scrollRef}
         onScroll={syncEdges}
-        className="mt-[var(--space-32)] flex gap-[var(--space-16)] overflow-x-auto md:mt-[var(--space-48)]"
+        className="dls-rail mt-[var(--space-32)] flex gap-[var(--space-16)] overflow-x-auto md:mt-[var(--space-48)]"
         style={{
-          paddingInline: side,
-          scrollPaddingLeft: side,
           scrollSnapType: 'x mandatory',
           scrollbarWidth: 'none',
         }}
@@ -217,13 +213,10 @@ export function Videos({
         })}
       </div>
 
-      <div
-        className="mx-auto box-border hidden w-full justify-end gap-[var(--space-8)] px-[var(--space-16)] pt-[var(--space-24)] pb-[var(--space-64)] md:flex md:px-[var(--space-32)] lg:pb-[var(--space-96)] wide:px-[var(--space-64)]"
-        style={{ maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))' }}
-      >
+      <Container className="hidden justify-end gap-[var(--space-8)] pt-[var(--space-24)] pb-[var(--space-64)] md:flex lg:pb-[var(--space-96)]">
         <VideoArrow dir="prev" disabled={atStart} onClick={() => scrollBy(-1)} />
         <VideoArrow dir="next" disabled={atEnd} onClick={() => scrollBy(1)} />
-      </div>
+      </Container>
     </section>
   )
 }

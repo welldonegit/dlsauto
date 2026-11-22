@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react'
 
+import { Container } from '@/components/ui/layout'
+
 import type { BlockComponentProps } from './BlockRenderer'
 
 /**
@@ -84,10 +86,7 @@ export function StatsBlock({ heading, items }: BlockComponentProps<'stats'>) {
       aria-labelledby="stats-h"
       className="bg-neutral-50 pt-[var(--space-64)] pb-[var(--space-64)] lg:pt-[var(--space-96)] lg:pb-[var(--space-96)]"
     >
-      <div
-        className="mx-auto box-border w-full px-[var(--space-16)] md:px-[var(--space-32)] wide:px-[var(--space-64)]"
-        style={{ maxWidth: 'calc(var(--container-max) + 2 * var(--space-64))' }}
-      >
+      <Container>
         <h2 id="stats-h" className="sr-only">
           {heading}
         </h2>
@@ -234,7 +233,7 @@ export function StatsBlock({ heading, items }: BlockComponentProps<'stats'>) {
             )
           })}
         </div>
-      </div>
+      </Container>
     </section>
   )
 }
