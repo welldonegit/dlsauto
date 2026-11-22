@@ -71,6 +71,56 @@ export function buildPageMetadata({
   }
 }
 
+/**
+ * schema.org Organization for the site (DEV_CONTEXT §8). Phone / email / social
+ * links come from settings; the logo/url from DOMAIN. Rendered once on the home
+ * page as JSON-LD.
+ */
+export function organizationJsonLd(org: {
+  phone?: string | null
+  email?: string | null
+  sameAs?: (string | null | undefined)[]
+}): Record<string, unknown> {
+  const origin = getSiteUrl()
+  const sameAs = (org.sameAs ?? []).filter((u): u is string => !!u && /^https?:\/\//.test(u))
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: SITE,
+    url: origin,
+    ...(org.email ? { email: org.email } : {}),
+    ...(org.phone
+      ? {
+          contactPoint: {
+            '@type': 'ContactPoint',
+            telephone: org.phone,
+            contactType: 'customer service',
+            areaServed: 'UA',
+            availableLanguage: ['uk', 'ru'],
+          },
+        }
+      : {}),
+    ...(sameAs.length ? { sameAs } : {}),
+  }
+}
+
+/** schema.org FAQPage from the home FAQ block's Q/A (DEV_CONTEXT §8). */
+export function faqPageJsonLd(
+  items: { question?: string | null; answer?: string | null }[],
+): Record<string, unknown> {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items
+      .filter((i) => i.question && i.answer)
+      .map((i) => ({
+        '@type': 'Question',
+        name: i.question,
+        acceptedAnswer: { '@type': 'Answer', text: i.answer },
+      })),
+  }
+}
+
 /** schema.org BreadcrumbList for an internal page (DEV_CONTEXT §8). */
 export function breadcrumbJsonLd(items: { name: string; path: string }[]): Record<string, unknown> {
   const origin = getSiteUrl()

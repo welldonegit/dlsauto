@@ -23,10 +23,30 @@ export function Videos({
   videos: VideoTile[]
 }) {
   const scrollRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
   const vids = useRef<(HTMLVideoElement | null)[]>([])
   const [hovered, setHovered] = useState<number | null>(null)
   const [atStart, setAtStart] = useState(true)
   const [atEnd, setAtEnd] = useState(false)
+  // Don't fetch the video stills until the carousel nears the viewport (perf).
+  const [near, setNear] = useState(false)
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    if (!('IntersectionObserver' in window)) {
+      const id = requestAnimationFrame(() => setNear(true))
+      return () => cancelAnimationFrame(id)
+    }
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) setNear(true)
+      },
+      // preload a little before the carousel scrolls in (px — IO root margin)
+      { rootMargin: `${400}px` },
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
 
   const syncEdges = useCallback(() => {
     const el = scrollRef.current
@@ -59,6 +79,7 @@ export function Videos({
 
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="videos-title"
       className="bg-neutral-50 pt-[var(--space-64)] lg:pt-[var(--space-96)]"
     >
@@ -123,7 +144,7 @@ export function Videos({
                 // Media-fragment start time forces the browser to decode and
                 // paint a still frame at rest — without a poster, preload
                 // "metadata" leaves the tile blank until the first play.
-                src={v.src.includes('#') ? v.src : `${v.src}#t=0.1`}
+                src={near ? (v.src.includes('#') ? v.src : `${v.src}#t=0.1`) : undefined}
                 aria-label={v.badge}
                 muted
                 loop

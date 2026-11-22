@@ -974,6 +974,39 @@ async function run(): Promise<void> {
   }
   log(`pages: ${PAGES.length}`)
 
+  // Home SEO (uk + ru) — drives "/" <title>/description + canonical/hreflang (§8).
+  const homeDoc = (
+    await payload.find({
+      collection: 'pages',
+      where: { slug: { equals: 'home' } },
+      limit: 1,
+      depth: 0,
+    })
+  ).docs[0]
+  if (homeDoc) {
+    await payload.update({
+      collection: 'pages',
+      id: homeDoc.id,
+      data: {
+        seoTitle: 'DLSAuto — вживані автозапчастини з власної розбірки',
+        seoDescription:
+          'Б/в запчастини на пікапи та позашляховики з власної авторозбірки — перевірені, з фото реальної деталі. Відправка в день замовлення. Запоріжжя та Дніпро.',
+      },
+    })
+    await payload.update({
+      collection: 'pages',
+      id: homeDoc.id,
+      locale: 'ru',
+      data: {
+        // ru title is required on a localized update (otherwise ValidationError).
+        title: 'Главная',
+        seoTitle: 'DLSAuto — б/у автозапчасти с собственной разборки',
+        seoDescription:
+          'Б/у запчасти на пикапы и внедорожники с собственной авторазборки — проверенные, с фото реальной детали. Отправка в день заказа. Запорожье и Днепр.',
+      },
+    })
+  }
+
   // ---------------------------------------------------------------- reviews
   // [author, rating, text, photo (media id | null), date]. Copy + photos from
   // the Claude Design export; dates drive the newest-first order and the shown

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { ProductCard, type ProductCardData } from '@/components/ProductCard'
+import { trackViewItemList } from '@/lib/analytics'
 import { useSelectedCar } from '@/lib/selectedCar'
 
 /**
@@ -97,14 +98,34 @@ export function VehicleCarousel({
 
   useEffect(() => () => clearTimeout(fadeT.current), [])
 
-  // pause the banner video when off-screen (perf)
+  // GA4 impression for the first model's rail — once per mount (DEV_CONTEXT §8).
+  const listFired = useRef(false)
+  useEffect(() => {
+    if (listFired.current) return
+    listFired.current = true
+    trackViewItemList(titleId, title, current.cards)
+  }, [titleId, title, current.cards])
+
+  // Lazy-load the banner video: don't fetch it (it is ~multi-MB and below the
+  // fold) until it nears the viewport; then play, and pause when it leaves.
+  const [videoOn, setVideoOn] = useState(false)
   useEffect(() => {
     const v = videoRef.current
-    if (!v || !('IntersectionObserver' in window)) return
-    const io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting) void v.play().catch(() => {})
-      else v.pause()
-    })
+    if (!v) return
+    if (!('IntersectionObserver' in window)) {
+      const id = requestAnimationFrame(() => setVideoOn(true))
+      return () => cancelAnimationFrame(id)
+    }
+    const io = new IntersectionObserver(
+      ([e]) => {
+        if (e.isIntersecting) {
+          setVideoOn(true)
+          void v.play().catch(() => {})
+        } else v.pause()
+      },
+      // preload a little before the banner scrolls in (px — IO root margin)
+      { rootMargin: `${300}px` },
+    )
     io.observe(v)
     return () => io.disconnect()
   }, [])
@@ -147,13 +168,13 @@ export function VehicleCarousel({
           {videoSrc ? (
             <video
               ref={videoRef}
-              src={videoSrc}
+              src={videoOn ? videoSrc : undefined}
               aria-label={videoLabel}
               muted
               loop
               autoPlay
               playsInline
-              preload="metadata"
+              preload="none"
               className="absolute inset-0 block h-full w-full"
               style={{ objectFit: 'cover' }}
             />
@@ -312,7 +333,7 @@ export function VehicleCarousel({
                   scrollSnapAlign: 'start',
                 }}
               >
-                <ProductCard data={c} />
+                <ProductCard data={c} listId={titleId} listName={title} />
               </div>
             ))}
           </div>

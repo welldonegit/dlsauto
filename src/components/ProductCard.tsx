@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import { showToast } from '@/components/ui/ToastHost'
+import { trackAddToWishlist, trackSelectItem } from '@/lib/analytics'
 import { openQuickView } from '@/lib/quickView'
 import { useSelectedCar } from '@/lib/selectedCar'
 import { useWishlisted, wishlistToggle } from '@/lib/wishlist'
@@ -60,11 +61,16 @@ export function ProductCard({
   data,
   fullCart = false,
   onQuickView,
+  listId = 'products',
+  listName = 'Товари',
 }: {
   data: ProductCardData
   /** Full-width "В кошик" button instead of the compact icon cart. */
   fullCart?: boolean
   onQuickView?: (data: ProductCardData) => void
+  /** GA4 list attribution for select_item (set by the rail that renders the card). */
+  listId?: string
+  listName?: string
 }) {
   const [hovered, setHovered] = useState(false)
   const [photo, setPhoto] = useState(0)
@@ -85,8 +91,12 @@ export function ProductCard({
 
   const toggleFav = () => {
     const nowFav = wishlistToggle(data.id)
-    if (nowFav) setPop((p) => p + 1)
+    if (nowFav) {
+      setPop((p) => p + 1)
+      trackAddToWishlist(data)
+    }
   }
+  const selectItem = () => trackSelectItem(listId, listName, data)
   const addToCart = () =>
     showToast({ title: 'Кошик — етап 5', description: 'Кошик запрацює на наступному етапі.' })
 
@@ -146,6 +156,8 @@ export function ProductCard({
           <img
             src={photos[k]}
             alt={`Фото деталі: ${data.name.toLowerCase()} — ${k + 1} з ${photos.length}`}
+            loading="lazy"
+            decoding="async"
             className="absolute inset-0 block h-full w-full"
             style={{ objectFit: 'cover', opacity: sold ? 0.5 : 1 }}
           />
@@ -339,7 +351,11 @@ export function ProductCard({
             color: 'var(--color-neutral-900)',
           }}
         >
-          <a href={data.href} style={{ color: 'inherit', textDecoration: 'none' }}>
+          <a
+            href={data.href}
+            onClick={selectItem}
+            style={{ color: 'inherit', textDecoration: 'none' }}
+          >
             {data.name}
           </a>
         </h3>

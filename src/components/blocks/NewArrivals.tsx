@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { ProductCard, type ProductCardData } from '@/components/ProductCard'
+import { trackViewItemList } from '@/lib/analytics'
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/ui/layout'
 import { useSelectedCar } from '@/lib/selectedCar'
@@ -76,6 +77,14 @@ export function NewArrivals({
   }, [tab, syncEdges])
 
   useEffect(() => () => clearTimeout(fadeT.current), [])
+
+  // GA4 impression — once per mount (DEV_CONTEXT §8).
+  const listFired = useRef(false)
+  useEffect(() => {
+    if (listFired.current) return
+    listFired.current = true
+    trackViewItemList('new-arrivals', title, cards)
+  }, [title, cards])
 
   const pickTab = (key: string) => {
     if (key === tab || fading) return
@@ -196,7 +205,7 @@ export function NewArrivals({
                   scrollSnapAlign: 'start',
                 }}
               >
-                <ProductCard data={c} />
+                <ProductCard data={c} listId="new-arrivals" listName={title} />
               </div>
             ))}
           </div>

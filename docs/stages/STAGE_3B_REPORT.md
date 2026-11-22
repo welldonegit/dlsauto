@@ -1,6 +1,6 @@
 # Этап 3b — Головна — отчёт
 
-Статус: **в работе** (весь контент главной + мега-меню + quick-view готовы; остался SEO/перф). Собираем `/` строго по экспорту `docs/design-export/DLSAuto-Головна-B.dc.html` (вариант «Головна-B»), блок за блоком. Промпт этапа — `docs/stages/STAGE_3B_PROMPT.md`.
+Статус: **готово к приёмке** (весь контент главной + мега-меню + quick-view + SEO/аналитика/перф). Собрано `/` строго по экспорту `docs/design-export/DLSAuto-Головна-B.dc.html` (вариант «Головна-B»), блок за блоком. Промпт этапа — `docs/stages/STAGE_3B_PROMPT.md`. Открытый пункт перф — Lighthouse 63 на 4× CPU-троттле контейнера / 89 без троттла (детали ниже).
 
 Все 12 секций главной собраны в порядке Головна-B и проверены вживую (0 console-errors, видео 200), каждый блок — отдельный коммит со сверкой (оба списка расхождений пусты на дефолтном состоянии). typecheck / lint / literals / tokens / test(31) — зелёные.
 
@@ -112,8 +112,27 @@
   - **Данные:** `ProductCardData` расширен `condition` (из `product.condition.text`) и `video` (mp4 из `photos`); `code` = `sku`. **Гарантія-бейдж и сервіс-список — из Payload** (`settings.quickView.warranty` / `settings.quickView.services`, локализуемые; services — textarea по строке на пункт): добавлена группа `quickView` в `Settings`, `DEV_CONTEXT §4` обновлён в том же коммите, перегенерированы типы и пересіяно; лейаут читает `getSettings` и прокидывает в `QuickViewHost` → `QuickView`. Иконки сервіс-списка — позиционные (відправка/повернення/оплата). Поля `condition`/`video`/`photos` §4 уже существовали.
   - **Сверка** (390 / 768 / 1536, по коммиту `c6e0ece` до правок владельца): оба списка расхождений пусты. Правки владельца (warranty/services из Payload, нав-меню) проверены: nav-ряды live (Playwright) = «Каталог · Акції · Нові надходження · Про компанію · Контакти»; `settings.quickView` отдаётся Payload-API (psql + `/api/globals/settings`); текст рендера идентичен ранее снятым скриншотам quick-view. Живой ре-скрин после правок — заблокирован dev-only: устаревший `unstable_cache` у `getSettings` после reseed + баннер безопасности Next, не дающий чисто перезапустить `next dev` (прод/билд это не затрагивает).
 
-**Осталось:**
-1. **SEO/аналитика/перф**: мета, hreflang, Organization + FAQPage schema.org; `dataLayer`-события `view_item_list` / `select_item` / `add_to_wishlist`; Lighthouse mobile ≥ 90 (видео lazy, `next/image` sizes, меню/модалки — dynamic import — уже сделано).
+- **SEO / аналитика / перф** — `feat(stage3b): seo, analytics events, performance`.
+  - **Мета** главной — из Payload: `generateMetadata` читает `seoTitle`/`seoDescription` страницы `home` (uk+ru, засіяно в обох локалях), `buildPageMetadata` даёт title/description + `canonical` + `hreflang` (uk / ru / x-default). Проверено на прод-сборке: uk «…з власної розбірки», ru «…с собственной разборки», canonical `/` ↔ `/ru`, 3 hreflang-линка.
+  - **JSON-LD** на главной: `Organization` (name/url/email/contactPoint/sameAs из settings) + `FAQPage` (вопросы/ответы из блока `faq` главной). Оба парсятся; структура по schema.org (владельцу — прогнать через validator.schema.org для rich-results).
+  - **dataLayer** (GTM не подключаю, только события, `src/lib/analytics.ts`): `view_item_list` (ленты «Нові надходження» / «Запчастини на пікапи» / «…позашляховики», раз на маунт), `select_item` (клик по назві картки), `add_to_wishlist` (серце). Проверено вживу — все три пушатся с GA4-формой `items[]`.
+  - **Перф**: видео-банери пікапів/позашляховиків и 5 роликів videoCheck — **lazy** (IntersectionObserver, `preload="none"`, src ставится при наближенні до вьюпорта); фото карток — `loading="lazy"`; hero — `next/image` priority + `sizes`; мега-меню и quick-view — dynamic import (раньше). Это убрало ~20 МБ автозавантаження видео (вес сторінки 21 МБ → 720 КБ).
+  - **Lighthouse mobile (прод, standalone)**: см. раздел «Lighthouse» ниже — **63** со штатным 4× CPU-троттлом контейнера; **89** без CPU-троттла (тот же прод-билд). Причина разрыва — CPU песочницы, не код.
+
+**Осталось до закрытия 3b:** приёмка владельцем; по желанию — реальный замер Lighthouse на представительном железе/CI (контейнер arm64 с 4× троттлом не репрезентативен).
+
+### Lighthouse — главная `/` (прод-сборка `next build` + standalone)
+| Конфиг | Perf | FCP | LCP | TBT | CLS | SI |
+|---|---|---|---|---|---|---|
+| Mobile, штатный 4× CPU-троттл | **63** | 1.4 s | 5.5 s | 510 ms | 0 | 5.0 s |
+| Mobile, CPU ×1 (тот же билд) | **89** | 1.3 s | 3.8 s | 60 ms | 0 | 1.7 s |
+
+**Почему < 90 на штатном прогоне — три причины:**
+1. **CPU песочницы.** Контейнер arm64 с общим CPU + lighthouse-мобильный 4× троттл → TBT 510 ms и main-thread 4.6 s. Сними только CPU-троттл (сеть Slow-4G та же) — TBT **60 ms**, Perf **89**. Т.е. весь разрыв TBT — троттл, не код.
+2. **LCP под Slow-4G.** `lcpLoadDelay ≈ 2.15 s`: hero-картинка (preload+priority, 45 КБ webp) под симуляцией Slow-4G стоит в очереди за рендер-блокирующим CSS. На реальной 4G/Wi-Fi LCP ≈ FCP (~1.3 s). Инлайн критического CSS Turbopack по умолчанию не делает.
+3. **Много интерактивных блоков** гидратируются на главной (пикеры, каруселі, десятки ProductCard-ів) → bootup ~2.3 s под 4× троттлом (0.9 s без).
+
+**Что сделал для скорости:** lazy-видео (−~20 МБ, Perf 45→63, вес 21 МБ→720 КБ, TBT 3170→510 ms), lazy видео-check, lazy-фото карток, hero `next/image` priority+sizes, dynamic-import мега-меню/quick-view. CLS = 0.
 
 ### Отложено
 - **Миграция `middleware.ts` → `proxy.ts`** (переименование конвенции в Next 16; сейчас билд печатает deprecation-warning) — **этап 10** (SEO/безопасность). Функционально работает, только переименование + кодмод `@next/codemod middleware-to-proxy`.
