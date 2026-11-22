@@ -859,13 +859,13 @@ function Drawer({
   const [screen, setScreen] = useState<'main' | 'catalog'>('main')
   const searchRef = useRef<HTMLInputElement>(null)
 
+  // Оплата/Гарантія are not standalone pages (that content lives in the home FAQ
+  // / Оферта), so they are omitted rather than linking to a dead "#".
   const navRows: { name: string; href: string; chev?: boolean; toCatalog?: boolean }[] = [
     { name: 'Каталог', href: `${prefix}/catalog`, chev: true, toCatalog: true },
     { name: 'Акції', href: `${prefix}/catalog?promo=1` },
     { name: 'Нові надходження', href: `${prefix}/catalog?sort=new` },
-    { name: 'Оплата і доставка', href: '#' },
-    { name: 'Гарантія та повернення', href: '#' },
-    { name: 'Про компанію', href: '#' },
+    { name: 'Про компанію', href: `${prefix}/about` },
     { name: 'Контакти', href: `${prefix}/contacts`, chev: true },
   ]
 

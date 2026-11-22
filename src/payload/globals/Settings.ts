@@ -125,6 +125,25 @@ export const Settings: GlobalConfig = {
               type: 'text',
               label: 'KeyCRM base URL (для посилань на замовлення)',
             },
+            {
+              name: 'quickView',
+              type: 'group',
+              label: 'Швидкий перегляд (модалка товару)',
+              fields: [
+                {
+                  name: 'warranty',
+                  type: 'text',
+                  localized: true,
+                  label: 'Гарантія — бейдж (тимчасово; у 3c — з warrantyDays товару)',
+                },
+                {
+                  name: 'services',
+                  type: 'textarea',
+                  localized: true,
+                  label: 'Сервіс-список — по рядку на пункт (відправка · повернення · оплата)',
+                },
+              ],
+            },
           ],
         },
         {

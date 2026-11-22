@@ -447,6 +447,14 @@ async function run(): Promise<void> {
         'Приймаємо: готівка при самовивозі, карта онлайн (monoPay — Visa/Mastercard, Apple/Google Pay).',
       fop: { name: 'ФОП [ПІБ]', edrpou: '[ЄДРПОУ]', address: '[адреса]' },
       keycrmBaseUrl: '',
+      quickView: {
+        warranty: 'Гарантія 14 днів',
+        services: [
+          'Відправка в день замовлення',
+          'Обмін або повернення, якщо не підійшла',
+          'Оплата при отриманні або monoPay',
+        ].join('\n'),
+      },
       season: { current: 'none', manualOverride: false },
     },
   })

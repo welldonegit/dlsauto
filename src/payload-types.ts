@@ -1635,6 +1635,10 @@ export interface Setting {
   prepaymentConditions?: string | null;
   acceptBlock?: string | null;
   keycrmBaseUrl?: string | null;
+  quickView?: {
+    warranty?: string | null;
+    services?: string | null;
+  };
   fop?: {
     name?: string | null;
     edrpou?: string | null;
@@ -1697,6 +1701,12 @@ export interface SettingsSelect<T extends boolean = true> {
   prepaymentConditions?: T;
   acceptBlock?: T;
   keycrmBaseUrl?: T;
+  quickView?:
+    | T
+    | {
+        warranty?: T;
+        services?: T;
+      };
   fop?:
     | T
     | {

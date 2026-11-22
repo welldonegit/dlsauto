@@ -25,6 +25,14 @@ const GENERIC_CONDITION =
 
 type Slide = { type: 'photo' | 'video'; src: string }
 
+// Positional icons for the service list (shipping · return · payment), as in the
+// export. Compact spec per ServiceItem: "pathD|…|circle:cx,cy,r|rect:x,y,w,h,rx".
+const SERVICE_ICONS = [
+  'M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2|M15 18H9|M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14|circle:17,18,2|circle:7,18,2',
+  'M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8|M21 3v5h-5|M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16|M8 16H3v5',
+  'rect:2,5,20,14,2|M2 10h20',
+]
+
 const groupThousands = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
 const uah = (n: number) => `${groupThousands(n)} ₴`
 
@@ -32,10 +40,16 @@ export function QuickView({
   data,
   open,
   onClose,
+  warranty,
+  services = [],
 }: {
   data: ProductCardData
   open: boolean
   onClose: () => void
+  /** Warranty badge text (from settings; stage 3c → product.warrantyDays). */
+  warranty?: string
+  /** Service lines (from settings) — one per entry, icons are positional. */
+  services?: string[]
 }) {
   const [shown, setShown] = useState(false)
   const [vw, setVw] = useState(1440)
@@ -512,16 +526,18 @@ export function QuickView({
                   />
                   {data.city ? `В наявності, ${data.city}` : 'В наявності'}
                 </InfoBadge>
-                <InfoBadge>
-                  <svg
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
-                    style={iconStyle('14', 'var(--color-neutral-600)')}
-                  >
-                    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1Z" />
-                  </svg>
-                  Гарантія 14 днів
-                </InfoBadge>
+                {warranty ? (
+                  <InfoBadge>
+                    <svg
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      style={iconStyle('14', 'var(--color-neutral-600)')}
+                    >
+                      <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1Z" />
+                    </svg>
+                    {warranty}
+                  </InfoBadge>
+                ) : null}
                 <InfoBadge>
                   <svg
                     viewBox="0 0 24 24"
@@ -642,26 +658,27 @@ export function QuickView({
                 </dl>
               ) : null}
 
-              <ul
-                className="flex flex-col text-13"
-                style={{
-                  margin: 'var(--space-24) 0 0',
-                  padding: 0,
-                  listStyle: 'none',
-                  gap: 'var(--space-12)',
-                  color: 'var(--color-neutral-600)',
-                }}
-              >
-                <ServiceItem d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2|M15 18H9|M19 18h2a1 1 0 0 0 1-1v-3.65a1 1 0 0 0-.22-.62l-3.48-4.35A1 1 0 0 0 17.52 8H14|circle:17,18,2|circle:7,18,2">
-                  Відправка в день замовлення
-                </ServiceItem>
-                <ServiceItem d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8|M21 3v5h-5|M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16|M8 16H3v5">
-                  Обмін або повернення, якщо не підійшла
-                </ServiceItem>
-                <ServiceItem d="rect:2,5,20,14,2|M2 10h20">
-                  Оплата при отриманні або monoPay
-                </ServiceItem>
-              </ul>
+              {services.length ? (
+                <ul
+                  className="flex flex-col text-13"
+                  style={{
+                    margin: 'var(--space-24) 0 0',
+                    padding: 0,
+                    listStyle: 'none',
+                    gap: 'var(--space-12)',
+                    color: 'var(--color-neutral-600)',
+                  }}
+                >
+                  {services.map((s, i) => (
+                    <ServiceItem
+                      key={i}
+                      d={SERVICE_ICONS[i] ?? SERVICE_ICONS[SERVICE_ICONS.length - 1]}
+                    >
+                      {s}
+                    </ServiceItem>
+                  ))}
+                </ul>
+              ) : null}
 
               <a
                 href={data.href}

@@ -5,8 +5,9 @@ import type { ReactNode } from 'react'
 
 import { QuickViewHost } from '@/components/QuickViewHost'
 import { ToastHost } from '@/components/ui/ToastHost'
-import { isLocale, locales } from '@/i18n/config'
+import { isLocale, locales, type Locale } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
+import { getSettings } from '@/lib/data'
 import { getSiteUrl } from '@/lib/env'
 
 import '../../globals.css'
@@ -60,12 +61,22 @@ export default async function LocaleLayout({
   const { locale } = await params
   if (!isLocale(locale)) notFound()
 
+  // Quick-view chrome (warranty badge + service list) — site-wide, from settings.
+  const settings = await getSettings(locale as Locale)
+  const qvWarranty = settings.quickView?.warranty ?? undefined
+  const qvServices = settings.quickView?.services
+    ? settings.quickView.services
+        .split('\n')
+        .map((s) => s.trim())
+        .filter(Boolean)
+    : []
+
   return (
     <html lang={locale} className={`${golos.variable} ${jetbrains.variable}`}>
       <body>
         {children}
         <ToastHost />
-        <QuickViewHost />
+        <QuickViewHost warranty={qvWarranty} services={qvServices} />
       </body>
     </html>
   )
