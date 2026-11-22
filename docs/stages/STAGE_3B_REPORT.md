@@ -116,6 +116,7 @@
 1. **SEO/аналитика/перф**: мета, hreflang, Organization + FAQPage schema.org; `dataLayer`-события `view_item_list` / `select_item` / `add_to_wishlist`; Lighthouse mobile ≥ 90 (видео lazy, `next/image` sizes, меню/модалки — dynamic import — уже сделано).
 
 ### Отложено
+- **Миграция `middleware.ts` → `proxy.ts`** (переименование конвенции в Next 16; сейчас билд печатает deprecation-warning) — **этап 10** (SEO/безопасность). Функционально работает, только переименование + кодмод `@next/codemod middleware-to-proxy`.
 - **Сезонные наклейки карточек** (pumpkin/hat/easter по `settings.season` + `product.seasonalDecor`) — **до запуска (этап 11)**. Поля в модели уже есть; при `season=none` невидимы → дефолтный рендер = экспорт. Записано в `ROADMAP.md` к этапу 11.
 
 #### Отложено до 3c (из «Решений по умолчанию», подтверждено 22.11)
