@@ -113,7 +113,25 @@
 
 **reviews** — author, rating 1–5, text, photo (опц., одно изображение детали из отзыва), product (опц.), published (модерация), createdAt. Средняя считается по published.
 
-**pages** — контент страниц блоками (главная, о компании, контакты, оферта, политика, 404). Каждый блок — свой тип с полями; пустой блок не рендерится. Порядок блоков — drag-and-drop.
+**pages** — контент страниц блоками (главная, о компании, контакты, оферта, политика, 404). Каждый блок — свой тип с полями; пустой блок не рендерится. Порядок блоков — drag-and-drop. Текстовые поля блоков локализуемые (uk/ru). Типы блоков и их поля (источник — `src/payload/blocks/index.ts`):
+- `hero` — variant (`a`|`b`), eyebrow, heading, subheading, background (upload), tiles[] (value, caption, icon `tread`|`wrench`|`star`|`speed`) — плитки доверия варианта B.
+- `stats` — heading, items[] (eyebrow, value, text, accent).
+- `categoriesBlock` — heading, variant (`a`|`b`), categories[] (rel→categories), searchChips[] (label).
+- `modelsPicker` — heading, defaultBrand (rel→brands).
+- `newArrivals` — heading, limit, pinned[] (rel→products; остальное — автоматически, новейшие в наличии).
+- `pickupsParts` / `suvsParts` — heading, subheading, limit, video (upload).
+- `videoCheck` — heading, text, videos[] (video upload, badge, duration).
+- `faq` — heading, subheading, items[] (question, answer).
+- `reviewsBlock` — heading, limit.
+- `benefits` — items[] (label, badge, value, shipDay bool, icon, note, tag, pairs[] (k, v)).
+- `whatElseWeDo` — heading, text, wideImage (upload), cards[] (title, text, image, link).
+- `services` — heading, items[] (title, text, image).
+- `aboutHero` — eyebrow, heading, text.
+- `partPath` — heading, steps[] (title, text, image).
+- `team` — heading, lead (upload), leadCaption, members[] (photo, name, role).
+- `ctaText` — heading, text, address, buttonLabel, buttonLink, linkLabel, linkHref.
+- `richText` — content (richText).
+- `contactsBlock` — heading, intro, showForm (bool).
 
 **settings** (global) — телефоны, email, мессенджеры, описания каналов (подписи под Telegram / Viber / телефоном на «Контактах», локализуемые), соцсети, рейтинг и количество отзывов на Prom (числа), ссылки на маркетплейсы, минимальный заказ (500), время отправки в день заказа (15:00), условия предоплаты, блок «Приймаємо», реквизиты ФОП, KeyCRM base URL (для ссылок на заказы), season (`none` | `halloween` | `new_year` | `easter`, с датами начала/конца и ручным переключателем).
 
