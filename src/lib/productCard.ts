@@ -16,6 +16,14 @@ function imageUrl(m: number | Media | null | undefined): string | null {
   return m.sizes?.card?.url ?? m.url ?? null
 }
 
+/** First video (mp4) among the photos — the inspection clip for the quick-view. */
+function videoUrl(photos: Product['photos']): string | null {
+  for (const m of photos ?? []) {
+    if (m && typeof m === 'object' && m.mimeType?.startsWith('video/')) return m.url ?? null
+  }
+  return null
+}
+
 /** Donor pill label: "Ranger 2006–2012" (name + years, no twin/generation). */
 function modelShort(model: Model): string {
   const years = modelYears(model)
@@ -50,5 +58,7 @@ export function toProductCardData(
     photos: photos.length ? photos : [''],
     city: pickup?.name ?? '',
     specs: (p.specs ?? []).map((s) => ({ k: s.label, v: s.value })),
+    condition: p.condition?.text ?? null,
+    video: videoUrl(p.photos),
   }
 }

@@ -5,6 +5,7 @@ import { useState, type ReactNode } from 'react'
 import { MegaMenu } from '@/components/layout/MegaMenu'
 import { ProductCard, type ProductCardData } from '@/components/ProductCard'
 import type { MegaMenuData } from '@/lib/data'
+import { openQuickView } from '@/lib/quickView'
 import { Accordion } from '@/components/ui/Accordion'
 import { Badge } from '@/components/ui/Badge'
 import { Button, CircleArrow } from '@/components/ui/Button'
@@ -590,6 +591,22 @@ export function UiShowcase() {
           ))}
         </div>
       </Block>
+
+      <Block title="Швидкий перегляд (QuickView)">
+        <p style={{ margin: '0 0 var(--space-16)', color: 'var(--color-neutral-600)' }}>
+          Модалка-прев’ю товару: галерея (фото + відео), OEM/код із копіюванням, ціна з −N%, «В
+          кошик» (тост) і серце (обране). Десктоп — 2 колонки, планшет — липка панель дій, мобайл —
+          bottom-sheet. Esc / клік по тлу закривають. Та сама модалка відкривається «оком» на
+          картках вище.
+        </p>
+        <Row>
+          {QUICK_VIEW_SAMPLES.map(({ label, data }) => (
+            <Button key={label} variant="secondary" size="md" onClick={() => openQuickView(data)}>
+              {label}
+            </Button>
+          ))}
+        </Row>
+      </Block>
     </Container>
   )
 }
@@ -673,4 +690,24 @@ const PRODUCT_SAMPLES: { label: string; data: ProductCardData; fullCart?: boolea
   { label: 'Підходить на авто', data: { ...baseSample, id: 'ui-fits', fits: true } },
   { label: 'Продано', data: { ...baseSample, id: 'ui-sold', status: 'sold' } },
   { label: 'Повна кнопка', data: { ...baseSample, id: 'ui-full' }, fullCart: true },
+]
+
+const QV_SPECS = [
+  { k: 'Сторона', v: 'Ліва' },
+  { k: 'Тип', v: 'Галоген, з коректором' },
+  { k: 'Авто-донор', v: 'Ford Ranger 2.5 TDCi, 2009' },
+  { k: 'Пробіг донора', v: '186 000 км' },
+  { k: 'Перевірка', v: 'На авто' },
+  { k: 'Категорія', v: 'Оптика' },
+]
+const qvBase: ProductCardData = {
+  ...baseSample,
+  specs: QV_SPECS,
+  condition:
+    'Скло без тріщин і помутніння. Кріплення цілі. Дрібні подряпини на корпусі — позначені маркером, на роботу не впливають.',
+}
+const QUICK_VIEW_SAMPLES: { label: string; data: ProductCardData }[] = [
+  { label: 'В наявності', data: { ...qvBase, id: 'qv-in-stock' } },
+  { label: 'Зі знижкою', data: { ...qvBase, id: 'qv-promo', discountPercent: 20 } },
+  { label: 'Підходить на авто', data: { ...qvBase, id: 'qv-fits', fits: true } },
 ]

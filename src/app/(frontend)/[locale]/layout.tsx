@@ -3,6 +3,7 @@ import { Golos_Text, JetBrains_Mono } from 'next/font/google'
 import { notFound } from 'next/navigation'
 import type { ReactNode } from 'react'
 
+import { QuickViewHost } from '@/components/QuickViewHost'
 import { ToastHost } from '@/components/ui/ToastHost'
 import { isLocale, locales } from '@/i18n/config'
 import { getDictionary } from '@/i18n/dictionaries'
@@ -64,6 +65,7 @@ export default async function LocaleLayout({
       <body>
         {children}
         <ToastHost />
+        <QuickViewHost />
       </body>
     </html>
   )

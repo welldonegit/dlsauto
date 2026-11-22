@@ -3,6 +3,7 @@
 import { useState } from 'react'
 
 import { showToast } from '@/components/ui/ToastHost'
+import { openQuickView } from '@/lib/quickView'
 import { useSelectedCar } from '@/lib/selectedCar'
 import { useWishlisted, wishlistToggle } from '@/lib/wishlist'
 
@@ -18,8 +19,8 @@ import { useWishlisted, wishlistToggle } from '@/lib/wishlist'
  * "Знайти схожу") · fits ("Підходить на ваше авто" replaces the donor pill).
  *
  * Behaviours per stage 3b: heart → localStorage wishlist (header badge); cart →
- * toast "Кошик — етап 5" (cart is stage 5); quick-view → optional handler, wired
- * to the QuickView modal when it lands. Links are real §8 URLs (pages in 3c).
+ * toast "Кошик — етап 5" (cart is stage 5); quick-view → opens the QuickView
+ * modal (or an `onQuickView` override). Links are real §8 URLs (pages in 3c).
  */
 
 const EASE = 'var(--ease-brand)'
@@ -46,6 +47,10 @@ export type ProductCardData = {
   photos: string[]
   city: string
   specs: { k: string; v: string }[]
+  /** Condition note (product.condition.text) — shown in the quick-view. */
+  condition?: string | null
+  /** Inspection video (mp4) — the extra quick-view gallery slide, if any. */
+  video?: string | null
 }
 
 const groupThousands = (n: number) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
@@ -219,7 +224,7 @@ export function ProductCard({
             </RoundButton>
             <RoundButton
               label="Швидкий перегляд"
-              onClick={() => onQuickView?.(data)}
+              onClick={() => (onQuickView ? onQuickView(data) : openQuickView(data))}
               color="var(--color-neutral-900)"
             >
               <svg
