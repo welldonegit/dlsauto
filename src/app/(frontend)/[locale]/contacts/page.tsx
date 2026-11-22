@@ -78,7 +78,7 @@ export default async function ContactsPage({ params }: { params: Promise<{ local
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader locale={locale} />
       <main style={{ background: 'var(--color-neutral-0)', color: 'var(--color-neutral-900)' }}>
         {/* ----------------------------------- pickup points + channels + map */}
         <Section padTop="header" aria-label="Контакти — пункти видачі та канали">

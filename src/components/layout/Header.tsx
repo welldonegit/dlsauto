@@ -1,10 +1,13 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { useEffect, useState, type ReactNode } from 'react'
+import { useCallback, useEffect, useState, type ReactNode } from 'react'
 
 import { Button } from '@/components/ui/Button'
 import { Container } from '@/components/ui/layout'
+import type { Locale } from '@/i18n/config'
+import type { MegaMenuData } from '@/lib/data'
 import { useWishlistCount } from '@/lib/wishlist'
 import {
   CartIcon,
@@ -26,9 +29,12 @@ import {
  * trigger, search, "Замовити дзвінок", favourites / compare / cart). Three
  * layouts by width — desktop ≥1360, tablet 768–1359, mobile <768 — matching the
  * export's breakpoints, toggled with CSS. The main bar hides on scroll down and
- * reappears on scroll up (transform only). The mega-menu is an empty shell with
- * the correct trigger; contents land in a later stage.
+ * reappears on scroll up (transform only). The Catalog trigger opens the catalog
+ * mega-menu (DLSMegaMenu3), code-split and loaded on first open.
  */
+
+/** Catalog mega-menu — code-split so it costs nothing until the menu is opened. */
+const MegaMenu = dynamic(() => import('./MegaMenu').then((m) => m.MegaMenu), { ssr: false })
 
 /**
  * Chrome data (phone, hours, messenger links) comes from `settings` /
@@ -41,11 +47,14 @@ export type HeaderProps = {
   hours?: string
   telegramHref?: string
   viberHref?: string
+  locale?: Locale
+  menu?: MegaMenuData
 }
 
 const DEFAULT_PHONE = '+380 98 640 13 57'
 const DEFAULT_PHONE_HREF = 'tel:+380986401357'
 const DEFAULT_HOURS = 'Пн–Сб 9:00–18:00'
+const EMPTY_MENU: MegaMenuData = { brands: [], categories: [] }
 
 function useScrollReveal() {
   const [hidden, setHidden] = useState(false)
@@ -323,10 +332,18 @@ export function Header({
   hours = DEFAULT_HOURS,
   telegramHref = '#',
   viberHref = '#',
+  locale = 'uk',
+  menu = EMPTY_MENU,
 }: HeaderProps = {}) {
   const { hidden, stuck } = useScrollReveal()
   const [menuOpen, setMenuOpen] = useState(false)
-  const toggleMenu = () => setMenuOpen((o) => !o)
+  const [everOpened, setEverOpened] = useState(false)
+  // everOpened defers the mega-menu chunk until the first open.
+  const toggleMenu = () => {
+    setEverOpened(true)
+    setMenuOpen((o) => !o)
+  }
+  const closeMenu = useCallback(() => setMenuOpen(false), [])
   const favCount = useWishlistCount()
 
   const barStyle = {
@@ -536,31 +553,15 @@ export function Header({
         </div>
       </div>
 
-      {/* --------------------------------------------- mega-menu shell (empty) */}
-      {menuOpen ? (
-        <>
-          <button
-            type="button"
-            aria-label="Закрити меню"
-            onClick={() => setMenuOpen(false)}
-            className="fixed inset-0 z-[800] cursor-default"
-            style={{ background: 'var(--color-scrim)', border: 'none' }}
-          />
-          <div
-            role="dialog"
-            aria-label="Каталог"
-            className="absolute inset-x-0 z-[850]"
-            style={{
-              background: 'var(--color-neutral-0)',
-              borderBottomLeftRadius: 'var(--radius-lg)',
-              borderBottomRightRadius: 'var(--radius-lg)',
-              boxShadow: 'var(--shadow-md)',
-              minHeight: 'var(--space-96)',
-            }}
-          >
-            {/* Mega-menu content is built in a later stage. */}
-          </div>
-        </>
+      {/* ------------------------------------------- catalog mega-menu (DLSMegaMenu3) */}
+      {everOpened ? (
+        <MegaMenu
+          open={menuOpen}
+          onClose={closeMenu}
+          data={menu}
+          locale={locale}
+          chrome={{ phone, phoneHref, hours, telegramHref, viberHref }}
+        />
       ) : null}
     </header>
   )

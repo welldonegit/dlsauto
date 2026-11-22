@@ -2,7 +2,9 @@
 
 import { useState, type ReactNode } from 'react'
 
+import { MegaMenu } from '@/components/layout/MegaMenu'
 import { ProductCard, type ProductCardData } from '@/components/ProductCard'
+import type { MegaMenuData } from '@/lib/data'
 import { Accordion } from '@/components/ui/Accordion'
 import { Badge } from '@/components/ui/Badge'
 import { Button, CircleArrow } from '@/components/ui/Button'
@@ -142,6 +144,7 @@ function Row({ children }: { children: ReactNode }) {
 export function UiShowcase() {
   const [phone, setPhone] = useState('')
   const [toastOpen, setToastOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   return (
     <Container
@@ -539,6 +542,30 @@ export function UiShowcase() {
         </div>
       </Block>
 
+      <Block title="Мега-меню (DLSMegaMenu3)">
+        <p style={{ margin: '0 0 var(--space-16)', color: 'var(--color-neutral-600)' }}>
+          Каталог-меню з шапки. На широкому екрані (≥1360) — випадна панель Марки / Моделі /
+          Категорії; на вужчому — drawer із екранами «меню» і «каталог». Esc / клік поза межами
+          закривають, фокус у пастці й повертається на тригер.
+        </p>
+        <Button variant="primary" size="md" onClick={() => setMenuOpen((o) => !o)}>
+          {menuOpen ? 'Закрити мега-меню' : 'Відкрити мега-меню'}
+        </Button>
+        <MegaMenu
+          open={menuOpen}
+          onClose={() => setMenuOpen(false)}
+          data={SAMPLE_MENU}
+          locale="uk"
+          chrome={{
+            phone: '+380 98 640 13 57',
+            phoneHref: 'tel:+380986401357',
+            hours: 'Пн–Сб 9:00–18:00',
+            telegramHref: '#',
+            viberHref: '#',
+          }}
+        />
+      </Block>
+
       <Block title="Картка товару (ProductCard)">
         <p style={{ margin: '0 0 var(--space-24)', color: 'var(--color-neutral-600)' }}>
           Наведіть на картку — підіймається, зʼявляється каруселька фото і панель «Характеристики».
@@ -568,6 +595,56 @@ export function UiShowcase() {
 }
 
 const SAMPLE_PHOTO = '/images/ui-sample-part.jpg'
+
+/* Mock mega-menu data (brands/models/categories) for the kit demo. */
+const SAMPLE_MENU: MegaMenuData = {
+  brands: [
+    {
+      slug: 'ford',
+      name: 'Ford',
+      logo: null,
+      href: '#',
+      total: 226,
+      popular: [],
+      models: [
+        { slug: 'ranger-2006', name: 'Ranger', line: '2006–2012 — 118 деталей', href: '#' },
+        { slug: 'ranger-1998', name: 'Ranger', line: '1998–2006 — 108 деталей', href: '#' },
+      ],
+    },
+    {
+      slug: 'toyota',
+      name: 'Toyota',
+      logo: null,
+      href: '#',
+      total: 27,
+      models: [{ slug: 'hilux-2005', name: 'Hilux', line: '2005–2015 — 27 деталей', href: '#' }],
+      popular: [
+        {
+          id: 'p1',
+          name: 'Ступиця передня',
+          donor: 'Hilux 2005–2015',
+          price: '907 ₴',
+          photo: SAMPLE_PHOTO,
+          href: '#',
+        },
+        {
+          id: 'p2',
+          name: 'Фара ліва галоген',
+          donor: 'Hilux 2005–2015',
+          price: '3 200 ₴',
+          photo: SAMPLE_PHOTO,
+          href: '#',
+        },
+      ],
+    },
+  ],
+  categories: [
+    { slug: 'engines', name: 'Двигуни', count: 48, href: '#' },
+    { slug: 'body', name: 'Кузовні деталі', count: 42, href: '#' },
+    { slug: 'suspension', name: 'Підвіска та ходова', count: 36, href: '#' },
+    { slug: 'optics', name: 'Оптика', count: 24, href: '#' },
+  ],
+}
 const SAMPLE_SPECS = [
   { k: 'Стан', v: 'Б/в, оригінал' },
   { k: 'Сторона', v: 'Ліва' },

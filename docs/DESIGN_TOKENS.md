@@ -63,7 +63,9 @@
 | `--text-24` | `24px` | 1.25 | 600 | -0.02em | H2 mobile |
 | `--text-20` | `20px` | 1.4 | — | — | lead / subhead |
 | `--text-18` | `18px` | 1.5 | — | — | body-lg / card title |
+| `--text-17` | `17px` | 24px | — | — | mobile drawer nav row (mega-menu) |
 | `--text-16` | `16px` | 1.5 | — | — | body (base) |
+| `--text-15` | `15px` | 20px | — | — | mega-menu brand / category rows |
 | `--text-14` | `14px` | 20px | — | — | small |
 | `--text-13` | `13px` | 18px | — | — | xs / hints / errors |
 | `--text-12` | `12px` | 16px | — | — | label |

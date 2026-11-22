@@ -40,7 +40,7 @@ export default async function HomePage({ params }: { params: Promise<{ locale: s
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader locale={loc} />
       <main style={{ background: 'var(--color-neutral-50)', color: 'var(--color-neutral-900)' }}>
         <BlockRenderer blocks={page.layout} locale={loc} />
       </main>

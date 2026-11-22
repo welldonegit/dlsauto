@@ -68,7 +68,7 @@ export default async function CmsPage({ params }: { params: Promise<Params> }) {
 
   return (
     <>
-      <SiteHeader />
+      <SiteHeader locale={loc} />
       <main style={{ background: 'var(--color-neutral-50)', color: 'var(--color-neutral-900)' }}>
         {legal ? (
           <>
