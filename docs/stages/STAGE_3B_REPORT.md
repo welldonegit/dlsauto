@@ -1,6 +1,6 @@
 # Этап 3b — Головна — отчёт
 
-Статус: **✅ принят 23.11.2026** (весь контент главной + мега-меню + quick-view + SEO/аналитика/перф). Собрано `/` строго по экспорту `docs/design-export/DLSAuto-Головна-B.dc.html` (вариант «Головна-B»), блок за блоком. Промпт этапа — `docs/stages/STAGE_3B_PROMPT.md`. Открытый пункт перф — Lighthouse 63 на 4× CPU-троттле контейнера / 89 без троттла (детали ниже).
+Статус: **✅ принят 23.11.2026** (весь контент главной + мега-меню + quick-view + SEO/аналитика/перф). Собрано `/` строго по экспорту `docs/design-export/DLSAuto-Головна-B.dc.html` (вариант «Головна-B»), блок за блоком. Промпт этапа — `docs/stages/STAGE_3B_PROMPT.md`. Перф — Lighthouse 63 на 4× CPU-троттле контейнера / 89 без троттла (детали ниже); замер на реальном железе **перенесено в этап 9** (ROADMAP).
 
 Все 12 секций главной собраны в порядке Головна-B и проверены вживую (0 console-errors, видео 200), каждый блок — отдельный коммит со сверкой (оба списка расхождений пусты на дефолтном состоянии). typecheck / lint / literals / tokens / test(31) — зелёные.
 
@@ -114,12 +114,12 @@
 
 - **SEO / аналитика / перф** — `feat(stage3b): seo, analytics events, performance`.
   - **Мета** главной — из Payload: `generateMetadata` читает `seoTitle`/`seoDescription` страницы `home` (uk+ru, засіяно в обох локалях), `buildPageMetadata` даёт title/description + `canonical` + `hreflang` (uk / ru / x-default). Проверено на прод-сборке: uk «…з власної розбірки», ru «…с собственной разборки», canonical `/` ↔ `/ru`, 3 hreflang-линка.
-  - **JSON-LD** на главной: `Organization` (name/url/email/contactPoint/sameAs из settings) + `FAQPage` (вопросы/ответы из блока `faq` главной). Оба парсятся; структура по schema.org (владельцу — прогнать через validator.schema.org для rich-results).
+  - **JSON-LD** на главной: `Organization` (name/url/email/contactPoint/sameAs из settings) + `FAQPage` (вопросы/ответы из блока `faq` главной). Оба парсятся; структура по schema.org. **Перенесено в этап 8** (ROADMAP): Rich Results Test (Google) по живому URL — Organization + FAQPage.
   - **dataLayer** (GTM не подключаю, только события, `src/lib/analytics.ts`): `view_item_list` (ленты «Нові надходження» / «Запчастини на пікапи» / «…позашляховики», раз на маунт), `select_item` (клик по назві картки), `add_to_wishlist` (серце). Проверено вживу — все три пушатся с GA4-формой `items[]`.
   - **Перф**: видео-банери пікапів/позашляховиків и 5 роликів videoCheck — **lazy** (IntersectionObserver, `preload="none"`, src ставится при наближенні до вьюпорта); фото карток — `loading="lazy"`; hero — `next/image` priority + `sizes`; мега-меню и quick-view — dynamic import (раньше). Это убрало ~20 МБ автозавантаження видео (вес сторінки 21 МБ → 720 КБ).
   - **Lighthouse mobile (прод, standalone)**: см. раздел «Lighthouse» ниже — **63** со штатным 4× CPU-троттлом контейнера; **89** без CPU-троттла (тот же прод-билд). Причина разрыва — CPU песочницы, не код.
 
-**Осталось до закрытия 3b:** приёмка владельцем; по желанию — реальный замер Lighthouse на представительном железе/CI (контейнер arm64 с 4× троттлом не репрезентативен).
+**Осталось до закрытия 3b:** приёмка владельцем — ✅ получена 23.11.2026. Реальный замер Lighthouse на представительном железе/CI (контейнер arm64 с 4× троттлом не репрезентативен) — **перенесено в этап 9** (ROADMAP).
 
 ### Lighthouse — главная `/` (прод-сборка `next build` + standalone)
 | Конфиг | Perf | FCP | LCP | TBT | CLS | SI |
@@ -222,6 +222,8 @@
 
 ### Отложено — и куда
 - **До 3c** (решения владельца 22.11): гарантія quick-view с `products.warrantyDays`; состояния «Продано»/«Заброньовано» в quick-view; фильтр по типу кузова + корректная ссылка «Усі пікапи/позашляховики» (№11); новинки на `receivedAt` (№14); обтравленные фото 9 категорий (сейчас у 4 — демо-филлер).
+- **До этапа 8 (SEO):** Rich Results Test (Google) по живому URL — Organization + FAQPage.
+- **До этапа 9 (перф):** Lighthouse mobile ≥ 90 — замер на реальном железе / после деплоя (в контейнере 63 с троттлом, 89 без).
 - **До этапа 10:** миграция `middleware.ts` → `proxy.ts` (кодмод, сейчас deprecation-warning).
 - **До этапа 11 (запуск):** сезонные наклейки карточек (pumpkin/hat/easter по `settings.season` + `product.seasonalDecor`) — поля в модели есть, при `season=none` невидимы.
 
