@@ -96,6 +96,31 @@ export const getModelsByBrand = unstable_cache(
   { tags: [TAG.models, TAG.products] },
 )
 
+/** All models grouped by brand slug (slug + name only) — for catalog filter options. */
+export const getModelsGroupedByBrand = unstable_cache(
+  async (locale: Locale = 'uk'): Promise<Record<string, { slug: string; name: string }[]>> => {
+    const payload = await getPayloadClient()
+    const res = await payload.find({
+      collection: 'models',
+      locale,
+      where: { published: { equals: true } },
+      limit: 500,
+      depth: 1, // brand → slug
+      sort: 'sortOrder',
+    })
+    const out: Record<string, { slug: string; name: string }[]> = {}
+    for (const m of res.docs) {
+      const brand = m.brand && typeof m.brand === 'object' ? m.brand : null
+      const bslug = brand?.slug
+      if (!bslug || !m.slug) continue
+      ;(out[bslug] ??= []).push({ slug: m.slug, name: m.name })
+    }
+    return out
+  },
+  ['models-grouped'],
+  { tags: [TAG.models] },
+)
+
 // -------------------------------------------------------------- categories
 export type CategoryWithCount = Category & { partsCount: number }
 
@@ -190,6 +215,116 @@ export const getVehicleModels = unstable_cache(
   },
   ['vehicle-models'],
   { tags: [TAG.models, TAG.products] },
+)
+
+// -------------------------------------------------------------- catalog
+export type CatalogSort = 'pop' | 'new' | 'cheap' | 'exp'
+export type CatalogParams = {
+  categories?: string[] // category slugs (path category + checkbox selection)
+  brand?: string
+  model?: string
+  priceFrom?: number
+  priceTo?: number
+  warranty?: number[] // 14 / 30 / 60
+  sides?: ('left' | 'right')[]
+  conditions?: string[] // conditionLabel values
+  promo?: boolean
+  sort?: CatalogSort
+  limit?: number // = shown (page * PAGE)
+  locale?: Locale
+}
+export type CatalogFacet = { slug: string; name: string; count: number }
+export type CatalogResult = {
+  products: Product[]
+  total: number
+  categoryFacets: CatalogFacet[]
+}
+
+const SORT_MAP: Record<CatalogSort, string> = {
+  pop: '-createdAt', // no salesCount yet (stage 6/7) → newest as the default order
+  new: '-receivedAt',
+  cheap: 'price',
+  exp: '-price',
+}
+
+const SIDE_POSITIONS: Record<'left' | 'right', string[]> = {
+  left: ['front-left', 'rear-left', 'left'],
+  right: ['front-right', 'rear-right', 'right'],
+}
+
+/** Build the product `where` (minus the category filter, which is layered on for facets). */
+function catalogWhere(p: CatalogParams): Record<string, unknown>[] {
+  const and: Record<string, unknown>[] = [{ status: { equals: 'in_stock' } }]
+  if (p.model) {
+    and.push({
+      or: [{ 'model.slug': { equals: p.model } }, { 'alsoFits.slug': { equals: p.model } }],
+    })
+  } else if (p.brand) {
+    and.push({ 'model.brand.slug': { equals: p.brand } })
+  }
+  if (p.priceFrom != null) and.push({ price: { greater_than_equal: p.priceFrom } })
+  if (p.priceTo != null) and.push({ price: { less_than_equal: p.priceTo } })
+  if (p.warranty?.length) and.push({ warrantyDays: { in: p.warranty } })
+  if (p.sides?.length) {
+    and.push({ position: { in: p.sides.flatMap((s) => SIDE_POSITIONS[s]) } })
+  }
+  if (p.conditions?.length) and.push({ conditionLabel: { in: p.conditions } })
+  if (p.promo) and.push({ discountPercent: { greater_than: 0 } })
+  return and
+}
+
+export const getCatalog = unstable_cache(
+  async (p: CatalogParams): Promise<CatalogResult> => {
+    const payload = await getPayloadClient()
+    const locale = p.locale ?? 'uk'
+    const baseAnd = catalogWhere(p)
+    const limit = p.limit ?? 20
+
+    // One shallow pass over the base-filtered set (no category filter) gives the
+    // facet counts in memory — far cheaper than a count query per category.
+    const baseList = await payload.find({
+      collection: 'products',
+      where: { and: baseAnd } as never,
+      depth: 0,
+      limit: 5000,
+      select: { category: true } as never,
+    })
+    const facetMap = new Map<number, number>()
+    for (const d of baseList.docs as { category?: number | { id: number } | null }[]) {
+      const c = typeof d.category === 'object' ? d.category?.id : d.category
+      if (c != null) facetMap.set(c, (facetMap.get(c) ?? 0) + 1)
+    }
+    const cats = await payload.find({
+      collection: 'categories',
+      locale,
+      where: { published: { equals: true } },
+      depth: 0,
+      limit: 100,
+      sort: 'sortOrder',
+    })
+    const categoryFacets = cats.docs.map((c) => ({
+      slug: c.slug as string,
+      name: c.name,
+      count: facetMap.get(c.id as number) ?? 0,
+    }))
+
+    // The page itself (with the category filter applied), depth 1 for rendering.
+    const where = p.categories?.length
+      ? { and: [...baseAnd, { 'category.slug': { in: p.categories } }] }
+      : { and: baseAnd }
+    const res = await payload.find({
+      collection: 'products',
+      locale,
+      where: where as never,
+      sort: SORT_MAP[p.sort ?? 'pop'],
+      limit,
+      depth: 1, // model/category/photos/pickup/alsoFits as objects; brand id via a map
+    })
+
+    return { products: res.docs, total: res.totalDocs, categoryFacets }
+  },
+  ['catalog'],
+  { tags: [TAG.products, TAG.categories] },
 )
 
 export const getProductsByModel = unstable_cache(
