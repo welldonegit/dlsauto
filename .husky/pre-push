@@ -1,0 +1,2 @@
+command -v git-lfs >/dev/null 2>&1 || { printf >&2 "\n%s\n\n" "git-lfs not found on PATH. Install Git LFS, or LFS files will not be pushed."; exit 2; }
+git lfs pre-push "$@"
