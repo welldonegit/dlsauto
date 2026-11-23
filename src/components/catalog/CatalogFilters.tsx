@@ -97,7 +97,6 @@ export function CatalogFilters({
   const router = useRouter()
   const searchParams = useSearchParams()
 
-  const asideRef = useRef<HTMLElement>(null)
   const [sheet, setSheet] = useState(false)
   const [sheetShown, setSheetShown] = useState(false)
   const [acc, setAcc] = useState<Record<string, boolean>>({
@@ -128,21 +127,6 @@ export function CatalogFilters({
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [sheet, closeSheet])
-
-  // Banner «Змінити» → reveal the Авто filter: the sheet below 1024, the sticky
-  // aside (scrolled into view, Авто expanded) at desktop widths.
-  useEffect(() => {
-    const onChangeCar = () => {
-      if (window.innerWidth < 1024) {
-        openSheet()
-      } else {
-        asideRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-      }
-      setAcc((s) => ({ ...s, auto: true }))
-    }
-    window.addEventListener('dls-cat-change-car', onChangeCar)
-    return () => window.removeEventListener('dls-cat-change-car', onChangeCar)
-  }, [openSheet])
 
   // Build a URL from a param patch over the current params.
   const push = useCallback(
@@ -252,7 +236,6 @@ export function CatalogFilters({
 
       <div className="dls-cat__layout">
         <aside
-          ref={asideRef}
           aria-label="Фільтри"
           className="dls-cat__aside"
           data-sheet={sheet ? 'true' : 'false'}

@@ -14,7 +14,6 @@ import {
 import { toProductCardData } from '@/lib/productCard'
 import type { Media, Model } from '@/payload-types'
 
-import { CatalogCarBanner } from './CatalogCarBanner'
 import { CatalogFilters, type BrandOpt } from './CatalogFilters'
 
 /**
@@ -182,7 +181,11 @@ export async function CatalogView({
           )}
         </nav>
         <h1 className="dls-cat-page__h1">{category ? category.name : 'Каталог запчастин'}</h1>
-        {carBannerLabel ? <CatalogCarBanner label={carBannerLabel} basePath={basePath} /> : null}
+        {carBannerLabel ? (
+          <p className="dls-cat-page__carLine">
+            Показуємо деталі на <strong>{carBannerLabel}</strong>
+          </p>
+        ) : null}
       </Container>
 
       {/* category rail */}
