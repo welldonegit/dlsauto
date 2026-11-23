@@ -52,6 +52,25 @@ export function wishlistToggle(id: string): boolean {
   return next
 }
 
+/** All wishlisted ids (for the «Обране» page). */
+export function wishlistItems(): string[] {
+  return [...load()]
+}
+
+/** Explicit add/remove — used by the «Обране» remove + undo. */
+export function wishlistSet(id: string, on: boolean): void {
+  const set = load()
+  if (on) set.add(id)
+  else set.delete(id)
+  persist()
+}
+
+/** Clear the whole wishlist («Очистити список»). */
+export function wishlistClear(): void {
+  load().clear()
+  persist()
+}
+
 function subscribe(listener: () => void): () => void {
   listeners.add(listener)
   const onStorage = (e: StorageEvent) => {
