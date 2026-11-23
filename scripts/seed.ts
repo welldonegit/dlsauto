@@ -7,17 +7,22 @@ import { getPayload, type Payload } from 'payload'
 
 import config from '../src/payload.config'
 
+import { CATEGORIES, PART_TYPES, MODELS, type SpecTemplateEntry } from './seed/catalog-reference'
+
 /**
- * Database seed (DEV_CONTEXT §6). Realistic data drawn from the Claude Design
- * export and PROJECT_CONTEXT: 16 brands with logos, representative models with
- * years and twins, the 9 categories, two pickup points, settings, the main
- * pages composed of blocks, and ~40 products with placeholder photos from the
- * export. Idempotent — re-running upserts by natural key, never duplicates.
+ * Database seed (DEV_CONTEXT §4–6, CATALOG_PLAN). Reference data comes strictly
+ * from docs/products: the 9 categories with their characteristic templates, the
+ * 107 part types (with side rule, broad flag and "з цим купують" links), the 37
+ * models (twins as separate records, compatibility via alsoFits). Products are
+ * ~26 real in-stock items from the Prom export, curated to exercise the matching
+ * rules; they live in scripts/seed/fixtures/prom-sample.json (+ photos/), built
+ * once offline. Idempotent — re-running upserts by natural key, never duplicates.
  *
  * Run: `pnpm db:seed` (needs DATABASE_URL + PAYLOAD_SECRET).
  */
 
 const EXPORT = path.resolve('docs/design-export')
+const FIX = path.resolve('scripts/seed/fixtures')
 
 const MIME: Record<string, string> = {
   '.svg': 'image/svg+xml',
@@ -28,13 +33,38 @@ const MIME: Record<string, string> = {
   '.mp4': 'video/mp4',
 }
 
+type FixtureProduct = {
+  sku: string
+  promId: string
+  name: { uk: string; ru: string }
+  partType: string
+  position: string
+  model: string | null
+  alsoFits: string[]
+  donor: string | null
+  oem: string[]
+  price: number
+  conditionLabel: string
+  conditionText: { uk: string; ru: string }
+  warrantyDays: number
+  quantity: number
+  status: string
+  inReserve?: number
+  photos: string[]
+  searchKeywords: { uk: string; ru: string }
+  specValues: { key: string; label: string; value: string }[]
+  featured?: boolean
+  discountPercent?: number
+  pinnedNew?: boolean
+  receivedAt?: string
+  _demo_defectFromPhoto?: boolean
+}
+
 async function run(): Promise<void> {
   const payload = await getPayload({ config })
   const log = (m: string) => payload.logger.info(`[seed] ${m}`)
 
   // ---------------------------------------------------------------- helpers
-  // Seed writes span many collections with data assembled dynamically, so the
-  // payload calls are intentionally untyped here (casts localized to this helper).
   type Coll = Parameters<Payload['find']>[0]['collection']
 
   async function upsert(
@@ -56,7 +86,12 @@ async function run(): Promise<void> {
   }
 
   const mediaCache = new Map<string, number>()
-  async function media(relPath: string, alt: string, name?: string): Promise<number> {
+  async function mediaFrom(
+    baseDir: string,
+    relPath: string,
+    alt: string,
+    name?: string,
+  ): Promise<number> {
     const key = name ?? path.basename(relPath)
     if (mediaCache.has(key)) return mediaCache.get(key)!
     const existing = await payload.find({
@@ -69,8 +104,7 @@ async function run(): Promise<void> {
       mediaCache.set(key, existing.docs[0].id as number)
       return existing.docs[0].id as number
     }
-    const abs = path.resolve(EXPORT, relPath)
-    const buf = readFileSync(abs)
+    const buf = readFileSync(path.resolve(baseDir, relPath))
     const ext = path.extname(key).toLowerCase()
     const created = await payload.create({
       collection: 'media',
@@ -85,138 +119,177 @@ async function run(): Promise<void> {
     mediaCache.set(key, created.id as number)
     return created.id as number
   }
+  const media = (relPath: string, alt: string, name?: string) =>
+    mediaFrom(EXPORT, relPath, alt, name)
+  const fixturePhoto = (fn: string, alt: string) => mediaFrom(path.join(FIX, 'photos'), fn, alt)
 
   // ---------------------------------------------------------------- brands
-  // name, logo basename (sortOrder follows export part counts). Every brand has
-  // both a monochrome and a colour logo in the export (assets/logos + color/).
-  const BRANDS: [string, string][] = [
-    ['Mitsubishi', 'mitsubishi'],
-    ['Ford', 'ford'],
-    ['Mazda', 'mazda'],
-    ['Nissan', 'nissan'],
-    ['Jeep', 'jeep'],
-    ['Volkswagen', 'volkswagen'],
-    ['Kia', 'kia'],
-    ['Hyundai', 'hyundai'],
-    ['Toyota', 'toyota'],
-    ['Mercedes-Benz', 'mercedes'],
-    ['SsangYong', 'ssangyong'],
-    ['Volvo', 'volvo'],
-    ['BMW', 'bmw'],
-    ['Fiat', 'fiat'],
-    ['Isuzu', 'isuzu'],
-    ['Peugeot', 'peugeot'],
-  ]
+  // Brands are exactly those present in the 37 models. Logo basenames from the
+  // export (mono + colour). Great Wall has no logo asset in the export yet —
+  // seeded logo-less (open question for the owner).
+  const LOGO: Record<string, string | null> = {
+    Mitsubishi: 'mitsubishi',
+    Ford: 'ford',
+    Mazda: 'mazda',
+    Nissan: 'nissan',
+    Jeep: 'jeep',
+    Volkswagen: 'volkswagen',
+    Kia: 'kia',
+    Hyundai: 'hyundai',
+    Toyota: 'toyota',
+    'Mercedes-Benz': 'mercedes',
+    SsangYong: 'ssangyong',
+    Volvo: 'volvo',
+    BMW: 'bmw',
+    Fiat: 'fiat',
+    Isuzu: 'isuzu',
+    Peugeot: 'peugeot',
+    'Great Wall': null,
+  }
+  const brandNames = [...new Set(MODELS.map((m) => m.brand))]
   const brandId = new Map<string, number>()
-  for (const [name, file] of BRANDS) {
-    const slug = file === 'mercedes' ? 'mercedes-benz' : file
-    const logoMono = await media(`assets/logos/${file}.svg`, `${name} логотип`, `${file}-mono.svg`)
-    const logoColor = await media(
-      `assets/logos/color/${file}.svg`,
-      `${name} логотип кольоровий`,
-      `${file}-color.svg`,
-    )
-    const id = await upsert(
-      'brands',
-      { slug: { equals: slug } },
-      { name, slug, logoMono, logoColor, published: true },
-    )
-    brandId.set(name, id)
+  let bi = 0
+  for (const name of brandNames) {
+    const file = LOGO[name]
+    const slug =
+      file === 'mercedes' ? 'mercedes-benz' : (file ?? name.toLowerCase().replace(/\s+/g, '-'))
+    const data: Record<string, unknown> = { name, slug, sortOrder: bi, published: true }
+    if (file) {
+      data.logoMono = await media(`assets/logos/${file}.svg`, `${name} логотип`, `${file}-mono.svg`)
+      data.logoColor = await media(
+        `assets/logos/color/${file}.svg`,
+        `${name} логотип кольоровий`,
+        `${file}-color.svg`,
+      )
+    }
+    brandId.set(name, await upsert('brands', { slug: { equals: slug } }, data))
+    bi += 1
   }
   log(`brands: ${brandId.size}`)
 
   // ---------------------------------------------------------------- categories
-  // name, slug, photo file (null = placeholder). 9 categories from the export.
-  // Photos are the bento cut-out PNGs from the Головна-B export (transparent,
-  // object-contain). Categories without a dedicated cut-out reuse the export's
-  // own demo filler (part-pickup-hub2) — replace with real cut-outs later.
-  const CATEGORIES: [string, string, string | null][] = [
-    ['Двигуни', 'dviguny', 'uploads/cat-engine2 1.png'],
-    ['КПП та роздатки', 'kpp-ta-rozdatky', 'uploads/2 1.png'],
-    ['Підвіска та ходова', 'pidviska-ta-khodova', 'uploads/cat-suspension2 1.png'],
-    ['Кузовні деталі', 'kuzovni-detali', 'uploads/part-pickup-hub2 1.png'],
-    ['Оптика', 'optyka', 'uploads/part-pickup-hub2 1.png'],
-    ['Електрика та електроніка', 'elektryka', 'uploads/cat-electric2 1.png'],
-    ['Салон', 'salon', 'uploads/part-pickup-hub2 1.png'],
-    ['Гальмівна система', 'halmivna-systema', 'uploads/part-pickup-hub2 1.png'],
-    ['Шини та диски', 'shyny-ta-dysky', 'uploads/cat-wheels2 1.png'],
-  ]
-  const catId = new Map<string, number>()
-  for (let i = 0; i < CATEGORIES.length; i += 1) {
-    const [name, slug, photoFile] = CATEGORIES[i]
-    const photo = photoFile ? await media(photoFile, `${name} — фото категорії`) : undefined
+  // 9 categories (CATALOG_PLAN §6) with specTemplate (dovidnyk «Характеристики»).
+  // Photos are the export bento cut-outs / placeholders — real cut-outs later.
+  const CAT_PHOTO: Record<string, string> = {
+    'dvygun-i-navisne': 'uploads/cat-engine2 1.png',
+    'kpp-rozdatky-mosty': 'uploads/2 1.png',
+    'pidviska-ta-khodova': 'uploads/cat-suspension2 1.png',
+    elektryka: 'uploads/cat-electric2 1.png',
+    'shyny-ta-dysky': 'uploads/cat-wheels2 1.png',
+    'kuzovni-detali': 'uploads/part-pickup-hub2 1.png',
+    optyka: 'uploads/part-pickup-hub2 1.png',
+    salon: 'uploads/part-pickup-hub2 1.png',
+    'halmivna-systema': 'uploads/part-pickup-hub2 1.png',
+  }
+  const catId = new Map<string, number>() // slug → id
+
+  /** Build specTemplate payload; resolve requiredForTypes via ptResolver if given. */
+  function specTemplate(
+    entries: SpecTemplateEntry[],
+    ptResolver?: (name: string) => number | undefined,
+  ): Record<string, unknown>[] {
+    return entries.map((e) => ({
+      key: e.key,
+      name: e.name,
+      type: e.type,
+      ...(e.unit ? { unit: e.unit } : {}),
+      required: !!e.required,
+      ...(e.options ? { options: e.options.map((value) => ({ value })) } : {}),
+      ...(ptResolver && e.requiredForTypes
+        ? {
+            requiredForTypes: e.requiredForTypes
+              .map((n) => ptResolver(n))
+              .filter((x): x is number => x != null),
+          }
+        : {}),
+    }))
+  }
+
+  for (const c of CATEGORIES) {
+    const photo = CAT_PHOTO[c.slug]
+      ? await media(CAT_PHOTO[c.slug], `${c.name} — фото категорії`)
+      : undefined
     const id = await upsert(
       'categories',
-      { slug: { equals: slug } },
-      { name, slug, ...(photo ? { photo } : {}), published: true },
+      { slug: { equals: c.slug } },
+      {
+        name: c.name,
+        slug: c.slug,
+        ...(photo ? { photo } : {}),
+        specTemplate: specTemplate(c.specTemplate), // requiredForTypes added below
+        published: true,
+      },
     )
-    catId.set(name, id)
+    catId.set(c.slug, id)
   }
   log(`categories: ${catId.size}`)
 
-  // ---------------------------------------------------------------- models
-  // brand, name, generation, yearFrom, yearTo, bodyType, twinName
-  type M = {
-    brand: string
-    name: string
-    gen?: string
-    from?: number
-    to?: number
-    body: 'pickup' | 'suv' | 'passenger'
-    twin?: string
+  // ---------------------------------------------------------------- part types
+  // 107 types (dovidnyk). relatedTypes resolved in a second pass once all ids
+  // exist. Natural key = name (unique in the reference).
+  const ptId = new Map<string, number>() // name → id
+  for (const t of PART_TYPES) {
+    const id = await upsert(
+      'part-types',
+      { name: { equals: t.name } },
+      {
+        name: t.name,
+        category: catId.get(t.categorySlug),
+        positionRule: t.positionRule,
+        broad: t.broad,
+      },
+    )
+    ptId.set(t.name, id)
   }
-  const MODELS: M[] = [
-    { brand: 'Mitsubishi', name: 'L200', from: 2005, to: 2015, body: 'pickup' },
-    { brand: 'Mitsubishi', name: 'L200', from: 1996, to: 2005, body: 'pickup' },
-    { brand: 'Mitsubishi', name: 'Pajero Sport', gen: 'I', from: 1996, to: 2008, body: 'suv' },
-    { brand: 'Mitsubishi', name: 'Pajero Wagon', body: 'suv' },
-    { brand: 'Ford', name: 'Ranger', from: 2006, to: 2012, body: 'pickup', twin: 'BT-50' },
-    { brand: 'Ford', name: 'Ranger', from: 1998, to: 2006, body: 'pickup', twin: 'B2500' },
-    { brand: 'Ford', name: 'Ranger', gen: 'T6', from: 2015, to: 2022, body: 'pickup' },
-    { brand: 'Mazda', name: 'BT-50', from: 2006, to: 2012, body: 'pickup', twin: 'Ranger' },
-    { brand: 'Mazda', name: 'B2500', from: 1998, to: 2006, body: 'pickup', twin: 'Ranger' },
-    {
-      brand: 'Nissan',
-      name: 'Navara',
-      gen: 'R51',
-      from: 2005,
-      to: 2015,
-      body: 'pickup',
-      twin: 'Pathfinder',
-    },
-    { brand: 'Nissan', name: 'X-Trail', gen: 'T30–T31', from: 2000, to: 2014, body: 'suv' },
-    { brand: 'Toyota', name: 'Hilux', from: 2005, to: 2015, body: 'pickup' },
-    { brand: 'Isuzu', name: 'D-Max', body: 'pickup' },
-    { brand: 'Hyundai', name: 'Terracan', body: 'suv' },
-    { brand: 'Jeep', name: 'Grand Cherokee', from: 2004, to: 2007, body: 'suv' },
-    { brand: 'Kia', name: 'Sorento', from: 2002, to: 2014, body: 'suv' },
-  ]
-  const modelIds: number[] = []
+  // Second pass: "з цим купують" links.
+  for (const t of PART_TYPES) {
+    if (!t.related.length) continue
+    await payload.update({
+      collection: 'part-types',
+      id: ptId.get(t.name)!,
+      data: {
+        relatedTypes: t.related
+          .filter((r) => ptId.has(r.type))
+          .map((r) => ({ type: ptId.get(r.type), side: r.side })),
+      },
+    })
+  }
+  // Fill categories' requiredForTypes now that part type ids exist.
+  for (const c of CATEGORIES) {
+    if (!c.specTemplate.some((e) => e.requiredForTypes?.length)) continue
+    await payload.update({
+      collection: 'categories',
+      id: catId.get(c.slug)!,
+      data: { specTemplate: specTemplate(c.specTemplate, (n) => ptId.get(n)) },
+    })
+  }
+  log(`part types: ${ptId.size} (broad ${PART_TYPES.filter((t) => t.broad).length})`)
+
+  // ---------------------------------------------------------------- models
+  // 37 generations (twins as separate records, Р11). Compatibility via alsoFits
+  // in a second pass once ids exist.
+  const modelId = new Map<string, number>() // slug → id
   for (const m of MODELS) {
-    const slug = [m.name, m.gen, m.from]
-      .filter(Boolean)
-      .join('-')
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '')
     const id = await upsert(
       'models',
-      { slug: { equals: slug } },
+      { slug: { equals: m.slug } },
       {
         brand: brandId.get(m.brand),
         name: m.name,
-        slug,
+        slug: m.slug,
         ...(m.gen ? { generation: m.gen } : {}),
         ...(m.from ? { yearFrom: m.from } : {}),
         ...(m.to ? { yearTo: m.to } : {}),
         bodyType: m.body,
-        ...(m.twin ? { twinName: m.twin } : {}),
+        ...(m.twinName ? { twinName: m.twinName } : {}),
         published: true,
       },
     )
-    modelIds.push(id)
+    modelId.set(m.slug, id)
   }
-  log(`models: ${modelIds.length}`)
+  // Twin compatibility (Navara↔Pathfinder, Ranger↔BT-50) lives on products via
+  // `alsoFits` (Р11), not on the model — the model only carries `twinName`.
+  log(`models: ${modelId.size}`)
 
   // ---------------------------------------------------------------- pickup points
   const zp = await upsert(
@@ -237,7 +310,6 @@ async function run(): Promise<void> {
     {
       name: 'Дніпро',
       address: 'вул. [адреса]',
-      // Hours unconfirmed (PROJECT_CONTEXT §1) → "графік уточнюється", no status.
       schedule: { dayFrom: '1', dayTo: '6', openHour: null, closeHour: null },
       mapCoords: { lat: 48.4647, lng: 35.0462 },
       isDefault: false,
@@ -245,81 +317,7 @@ async function run(): Promise<void> {
   )
   log('pickup points: 2')
 
-  // ---------------------------------------------------------------- products
-  const PART_IMAGES = [
-    'assets/part-pickup-hub.jpg',
-    'assets/cat-suspension.jpg',
-    'assets/cat-body.jpg',
-    'assets/cat-engine.jpg',
-    'assets/cat-electric.jpg',
-    'assets/cat-wheels.jpg',
-    'uploads/detail 1.jpg',
-    'uploads/dvigun 1.jpg',
-    'uploads/electric 1.jpg',
-    'uploads/bort 1.jpg',
-  ]
-  const partImageIds: number[] = []
-  for (const p of PART_IMAGES)
-    partImageIds.push(await media(p, 'Фото деталі (заглушка з експорту)'))
-
-  // category → part names (from the export; generic where the export was silent)
-  const CATEGORY_PARTS: [string, number[], string[]][] = [
-    [
-      'Двигуни',
-      [35000, 118000],
-      ['Двигун у зборі', 'Головка блоку циліндрів', 'Турбіна', 'Паливна рампа', 'Піддон картера'],
-    ],
-    [
-      'КПП та роздатки',
-      [12000, 48000],
-      ['КПП механічна', 'Роздаткова коробка', 'Карданний вал', 'Зчеплення (комплект)'],
-    ],
-    [
-      'Підвіска та ходова',
-      [600, 4500],
-      [
-        'Амортизатор задній',
-        'Важіль передній нижній',
-        'Ступиця передня',
-        'Ресора задня',
-        'Стабілізатор',
-      ],
-    ],
-    [
-      'Кузовні деталі',
-      [1500, 9000],
-      ['Бампер передній', 'Капот', 'Крило переднє', 'Двері передні', 'Кришка багажника'],
-    ],
-    [
-      'Оптика',
-      [700, 7000],
-      ['Фара ліва', 'Фара права', 'Ліхтар задній лівий', 'Протитуманна фара'],
-    ],
-    [
-      'Електрика та електроніка',
-      [700, 9000],
-      ['Генератор', 'Стартер', 'Блок запобіжників', 'Щиток приладів'],
-    ],
-    [
-      'Салон',
-      [800, 7000],
-      [
-        'Сидіння водія',
-        'Панель приладів',
-        'Кермо з подушкою',
-        'Оббивка дверей',
-        'Консоль центральна',
-      ],
-    ],
-    [
-      'Гальмівна система',
-      [600, 6000],
-      ['Супорт передній', 'Гальмівний диск', 'Блок ABS', 'Головний гальмівний циліндр'],
-    ],
-    ['Шини та диски', [1200, 14000], ['Диск литий R16', 'Комплект дисків R17', 'Запасне колесо']],
-  ]
-
-  // ------------------------------------------------------------- lexical builders
+  // ---------------------------------------------------------------- lexical builders
   type LexNode = Record<string, unknown>
   const txt = (t: string): LexNode => ({
     type: 'text',
@@ -371,45 +369,86 @@ async function run(): Promise<void> {
   })
   const richText = (t: string) => doc([para(t)])
 
+  // ---------------------------------------------------------------- donors
+  // Created from the fixture ("№ авто" labels), model resolved by slug (Р41).
+  const donorId = new Map<string, number>()
+  const fixture = JSON.parse(
+    readFileSync(path.join(FIX, 'prom-sample.json'), 'utf8'),
+  ) as FixtureProduct[]
+  for (const p of fixture) {
+    if (!p.donor || donorId.has(p.donor) || !p.model) continue
+    const id = await upsert(
+      'donors',
+      { label: { equals: p.donor } },
+      { label: p.donor, model: modelId.get(p.model) },
+    )
+    donorId.set(p.donor, id)
+  }
+  log(`donors: ${donorId.size}`)
+
+  // ---------------------------------------------------------------- products
+  // ~26 curated real products from the Prom export (fixture). category is derived
+  // from partType by the collection hook. ru values set via a localized update.
+  const slugify = (s: string) =>
+    s
+      .toLowerCase()
+      .replace(/[^a-z0-9a-яіїєґ]+/giu, '-')
+      .replace(/^-+|-+$/g, '')
   let n = 0
-  for (const [catName, [lo, hi], parts] of CATEGORY_PARTS) {
-    for (const part of parts) {
-      const i = n
-      const modelDocId = modelIds[i % modelIds.length]
-      const price = lo + ((i * 737) % (hi - lo))
-      const sku = `DLS-${String(i + 1).padStart(4, '0')}`
-      const slug = `${part}-${sku}`
-        .toLowerCase()
-        .replace(/[^a-z0-9a-яіїєґ]+/giu, '-')
-        .replace(/^-+|-+$/g, '')
-      const status = i % 7 === 6 ? 'sold' : 'in_stock'
-      const discount = i % 5 === 0 ? (i % 2 ? 20 : 15) : undefined
-      const data: Record<string, unknown> = {
-        sku,
-        name: part,
-        slug,
-        category: catId.get(catName),
-        model: modelDocId,
-        oem: [{ number: `${sku.replace('-', '')}-${1000 + i}` }, { number: `OEM${2000 + i * 3}` }],
-        description: richText(`${part}. Знято з авто-донора, перевірено на стенді або на авто.`),
-        condition: {
-          text: 'Робочий стан. Дрібні потертості від експлуатації; дефекти обведені на фото.',
-        },
-        photos: [
-          partImageIds[i % partImageIds.length],
-          partImageIds[(i + 3) % partImageIds.length],
-        ],
-        price,
-        ...(discount ? { discountPercent: discount } : {}),
-        status,
-        pickupPoint: zp,
-        featured: i % 6 === 0,
-        pinnedNew: i < 3,
-        seasonalDecor: i % 9 === 0,
-      }
-      await upsert('products', { sku: { equals: sku } }, data)
-      n += 1
+  for (const p of fixture) {
+    const photos: number[] = []
+    for (const fn of p.photos) photos.push(await fixturePhoto(fn, p.name.uk))
+    const partType = ptId.get(p.partType)
+    if (!partType) {
+      log(`! unknown partType "${p.partType}" for ${p.sku} — skipped`)
+      continue
     }
+    const data: Record<string, unknown> = {
+      sku: p.sku,
+      promId: p.promId,
+      name: p.name.uk,
+      slug: slugify(`${p.name.uk}-${p.sku}`),
+      partType,
+      ...(p.position && p.position !== 'none' ? { position: p.position } : { position: 'none' }),
+      ...(p.model ? { model: modelId.get(p.model) } : {}),
+      ...(p.alsoFits.length
+        ? { alsoFits: p.alsoFits.map((s) => modelId.get(s)).filter(Boolean) }
+        : {}),
+      ...(p.donor ? { donor: donorId.get(p.donor) } : {}),
+      oem: p.oem.map((number) => ({ number })),
+      description: richText(`${p.name.uk}. Знято з авто-донора, перевірено перед продажем.`),
+      conditionLabel: p.conditionLabel,
+      conditionText: p.conditionText.uk,
+      ...(p._demo_defectFromPhoto && photos.length > 1 ? { defectPhotos: [photos[1]] } : {}),
+      specValues: p.specValues.map((s) => ({ key: s.key, label: s.label, value: s.value })),
+      photos,
+      price: p.price,
+      ...(p.discountPercent ? { discountPercent: p.discountPercent } : {}),
+      warrantyDays: p.warrantyDays,
+      quantity: p.quantity,
+      ...(p.inReserve ? { inReserve: p.inReserve } : {}),
+      status: p.status,
+      pickupPoint: zp,
+      ...(p.receivedAt ? { receivedAt: `${p.receivedAt}T10:00:00.000Z` } : {}),
+      ...(p.featured ? { featured: true } : {}),
+      ...(p.pinnedNew ? { pinnedNew: true } : {}),
+      searchKeywords: p.searchKeywords.uk,
+    }
+    const id = await upsert('products', { sku: { equals: p.sku } }, data)
+    // ru localized fields. specValues are localized+required, so a single-locale
+    // write must carry them (values are mostly language-neutral — reuse uk).
+    await payload.update({
+      collection: 'products',
+      id,
+      locale: 'ru',
+      data: {
+        name: p.name.ru,
+        conditionText: p.conditionText.ru,
+        searchKeywords: p.searchKeywords.ru,
+        specValues: p.specValues.map((s) => ({ key: s.key, label: s.label, value: s.value })),
+      } as never,
+    })
+    n += 1
   }
   log(`products: ${n}`)
 
@@ -476,7 +515,7 @@ async function run(): Promise<void> {
     },
     {
       eyebrow: 'МАРКИ',
-      value: '16',
+      value: '17',
       text: 'Марок, основа — пікапи та позашляховики',
       accent: false,
     },
@@ -497,7 +536,7 @@ async function run(): Promise<void> {
         'Фото реальної запчастини, перевірка перед продажем, відправка в день замовлення.',
       background: await media('uploads/hero2.jpg', 'Фон першого екрана'),
       tiles: [
-        { value: '1 200+', caption: 'деталей', icon: 'tread' },
+        { value: '1 200+', caption: 'деталей', icon: 'tread' },
         { value: 'до 60 днів', caption: 'гарантії', icon: 'wrench' },
         { value: '4.8', caption: 'на Prom.ua', icon: 'star' },
         { value: 'Відправка', caption: 'сьогодні', icon: 'speed' },
@@ -516,16 +555,16 @@ async function run(): Promise<void> {
       // Bento order from the Головна-B export (A layout): engine leads, then the
       // rest row by row. The first category is the 2-wide lead card.
       categories: [
-        'Двигуни',
-        'Кузовні деталі',
-        'Підвіска та ходова',
-        'Електрика та електроніка',
-        'КПП та роздатки',
-        'Оптика',
-        'Гальмівна система',
-        'Салон',
-        'Шини та диски',
-      ].map((n) => catId.get(n)),
+        'dvygun-i-navisne',
+        'kuzovni-detali',
+        'pidviska-ta-khodova',
+        'elektryka',
+        'kpp-rozdatky-mosty',
+        'optyka',
+        'halmivna-systema',
+        'salon',
+        'shyny-ta-dysky',
+      ].map((s) => catId.get(s)),
       searchChips: [
         'Фара передня',
         'Бампер передній',
@@ -541,8 +580,6 @@ async function run(): Promise<void> {
     },
     { blockType: 'newArrivals', heading: 'Нові надходження', limit: 15 },
     {
-      // Same content as the "Про компанію" block (DLSServicesWide). Media is
-      // loaded inline; media() dedupes by filename, so no duplicate uploads.
       blockType: 'whatElseWeDo',
       heading: 'Що ще ми робимо',
       text: 'Окрім продажу запчастин, ремонтуємо у власному сервісі — ставимо те, що самі зняли і перевірили. Викуповуємо авто після ДТП і на розбірку. Усе — в одному дворі в Запоріжжі.',
@@ -710,9 +747,6 @@ async function run(): Promise<void> {
     },
   ]
 
-  // About-page media. The six people reuse three export headshots (placeholders
-  // — swap for real photos later); the gate, workshop/service and review photos
-  // are the export assets.
   const teamWorkshop = await media(
     'assets/about-ceh.jpg',
     'Цех у Запоріжжі, Південне шосе',
@@ -842,7 +876,6 @@ async function run(): Promise<void> {
     },
   ]
 
-  // Політика конфіденційності — real copy from the Claude Design export.
   const policyDoc = doc([
     h2('Загальні положення'),
     para(
@@ -902,9 +935,6 @@ async function run(): Promise<void> {
     para('Email: [email]. Телефон: [телефон].'),
   ])
 
-  // Публічна оферта — structure in place; legal wording is a draft placeholder
-  // pending owner/lawyer review (PROJECT_CONTEXT §1 open questions). Specifics in
-  // [brackets]. Requisites are rendered from settings.fop on the page itself.
   const ofertaDoc = doc([
     h2('Загальні положення'),
     para(
@@ -998,7 +1028,6 @@ async function run(): Promise<void> {
       id: homeDoc.id,
       locale: 'ru',
       data: {
-        // ru title is required on a localized update (otherwise ValidationError).
         title: 'Главная',
         seoTitle: 'DLSAuto — б/у автозапчасти с собственной разборки',
         seoDescription:
@@ -1008,9 +1037,6 @@ async function run(): Promise<void> {
   }
 
   // ---------------------------------------------------------------- reviews
-  // [author, rating, text, photo (media id | null), date]. Copy + photos from
-  // the Claude Design export; dates drive the newest-first order and the shown
-  // date. Three carry a placeholder photo (swap for the real part shots later).
   const REVIEWS: [string, number, string, number | null, string][] = [
     [
       'Олександр',
@@ -1055,8 +1081,6 @@ async function run(): Promise<void> {
       '2026-08-27',
     ],
   ]
-  // Reviews are fully owned by this seed — reset to exactly the export set so
-  // earlier placeholder authors don't linger and inflate the count.
   await payload.delete({ collection: 'reviews', where: { id: { exists: true } } })
   for (const [author, rating, text, photo, date] of REVIEWS) {
     await upsert(

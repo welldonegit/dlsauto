@@ -1,0 +1,838 @@
+[
+  {
+    "sku": "DLS-3C-101",
+    "promId": "2710378419",
+    "name": {
+      "uk": "Двигун у зборі Nissan NAVARA 2.5 dCi YD25DDTi",
+      "ru": "Двигатель в сборе Nissan NAVARA 2.5 dCi YD25DDTi"
+    },
+    "partType": "Двигун у зборі",
+    "position": "none",
+    "model": "navara-d40-2005",
+    "alsoFits": ["pathfinder-r51-2005"],
+    "donor": "НВ-407",
+    "oem": ["10102EC00A"],
+    "price": 72000,
+    "conditionLabel": "used_checked",
+    "conditionText": {
+      "uk": "Перевірено на стенді/авто. Робочий стан, дрібні сліди експлуатації; усі дефекти позначені на фото.",
+      "ru": "Проверено на стенде/авто. Рабочее состояние, мелкие следы эксплуатации; все дефекты отмечены на фото."
+    },
+    "warrantyDays": 30,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-101_1.jpg"],
+    "searchKeywords": {
+      "uk": "двигун ниссан навара, двигун ниссан наваро, nissan navara двигун, двигун ніссан навара 2005",
+      "ru": "двигатель на ниссан навар д40, ниссан навара д40 двигатель, двигатель на nissan navara d40"
+    },
+    "specValues": [
+      {
+        "key": "engineCode",
+        "label": "Код двигуна",
+        "value": "YD25DDTi"
+      },
+      {
+        "key": "volume",
+        "label": "Об'єм",
+        "value": "2.5"
+      },
+      {
+        "key": "fuel",
+        "label": "Паливо",
+        "value": "дизель"
+      }
+    ],
+    "featured": true,
+    "discountPercent": 10,
+    "receivedAt": "2026-11-10",
+    "_demo_receivedAt": true
+  },
+  {
+    "sku": "DLS-3C-102",
+    "promId": "2711183172",
+    "name": {
+      "uk": "Турбіна Nissan Navara D40 Pathfinder R51 2.5D (2005–2015) 14411EC00C",
+      "ru": "Турбина Nissan Navara D40 Pathfinder R51 2.5D (2005–2015) 14411EC00C"
+    },
+    "partType": "Турбіна",
+    "position": "none",
+    "model": "navara-d40-2005",
+    "alsoFits": ["pathfinder-r51-2005"],
+    "donor": "НВ-407",
+    "oem": ["14411EC00C"],
+    "price": 8200,
+    "conditionLabel": "used_checked",
+    "conditionText": {
+      "uk": "Перевірено на стенді/авто. Робочий стан, дрібні сліди експлуатації; усі дефекти позначені на фото.",
+      "ru": "Проверено на стенде/авто. Рабочее состояние, мелкие следы эксплуатации; все дефекты отмечены на фото."
+    },
+    "warrantyDays": 30,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-102_1.jpg", "DLS-3C-102_2.jpg", "DLS-3C-102_3.jpg", "DLS-3C-102_4.jpg"],
+    "searchKeywords": {
+      "uk": "турбіна ніссан навара д40, ніссан навара турбіна, навара д40 турбіна, nissan navara турбіна, турбіна nissan navara d40, турбіна navara 2.5, турбіна pathfinder r51, турбіна nissan 2.5d, турбіна дизельна nissan, турбіна б/в navara, турбіна оригінал nissan, турбіна патфайндер 2.5, Турбіна Nissan Navara D40 Pathfinder R51 2.5D (2005–2015) 14411EC00C",
+      "ru": "навара д40 турбина, турибна на ниссан навара, навара турибна д40, navara d40 турбина, Турбина nissan navara d40 05-15, турбина nissan navara d40, турбина navara 2.5, турбина pathfinder r51, турбина nissan 2.5d, турбина дизельная nissan, турбина б/у navara, оригинальная турбина nissan, турбина патфайндер 2.5, Турбина Nissan Navara D40 / Pathfinder R51 2.5D (2005–2015) 14411EC00C"
+    },
+    "specValues": [],
+    "pinnedNew": true,
+    "receivedAt": "2026-11-10",
+    "_demo_receivedAt": true
+  },
+  {
+    "sku": "DLS-3C-103",
+    "promId": "2711239507",
+    "name": {
+      "uk": "Насос паливний високого тиску (ПНВТ) Nissan NAVARA D40 2.5 та Nissan Pathfinder R51 2.5D 16700EC25E",
+      "ru": "Насос топливный высокого давления (ПНВД) Nissan NAVARA D40 2.5 и Nissan Pathfinder R51 2.5D 16700EC25E"
+    },
+    "partType": "ПНВТ",
+    "position": "none",
+    "model": "navara-d40-2005",
+    "alsoFits": ["pathfinder-r51-2005"],
+    "donor": "НВ-407",
+    "oem": ["16700EC25E"],
+    "price": 7000,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 30,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-103_1.jpg", "DLS-3C-103_2.jpg", "DLS-3C-103_3.jpg", "DLS-3C-103_4.jpg"],
+    "searchKeywords": {
+      "uk": "Насос паливний ніссан навара, ніссан навара Насос паливний, Насос паливний на nissan navara d40, Насос паливний високого тиску Nissan Navara, ПНВТ Pathfinder, насос високого тиску D40, насос б/в Navara 2.5, ПНВТ б/в Pathfinder 2.5, запчастини Navara D40, запчастини Pathfinder R51, Насос паливний високого тиску (ПНВТ) Nissan NAVARA D40 2.5 та Nissan Pathfinder R51 2.5D 16700EC25E",
+      "ru": "Насос топливный ниссан навара д40, ниссан навара д40 Насос топливный, nissan navara d40 Насос топливный, Насос топливный высокого давления Nissan Navara, ПНВД Pathfinder, насос высокого давления D40, насос б/у Navara 2.5, ПНВД б/у Pathfinder 2.5, запчасти Navara D40, запчасти Pathfinder R51, Насос топливный высокого давления (ПНВД) Nissan NAVARA D40 2.5 и Nissan Pathfinder R51 2.5D 16700EC25E"
+    },
+    "specValues": [],
+    "receivedAt": "2026-11-10",
+    "_demo_receivedAt": true
+  },
+  {
+    "sku": "DLS-3C-104",
+    "promId": "2711515955",
+    "name": {
+      "uk": "Форсунка вприску палива Nissan NAVARA D40 2.5 / Pathfinder R51 16600EB300",
+      "ru": "Форсунка впрыска топлива Nissan NAVARA D40 2.5 / Pathfinder R51 16600EB300"
+    },
+    "partType": "Форсунка",
+    "position": "none",
+    "model": "navara-d40-2005",
+    "alsoFits": ["pathfinder-r51-2005"],
+    "donor": "НВ-407",
+    "oem": ["16600EC00A"],
+    "price": 5000,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 3,
+    "status": "in_stock",
+    "photos": ["DLS-3C-104_1.jpg", "DLS-3C-104_2.jpg", "DLS-3C-104_3.jpg", "DLS-3C-104_4.jpg"],
+    "searchKeywords": {
+      "uk": "Форсунка вприску палива navara d40, форсунки нісан навара, ніссан навара д40 Форсунка вприску палива, форсунка палива Nissan, форсунка вприску Navara D40, форсунка Pathfinder R51, Форсунка вприску палива Nissan NAVARA D40 2.5 / Pathfinder R51 16600EB300",
+      "ru": "Форсунка впрыска топлива навара д40 ниссан навара д40 Форсунка впрыска топлива, Форсунка впрыска топлива навара д40, nissan navara d40 Форсунка впрыска топлива, nissan navara форсунка, форсунка nissan navara 2.5 dci, форсунка топлива Nissan, форсунка впрыска Navara D40, форсунка Pathfinder R51, запчасти двигателя Nissan, Форсунка впрыска топлива Nissan NAVARA D40 2.5 / Pathfinder R51 16600EB300"
+    },
+    "specValues": [],
+    "receivedAt": "2026-11-10",
+    "_demo_receivedAt": true
+  },
+  {
+    "sku": "DLS-3C-105",
+    "promId": "2712393253",
+    "name": {
+      "uk": "Генератор Nissan NAVARA D40 / Pathfinder R51 2005-2015 23100EB31A",
+      "ru": "Генератор Nissan NAVARA D40 / Pathfinder R51 2005-2015 23100EB31A"
+    },
+    "partType": "Генератор",
+    "position": "none",
+    "model": "navara-d40-2005",
+    "alsoFits": ["pathfinder-r51-2005"],
+    "donor": "НВ-407",
+    "oem": ["23100EB31A"],
+    "price": 2000,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 0,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-105_1.jpg", "DLS-3C-105_2.jpg", "DLS-3C-105_3.jpg", "DLS-3C-105_4.jpg"],
+    "searchKeywords": {
+      "uk": "генератор на pathfinder r51, pathfinder r51 генератор, ниссан pathfinder r51 генератор, генератор Nissan, генератор Navara D40, генератор Pathfinder R51, запчастини електрика Nissan, генератор 2.5 dCi, автомобільний генератор Navara, генератор Pathfinder, перевірений генератор, запчастини Nissan, Генератор Nissan NAVARA D40 / Pathfinder R51 2005-2015 23100EB31A",
+      "ru": "pathfinder r51 генератор, генератор на pathfinder r51, генератор на navara d40, nissan pathfinder r51 генератор, генератор Nissan, генератор Navara D40, генератор Pathfinder R51, запчасти электрика Nissan, генератор 2.5 dCi, автомобильный генератор Navara, генератор Pathfinder, проверенный генератор, запчасти Nissan, Генератор Nissan NAVARA D40 / Pathfinder R51 2005-2015 23100EB31A"
+    },
+    "specValues": [],
+    "receivedAt": "2026-11-10",
+    "_demo_receivedAt": true
+  },
+  {
+    "sku": "DLS-3C-106",
+    "promId": "2763101103",
+    "name": {
+      "uk": "Стартер Nissan NAVARA D40 / Pathfinder R51 2.5D YD25DDTi 23300EB30A",
+      "ru": "Стартер Nissan NAVARA D40 / Pathfinder R51 2.5D YD25DDTi 23300EB30A"
+    },
+    "partType": "Стартер",
+    "position": "none",
+    "model": "navara-d40-2005",
+    "alsoFits": ["pathfinder-r51-2005"],
+    "donor": "НВ-407",
+    "oem": ["23300EB30A"],
+    "price": 2500,
+    "conditionLabel": "used_checked",
+    "conditionText": {
+      "uk": "Перевірено на стенді/авто. Робочий стан, дрібні сліди експлуатації; усі дефекти позначені на фото.",
+      "ru": "Проверено на стенде/авто. Рабочее состояние, мелкие следы эксплуатации; все дефекты отмечены на фото."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-106_1.jpg", "DLS-3C-106_2.jpg", "DLS-3C-106_3.jpg", "DLS-3C-106_4.jpg"],
+    "searchKeywords": {
+      "uk": "стартер навара д40, стартер у робочому стані навара, nissan navara d40 стартер, navara d40 2008 стартер, стартер навара 2009, стартер pathfinder r51, стартер navara d40, стартер yd25ddti, стартер 2.5d nissan, стартер nissan d40, запчастини navara 2.5d, Стартер Nissan NAVARA D40 / Pathfinder R51 2.5D YD25DDTi 23300EB30A",
+      "ru": "стартер навара д40, стартер навара д40 2007, стартер ниссан навара, стартер навара 2006, стартер nissan navara d40, стартер navara d40, стартер nissan navara d40 2009, pathifnder r51 стартер, стартер pathfinder r51, стартер yd25ddti, стартер 2.5d nissan, стартер nissan d40, запчасти navara 2.5d, Стартер Nissan NAVARA D40 / Pathfinder R51 2.5D YD25DDTi 23300EB30A"
+    },
+    "specValues": [],
+    "receivedAt": "2026-11-10",
+    "_demo_receivedAt": true
+  },
+  {
+    "sku": "DLS-3C-107",
+    "promId": "3064639286",
+    "name": {
+      "uk": "Ліва фара Ford Ranger  1998-2006 3941038",
+      "ru": "Левая фара Ford Ranger 1998-2006 дорест 3941038"
+    },
+    "partType": "Фара",
+    "position": "front-left",
+    "model": "ranger-1998",
+    "alsoFits": ["b2500-1998"],
+    "donor": "ФР-112",
+    "oem": ["3941038"],
+    "price": 2000,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-107_1.jpg", "DLS-3C-107_2.jpg", "DLS-3C-107_3.jpg", "DLS-3C-107_4.jpg"],
+    "searchKeywords": {
+      "uk": "Ліва фара Ford Ranger дорещить 3941038, Ліва фара Ford Ranger доречна, 3941038, авторозбирання Форд ренжер, Запчастини форд ренжер",
+      "ru": "Левая фара Ford Ranger дорест 3941038, Левая фара Ford Ranger дорест, 3941038, авторазборка Форд ренжер, Запчасти форд ренжер"
+    },
+    "specValues": [],
+    "featured": true,
+    "discountPercent": 15
+  },
+  {
+    "sku": "DLS-3C-108",
+    "promId": "3064639523",
+    "name": {
+      "uk": "Фара передня права Ford Ranger дорече 1998-2006 3941026",
+      "ru": "Фара передняя правая Ford Ranger дорест 1998-2006 3941026"
+    },
+    "partType": "Фара",
+    "position": "front-right",
+    "model": "ranger-1998",
+    "alsoFits": ["b2500-1998"],
+    "donor": "ФР-112",
+    "oem": ["3941026"],
+    "price": 2000,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-108_1.jpg", "DLS-3C-108_2.jpg", "DLS-3C-108_3.jpg", "DLS-3C-108_4.jpg"],
+    "searchKeywords": {
+      "uk": "Фара передня права Ford Ranger дорещить 1998-2006, Фара передня права Ford Ranger дорещить 1998-2006 3941026, 3941026, Авторозбирання форд ренжер, Форд ренжер дорест, mazda b2500 розбирання",
+      "ru": "Фара передняя правая Ford Ranger дорест 1998-2006, Фара передняя правая Ford Ranger дорест 1998-2006 3941026, 3941026, Авторазборка форд ренжер, Форд ренжер дорест, mazda b2500 разборка"
+    },
+    "specValues": []
+  },
+  {
+    "sku": "DLS-3C-109",
+    "promId": "2854723592",
+    "name": {
+      "uk": "Важіль передньої підвіски верхній лівий Ford ranger, Mazda b2500 98-06",
+      "ru": "Рычаг передней подвески верхний левый Ford ranger, Mazda b2500 98-06"
+    },
+    "partType": "Важіль верхній",
+    "position": "front-left",
+    "model": "ranger-1998",
+    "alsoFits": ["b2500-1998"],
+    "donor": "ФР-112",
+    "oem": ["1522447"],
+    "price": 1600,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-109_1.jpg", "DLS-3C-109_2.jpg", "DLS-3C-109_3.jpg", "DLS-3C-109_4.jpg"],
+    "searchKeywords": {
+      "uk": "Важіль передньої підвіски верхній лівий мазда б2500, Важіль передньої підвіски верхній лівий ford ranger, Важіль передньої підвіски верхній лівий ford ranger 2000, Важіль передньої підвіски верхній лівий ford ranger 2001, Важіль передньої підвіски верхній лівий mazda b2500",
+      "ru": "Рычаг передней подвески верхний левый ford ranger 2002, Рычаг передней подвески верхний левый mazda b2500, Рычаг передней подвески верхний левый ford ranger, Рычаг передней подвески верхний ford ranger, Рычаг передней подвески ford ranger"
+    },
+    "specValues": []
+  },
+  {
+    "sku": "DLS-3C-110",
+    "promId": "2854734775",
+    "name": {
+      "uk": "Важіль передньої підвіски верхній правий Ford ranger Mazda b2500 98-06",
+      "ru": "Рычаг передней подвески верхний правый Ford ranger Mazda b2500 98-06"
+    },
+    "partType": "Важіль верхній",
+    "position": "front-right",
+    "model": "ranger-1998",
+    "alsoFits": ["b2500-1998"],
+    "donor": "ФР-112",
+    "oem": ["1522050"],
+    "price": 1600,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-110_1.jpg", "DLS-3C-110_2.jpg", "DLS-3C-110_3.jpg", "DLS-3C-110_4.jpg"],
+    "searchKeywords": {
+      "uk": "Важіль передньої підвіски верхній правий ford ranger, Важіль передньої підвіски верхній правий mazda b2500, Важіль передньої підвіски верхній правий форд рейнжер, Важіль передньої підвіски верхній правий ford ranger 2000, Важіль передньої підвіски верхній правий ford ranger 2003, Важіль передньої підвіски верхній правий mazda b2500 2004, Важіль передньої підвіски верхній правий мазда б2500",
+      "ru": "мазда б2500 Рычаг передней подвески верхний правый, Рычаг передней подвески верхний правый мазда б2500, Рычаг передней подвески верхний правый mazda b2500, Рычаг передней подвески верхний правый ford ranger 2000, Рычаг передней подвески верхний правый ford ranger"
+    },
+    "specValues": []
+  },
+  {
+    "sku": "DLS-3C-111",
+    "promId": "2716059817",
+    "name": {
+      "uk": "Важіль передньої підвіски нижній, лівий Ford RANGER Mazda B2500 2.5 DTi 98-06",
+      "ru": "Рычаг передней подвески нижний, левый Ford RANGER Mazda B2500 2.5 DTi 98-06"
+    },
+    "partType": "Важіль нижній",
+    "position": "front-left",
+    "model": "ranger-1998",
+    "alsoFits": ["b2500-1998"],
+    "donor": "ФР-112",
+    "oem": ["4901685"],
+    "price": 3000,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-111_1.jpg", "DLS-3C-111_2.jpg", "DLS-3C-111_3.jpg", "DLS-3C-111_4.jpg"],
+    "searchKeywords": {
+      "uk": "Важіль передньої підвіски нижній лівий мазда б2500, мазда б2500 Важіль передньої підвіски нижній, Важіль передньої підвіски нижній ford ranger, mazda b2500 Важіль передньої підвіски нижній",
+      "ru": "Рычаг передней подвески нижний левый мазда б2500, мазда б2500 Рычаг передней подвески нижний, Рычаг передней подвески нижний ford ranger, mazda b2500 Рычаг передней подвески нижний"
+    },
+    "specValues": []
+  },
+  {
+    "sku": "DLS-3C-112",
+    "promId": "2854693761",
+    "name": {
+      "uk": "Важіль передньої підвіски нижній, правий Ford RANGER, Mazda b2500 98-06",
+      "ru": "Рычаг передний нижний, правый Ford RANGER, Mazda b2500 98-06"
+    },
+    "partType": "Важіль нижній",
+    "position": "front-right",
+    "model": "ranger-1998",
+    "alsoFits": ["b2500-1998"],
+    "donor": "ФР-112",
+    "oem": ["1489291"],
+    "price": 3000,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-112_1.jpg", "DLS-3C-112_2.jpg", "DLS-3C-112_3.jpg", "DLS-3C-112_4.jpg"],
+    "searchKeywords": {
+      "uk": "важіль нижній правий форд, важіль нижній правий ford ranger, важіль нижній правий mazda b2500, важіль передній нижній правий ford ranger 2002, ричаг ford ranger, важіль нижній передній мазда б2500",
+      "ru": "передний нижний правый рычаг ford ranger, передний нижний правый рычаг mazda b2500, передний нижний правый рычаг мазда б2500, передний нижний правый рычаг мазда 2002, передний нижний правый рычаг форд рейнжер 2003"
+    },
+    "specValues": []
+  },
+  {
+    "sku": "DLS-3C-113",
+    "promId": "3126343476",
+    "name": {
+      "uk": "Двері передні, ліві Ford RANGER Mazda B2500 2.5 DTi 98-06",
+      "ru": "Дверь передняя, левая  Ford RANGER Mazda B2500 2.5 DTi 98-06"
+    },
+    "partType": "Двері",
+    "position": "front-left",
+    "model": "ranger-1998",
+    "alsoFits": ["b2500-1998"],
+    "donor": "ФР-112",
+    "oem": ["4529407"],
+    "price": 2000,
+    "conditionLabel": "used_defects",
+    "conditionText": {
+      "uk": "Б/в, з дефектами — відмічені білим маркером на фото. Деталь робоча.",
+      "ru": "Б/у, с дефектами — отмечены белым маркером на фото. Деталь рабочая."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-113_1.jpg", "DLS-3C-113_2.jpg", "DLS-3C-113_3.jpg", "DLS-3C-113_4.jpg"],
+    "searchKeywords": {
+      "uk": "Mazda B2500 двері передні, передня ліва дверь Mazda B2500, Mazda B2500 двері, двері ford ranger",
+      "ru": "Mazda Pick up B2500 двери передние, двери передние левые ford ranger, двери передние левые mazda b2500"
+    },
+    "specValues": [],
+    "_demo_defectFromPhoto": true
+  },
+  {
+    "sku": "DLS-3C-114",
+    "promId": "3129765534",
+    "name": {
+      "uk": "Двері передні праві Ford Ranger Mazda B2500 2.5 DTi 1998-2006 4529399",
+      "ru": "Дверь передняя правая Ford Ranger Mazda B2500 2.5 DTi 1998-2006 4529399"
+    },
+    "partType": "Двері",
+    "position": "front-right",
+    "model": "ranger-1998",
+    "alsoFits": ["b2500-1998"],
+    "donor": "ФР-112",
+    "oem": ["4529399"],
+    "price": 1500,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-114_1.jpg", "DLS-3C-114_2.jpg", "DLS-3C-114_3.jpg", "DLS-3C-114_4.jpg"],
+    "searchKeywords": {
+      "uk": "Двері передні праві форд рейнжер, Двері передні мазда б2500, двері передні мазда б2500, Двері передні mazda b2500, ford ranger Двері передні, двері передні праві Ford Ranger 2.5 D, двері передні праві Mazda B2500 2.5 D, Ford Ranger 1998-2006, Mazda B2500 1998-2006, б/у двері, запчастини Ford Ranger, запчастини Mazda B2500, Двері передні праві Ford Ranger Mazda B2500 2.5 DTi 1998-2006 4529399",
+      "ru": "Дверь передняя ford ranger, mazda 2500 Дверь передняя, Дверь передняя правая мазда б2500, дверь передняя правая Ford Ranger 2.5 D, дверь передняя правая Mazda B2500 2.5 D, Ford Ranger 1998-2006, Mazda B2500 1998-2006, б/у дверь, запчасти Ford Ranger, запчасти Mazda B2500, Дверь передняя правая Ford Ranger Mazda B2500 2.5 DTi 1998-2006 4529399"
+    },
+    "specValues": []
+  },
+  {
+    "sku": "DLS-3C-115",
+    "promId": "2861458141",
+    "name": {
+      "uk": "Крило переднє ліве Ford ranger Mazda b2500 98-06",
+      "ru": "Крыло переднее левое Ford ranger Mazda b2500 98-06"
+    },
+    "partType": "Крило",
+    "position": "front-left",
+    "model": "ranger-1998",
+    "alsoFits": ["b2500-1998"],
+    "donor": "ФР-112",
+    "oem": ["1333256"],
+    "price": 2000,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-115_1.jpg", "DLS-3C-115_2.jpg", "DLS-3C-115_3.jpg", "DLS-3C-115_4.jpg"],
+    "searchKeywords": {
+      "uk": "",
+      "ru": ""
+    },
+    "specValues": []
+  },
+  {
+    "sku": "DLS-3C-116",
+    "promId": "2861454875",
+    "name": {
+      "uk": "Переднє праве крило Ford ranger Mazda b2500 98-06",
+      "ru": "Крыло переднее правое  Ford ranger Mazda b2500 98-06"
+    },
+    "partType": "Крило",
+    "position": "front-right",
+    "model": "ranger-1998",
+    "alsoFits": ["b2500-1998"],
+    "donor": "ФР-112",
+    "oem": ["1333255"],
+    "price": 2000,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-116_1.jpg", "DLS-3C-116_2.jpg", "DLS-3C-116_3.jpg", "DLS-3C-116_4.jpg"],
+    "searchKeywords": {
+      "uk": "",
+      "ru": ""
+    },
+    "specValues": []
+  },
+  {
+    "sku": "DLS-3C-117",
+    "promId": "2712811745",
+    "name": {
+      "uk": "Капот Ford RANGER Mazda B2500 2.5 DTi 98-06",
+      "ru": "Капот Ford RANGER Mazda B2500 2.5 DTi 98-06"
+    },
+    "partType": "Капот",
+    "position": "none",
+    "model": "ranger-1998",
+    "alsoFits": ["b2500-1998"],
+    "donor": "ФР-112",
+    "oem": ["4505827"],
+    "price": 7000,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 0,
+    "quantity": 1,
+    "status": "sold",
+    "photos": ["DLS-3C-117_1.jpg", "DLS-3C-117_2.jpg", "DLS-3C-117_3.jpg", "DLS-3C-117_4.jpg"],
+    "searchKeywords": {
+      "uk": "mazda b2500 капот, капот на mazda b2500, капот ford ranger, ford ranger капот, капот на мазда б2500",
+      "ru": "мазда б2500 капот, капот на форд рейнжер, mazda b2500 капот, ford ranger капот"
+    },
+    "specValues": []
+  },
+  {
+    "sku": "DLS-3C-118",
+    "promId": "2730923455",
+    "name": {
+      "uk": "Вал карданний задній в зборі Ford Ranger Mazda B2500 2.5 DTi 1998-2006 5238525",
+      "ru": "Карданный вал задний в сборе Ford Ranger Mazda B2500 2.5 DTi 1998-2006 5238525"
+    },
+    "partType": "Кардан",
+    "position": "rear",
+    "model": "ranger-1998",
+    "alsoFits": ["b2500-1998"],
+    "donor": "ФР-112",
+    "oem": ["5238525"],
+    "price": 7000,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 30,
+    "quantity": 0,
+    "status": "in_stock",
+    "photos": ["DLS-3C-118_1.jpg", "DLS-3C-118_2.jpg", "DLS-3C-118_3.jpg", "DLS-3C-118_4.jpg"],
+    "searchKeywords": {
+      "uk": "Вал карданний задній в сборі мазда б2500, кардан мазда б2500, ford ranger Вал карданний, mazda b2500 Вал карданний, вал карданний задній Ford Ranger 2.5 D, вал карданний задній Mazda BT-50 2.5 D, б/у кардан, запчастини Ford Ranger, запчастини Mazda BT-50, Вал карданний задній в зборі Ford Ranger Mazda B2500 2.5 DTi 1998-2006 5238525",
+      "ru": "Вал карданный задний ford ranger, Вал карданный mazda b2500, кардан мазда б2500, ford ranger кардан, карданный вал задний Ford Ranger 2.5 D, карданный вал задний Mazda BT-50 2.5 D, б/у кардан, запчасти Ford Ranger, запчасти Mazda BT-50, Карданный вал задний в сборе Ford Ranger Mazda B2500 2.5 DTi 1998-2006 5238525"
+    },
+    "specValues": [],
+    "inReserve": 1
+  },
+  {
+    "sku": "DLS-3C-119",
+    "promId": "2731158381",
+    "name": {
+      "uk": "Генератор Ford Ranger Mazda B2500 2.5 DTi 1998–2006 4344538",
+      "ru": "Генератор Ford Ranger Mazda B2500 2.5 DTi 1998–2006 4344538"
+    },
+    "partType": "Генератор",
+    "position": "none",
+    "model": "ranger-1998",
+    "alsoFits": ["b2500-1998"],
+    "donor": "ФР-112",
+    "oem": ["4344538"],
+    "price": 3000,
+    "conditionLabel": "used_checked",
+    "conditionText": {
+      "uk": "Перевірено на стенді/авто. Робочий стан, дрібні сліди експлуатації; усі дефекти позначені на фото.",
+      "ru": "Проверено на стенде/авто. Рабочее состояние, мелкие следы эксплуатации; все дефекты отмечены на фото."
+    },
+    "warrantyDays": 30,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-119_1.jpg", "DLS-3C-119_2.jpg", "DLS-3C-119_3.jpg", "DLS-3C-119_4.jpg"],
+    "searchKeywords": {
+      "uk": "Генератор мазда б2500, Генератор ford ranger, mazda b2500 Генератор, генератор ford ranger 1998, генератор ford ranger 1999, генератор ford ranger 2000, генератор ford ranger 2001, генератор ford ranger 2002, генератор ford ranger 2003, генератор ford ranger 2004, генератор ford ranger 2005, генератор ford ranger 2006, генератор Ford Ranger 2.5D, генератор Mazda B2500 2.5D, запчастини Ford Ranger, запчастини Mazda B2500, Генератор Ford Ranger Mazda B2500 2.5 DTi 1998–2006 4344538",
+      "ru": "Генератор мазда б2500, Генератор ford ranger, mazda b2500 Генератор, генератор ford ranger 1998, генератор ford ranger 1999, генератор ford ranger 2000, генератор ford ranger 2001, генератор ford ranger 2002, генератор ford ranger 2003, генератор ford ranger 2004, генератор ford ranger 2005, генератор ford ranger 2006, генератор Ford Ranger 2.5D, генератор Mazda B2500 2.5D, запчасти Ford Ranger, запчасти Mazda B2500, Генератор Ford Ranger Mazda B2500 2.5 DTi 1998-2006 4344538"
+    },
+    "specValues": []
+  },
+  {
+    "sku": "DLS-3C-120",
+    "promId": "3137558441",
+    "name": {
+      "uk": "Фари передні Ford Ranger / Mazda BT-50 2006–2012, комплект (ліва + права)",
+      "ru": "Фары передние Ford Ranger / Mazda BT-50 2006–2012, комплект (левая + правая)"
+    },
+    "partType": "Фара",
+    "position": "pair",
+    "model": "ranger-2006",
+    "alsoFits": ["bt-50-2006"],
+    "donor": null,
+    "oem": [],
+    "price": 2999,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-120_1.jpg", "DLS-3C-120_2.jpg", "DLS-3C-120_3.jpg", "DLS-3C-120_4.jpg"],
+    "searchKeywords": {
+      "uk": "Двері задня права мазда б2500, Двері задні права форд-ренжер, mazda b2500 Двері задня права, ford ranger Двері задні права, двері задні права Ford Ranger 2.5 D, двері задні права Mazda B2500 2.5 D, Ford Ranger 1998-2006, Mazda B2500 1998-2006, б/у двері, запчастини Ford Ranger, запчастини Mazda B2500, Двері задні права Ford Ranger Mazda B2500 2.5 DTi 1998-2006 4102597, Дверцята задня лієва Ford Ranger Mazda, бампер передній, рейнджер, бампер рейнджер, фара бт50, фара мазда бт50, фара левая, фара левая мазда бт50",
+      "ru": "Дверь задняя правая мазда б2500, Дверь задние права форд-ренжер, mazda b2500 Дверь задняя правая, ford ranger Дверь задние права, дверь задние права Ford Ranger 2.5 D, дверь задние права Mazda B2500 2.5 D, Ford Ranger 1998-2006, Mazda B2500 1998-6, бу двери, запчасти Ford Ranger, запчасти Mazda B2500, Дверь задние права Ford Ranger Mazda B2500 2.5 DTi 1998-2006 4102597, Дверца задняя лиевая Ford Ranger Mazda, бампер передний, рейнджер, бампер рейнджер, фара бут50, фара мазда б50, фара льва, фара левая мазда бт50"
+    },
+    "specValues": [],
+    "_demo_position": true,
+    "_demo_oemDropped": true
+  },
+  {
+    "sku": "DLS-3C-121",
+    "promId": "3137557094",
+    "name": {
+      "uk": "Фара Ford Ranger / Mazda BT-50 2006–2012 (підходить на обидві сторони)",
+      "ru": "Фара Ford Ranger / Mazda BT-50 2006–2012 (подходит на обе стороны)"
+    },
+    "partType": "Фара",
+    "position": "both",
+    "model": "ranger-2006",
+    "alsoFits": ["bt-50-2006"],
+    "donor": null,
+    "oem": [],
+    "price": 3500,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-121_1.jpg", "DLS-3C-121_2.jpg", "DLS-3C-121_3.jpg", "DLS-3C-121_4.jpg"],
+    "searchKeywords": {
+      "uk": "двері передні форд рейнжер 2007, форд рейнжер двері, двері ford ranger 2008, дверь передня права на форд рейнжер, двері на ranger 2007, форд бампер, бампер рейнджер, бампер rangeer 2007, ranger бампер",
+      "ru": "дверь передняя форд рейнджер 2007, форд рейнджер двери, дверь ford ranger 2008, двер передняя права на форд рейнджер, дверь на ranger 2007, форд бампер, бампер рейнджер, бампер rangeer 2007, ranger бампер"
+    },
+    "specValues": [],
+    "_demo_position": true,
+    "_demo_oemDropped": true
+  },
+  {
+    "sku": "DLS-3C-122",
+    "promId": "3066694722",
+    "name": {
+      "uk": "Помпа Mitsubishi Pajero Sport 1 ME204369",
+      "ru": "Помпа Mitsubishi Pajero Sport 1 ME204369"
+    },
+    "partType": "Помпа / термостат",
+    "position": "none",
+    "model": "pajero-sport-i-1996",
+    "alsoFits": [],
+    "donor": "ПС-04",
+    "oem": ["ME204369"],
+    "price": 2200,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-122_1.jpg", "DLS-3C-122_2.jpg", "DLS-3C-122_3.jpg", "DLS-3C-122_4.jpg"],
+    "searchKeywords": {
+      "uk": "Помпа Mitsubishi Pajero Sport 1 ME204369, Помпа Mitsubishi Pajero Sport 1, ME204369, Авторозбірка Міцубісі Паджерро спорт",
+      "ru": "Помпа Mitsubishi Pajero Sport 1 ME204369, Помпа Mitsubishi Pajero Sport 1, ME204369, Авторазборка Мицубиси Паджеро спорт"
+    },
+    "specValues": []
+  },
+  {
+    "sku": "DLS-3C-123",
+    "promId": "3192147737",
+    "name": {
+      "uk": "Помпа Mitsubishi L200 1999-2004 ME204369",
+      "ru": "Помпа Mitsubishi L200 1999-2004 ME204369"
+    },
+    "partType": "Помпа / термостат",
+    "position": "none",
+    "model": "l200-iii-1996",
+    "alsoFits": [],
+    "donor": null,
+    "oem": ["ME204369"],
+    "price": 2200,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-123_1.jpg", "DLS-3C-123_2.jpg", "DLS-3C-123_3.jpg", "DLS-3C-123_4.jpg"],
+    "searchKeywords": {
+      "uk": "Помпа Mitsubishi Pajero Sport 1 ME204369, Помпа Mitsubishi Pajero Sport 1, ME204369, Авторозбірка Міцубісі Паджерро спорт",
+      "ru": "Помпа Mitsubishi Pajero Sport 1 ME204369, Помпа Mitsubishi Pajero Sport 1, ME204369, Авторазборка Мицубиси Паджеро спорт"
+    },
+    "specValues": []
+  },
+  {
+    "sku": "DLS-3C-124",
+    "promId": "2855735645",
+    "name": {
+      "uk": "Диски Р17 Mitsubishi l200 05-15",
+      "ru": "Диски Р17 Mitsubishi l200 05-15"
+    },
+    "partType": "Диски",
+    "position": "none",
+    "model": "l200-iv-2005",
+    "alsoFits": [],
+    "donor": null,
+    "oem": [],
+    "price": 14000,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-124_1.jpg", "DLS-3C-124_2.jpg", "DLS-3C-124_3.jpg", "DLS-3C-124_4.jpg"],
+    "searchKeywords": {
+      "uk": "диски колісні р17 л200, диски р17 на л200, диски р17 митсубісі л200, mitsubishi l200 диски 17, диски на 17 л200, л200 диски р17, диски р 17 на пикап, колеса р17 пикап, колеса р17 л200",
+      "ru": "колеса р17 пикап, диски р17 на л200, mitsubishi l200 диски р17, диски р17 л200, комплект дисков р17 на л200, комплект дисков р17 mitsubishi l200, диски р17 6x139.7"
+    },
+    "specValues": [
+      {
+        "key": "diameter",
+        "label": "Діаметр",
+        "value": "R17"
+      },
+      {
+        "key": "pcd",
+        "label": "PCD (розсвердловка)",
+        "value": "6x139.7"
+      }
+    ]
+  },
+  {
+    "sku": "DLS-3C-125",
+    "promId": "2822272205",
+    "name": {
+      "uk": "Диски r16 6x139.7 Toyota Hilux",
+      "ru": "Диски r16 6x139.7 Mitsubishi L200"
+    },
+    "partType": "Диски",
+    "position": "none",
+    "model": null,
+    "alsoFits": ["hilux-vii-2005"],
+    "donor": null,
+    "oem": [],
+    "price": 11000,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-125_1.jpg", "DLS-3C-125_2.jpg", "DLS-3C-125_3.jpg", "DLS-3C-125_4.jpg"],
+    "searchKeywords": {
+      "uk": "диски р16 хайлюкс, диски р16 тойота хайлюкс, комплект дисків р16 тойота хайлюкс, титанові диски р16 на toyota hilux, диски до тойоти хайлюкс, цілі диски р16 тойота хайлюкс, комплект дисків хайлюкс",
+      "ru": "диски на хайлюкс, toyota hilux диски р16, диски р16 на хайлюкс, комплект дисков р16 на хайлюкс, дискир16 toyota hilux, toyota hilux диски р16 комплект"
+    },
+    "specValues": [
+      {
+        "key": "diameter",
+        "label": "Діаметр",
+        "value": "R16"
+      },
+      {
+        "key": "pcd",
+        "label": "PCD (розсвердловка)",
+        "value": "6x139.7"
+      }
+    ]
+  },
+  {
+    "sku": "DLS-3C-126",
+    "promId": "2964155751",
+    "name": {
+      "uk": "Диски R15 з гумою 235/75r15 для Mitsubishi l200,Pajero",
+      "ru": "Диски R15 с резиной 235/75r15 для Ford ranger 98-06"
+    },
+    "partType": "Диски",
+    "position": "none",
+    "model": "l200-iv-2005",
+    "alsoFits": [],
+    "donor": null,
+    "oem": [],
+    "price": 5555,
+    "conditionLabel": "used",
+    "conditionText": {
+      "uk": "Б/в, знято з авто-донора. Видимих дефектів немає, косметичні сліди експлуатації.",
+      "ru": "Б/у, снято с авто-донора. Видимых дефектов нет, косметические следы эксплуатации."
+    },
+    "warrantyDays": 14,
+    "quantity": 1,
+    "status": "in_stock",
+    "photos": ["DLS-3C-126_1.jpg", "DLS-3C-126_2.jpg", "DLS-3C-126_3.jpg", "DLS-3C-126_4.jpg"],
+    "searchKeywords": {
+      "uk": "r15 l200, pajero r15, паджеро диски р15, колеса р15 л200, диски р15 л200, диски на л200, диски на паджеро",
+      "ru": "диски л200, диски с резиной на л200, диски р15 паджеро, диски на паджеро, диски р15 с резиной"
+    },
+    "specValues": [
+      {
+        "key": "diameter",
+        "label": "Діаметр",
+        "value": "R15"
+      },
+      {
+        "key": "pcd",
+        "label": "PCD (розсвердловка)",
+        "value": "6x139.7"
+      },
+      {
+        "key": "tireSize",
+        "label": "Розмір шини",
+        "value": "235/75 R15"
+      },
+      {
+        "key": "season",
+        "label": "Сезон",
+        "value": "літо"
+      }
+    ]
+  }
+]

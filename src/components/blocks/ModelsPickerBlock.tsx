@@ -67,9 +67,13 @@ export async function ModelsPickerBlock({
     }),
   )
 
+  // Only brands with a logo become chips — the export's chip row is a fixed set
+  // of 16 marks. A logo-less brand (e.g. Great Wall, no asset yet) stays a
+  // catalog brand but is omitted here so the 8×2 grid keeps its export shape.
+  const withLogo = brands.filter((b) => b.logo)
   // Export order: busiest brands first.
-  brands.sort((a, b) => b.total - a.total)
-  if (!brands.length) return null
+  withLogo.sort((a, b) => b.total - a.total)
+  if (!withLogo.length) return null
 
   const defSlug =
     defaultBrand && typeof defaultBrand === 'object'
@@ -77,13 +81,13 @@ export async function ModelsPickerBlock({
       : brandsRaw.find((b) => b.id === defaultBrand)?.slug
   const initial = Math.max(
     0,
-    brands.findIndex((b) => b.slug === defSlug),
+    withLogo.findIndex((b) => b.slug === defSlug),
   )
 
   return (
     <ModelsPicker
       heading={heading ?? 'Деталі для вашого авто'}
-      brands={brands}
+      brands={withLogo}
       initial={initial}
       locale={locale}
     />

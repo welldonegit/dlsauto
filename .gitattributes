@@ -6,3 +6,7 @@ docs/design-export/**/*.jpg filter=lfs diff=lfs merge=lfs -text
 docs/design-export/**/*.jpeg filter=lfs diff=lfs merge=lfs -text
 docs/design-export/**/*.webp filter=lfs diff=lfs merge=lfs -text
 docs/design-export/**/*.mp4 filter=lfs diff=lfs merge=lfs -text
+
+# Seed fixture photos (real Prom part shots downloaded once for the demo seed).
+# Seed inputs only — never bundled into the Docker image — so LFS is safe here.
+scripts/seed/fixtures/photos/** filter=lfs diff=lfs merge=lfs -text
