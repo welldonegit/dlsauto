@@ -25,7 +25,7 @@ export const POSITIONS = [
   { value: 'right', label: 'права' },
   { value: 'front', label: 'передня' },
   { value: 'rear', label: 'задня' },
-  { value: 'pair', label: 'пара (ліва + права)' },
+  { value: 'pair', label: 'комплект: ліва + права' },
   { value: 'both', label: 'підходить на обидві сторони' },
   { value: 'driver', label: 'водійська' },
   { value: 'passenger', label: 'пасажирська' },
