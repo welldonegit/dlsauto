@@ -14,6 +14,7 @@ import {
 import { toProductCardData } from '@/lib/productCard'
 import type { Media, Model } from '@/payload-types'
 
+import { CatalogCarBanner } from './CatalogCarBanner'
 import { CatalogFilters, type BrandOpt } from './CatalogFilters'
 
 /**
@@ -36,6 +37,8 @@ export type CatalogSearch = {
   side?: string | string[]
   cond?: string | string[]
   promo?: string
+  vid?: string
+  car?: string // 'off' — opt out of the cookie car pre-filter for this view
   sort?: string
   shown?: string
 }
@@ -70,22 +73,9 @@ export async function CatalogView({
   const priceFrom = num(search.pmin, PMIN)
   const priceTo = num(search.pmax, PMAX)
   const shown = Math.max(PAGE, num(search.shown, PAGE))
+  const video = search.vid === '1'
 
-  const [{ products, total, categoryFacets }, brandsRaw, tree, modelsByBrand] = await Promise.all([
-    getCatalog({
-      categories: cats,
-      brand: search.brand,
-      model: search.model,
-      priceFrom: priceFrom > PMIN ? priceFrom : undefined,
-      priceTo: priceTo < PMAX ? priceTo : undefined,
-      warranty: arr(search.warr).map(Number).filter(Boolean),
-      sides: arr(search.side).filter((s) => s === 'left' || s === 'right') as ('left' | 'right')[],
-      conditions: arr(search.cond),
-      promo: search.promo === '1',
-      sort,
-      limit: shown,
-      locale,
-    }),
+  const [brandsRaw, tree, modelsByBrand] = await Promise.all([
     getBrands(),
     getCategoryTree(locale),
     getModelsGroupedByBrand(locale),
@@ -96,14 +86,51 @@ export async function CatalogView({
     .filter((b) => b.slug && (modelsByBrand[b.slug as string]?.length ?? 0) > 0)
     .map((b) => ({ slug: b.slug as string, name: b.name }))
 
-  // Selected car cookie → fit pill on cards; banner shows when the Авто filter is a full car.
+  // Selected car cookie ("моє авто"): fit pill on cards, plus — unless an explicit
+  // Авто filter is in the URL or the visitor opted out (?car=off) — a pre-filter of
+  // the whole listing (Р-decision 4). Reading the cookie makes the route dynamic, so
+  // one visitor's car is never cached for another; the canonical stays the clean path.
   let carSlug: string | null = null
+  let carLabel: string | null = null
   try {
     const raw = (await cookies()).get('dls_car')?.value
-    if (raw) carSlug = (JSON.parse(decodeURIComponent(raw)) as { slug?: string }).slug ?? null
+    if (raw) {
+      const c = JSON.parse(decodeURIComponent(raw)) as { slug?: string; label?: string }
+      carSlug = c.slug ?? null
+      carLabel = c.label ?? null
+    }
   } catch {
     carSlug = null
+    carLabel = null
   }
+
+  // Resolve the effective car: explicit URL Авто filter wins; else the cookie car
+  // (unless opted out). The cookie stores the model slug + label — derive its brand
+  // from the model groups so the Авто selects pre-fill (matching the export).
+  const optedOut = search.car === 'off'
+  const cookieBrandSlug = carSlug
+    ? (Object.entries(modelsByBrand).find(([, ms]) => ms.some((m) => m.slug === carSlug))?.[0] ??
+      null)
+    : null
+  const cookieApplies = !optedOut && !search.brand && !search.model && !!carSlug
+  const effBrand = search.brand || (cookieApplies ? (cookieBrandSlug ?? undefined) : undefined)
+  const effModel = search.model || (cookieApplies ? (carSlug ?? undefined) : undefined)
+
+  const { products, total, categoryFacets, hasVideo } = await getCatalog({
+    categories: cats,
+    brand: effBrand,
+    model: effModel,
+    priceFrom: priceFrom > PMIN ? priceFrom : undefined,
+    priceTo: priceTo < PMAX ? priceTo : undefined,
+    warranty: arr(search.warr).map(Number).filter(Boolean),
+    sides: arr(search.side).filter((s) => s === 'left' || s === 'right') as ('left' | 'right')[],
+    conditions: arr(search.cond),
+    promo: search.promo === '1',
+    video,
+    sort,
+    limit: shown,
+    locale,
+  })
 
   const logoByBrand = new Map(brandsRaw.map((b) => [b.id, logoUrl(b.logoMono)]))
   const cards = products.map((p) => {
@@ -123,13 +150,16 @@ export async function CatalogView({
   })
 
   const facets = categoryFacets.map((f) => ({ value: f.slug, label: f.name, count: f.count }))
-  const brandModelHasBoth = !!search.brand && !!search.model
-  const carBannerLabel = brandModelHasBoth
-    ? `${brands.find((b) => b.slug === search.brand)?.name ?? search.brand} ${
-        (modelsByBrand[search.brand!] ?? []).find((m) => m.slug === search.model)?.name ??
-        search.model
-      }`
-    : null
+  const fullCar = !!effBrand && !!effModel
+  const carBannerLabel = fullCar
+    ? cookieApplies && carLabel
+      ? carLabel
+      : `${brands.find((b) => b.slug === effBrand)?.name ?? effBrand} ${
+          (modelsByBrand[effBrand!] ?? []).find((m) => m.slug === effModel)?.name ?? effModel
+        }`
+    : cookieApplies && carLabel
+      ? carLabel
+      : null
 
   return (
     <main className="dls-cat-page">
@@ -152,11 +182,7 @@ export async function CatalogView({
           )}
         </nav>
         <h1 className="dls-cat-page__h1">{category ? category.name : 'Каталог запчастин'}</h1>
-        {carBannerLabel ? (
-          <p className="dls-cat-page__carLine">
-            Показуємо деталі на <strong>{carBannerLabel}</strong>
-          </p>
-        ) : null}
+        {carBannerLabel ? <CatalogCarBanner label={carBannerLabel} basePath={basePath} /> : null}
       </Container>
 
       {/* category rail */}
@@ -190,9 +216,11 @@ export async function CatalogView({
             categoryFacets={facets}
             basePath={basePath}
             categoryLocked={category?.slug ?? null}
+            carFromCookie={cookieApplies}
+            hasVideo={hasVideo}
             current={{
-              brand: search.brand ?? '',
-              model: search.model ?? '',
+              brand: effBrand ?? '',
+              model: effModel ?? '',
               cats,
               priceFrom,
               priceTo,
@@ -200,6 +228,7 @@ export async function CatalogView({
               sides: arr(search.side),
               conds: arr(search.cond),
               promo: search.promo === '1',
+              video,
               sort,
             }}
           >

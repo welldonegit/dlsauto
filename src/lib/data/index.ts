@@ -229,6 +229,7 @@ export type CatalogParams = {
   sides?: ('left' | 'right')[]
   conditions?: string[] // conditionLabel values
   promo?: boolean
+  video?: boolean // "З відео перевірки" — a video among the product photos
   sort?: CatalogSort
   limit?: number // = shown (page * PAGE)
   locale?: Locale
@@ -238,6 +239,8 @@ export type CatalogResult = {
   products: Product[]
   total: number
   categoryFacets: CatalogFacet[]
+  /** Any product in the base set has an inspection video → show the «З відео перевірки» facet. */
+  hasVideo: boolean
 }
 
 const SORT_MAP: Record<CatalogSort, string> = {
@@ -250,6 +253,15 @@ const SORT_MAP: Record<CatalogSort, string> = {
 const SIDE_POSITIONS: Record<'left' | 'right', string[]> = {
   left: ['front-left', 'rear-left', 'left'],
   right: ['front-right', 'rear-right', 'right'],
+}
+
+/** True when any photo is a video (mp4) — the "З відео перевірки" signal (no stored field). */
+function hasVideoPhoto(
+  photos: (number | { mimeType?: string | null } | null)[] | null | undefined,
+): boolean {
+  return (photos ?? []).some(
+    (ph) => ph != null && typeof ph === 'object' && !!ph.mimeType?.startsWith('video/'),
+  )
 }
 
 /** Build the product `where` (minus the category filter, which is layered on for facets). */
@@ -280,20 +292,30 @@ export const getCatalog = unstable_cache(
     const baseAnd = catalogWhere(p)
     const limit = p.limit ?? 20
 
-    // One shallow pass over the base-filtered set (no category filter) gives the
-    // facet counts in memory — far cheaper than a count query per category.
+    // One pass over the base-filtered set (no category filter) gives the category
+    // facet counts in memory — far cheaper than a count query per category — and
+    // the set of products that carry an inspection video. Video lives as an mp4
+    // among `photos` (no queryable field, Р14), so it is detected here from the
+    // populated media mimeType rather than in SQL.
     const baseList = await payload.find({
       collection: 'products',
       where: { and: baseAnd } as never,
-      depth: 0,
+      depth: 1, // populate photos → media.mimeType for video detection
       limit: 5000,
-      select: { category: true } as never,
+      select: { category: true, photos: true } as never,
     })
     const facetMap = new Map<number, number>()
-    for (const d of baseList.docs as { category?: number | { id: number } | null }[]) {
+    const videoIds: number[] = []
+    for (const d of baseList.docs as {
+      id: number
+      category?: number | { id: number } | null
+      photos?: (number | { mimeType?: string | null } | null)[] | null
+    }[]) {
       const c = typeof d.category === 'object' ? d.category?.id : d.category
       if (c != null) facetMap.set(c, (facetMap.get(c) ?? 0) + 1)
+      if (hasVideoPhoto(d.photos)) videoIds.push(d.id)
     }
+    const hasVideo = videoIds.length > 0
     const cats = await payload.find({
       collection: 'categories',
       locale,
@@ -308,20 +330,21 @@ export const getCatalog = unstable_cache(
       count: facetMap.get(c.id as number) ?? 0,
     }))
 
-    // The page itself (with the category filter applied), depth 1 for rendering.
-    const where = p.categories?.length
-      ? { and: [...baseAnd, { 'category.slug': { in: p.categories } }] }
-      : { and: baseAnd }
+    // The page itself (category + video filters layered on the base), depth 1 for
+    // rendering. The video filter restricts to the ids found to carry a video.
+    const listAnd: Record<string, unknown>[] = [...baseAnd]
+    if (p.categories?.length) listAnd.push({ 'category.slug': { in: p.categories } })
+    if (p.video) listAnd.push({ id: { in: videoIds } })
     const res = await payload.find({
       collection: 'products',
       locale,
-      where: where as never,
+      where: { and: listAnd } as never,
       sort: SORT_MAP[p.sort ?? 'pop'],
       limit,
       depth: 1, // model/category/photos/pickup/alsoFits as objects; brand id via a map
     })
 
-    return { products: res.docs, total: res.totalDocs, categoryFacets }
+    return { products: res.docs, total: res.totalDocs, categoryFacets, hasVideo }
   },
   ['catalog'],
   { tags: [TAG.products, TAG.categories] },

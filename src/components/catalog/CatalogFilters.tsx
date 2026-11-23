@@ -1,7 +1,7 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 import type { CatalogSort } from '@/lib/data'
 
@@ -12,9 +12,10 @@ import type { CatalogSort } from '@/lib/data'
  * shareable and SEO-canonical (§8). On tablet/mobile the aside becomes a sheet.
  *
  * Note (export↔DEV_CONTEXT, Р14): the demo's «Перевірка» group is a check
- * method (field removed in Р14) — replaced by «Стан» (conditionLabel). The demo
- * «З відео перевірки» extra has no queryable field and is omitted; «Акція»
- * (discountPercent) stays.
+ * method (field removed in Р14) — replaced by «Стан» (conditionLabel). «Акція»
+ * (discountPercent) and «З відео перевірки» stay in «Додатково»; the latter is
+ * computed from the photos (a video among them, no stored field) and only shown
+ * when some product actually carries one (`hasVideo`).
  */
 
 export type Opt = { value: string; label: string; count?: number }
@@ -34,10 +35,13 @@ export type CatalogFiltersProps = {
     sides: string[]
     conds: string[]
     promo: boolean
+    video: boolean
     sort: CatalogSort
   }
   basePath: string // "/catalog" or "/ru/catalog" or ".../catalog/<category>"
   categoryLocked: string | null // slug when on /catalog/<category> (не чип)
+  carFromCookie: boolean // car comes from the cookie pre-filter → removing it opts out (?car=off)
+  hasVideo: boolean // show the «З відео перевірки» facet only when some product has a video
   children: React.ReactNode
 }
 
@@ -68,8 +72,16 @@ const SORT_OPTS: { value: CatalogSort; label: string }[] = [
 
 const fmt = (n: number) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
 
-// Non-linear price track (√), as the export.
+// Non-linear price track (√), as the export: position ↔ value, snapped to 100 ₴.
+const clamp01 = (t: number) => Math.max(0, Math.min(1, t))
 const tOf = (v: number) => Math.sqrt((v - PMIN) / (PMAX - PMIN))
+const vOf = (t: number) => {
+  const v = PMIN + (PMAX - PMIN) * t * t
+  return Math.max(PMIN, Math.min(PMAX, Math.round(v / 100) * 100))
+}
+// One keyboard step ≈ 2% of the track (export).
+const step = (v: number, dir: number) => vOf(clamp01(tOf(v) + dir * 0.02))
+const GAP = 100 // minimum spread between the two handles (₴)
 
 export function CatalogFilters({
   brands,
@@ -78,11 +90,14 @@ export function CatalogFilters({
   current,
   basePath,
   categoryLocked,
+  carFromCookie,
+  hasVideo,
   children,
 }: CatalogFiltersProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
 
+  const asideRef = useRef<HTMLElement>(null)
   const [sheet, setSheet] = useState(false)
   const [sheetShown, setSheetShown] = useState(false)
   const [acc, setAcc] = useState<Record<string, boolean>>({
@@ -114,6 +129,21 @@ export function CatalogFilters({
     return () => window.removeEventListener('keydown', onKey)
   }, [sheet, closeSheet])
 
+  // Banner «Змінити» → reveal the Авто filter: the sheet below 1024, the sticky
+  // aside (scrolled into view, Авто expanded) at desktop widths.
+  useEffect(() => {
+    const onChangeCar = () => {
+      if (window.innerWidth < 1024) {
+        openSheet()
+      } else {
+        asideRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+      setAcc((s) => ({ ...s, auto: true }))
+    }
+    window.addEventListener('dls-cat-change-car', onChangeCar)
+    return () => window.removeEventListener('dls-cat-change-car', onChangeCar)
+  }, [openSheet])
+
   // Build a URL from a param patch over the current params.
   const push = useCallback(
     (patch: Record<string, string | string[] | null>) => {
@@ -141,13 +171,16 @@ export function CatalogFilters({
   // Active chips (car / categories / price / warr / side / cond / promo).
   const chips = useMemo(() => {
     const out: { label: string; onRemove: () => void }[] = []
+    // Removing the car opts out of the cookie pre-filter (?car=off) so it is not re-applied.
+    const removeCar = () =>
+      push(carFromCookie ? { brand: null, model: null, car: 'off' } : { brand: null, model: null })
     if (current.brand && current.model) {
       const b = brands.find((x) => x.slug === current.brand)?.name ?? current.brand
       const mName = models.find((x) => x.slug === current.model)?.name ?? current.model
-      out.push({ label: `${b} ${mName}`, onRemove: () => push({ brand: null, model: null }) })
+      out.push({ label: `${b} ${mName}`, onRemove: removeCar })
     } else if (current.brand) {
       const b = brands.find((x) => x.slug === current.brand)?.name ?? current.brand
-      out.push({ label: b, onRemove: () => push({ brand: null, model: null }) })
+      out.push({ label: b, onRemove: removeCar })
     }
     current.cats
       .filter((c) => c !== categoryLocked)
@@ -186,8 +219,9 @@ export function CatalogFilters({
       }),
     )
     if (current.promo) out.push({ label: 'Акція', onRemove: () => push({ promo: null }) })
+    if (current.video) out.push({ label: 'З відео перевірки', onRemove: () => push({ vid: null }) })
     return out
-  }, [current, brands, models, categoryFacets, categoryLocked, push])
+  }, [current, brands, models, categoryFacets, categoryLocked, carFromCookie, push])
 
   const resetAll = () =>
     push({
@@ -200,6 +234,8 @@ export function CatalogFilters({
       side: null,
       cond: null,
       promo: null,
+      vid: null,
+      car: carFromCookie ? 'off' : null,
     })
 
   return (
@@ -216,6 +252,7 @@ export function CatalogFilters({
 
       <div className="dls-cat__layout">
         <aside
+          ref={asideRef}
           aria-label="Фільтри"
           className="dls-cat__aside"
           data-sheet={sheet ? 'true' : 'false'}
@@ -253,7 +290,7 @@ export function CatalogFilters({
                     value={current.brand}
                     placeholder="Марка"
                     options={brands.map((b) => ({ value: b.slug, label: b.name }))}
-                    onChange={(v) => push({ brand: v || null, model: null })}
+                    onChange={(v) => push({ brand: v || null, model: null, car: null })}
                   />
                   <Select
                     label="Модель"
@@ -261,7 +298,7 @@ export function CatalogFilters({
                     placeholder="Модель"
                     disabled={!current.brand}
                     options={models.map((m) => ({ value: m.slug, label: m.name }))}
-                    onChange={(v) => push({ model: v || null })}
+                    onChange={(v) => push({ model: v || null, car: null })}
                   />
                 </div>
               </Accordion>
@@ -362,6 +399,13 @@ export function CatalogFilters({
                   checked={current.promo}
                   onToggle={() => push({ promo: current.promo ? null : '1' })}
                 />
+                {hasVideo ? (
+                  <Check
+                    label="З відео перевірки"
+                    checked={current.video}
+                    onToggle={() => push({ vid: current.video ? null : '1' })}
+                  />
+                ) : null}
               </Accordion>
             </div>
 
@@ -530,14 +574,108 @@ function PriceRange({
   to: number
   onCommit: (from: number, to: number) => void
 }) {
-  // Uncontrolled inputs (keyed remount resets them when props change on nav).
-  const [f, setF] = useState(String(from))
-  const [t, setT] = useState(String(to))
-  const commit = () => {
-    const nf = Math.max(PMIN, Math.min(PMAX, parseInt(f.replace(/\D/g, ''), 10) || PMIN))
-    const nt = Math.max(PMIN, Math.min(PMAX, parseInt(t.replace(/\D/g, ''), 10) || PMAX))
-    onCommit(Math.min(nf, nt), Math.max(nf, nt))
+  // Local handle values (keyed remount resets them when props change on nav). Text
+  // overrides let the number inputs be typed freely before they commit on blur.
+  const [lo, setLo] = useState(from)
+  const [hi, setHi] = useState(to)
+  const [loText, setLoText] = useState<string | null>(null)
+  const [hiText, setHiText] = useState<string | null>(null)
+  const [drag, setDrag] = useState<'lo' | 'hi' | null>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const committed = useRef({ lo: from, hi: to })
+  // Authoritative live values, written synchronously so the commit on pointer-up /
+  // key-up never races a not-yet-flushed render (pointermove is a lower-priority
+  // event than pointerup in React).
+  const valRef = useRef({ lo: from, hi: to })
+  const setLoVal = (v: number) => {
+    valRef.current.lo = v
+    setLo(v)
   }
+  const setHiVal = (v: number) => {
+    valRef.current.hi = v
+    setHi(v)
+  }
+
+  const commit = useCallback(
+    (nlo: number, nhi: number) => {
+      if (nlo === committed.current.lo && nhi === committed.current.hi) return
+      committed.current = { lo: nlo, hi: nhi }
+      onCommit(nlo, nhi)
+    },
+    [onCommit],
+  )
+  const commitRef = () => commit(valRef.current.lo, valRef.current.hi)
+
+  // Drag: move the nearest handle to the pointer, keeping the 100 ₴ gap; commit on release.
+  const setFromX = (clientX: number, which: 'lo' | 'hi') => {
+    const el = trackRef.current
+    if (!el) return
+    const r = el.getBoundingClientRect()
+    const v = vOf(clamp01((clientX - r.left) / r.width))
+    if (which === 'lo') setLoVal(Math.min(v, valRef.current.hi - GAP))
+    else setHiVal(Math.max(v, valRef.current.lo + GAP))
+  }
+
+  const onTrackDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = trackRef.current
+    if (!el) return
+    const r = el.getBoundingClientRect()
+    const x = clamp01((e.clientX - r.left) / r.width)
+    const which =
+      Math.abs(x - tOf(valRef.current.lo)) <= Math.abs(x - tOf(valRef.current.hi)) ? 'lo' : 'hi'
+    el.setPointerCapture?.(e.pointerId)
+    setDrag(which)
+    setFromX(e.clientX, which)
+  }
+  const onTrackMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (drag) setFromX(e.clientX, drag)
+  }
+  const onTrackUp = () => {
+    if (drag) {
+      setDrag(null)
+      commitRef()
+    }
+  }
+
+  // Keyboard: arrows nudge the handle by one step; commit when the key is released.
+  const keyDir = (e: React.KeyboardEvent): number =>
+    e.key === 'ArrowRight' || e.key === 'ArrowUp'
+      ? 1
+      : e.key === 'ArrowLeft' || e.key === 'ArrowDown'
+        ? -1
+        : 0
+  const onKeyLo = (e: React.KeyboardEvent) => {
+    const dir = keyDir(e)
+    if (!dir) return
+    e.preventDefault()
+    setLoVal(Math.min(step(valRef.current.lo, dir), valRef.current.hi - GAP))
+  }
+  const onKeyHi = (e: React.KeyboardEvent) => {
+    const dir = keyDir(e)
+    if (!dir) return
+    e.preventDefault()
+    setHiVal(Math.max(step(valRef.current.hi, dir), valRef.current.lo + GAP))
+  }
+
+  const commitInputs = () => {
+    const base = valRef.current
+    const nlo = Math.max(
+      PMIN,
+      Math.min(PMAX, parseInt((loText ?? '').replace(/\D/g, ''), 10) || base.lo),
+    )
+    const nhi = Math.max(
+      PMIN,
+      Math.min(PMAX, parseInt((hiText ?? '').replace(/\D/g, ''), 10) || base.hi),
+    )
+    const a = Math.min(nlo, nhi)
+    const b = Math.max(nlo, nhi)
+    setLoVal(a)
+    setHiVal(b)
+    setLoText(null)
+    setHiText(null)
+    commit(a, b)
+  }
+
   return (
     <div style={{ padding: '0 var(--space-2)' }}>
       <div className="dls-cat__priceRow">
@@ -546,9 +684,9 @@ function PriceRange({
           <input
             inputMode="numeric"
             aria-label="Ціна від"
-            value={f}
-            onChange={(e) => setF(e.target.value)}
-            onBlur={commit}
+            value={loText ?? fmt(lo)}
+            onChange={(e) => setLoText(e.target.value)}
+            onBlur={commitInputs}
             className="dls-cat__priceInput"
           />
         </label>
@@ -557,18 +695,52 @@ function PriceRange({
           <input
             inputMode="numeric"
             aria-label="Ціна до"
-            value={t}
-            onChange={(e) => setT(e.target.value)}
-            onBlur={commit}
+            value={hiText ?? fmt(hi)}
+            onChange={(e) => setHiText(e.target.value)}
+            onBlur={commitInputs}
             className="dls-cat__priceInput"
           />
         </label>
       </div>
-      <div className="dls-cat__track" aria-hidden>
-        <span className="dls-cat__trackBase" />
+      <div
+        ref={trackRef}
+        className="dls-cat__track"
+        onPointerDown={onTrackDown}
+        onPointerMove={onTrackMove}
+        onPointerUp={onTrackUp}
+        onPointerCancel={onTrackUp}
+      >
+        <span className="dls-cat__trackBase" aria-hidden />
         <span
           className="dls-cat__trackFill"
-          style={{ left: `${tOf(from) * 100}%`, right: `${(1 - tOf(to)) * 100}%` }}
+          aria-hidden
+          style={{ left: `${tOf(lo) * 100}%`, right: `${(1 - tOf(hi)) * 100}%` }}
+        />
+        <span
+          role="slider"
+          tabIndex={0}
+          aria-label="Мінімальна ціна"
+          aria-valuemin={PMIN}
+          aria-valuemax={PMAX}
+          aria-valuenow={lo}
+          onKeyDown={onKeyLo}
+          onKeyUp={commitRef}
+          onBlur={commitRef}
+          className="dls-cat__thumb"
+          style={{ left: `${tOf(lo) * 100}%` }}
+        />
+        <span
+          role="slider"
+          tabIndex={0}
+          aria-label="Максимальна ціна"
+          aria-valuemin={PMIN}
+          aria-valuemax={PMAX}
+          aria-valuenow={hi}
+          onKeyDown={onKeyHi}
+          onKeyUp={commitRef}
+          onBlur={commitRef}
+          className="dls-cat__thumb"
+          style={{ left: `${tOf(hi) * 100}%` }}
         />
       </div>
       <div className="dls-cat__priceMinmax">

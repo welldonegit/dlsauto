@@ -513,12 +513,38 @@
   }
   .dls-cat-page__carLine {
     margin: var(--space-12) 0 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-8);
     font-size: var(--text-15);
     line-height: var(--text-15--line-height);
     color: var(--color-neutral-900);
   }
   .dls-cat-page__carLine strong {
     font-weight: 600;
+  }
+  .dls-cat-page__carBtn {
+    padding: 0;
+    border: none;
+    background: transparent;
+    font: inherit;
+    color: var(--color-neutral-600);
+    cursor: pointer;
+    text-decoration: underline;
+    text-decoration-color: transparent;
+    text-underline-offset: 3px;
+    transition:
+      color 150ms ease-out,
+      text-decoration-color 150ms ease-out;
+  }
+  .dls-cat-page__carBtn:hover {
+    color: var(--color-neutral-900);
+    text-decoration-color: var(--color-neutral-900);
+  }
+  .dls-cat-page__carBtn:focus-visible {
+    outline: 2px solid var(--color-neutral-900);
+    outline-offset: 2px;
   }
 
   .dls-cat-page__rail {
@@ -948,22 +974,45 @@
     position: relative;
     margin-top: var(--space-16);
     height: var(--space-24);
+    touch-action: none;
+    cursor: pointer;
   }
   .dls-cat__trackBase {
     position: absolute;
     left: 0;
     right: 0;
-    top: var(--space-8);
+    top: calc((var(--space-24) - var(--space-4)) / 2);
     height: var(--space-4);
     border-radius: var(--radius-full);
     background: var(--color-neutral-200);
   }
   .dls-cat__trackFill {
     position: absolute;
-    top: var(--space-8);
+    top: calc((var(--space-24) - var(--space-4)) / 2);
     height: var(--space-4);
     border-radius: var(--radius-full);
     background: var(--color-neutral-900);
+  }
+  .dls-cat__thumb {
+    position: absolute;
+    top: calc((var(--space-24) - var(--icon-20)) / 2);
+    width: var(--icon-20);
+    height: var(--icon-20);
+    margin-left: calc(var(--icon-20) / -2);
+    box-sizing: border-box;
+    border: calc(var(--border-hairline) * 2) solid var(--color-neutral-900);
+    border-radius: var(--radius-full);
+    background: var(--color-neutral-white);
+    box-shadow: 0 1px 3px rgba(18, 22, 28, 0.16);
+    touch-action: none;
+    cursor: grab;
+  }
+  .dls-cat__thumb:active {
+    cursor: grabbing;
+  }
+  .dls-cat__thumb:focus-visible {
+    outline: 2px solid var(--color-neutral-900);
+    outline-offset: 2px;
   }
   .dls-cat__priceMinmax {
     margin-top: var(--space-4);
