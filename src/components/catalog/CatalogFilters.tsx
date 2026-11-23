@@ -42,6 +42,9 @@ export type CatalogFiltersProps = {
   categoryLocked: string | null // slug when on /catalog/<category> (не чип)
   carFromCookie: boolean // car comes from the cookie pre-filter → removing it opts out (?car=off)
   hasVideo: boolean // show the «З відео перевірки» facet only when some product has a video
+  brandLocked?: string | null // brand slug fixed by the path (/brand/<brand>…) — select disabled, no chip
+  modelLocked?: string | null // model slug fixed by the path (/brand/<brand>/<model>) — select disabled, no chip
+  modelBasePath?: string | null // on a brand page, picking a model navigates to `${modelBasePath}/<slug>`
   children: React.ReactNode
 }
 
@@ -92,6 +95,9 @@ export function CatalogFilters({
   categoryLocked,
   carFromCookie,
   hasVideo,
+  brandLocked = null,
+  modelLocked = null,
+  modelBasePath = null,
   children,
 }: CatalogFiltersProps) {
   const router = useRouter()
@@ -158,11 +164,12 @@ export function CatalogFilters({
     // Removing the car opts out of the cookie pre-filter (?car=off) so it is not re-applied.
     const removeCar = () =>
       push(carFromCookie ? { brand: null, model: null, car: 'off' } : { brand: null, model: null })
-    if (current.brand && current.model) {
+    // No car chip when the brand is fixed by the path (/brand/<brand>…).
+    if (!brandLocked && current.brand && current.model) {
       const b = brands.find((x) => x.slug === current.brand)?.name ?? current.brand
       const mName = models.find((x) => x.slug === current.model)?.name ?? current.model
       out.push({ label: `${b} ${mName}`, onRemove: removeCar })
-    } else if (current.brand) {
+    } else if (!brandLocked && current.brand) {
       const b = brands.find((x) => x.slug === current.brand)?.name ?? current.brand
       out.push({ label: b, onRemove: removeCar })
     }
@@ -205,7 +212,7 @@ export function CatalogFilters({
     if (current.promo) out.push({ label: 'Акція', onRemove: () => push({ promo: null }) })
     if (current.video) out.push({ label: 'З відео перевірки', onRemove: () => push({ vid: null }) })
     return out
-  }, [current, brands, models, categoryFacets, categoryLocked, carFromCookie, push])
+  }, [current, brands, models, categoryFacets, categoryLocked, carFromCookie, brandLocked, push])
 
   const resetAll = () =>
     push({
@@ -272,6 +279,7 @@ export function CatalogFilters({
                     label="Марка"
                     value={current.brand}
                     placeholder="Марка"
+                    disabled={!!brandLocked}
                     options={brands.map((b) => ({ value: b.slug, label: b.name }))}
                     onChange={(v) => push({ brand: v || null, model: null, car: null })}
                   />
@@ -279,9 +287,16 @@ export function CatalogFilters({
                     label="Модель"
                     value={current.model}
                     placeholder="Модель"
-                    disabled={!current.brand}
+                    disabled={!!modelLocked || !current.brand}
                     options={models.map((m) => ({ value: m.slug, label: m.name }))}
-                    onChange={(v) => push({ model: v || null, car: null })}
+                    onChange={(v) => {
+                      // On a brand page a model picks the §8 model path; elsewhere it is a query filter.
+                      if (modelBasePath) {
+                        router.push(v ? `${modelBasePath}/${v}` : modelBasePath, { scroll: false })
+                      } else {
+                        push({ model: v || null, car: null })
+                      }
+                    }}
                   />
                 </div>
               </Accordion>

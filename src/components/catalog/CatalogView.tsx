@@ -51,17 +51,43 @@ const num = (v: string | undefined, d: number) => {
 const logoUrl = (m: number | Media | null | undefined): string | null =>
   m && typeof m === 'object' ? (m.url ?? null) : null
 
+/**
+ * Brand / model scope (DLSCatalog is reused for /brand/<brand> and
+ * /brand/<brand>/<model> — §8 lists those URLs, and the export's brand/model
+ * pickers all route to the catalog filtered by brand+model; there is no separate
+ * brand-page export). A scope locks the Авто axis to the path and sets the
+ * breadcrumbs / H1 / canonical; the cookie pre-filter is suppressed so the page
+ * always shows the car in its URL.
+ */
+export type CatalogScope =
+  | { kind: 'brand'; brandSlug: string; brandName: string }
+  | {
+      kind: 'model'
+      brandSlug: string
+      brandName: string
+      modelSlug: string
+      modelName: string
+    }
+
 export async function CatalogView({
   locale,
   category,
+  scope = null,
   search,
 }: {
   locale: Locale
   category: { slug: string; name: string } | null
+  scope?: CatalogScope | null
   search: CatalogSearch
 }) {
   const prefix = locale === 'uk' ? '' : '/ru'
-  const basePath = category ? `${prefix}/catalog/${category.slug}` : `${prefix}/catalog`
+  const basePath = scope
+    ? scope.kind === 'model'
+      ? `${prefix}/brand/${scope.brandSlug}/${scope.modelSlug}`
+      : `${prefix}/brand/${scope.brandSlug}`
+    : category
+      ? `${prefix}/catalog/${category.slug}`
+      : `${prefix}/catalog`
 
   const PMIN = 100
   const PMAX = 120000
@@ -111,9 +137,16 @@ export async function CatalogView({
     ? (Object.entries(modelsByBrand).find(([, ms]) => ms.some((m) => m.slug === carSlug))?.[0] ??
       null)
     : null
-  const cookieApplies = !optedOut && !search.brand && !search.model && !!carSlug
-  const effBrand = search.brand || (cookieApplies ? (cookieBrandSlug ?? undefined) : undefined)
-  const effModel = search.model || (cookieApplies ? (carSlug ?? undefined) : undefined)
+  // On a brand/model page the Авто axis is fixed by the path — the cookie pre-filter
+  // and the Марка/Модель query are ignored for it.
+  const cookieApplies = !scope && !optedOut && !search.brand && !search.model && !!carSlug
+  const effBrand = scope
+    ? scope.brandSlug
+    : search.brand || (cookieApplies ? (cookieBrandSlug ?? undefined) : undefined)
+  const effModel =
+    scope?.kind === 'model'
+      ? scope.modelSlug
+      : search.model || (cookieApplies ? (carSlug ?? undefined) : undefined)
 
   const { products, total, categoryFacets, hasVideo } = await getCatalog({
     categories: cats,
@@ -150,15 +183,25 @@ export async function CatalogView({
 
   const facets = categoryFacets.map((f) => ({ value: f.slug, label: f.name, count: f.count }))
   const fullCar = !!effBrand && !!effModel
-  const carBannerLabel = fullCar
-    ? cookieApplies && carLabel
-      ? carLabel
-      : `${brands.find((b) => b.slug === effBrand)?.name ?? effBrand} ${
-          (modelsByBrand[effBrand!] ?? []).find((m) => m.slug === effModel)?.name ?? effModel
-        }`
-    : cookieApplies && carLabel
-      ? carLabel
-      : null
+  const carBannerLabel = scope
+    ? null // a brand/model page is already the scope — no cookie banner
+    : fullCar
+      ? cookieApplies && carLabel
+        ? carLabel
+        : `${brands.find((b) => b.slug === effBrand)?.name ?? effBrand} ${
+            (modelsByBrand[effBrand!] ?? []).find((m) => m.slug === effModel)?.name ?? effModel
+          }`
+      : cookieApplies && carLabel
+        ? carLabel
+        : null
+
+  const h1 = scope
+    ? scope.kind === 'model'
+      ? `${scope.brandName} ${scope.modelName}`
+      : scope.brandName
+    : category
+      ? category.name
+      : 'Каталог запчастин'
 
   return (
     <main className="dls-cat-page">
@@ -168,19 +211,40 @@ export async function CatalogView({
             Головна
           </Link>
           <span aria-hidden>/</span>
-          {category ? (
-            <>
-              <Link href={`${prefix}/catalog`} className="dls-cat-page__crumbLink">
-                Каталог
-              </Link>
-              <span aria-hidden>/</span>
-              <span aria-current="page">{category.name}</span>
-            </>
+          {category || scope ? (
+            <Link href={`${prefix}/catalog`} className="dls-cat-page__crumbLink">
+              Каталог
+            </Link>
           ) : (
             <span aria-current="page">Каталог</span>
           )}
+          {scope ? (
+            scope.kind === 'model' ? (
+              <>
+                <span aria-hidden>/</span>
+                <Link
+                  href={`${prefix}/brand/${scope.brandSlug}`}
+                  className="dls-cat-page__crumbLink"
+                >
+                  {scope.brandName}
+                </Link>
+                <span aria-hidden>/</span>
+                <span aria-current="page">{scope.modelName}</span>
+              </>
+            ) : (
+              <>
+                <span aria-hidden>/</span>
+                <span aria-current="page">{scope.brandName}</span>
+              </>
+            )
+          ) : category ? (
+            <>
+              <span aria-hidden>/</span>
+              <span aria-current="page">{category.name}</span>
+            </>
+          ) : null}
         </nav>
-        <h1 className="dls-cat-page__h1">{category ? category.name : 'Каталог запчастин'}</h1>
+        <h1 className="dls-cat-page__h1">{h1}</h1>
         {carBannerLabel ? (
           <p className="dls-cat-page__carLine">
             Показуємо деталі на <strong>{carBannerLabel}</strong>
@@ -221,6 +285,9 @@ export async function CatalogView({
             categoryLocked={category?.slug ?? null}
             carFromCookie={cookieApplies}
             hasVideo={hasVideo}
+            brandLocked={scope ? scope.brandSlug : null}
+            modelLocked={scope?.kind === 'model' ? scope.modelSlug : null}
+            modelBasePath={scope?.kind === 'brand' ? `${prefix}/brand/${scope.brandSlug}` : null}
             current={{
               brand: effBrand ?? '',
               model: effModel ?? '',
