@@ -70,6 +70,8 @@ export interface Config {
     brands: Brand;
     models: Model;
     categories: Category;
+    'part-types': PartType;
+    donors: Donor;
     products: Product;
     'pickup-points': PickupPoint;
     media: Media;
@@ -89,6 +91,8 @@ export interface Config {
     brands: BrandsSelect<false> | BrandsSelect<true>;
     models: ModelsSelect<false> | ModelsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    'part-types': PartTypesSelect<false> | PartTypesSelect<true>;
+    donors: DonorsSelect<false> | DonorsSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
     'pickup-points': PickupPointsSelect<false> | PickupPointsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
@@ -278,6 +282,35 @@ export interface Category {
   photo?: (number | null) | Media;
   description?: string | null;
   /**
+   * Характеристики категорії (DEV_CONTEXT §4, Р6). Значення заповнюються у товарі (specValues).
+   */
+  specTemplate?:
+    | {
+        /**
+         * Стабільний ідентифікатор (латиницею), напр. engineCode.
+         */
+        key: string;
+        name: string;
+        type: 'text' | 'number' | 'select';
+        /**
+         * Напр. «л», «мм».
+         */
+        unit?: string | null;
+        required?: boolean | null;
+        options?:
+          | {
+              value: string;
+              id?: string | null;
+            }[]
+          | null;
+        /**
+         * Якщо порожньо — правило «Обовʼязкова» діє на всю категорію.
+         */
+        requiredForTypes?: (number | PartType)[] | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
    * Якщо порожньо — підставиться назва за шаблоном.
    */
   seoTitle?: string | null;
@@ -286,6 +319,63 @@ export interface Category {
    * Показувати на сайті.
    */
   published?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Довідник типів деталей. Категорія товару визначається типом.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "part-types".
+ */
+export interface PartType {
+  id: number;
+  name: string;
+  category: number | Category;
+  positionRule: 'lr' | 'fb' | 'any' | 'seat' | 'none';
+  /**
+   * Р35: катч-олл тип — альтернативи шукаються тільки за OEM того ж типу.
+   */
+  broad?: boolean | null;
+  /**
+   * Р37/Р45: тип-кандидат та умова сторони (та сама / протилежна / будь-яка).
+   */
+  relatedTypes?:
+    | {
+        type: number | PartType;
+        side: 'same' | 'opposite' | 'any';
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Слова в назві Prom, що підказують цей тип.
+   */
+  aliases?:
+    | {
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * Машина-донор. Мітка «№ авто» унікальна по всій розборці.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "donors".
+ */
+export interface Donor {
+  id: number;
+  /**
+   * Мітка, якою розрізняють машини. Унікальна по всій розборці.
+   */
+  label: string;
+  model: number | Model;
+  year?: number | null;
+  mileage?: number | null;
+  photo?: (number | null) | Media;
+  notes?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -316,8 +406,37 @@ export interface Product {
    * URL-адреса. Генерується з назви, можна змінити вручну.
    */
   slug?: string | null;
+  /**
+   * Визначає категорію.
+   */
+  partType: number | PartType;
+  /**
+   * Обовʼязкове за правилом типу (ліва/права, передня/задня тощо).
+   */
+  position?:
+    | (
+        | 'front-left'
+        | 'front-right'
+        | 'rear-left'
+        | 'rear-right'
+        | 'left'
+        | 'right'
+        | 'front'
+        | 'rear'
+        | 'pair'
+        | 'both'
+        | 'driver'
+        | 'passenger'
+        | 'none'
+      )
+    | null;
+  /**
+   * Визначається типом деталі автоматично.
+   */
   category: number | Category;
   model?: (number | null) | Model;
+  alsoFits?: (number | Model)[] | null;
+  donor?: (number | null) | Donor;
   description?: {
     root: {
       type: string;
@@ -333,12 +452,27 @@ export interface Product {
     };
     [k: string]: unknown;
   } | null;
-  condition?: {
-    text?: string | null;
-    defects?: (number | Media)[] | null;
-  };
+  conditionLabel: 'used_checked' | 'used' | 'used_defects' | 'new';
+  isOriginal?: ('original' | 'analog') | null;
   /**
-   * Пари ключ/значення для картки та швидкого перегляду.
+   * Обовʼязково. Може бути «Без зауважень» (Р34).
+   */
+  conditionText: string;
+  defectPhotos?: (number | Media)[] | null;
+  completeness?: string | null;
+  /**
+   * Значення за шаблоном категорії (specTemplate).
+   */
+  specValues?:
+    | {
+        key?: string | null;
+        label: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Несопоставлені характеристики імпорту Prom (Р6).
    */
   specs?:
     | {
@@ -353,8 +487,24 @@ export interface Product {
   photos?: (number | Media)[] | null;
   price: number;
   discountPercent?: number | null;
+  /**
+   * 0 — без гарантії (плашка не показується).
+   */
+  warrantyDays: number;
+  /**
+   * Доступне з KeyCRM (in_stock − in_reserve, Р19).
+   */
+  quantity: number;
+  /**
+   * З KeyCRM (in_reserve). Доступно 0 + резерв > 0 → «Заброньовано»; доступно 0 + резерв 0 → «Продано» (Р39).
+   */
+  inReserve?: number | null;
   status: 'in_stock' | 'sold' | 'hidden';
   pickupPoint?: (number | null) | PickupPoint;
+  /**
+   * Новинки рахуються від цієї дати (Р9). Порожньо = не новинка.
+   */
+  receivedAt?: string | null;
   /**
    * Проставляється автоматично.
    */
@@ -362,9 +512,18 @@ export interface Product {
   featured?: boolean | null;
   pinnedNew?: boolean | null;
   seasonalDecor?: boolean | null;
-  alsoFits?: (number | Model)[] | null;
+  /**
+   * Ручне закріплення поверх автопідбору.
+   */
   boughtTogether?: (number | Product)[] | null;
+  /**
+   * Ручне закріплення поверх автопідбору.
+   */
   alternatives?: (number | Product)[] | null;
+  /**
+   * З Prom «Пошукові_запити». Бере участь у пошуку (етап 4).
+   */
+  searchKeywords?: string | null;
   /**
    * Якщо порожньо — підставиться назва за шаблоном.
    */
@@ -884,6 +1043,14 @@ export interface PayloadLockedDocument {
         value: number | Category;
       } | null)
     | ({
+        relationTo: 'part-types';
+        value: number | PartType;
+      } | null)
+    | ({
+        relationTo: 'donors';
+        value: number | Donor;
+      } | null)
+    | ({
         relationTo: 'products';
         value: number | Product;
       } | null)
@@ -1004,9 +1171,65 @@ export interface CategoriesSelect<T extends boolean = true> {
   slug?: T;
   photo?: T;
   description?: T;
+  specTemplate?:
+    | T
+    | {
+        key?: T;
+        name?: T;
+        type?: T;
+        unit?: T;
+        required?: T;
+        options?:
+          | T
+          | {
+              value?: T;
+              id?: T;
+            };
+        requiredForTypes?: T;
+        id?: T;
+      };
   seoTitle?: T;
   seoDescription?: T;
   published?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "part-types_select".
+ */
+export interface PartTypesSelect<T extends boolean = true> {
+  name?: T;
+  category?: T;
+  positionRule?: T;
+  broad?: T;
+  relatedTypes?:
+    | T
+    | {
+        type?: T;
+        side?: T;
+        id?: T;
+      };
+  aliases?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "donors_select".
+ */
+export interface DonorsSelect<T extends boolean = true> {
+  label?: T;
+  model?: T;
+  year?: T;
+  mileage?: T;
+  photo?: T;
+  notes?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1027,14 +1250,25 @@ export interface ProductsSelect<T extends boolean = true> {
   oemNormalized?: T;
   name?: T;
   slug?: T;
+  partType?: T;
+  position?: T;
   category?: T;
   model?: T;
+  alsoFits?: T;
+  donor?: T;
   description?: T;
-  condition?:
+  conditionLabel?: T;
+  isOriginal?: T;
+  conditionText?: T;
+  defectPhotos?: T;
+  completeness?: T;
+  specValues?:
     | T
     | {
-        text?: T;
-        defects?: T;
+        key?: T;
+        label?: T;
+        value?: T;
+        id?: T;
       };
   specs?:
     | T
@@ -1046,15 +1280,19 @@ export interface ProductsSelect<T extends boolean = true> {
   photos?: T;
   price?: T;
   discountPercent?: T;
+  warrantyDays?: T;
+  quantity?: T;
+  inReserve?: T;
   status?: T;
   pickupPoint?: T;
+  receivedAt?: T;
   soldAt?: T;
   featured?: T;
   pinnedNew?: T;
   seasonalDecor?: T;
-  alsoFits?: T;
   boughtTogether?: T;
   alternatives?: T;
+  searchKeywords?: T;
   seoTitle?: T;
   seoDescription?: T;
   needsTranslation?: T;

@@ -1,21 +1,9 @@
-import * as migration_20261030_181900_initial from './20261030_181900_initial';
-import * as migration_20261102_100155_initial from './20261102_100155_initial';
-import * as migration_20261102_114737_add_channel_notes from './20261102_114737_add_channel_notes';
+import * as migration_20261123_113831_initial from './20261123_113831_initial';
 
 export const migrations = [
   {
-    up: migration_20261030_181900_initial.up,
-    down: migration_20261030_181900_initial.down,
-    name: '20261030_181900_initial',
-  },
-  {
-    up: migration_20261102_100155_initial.up,
-    down: migration_20261102_100155_initial.down,
-    name: '20261102_100155_initial',
-  },
-  {
-    up: migration_20261102_114737_add_channel_notes.up,
-    down: migration_20261102_114737_add_channel_notes.down,
-    name: '20261102_114737_add_channel_notes'
+    up: migration_20261123_113831_initial.up,
+    down: migration_20261123_113831_initial.down,
+    name: '20261123_113831_initial',
   },
 ];

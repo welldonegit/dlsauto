@@ -17,6 +17,8 @@ export const TAG = {
   brands: 'brands',
   models: 'models',
   categories: 'categories',
+  partTypes: 'part-types',
+  donors: 'donors',
   products: 'products',
   pages: 'pages',
   banners: 'banners',

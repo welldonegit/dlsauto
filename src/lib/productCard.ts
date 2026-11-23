@@ -57,8 +57,8 @@ export function toProductCardData(
     fits: false, // "Підходить на ваше авто" — wired when the car cookie exists
     photos: photos.length ? photos : [''],
     city: pickup?.name ?? '',
-    specs: (p.specs ?? []).map((s) => ({ k: s.label, v: s.value })),
-    condition: p.condition?.text ?? null,
+    specs: [...(p.specValues ?? []), ...(p.specs ?? [])].map((s) => ({ k: s.label, v: s.value })),
+    condition: p.conditionText ?? null,
     video: videoUrl(p.photos),
   }
 }

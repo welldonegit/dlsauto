@@ -17,11 +17,13 @@ import {
 import { Banners } from './payload/collections/Banners'
 import { Brands } from './payload/collections/Brands'
 import { Categories } from './payload/collections/Categories'
+import { Donors } from './payload/collections/Donors'
 import { Leads } from './payload/collections/Leads'
 import { Media } from './payload/collections/Media'
 import { Models } from './payload/collections/Models'
 import { Orders } from './payload/collections/Orders'
 import { Pages } from './payload/collections/Pages'
+import { PartTypes } from './payload/collections/PartTypes'
 import { PickupPoints } from './payload/collections/PickupPoints'
 import { Products } from './payload/collections/Products'
 import { Reviews } from './payload/collections/Reviews'
@@ -62,6 +64,8 @@ export default buildConfig({
     withRevalidate(Brands, TAG.brands),
     withRevalidate(Models, TAG.models),
     withRevalidate(Categories, TAG.categories),
+    withRevalidate(PartTypes, TAG.partTypes),
+    withRevalidate(Donors, TAG.donors),
     withRevalidate(Products, TAG.products, (doc) => (doc.slug ? [productTag(doc.slug)] : [])),
     withRevalidate(PickupPoints, TAG.pickupPoints),
     Media,

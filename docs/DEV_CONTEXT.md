@@ -92,11 +92,11 @@
 **products** — поля:
 - sku (артикул, уникальный, обязателен; один на физическую деталь, одинаков на сайте, в KeyCRM и на Prom — Р3), promId (опц.), oem[] (нормализованные копии для поиска; при импорте код, стоящий на деталях ≥ 2 типов, в `oem[]` не кладётся — в очередь «Перевірити», Р47), name, slug.
 - partType (rel → partTypes, обяз.) — определяет category; category (rel, read-only, выводится из partType хуком, Р7).
-- position (enum из списка §7, обяз. по positionRule типа; «комплект: ліва + права» ≠ «підходить на обидві сторони», Р10/Р36).
+- position (enum из списка §7 + значение `both` «підходить на обидві сторони»; обяз. по positionRule типа; «комплект: ліва + права» (`pair`) ≠ «підходить на обидві сторони» (`both`), Р10/Р36. Значение `both` добавлено в 3c — список §7 перечисляет физические позиции донора и не содержал fit-правила «обидві сторони», которое требует матрица §5).
 - model (поколение: совместимость, метка карточки, «підходить на ваше авто», Р8), alsoFits[] (модели, опц.; twin — через alsoFits, Р11), donor (rel → donors, опц.).
 - description (richText), conditionLabel (enum: `Б/в, перевірений` | `Б/в` | `Б/в, з дефектами` | `Новий`, Р34), conditionText (локал., обяз.), defectPhotos[] (фото дефектов, Р26).
 - specValues[] (значения характеристик категории по `categories.specTemplate`, Р6), specs[] (локал. label/value — «Додатково»: несопоставленные характеристики импорта Prom).
-- photos[] (порядок, первое — главное, видео последним), price, discountPercent (опц.), warrantyDays (int, обяз.; 0 — без гарантии, Р14), isOriginal (enum `оригінал` | `аналог`), quantity (int; доступное из KeyCRM-вебхука = in_stock − in_reserve, Р19), completeness (локал., опц.).
+- photos[] (порядок, первое — главное, видео последним), price, discountPercent (опц.), warrantyDays (int, обяз.; 0 — без гарантии, Р14), isOriginal (enum `оригінал` | `аналог`), quantity (int; доступное из KeyCRM-вебхука = in_stock − in_reserve, Р19), inReserve (int; из KeyCRM-вебхука, нужно для различения «Заброньовано»/«Продано», Р39), completeness (локал., опц.).
 - featured (бегущая рамка, независимо от скидки), seasonalDecor (bool), pinnedNew (bool), pickupPoint (где лежит), status (`in_stock` | `sold` | `hidden`), soldAt.
 - receivedAt (date — дата поступления; новинки, Р9), searchKeywords (скрытое, локал.; из Prom `Пошукові_запити`, Р15).
 - boughtTogether[], alternatives[] — ручные закрепления поверх автоподбора (§12–13). seoTitle, seoDescription, createdAt.

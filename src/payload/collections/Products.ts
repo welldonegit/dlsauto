@@ -1,16 +1,19 @@
 import type { CollectionConfig } from 'payload'
 
 import { normalizeOemList } from '@/lib/rules'
+import { POSITION_OPTIONS, type PositionRule } from '@/lib/rules/position'
 
 import { isAdminOrManager } from '../access'
 import { seoFields, slugField } from '../fields'
 
 /**
  * Products (DEV_CONTEXT §4, §5) — the core catalog item. Every part is unique:
- * no quantity, only status in_stock | sold | hidden. On the transition to sold
- * the `soldAt` timestamp is stamped (sold pages live on). OEM numbers are stored
- * as entered plus a normalized copy (`oemNormalized`) for search. Localized:
- * name, description, condition.text, seo*.
+ * availability is driven by `quantity` (from the KeyCRM stock webhook, Р19) and
+ * `status`; on the transition to sold the `soldAt` timestamp is stamped (sold
+ * pages live on, Р39). The `category` is derived from `partType` (Р7) and shown
+ * read-only. OEM numbers are stored as entered plus a normalized copy
+ * (`oemNormalized`) for search. Localized: name, description, conditionText,
+ * completeness, specValues/specs, searchKeywords, seo*.
  */
 export const Products: CollectionConfig = {
   slug: 'products',
@@ -25,13 +28,13 @@ export const Products: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['sku', 'name', 'category', 'model', 'price', 'status', 'pickupPoint'],
+    defaultColumns: ['sku', 'name', 'partType', 'model', 'price', 'status', 'pickupPoint'],
     group: 'Каталог',
     listSearchableFields: ['sku', 'name', 'oemNormalized'],
   },
   hooks: {
     beforeValidate: [
-      ({ data }) => {
+      async ({ data, req }) => {
         if (!data) return data
         // Keep a normalized OEM copy in sync for search.
         const oem = Array.isArray(data.oem)
@@ -40,6 +43,28 @@ export const Products: CollectionConfig = {
         data.oemNormalized = normalizeOemList(oem)
         // Stamp soldAt on the first transition into "sold"; keep it afterwards.
         if (data.status === 'sold' && !data.soldAt) data.soldAt = new Date().toISOString()
+        // Category is derived from the part type (Р7); position rule is enforced
+        // against the type's positionRule.
+        const typeRel = data.partType
+        const typeId = typeof typeRel === 'object' && typeRel ? typeRel.id : typeRel
+        if (typeId != null) {
+          const pt = await req.payload.findByID({
+            collection: 'part-types',
+            id: typeId as number,
+            depth: 0,
+          })
+          if (pt?.category != null) {
+            data.category = typeof pt.category === 'object' ? pt.category.id : pt.category
+          }
+          const rule = pt?.positionRule as PositionRule | undefined
+          const pos = data.position as string | undefined
+          const sideRequired = rule === 'lr' || rule === 'fb' || rule === 'seat'
+          if (sideRequired && (!pos || pos === 'none')) {
+            throw new Error(
+              `Для типу «${pt?.name ?? ''}» обовʼязкове розташування (правило ${rule}).`,
+            )
+          }
+        }
         return data
       },
     ],
@@ -87,40 +112,131 @@ export const Products: CollectionConfig = {
       type: 'row',
       fields: [
         {
+          name: 'partType',
+          type: 'relationship',
+          relationTo: 'part-types',
+          required: true,
+          label: 'Тип деталі',
+          admin: { description: 'Визначає категорію.' },
+        },
+        {
+          name: 'position',
+          type: 'select',
+          label: 'Розташування',
+          options: POSITION_OPTIONS,
+          admin: { description: 'Обовʼязкове за правилом типу (ліва/права, передня/задня тощо).' },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
           name: 'category',
           type: 'relationship',
           relationTo: 'categories',
           required: true,
           label: 'Категорія',
+          admin: { readOnly: true, description: 'Визначається типом деталі автоматично.' },
         },
-        { name: 'model', type: 'relationship', relationTo: 'models', label: 'Модель (донор)' },
+        { name: 'model', type: 'relationship', relationTo: 'models', label: 'Модель (покоління)' },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        {
+          name: 'alsoFits',
+          type: 'relationship',
+          relationTo: 'models',
+          hasMany: true,
+          label: 'Також підходить на моделі',
+        },
+        {
+          name: 'donor',
+          type: 'relationship',
+          relationTo: 'donors',
+          label: 'Авто-донор (№ авто)',
+        },
       ],
     },
     { name: 'description', type: 'richText', localized: true, label: 'Опис' },
+    // ---------------------------------------------------------- condition
     {
-      name: 'condition',
-      type: 'group',
-      label: 'Стан деталі',
+      type: 'row',
       fields: [
-        { name: 'text', type: 'textarea', localized: true, label: 'Опис стану' },
         {
-          name: 'defects',
-          type: 'upload',
-          relationTo: 'media',
-          hasMany: true,
-          label: 'Фото дефектів',
+          name: 'conditionLabel',
+          type: 'select',
+          required: true,
+          defaultValue: 'used',
+          label: 'Стан',
+          options: [
+            { label: 'Б/в, перевірений', value: 'used_checked' },
+            { label: 'Б/в', value: 'used' },
+            { label: 'Б/в, з дефектами', value: 'used_defects' },
+            { label: 'Новий', value: 'new' },
+          ],
+        },
+        {
+          name: 'isOriginal',
+          type: 'select',
+          label: 'Оригінал / аналог',
+          options: [
+            { label: 'Оригінал', value: 'original' },
+            { label: 'Аналог', value: 'analog' },
+          ],
+        },
+      ],
+    },
+    {
+      name: 'conditionText',
+      type: 'textarea',
+      required: true,
+      localized: true,
+      label: 'Опис стану',
+      admin: { description: 'Обовʼязково. Може бути «Без зауважень» (Р34).' },
+    },
+    {
+      name: 'defectPhotos',
+      type: 'upload',
+      relationTo: 'media',
+      hasMany: true,
+      label: 'Фото дефектів',
+    },
+    { name: 'completeness', type: 'textarea', localized: true, label: 'Комплектність' },
+    // ---------------------------------------------------------- specs
+    {
+      name: 'specValues',
+      type: 'array',
+      label: 'Характеристики категорії',
+      labels: { singular: 'Характеристика', plural: 'Характеристики' },
+      admin: { description: 'Значення за шаблоном категорії (specTemplate).' },
+      fields: [
+        {
+          type: 'row',
+          fields: [
+            { name: 'key', type: 'text', label: 'Ключ' },
+            { name: 'label', type: 'text', required: true, localized: true, label: 'Назва' },
+            { name: 'value', type: 'text', required: true, localized: true, label: 'Значення' },
+          ],
         },
       ],
     },
     {
       name: 'specs',
       type: 'array',
-      label: 'Характеристики',
+      label: 'Додатково',
       labels: { singular: 'Характеристика', plural: 'Характеристики' },
-      admin: { description: 'Пари ключ/значення для картки та швидкого перегляду.' },
+      admin: { description: 'Несопоставлені характеристики імпорту Prom (Р6).' },
       fields: [
-        { name: 'label', type: 'text', required: true, localized: true, label: 'Назва' },
-        { name: 'value', type: 'text', required: true, localized: true, label: 'Значення' },
+        {
+          type: 'row',
+          fields: [
+            { name: 'label', type: 'text', required: true, localized: true, label: 'Назва' },
+            { name: 'value', type: 'text', required: true, localized: true, label: 'Значення' },
+          ],
+        },
       ],
     },
     {
@@ -153,6 +269,41 @@ export const Products: CollectionConfig = {
       type: 'row',
       fields: [
         {
+          name: 'warrantyDays',
+          type: 'number',
+          required: true,
+          min: 0,
+          defaultValue: 14,
+          label: 'Гарантія, днів',
+          admin: { description: '0 — без гарантії (плашка не показується).' },
+        },
+        {
+          name: 'quantity',
+          type: 'number',
+          required: true,
+          min: 0,
+          defaultValue: 1,
+          label: 'Доступно, шт',
+          admin: { description: 'Доступне з KeyCRM (in_stock − in_reserve, Р19).' },
+        },
+      ],
+    },
+    {
+      name: 'inReserve',
+      type: 'number',
+      min: 0,
+      defaultValue: 0,
+      label: 'У резерві, шт',
+      admin: {
+        position: 'sidebar',
+        description:
+          'З KeyCRM (in_reserve). Доступно 0 + резерв > 0 → «Заброньовано»; доступно 0 + резерв 0 → «Продано» (Р39).',
+      },
+    },
+    {
+      type: 'row',
+      fields: [
+        {
           name: 'status',
           type: 'select',
           required: true,
@@ -171,6 +322,15 @@ export const Products: CollectionConfig = {
           label: 'Пункт видачі (де лежить)',
         },
       ],
+    },
+    {
+      name: 'receivedAt',
+      type: 'date',
+      label: 'Дата надходження',
+      admin: {
+        position: 'sidebar',
+        description: 'Новинки рахуються від цієї дати (Р9). Порожньо = не новинка.',
+      },
     },
     {
       name: 'soldAt',
@@ -200,29 +360,34 @@ export const Products: CollectionConfig = {
       label: 'Святкова наклейка',
       admin: { position: 'sidebar' },
     },
-    // ---------------------------------------------------------- relations
-    {
-      name: 'alsoFits',
-      type: 'relationship',
-      relationTo: 'models',
-      hasMany: true,
-      label: 'Також підходить на моделі',
-    },
+    // ---------------------------------------------------------- manual picks
     {
       name: 'boughtTogether',
       type: 'relationship',
       relationTo: 'products',
       hasMany: true,
-      label: 'З цим купують',
+      label: 'З цим купують (закріплення)',
+      admin: { description: 'Ручне закріплення поверх автопідбору.' },
     },
     {
       name: 'alternatives',
       type: 'relationship',
       relationTo: 'products',
       hasMany: true,
-      label: 'Альтернативи',
+      label: 'Альтернативи (закріплення)',
+      admin: { description: 'Ручне закріплення поверх автопідбору.' },
     },
     // ---------------------------------------------------------- seo + import
+    {
+      name: 'searchKeywords',
+      type: 'textarea',
+      localized: true,
+      label: 'Пошукові запити (приховано)',
+      admin: {
+        hidden: true,
+        description: 'З Prom «Пошукові_запити». Бере участь у пошуку (етап 4).',
+      },
+    },
     seoFields(),
     {
       name: 'needsTranslation',
