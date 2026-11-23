@@ -58,6 +58,7 @@
 |---|---|---|---|---|---|
 | `--text-d` | `56px` | 1.1 | 600 | -0.02em | hero H1 (desktop) |
 | `--text-40` | `40px` | 1.15 | 600 | -0.02em | H1 / H2 desktop |
+| `--text-36` | `36px` | 1.15 | 600 | -0.02em | product H1 / price (desktop) |
 | `--text-32` | `32px` | 1.15 | 600 | -0.02em | H1 mobile / H2 |
 | `--text-28` | `28px` | 1.2 | 600 | -0.02em | H2 tablet |
 | `--text-24` | `24px` | 1.25 | 600 | -0.02em | H2 mobile |

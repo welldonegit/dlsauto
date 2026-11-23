@@ -159,6 +159,44 @@ export const getProduct = unstable_cache(
   { tags: [TAG.products] },
 )
 
+/** A single product by SKU (the stable key in /product/<slug>-<sku>), depth 2 for the
+ * full page (model→brand, category, partType+relatedTypes, donor→model, photos, pickup).
+ * Sold/reserved products still resolve (status 200, Р39); hidden ones do not. */
+export const getProductBySku = unstable_cache(
+  async (sku: string, locale: Locale = 'uk'): Promise<Product | null> => {
+    const payload = await getPayloadClient()
+    const res = await payload.find({
+      collection: 'products',
+      locale,
+      where: { and: [{ sku: { equals: sku } }, { status: { not_equals: 'hidden' } }] },
+      limit: 1,
+      depth: 2,
+    })
+    return res.docs[0] ?? null
+  },
+  ['product-by-sku'],
+  { tags: [TAG.products] },
+)
+
+/** In-stock pool for the on-the-fly recommendations (DEV_CONTEXT §5, Р25). depth 1
+ * populates partType (broad), model, category, donor, alsoFits as objects; reserved and
+ * sold are excluded (never recommended, Р39). The matching functions run over this pool. */
+export const getRecoPool = unstable_cache(
+  async (locale: Locale = 'uk'): Promise<Product[]> => {
+    const payload = await getPayloadClient()
+    const res = await payload.find({
+      collection: 'products',
+      locale,
+      where: { status: { equals: 'in_stock' } },
+      limit: 2000,
+      depth: 1,
+    })
+    return res.docs
+  },
+  ['reco-pool'],
+  { tags: [TAG.products] },
+)
+
 /** Newest in-stock products (DEV_CONTEXT §5) — the "Нові надходження" source. */
 export const getNewestProducts = unstable_cache(
   async (locale: Locale = 'uk', limit = 15): Promise<Product[]> => {
