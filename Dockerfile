@@ -13,6 +13,10 @@ ARG NODE_VERSION=22.16.0
 FROM node:${NODE_VERSION}-bookworm-slim AS base
 ENV PNPM_HOME=/pnpm
 ENV PATH=$PNPM_HOME:$PATH
+# Git hooks are a local-dev concern; skip the husky `prepare` script in every
+# image stage. Required for `prod-deps` (pnpm install --prod), where husky — a
+# devDependency — is absent and the bare `husky` command would fail the install.
+ENV HUSKY=0
 RUN corepack enable && corepack prepare pnpm@10.11.0 --activate
 WORKDIR /app
 
