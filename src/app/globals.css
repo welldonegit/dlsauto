@@ -3416,4 +3416,51 @@
     font-size: var(--text-16);
     color: var(--color-neutral-600);
   }
+
+  /* -------------------------------------------------------- «Ви дивилися» (5b) */
+  .dls-rct {
+    background: var(--color-neutral-50);
+    padding: var(--space-64) 0;
+  }
+  .dls-rct__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-24);
+  }
+  .dls-rct__arrows {
+    flex-shrink: 0;
+    display: none;
+    gap: var(--space-8);
+  }
+  @media (min-width: 768px) {
+    .dls-rct__arrows {
+      display: flex;
+    }
+  }
+  .dls-rct__arrow {
+    width: var(--control-h-48);
+    height: var(--control-h-48);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--border-hairline) solid var(--color-neutral-300);
+    border-radius: var(--radius-full);
+    background: var(--color-neutral-0);
+    color: var(--color-neutral-900);
+    cursor: pointer;
+    transition: border-color 150ms ease-out;
+  }
+  .dls-rct__arrow:hover:enabled {
+    border-color: var(--color-neutral-900);
+  }
+  .dls-rct__arrow:disabled {
+    color: var(--color-neutral-400);
+    cursor: default;
+  }
+  .dls-rct__arrow svg {
+    width: var(--icon-20);
+    height: var(--icon-20);
+  }
 }

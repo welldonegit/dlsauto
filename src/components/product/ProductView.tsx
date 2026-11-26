@@ -12,6 +12,7 @@ import { ProductBuyActions } from './ProductBuyActions'
 import { ProductCarFit, type BrandOpt } from './ProductCarFit'
 import { CompatValue } from './ProductCompat'
 import { ProductGallery, type Slide } from './ProductGallery'
+import { ProductRecent } from './ProductRecent'
 import { ProductRecommend, type DonorCard } from './ProductRecommend'
 import { ProductSpecList, type SpecRow } from './ProductSpecList'
 import { CartAddButton, OemCopy } from './ProductBits'
@@ -424,6 +425,9 @@ export function ProductView({
         donor={donorCard}
         locale={locale}
       />
+
+      {/* «Ви дивилися» (5b) — recently-viewed rail (localStorage) */}
+      <ProductRecent currentSku={product.sku} locale={locale} />
     </main>
   )
 }
