@@ -61,9 +61,9 @@ export default async function LocaleLayout({
   const { locale } = await params
   if (!isLocale(locale)) notFound()
 
-  // Quick-view chrome (warranty badge + service list) — site-wide, from settings.
+  // Quick-view service list — site-wide, from settings. (Warranty now comes from
+  // product.warrantyDays per product, Р14 — settings.quickView.warranty is unused.)
   const settings = await getSettings(locale as Locale)
-  const qvWarranty = settings.quickView?.warranty ?? undefined
   const qvServices = settings.quickView?.services
     ? settings.quickView.services
         .split('\n')
@@ -76,7 +76,7 @@ export default async function LocaleLayout({
       <body>
         {children}
         <ToastHost />
-        <QuickViewHost warranty={qvWarranty} services={qvServices} />
+        <QuickViewHost services={qvServices} />
       </body>
     </html>
   )

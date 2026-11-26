@@ -198,7 +198,13 @@ export const getRecoPool = unstable_cache(
   { tags: [TAG.products] },
 )
 
-/** Newest in-stock products (DEV_CONTEXT §5) — the "Нові надходження" source. */
+/**
+ * "Нові надходження" source (DEV_CONTEXT §5, Р9). In-stock only (no sold/reserved).
+ * Ordering (owner 25.11): pinned-new first, then parts with a `receivedAt`
+ * (newest arrivals first), then the rest backfilled newest-by-`createdAt` — up to
+ * `limit`. The category tabs filter this ordered list, so each tab keeps the same
+ * ordering within its category.
+ */
 export const getNewestProducts = unstable_cache(
   async (locale: Locale = 'uk', limit = 15): Promise<Product[]> => {
     const payload = await getPayloadClient()
@@ -206,11 +212,23 @@ export const getNewestProducts = unstable_cache(
       collection: 'products',
       locale,
       where: { status: { equals: 'in_stock' } },
-      sort: '-createdAt',
-      limit,
+      sort: '-createdAt', // base order = newest created (tier 3 keeps this, sort is stable)
+      limit: 100, // a pool to rank; sliced to `limit` after ordering
       depth: 2, // model → brand, category, photos, pickup point
     })
-    return res.docs
+    const tier = (p: Product) => (p.pinnedNew ? 0 : p.receivedAt ? 1 : 2)
+    const ms = (d: string | null | undefined) => (d ? Date.parse(d) : 0)
+    const ordered = [...res.docs].sort((a, b) => {
+      const ta = tier(a)
+      const tb = tier(b)
+      if (ta !== tb) return ta - tb
+      if (ta === 2) return 0 // keep the query's -createdAt order
+      const ra = ms(a.receivedAt)
+      const rb = ms(b.receivedAt)
+      if (ra !== rb) return rb - ra // newest arrival first
+      return ms(b.createdAt) - ms(a.createdAt)
+    })
+    return ordered.slice(0, limit)
   },
   ['newest-products'],
   { tags: [TAG.products] },
@@ -262,6 +280,7 @@ export type CatalogParams = {
   categories?: string[] // category slugs (path category + checkbox selection)
   brand?: string
   model?: string
+  body?: 'pickup' | 'suv' | 'passenger' // vehicle body type (home «на пікапи/позашляховики»)
   priceFrom?: number
   priceTo?: number
   warranty?: number[] // 14 / 30 / 60
@@ -313,6 +332,7 @@ function catalogWhere(p: CatalogParams): Record<string, unknown>[] {
   } else if (p.brand) {
     and.push({ 'model.brand.slug': { equals: p.brand } })
   }
+  if (p.body) and.push({ 'model.bodyType': { equals: p.body } })
   if (p.priceFrom != null) and.push({ price: { greater_than_equal: p.priceFrom } })
   if (p.priceTo != null) and.push({ price: { less_than_equal: p.priceTo } })
   if (p.warranty?.length) and.push({ warrantyDays: { in: p.warranty } })

@@ -214,6 +214,7 @@ export function ProductView({
     model: model ? modelShort(model) : '',
     modelSlug: model?.slug ?? null,
     compat: compatModels,
+    warrantyDays: product.warrantyDays,
     brandLogo,
     status: avail === 'sold' ? 'sold' : 'in_stock',
     photos: photoImgs.length ? photoImgs : [''],

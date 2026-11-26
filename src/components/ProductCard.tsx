@@ -44,6 +44,8 @@ export type ProductCardData = {
   compat?: string[]
   brandLogo?: string | null
   status: 'in_stock' | 'sold'
+  /** Warranty in days (0 = none) — quick-view shows «Гарантія N днів», Р14. */
+  warrantyDays?: number
   featured?: boolean
   popular?: boolean
   fits?: boolean

@@ -57,6 +57,7 @@ export function toProductCardData(
     discountPercent: p.discountPercent ?? null,
     model: model ? modelShort(model) : '',
     modelSlug: model?.slug ?? null,
+    warrantyDays: p.warrantyDays ?? 0,
     compat,
     brandLogo: brand ? brandLogo(brand.id) : null,
     status: p.status === 'sold' ? 'sold' : 'in_stock',

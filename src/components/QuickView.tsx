@@ -40,17 +40,18 @@ export function QuickView({
   data,
   open,
   onClose,
-  warranty,
   services = [],
 }: {
   data: ProductCardData
   open: boolean
   onClose: () => void
-  /** Warranty badge text (from settings; stage 3c → product.warrantyDays). */
-  warranty?: string
   /** Service lines (from settings) — one per entry, icons are positional. */
   services?: string[]
 }) {
+  // Warranty from the product itself (Р14): «Гарантія N днів»; 0 → no badge, no
+  // settings fallback (owner 25.11).
+  const warranty =
+    data.warrantyDays && data.warrantyDays > 0 ? `Гарантія ${data.warrantyDays} днів` : null
   const [shown, setShown] = useState(false)
   const [vw, setVw] = useState(1440)
   const [idx, setIdx] = useState(0)

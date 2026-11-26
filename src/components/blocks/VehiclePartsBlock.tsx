@@ -57,7 +57,7 @@ async function renderVehicle(
     <VehicleCarousel
       title={heading}
       subtitle={subheading}
-      allHref={`${prefix}/catalog`}
+      allHref={`${prefix}/catalog?body=${bodyType}`}
       allLabel={copy.allLabel}
       videoSrc={videoUrl(video)}
       videoLabel={copy.videoLabel}

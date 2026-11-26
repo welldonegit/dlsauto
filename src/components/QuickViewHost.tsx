@@ -16,10 +16,8 @@ import { QUICK_VIEW_EVENT } from '@/lib/quickView'
 const QuickView = dynamic(() => import('./QuickView').then((m) => m.QuickView), { ssr: false })
 
 export function QuickViewHost({
-  warranty,
   services = [],
 }: {
-  warranty?: string
   services?: string[]
 } = {}) {
   const [data, setData] = useState<ProductCardData | null>(null)
@@ -38,14 +36,5 @@ export function QuickViewHost({
 
   if (!data) return null
   // Key by product id so each new product opens a fresh gallery (idx reset).
-  return (
-    <QuickView
-      key={data.id}
-      data={data}
-      open={open}
-      onClose={close}
-      warranty={warranty}
-      services={services}
-    />
-  )
+  return <QuickView key={data.id} data={data} open={open} onClose={close} services={services} />
 }

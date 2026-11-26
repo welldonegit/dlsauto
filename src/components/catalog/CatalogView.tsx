@@ -38,6 +38,7 @@ export type CatalogSearch = {
   promo?: string
   vid?: string
   car?: string // 'off' — opt out of the cookie car pre-filter for this view
+  body?: string // 'pickup' | 'suv' | 'passenger' — home «на пікапи/позашляховики»
   sort?: string
   shown?: string
 }
@@ -148,10 +149,15 @@ export async function CatalogView({
       ? scope.modelSlug
       : search.model || (cookieApplies ? (carSlug ?? undefined) : undefined)
 
+  const bodyType =
+    search.body === 'pickup' || search.body === 'suv' || search.body === 'passenger'
+      ? search.body
+      : undefined
   const { products, total, categoryFacets, hasVideo } = await getCatalog({
     categories: cats,
     brand: effBrand,
     model: effModel,
+    body: bodyType,
     priceFrom: priceFrom > PMIN ? priceFrom : undefined,
     priceTo: priceTo < PMAX ? priceTo : undefined,
     warranty: arr(search.warr).map(Number).filter(Boolean),
@@ -299,6 +305,7 @@ export async function CatalogView({
               conds: arr(search.cond),
               promo: search.promo === '1',
               video,
+              body: bodyType ?? '',
               sort,
             }}
           >

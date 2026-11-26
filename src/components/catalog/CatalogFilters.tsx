@@ -36,6 +36,7 @@ export type CatalogFiltersProps = {
     conds: string[]
     promo: boolean
     video: boolean
+    body: string // 'pickup' | 'suv' | 'passenger' | '' — set from the home sections, no filter control
     sort: CatalogSort
   }
   basePath: string // "/catalog" or "/ru/catalog" or ".../catalog/<category>"
@@ -66,6 +67,11 @@ const COND_OPTS: Opt[] = [
   { value: 'used_defects', label: 'Б/в, з дефектами' },
   { value: 'new', label: 'Новий' },
 ]
+const BODY_LABEL: Record<string, string> = {
+  pickup: 'Пікапи',
+  suv: 'Позашляховики',
+  passenger: 'Легкові',
+}
 const SORT_OPTS: { value: CatalogSort; label: string }[] = [
   { value: 'pop', label: 'За популярністю' },
   { value: 'new', label: 'Спочатку нові' },
@@ -211,6 +217,10 @@ export function CatalogFilters({
     )
     if (current.promo) out.push({ label: 'Акція', onRemove: () => push({ promo: null }) })
     if (current.video) out.push({ label: 'З відео перевірки', onRemove: () => push({ vid: null }) })
+    // Body-type (from the home «на пікапи/позашляховики» links) — a removable chip,
+    // no control in the panel (owner 25.11).
+    if (BODY_LABEL[current.body])
+      out.push({ label: BODY_LABEL[current.body], onRemove: () => push({ body: null }) })
     return out
   }, [current, brands, models, categoryFacets, categoryLocked, carFromCookie, brandLocked, push])
 
@@ -226,6 +236,7 @@ export function CatalogFilters({
       cond: null,
       promo: null,
       vid: null,
+      body: null,
       car: carFromCookie ? 'off' : null,
     })
 
