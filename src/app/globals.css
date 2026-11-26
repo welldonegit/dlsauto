@@ -3012,4 +3012,212 @@
     width: var(--icon-16);
     height: var(--icon-16);
   }
+
+  /* ---------------------------------------------------------------- compare */
+  .dls-cmp {
+    --cmp-label: 10rem;
+    --cmp-col: 15rem;
+    padding: var(--space-48) 0 var(--space-96);
+  }
+  .dls-cmp__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-8) var(--space-16);
+  }
+  .dls-cmp__title {
+    margin: 0;
+    font-size: var(--text-28);
+    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-neutral-900);
+  }
+  .dls-cmp__count {
+    font-size: var(--text-16);
+    color: var(--color-neutral-500);
+  }
+  .dls-cmp__tools {
+    margin-top: var(--space-24);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-12) var(--space-24);
+  }
+  .dls-cmp__toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    border: none;
+    background: transparent;
+    padding: 0;
+    font-family: inherit;
+    font-size: var(--text-14);
+    color: var(--color-neutral-900);
+    cursor: pointer;
+  }
+  .dls-cmp__toggleBox {
+    width: var(--icon-20);
+    height: var(--icon-20);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--border-hairline) solid var(--color-neutral-300);
+    border-radius: var(--radius-xs);
+    color: var(--color-neutral-0);
+  }
+  .dls-cmp__toggle[aria-pressed='true'] .dls-cmp__toggleBox {
+    background: var(--color-neutral-900);
+    border-color: var(--color-neutral-900);
+  }
+  .dls-cmp__toggleBox svg {
+    width: var(--icon-16);
+    height: var(--icon-16);
+  }
+  .dls-cmp__clear {
+    border: none;
+    background: transparent;
+    padding: 0;
+    font-family: inherit;
+    font-size: var(--text-14);
+    color: var(--color-neutral-500);
+    cursor: pointer;
+    transition: color 150ms ease-out;
+  }
+  .dls-cmp__clear:hover {
+    color: var(--color-neutral-900);
+  }
+  .dls-cmp__scroll {
+    margin-top: var(--space-24);
+    overflow-x: auto;
+    border: var(--border-hairline) solid var(--color-neutral-200);
+    border-radius: var(--radius-lg);
+    background: var(--color-neutral-0);
+  }
+  .dls-cmp__grid {
+    min-width: min-content;
+  }
+  /* every row shares the same template (label + N products + «додати» column) so
+     columns line up; non-card rows render an empty trailing cell */
+  .dls-cmp__row {
+    display: grid;
+    grid-template-columns: var(--cmp-label) repeat(var(--cmp-n), var(--cmp-col)) var(--cmp-col);
+    border-top: var(--border-hairline) solid var(--color-neutral-200);
+  }
+  .dls-cmp__row:first-child {
+    border-top: none;
+  }
+  .dls-cmp__cell {
+    box-sizing: border-box;
+    padding: var(--space-12) var(--space-16);
+    min-width: 0;
+    font-size: var(--text-14);
+    line-height: var(--text-14--line-height);
+    color: var(--color-neutral-900);
+    text-wrap: pretty;
+    border-left: var(--border-hairline) solid var(--color-neutral-200);
+  }
+  .dls-cmp__label {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+    background: var(--color-neutral-0);
+    border-left: none;
+    color: var(--color-neutral-500);
+  }
+  .dls-cmp__card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+  .dls-cmp__photo {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--color-neutral-100);
+  }
+  .dls-cmp__photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .dls-cmp__photo[data-sold='true'] img {
+    opacity: 0.5;
+  }
+  .dls-cmp__remove {
+    position: absolute;
+    top: var(--space-8);
+    right: var(--space-8);
+    width: var(--control-h-32);
+    height: var(--control-h-32);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: var(--radius-full);
+    background: var(--color-neutral-0);
+    color: var(--color-neutral-900);
+    cursor: pointer;
+  }
+  .dls-cmp__remove svg {
+    width: var(--icon-16);
+    height: var(--icon-16);
+  }
+  .dls-cmp__name {
+    margin: 0;
+    font-size: var(--text-14);
+    line-height: 1.3;
+    font-weight: 600;
+    color: var(--color-neutral-900);
+    text-decoration: none;
+  }
+  .dls-cmp__name:hover {
+    text-decoration: underline;
+  }
+  .dls-cmp__price {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-8);
+    font-size: var(--text-20);
+    font-weight: 600;
+    color: var(--color-neutral-900);
+  }
+  .dls-cmp__lowest {
+    font-size: var(--text-13);
+    font-weight: 500;
+    color: var(--color-success);
+  }
+  .dls-cmp__add {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    padding: var(--space-24) var(--space-16);
+    color: var(--color-neutral-600);
+    text-decoration: none;
+    border-left: var(--border-hairline) solid var(--color-neutral-200);
+  }
+  .dls-cmp__add svg {
+    width: var(--icon-24);
+    height: var(--icon-24);
+  }
+  .dls-cmp__empty {
+    margin-top: var(--space-48);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-16);
+    text-align: center;
+    color: var(--color-neutral-600);
+  }
+  .dls-cmp__empty p {
+    margin: 0;
+    font-size: var(--text-20);
+    line-height: 1.5;
+    color: var(--color-neutral-900);
+  }
 }
