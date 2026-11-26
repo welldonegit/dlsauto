@@ -217,6 +217,7 @@ export function ProductView({
     warrantyDays: product.warrantyDays,
     brandLogo,
     status: avail === 'sold' ? 'sold' : 'in_stock',
+    availability: avail === 'hidden' ? 'in_stock' : avail,
     photos: photoImgs.length ? photoImgs : [''],
     city: stockCity,
     specs: [],

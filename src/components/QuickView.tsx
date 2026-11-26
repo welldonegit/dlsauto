@@ -146,7 +146,11 @@ export function QuickView({
   const go = (n: number) => setIdx(((n % total) + total) % total)
 
   const fits = !!data.fits || (!!car && !!data.modelSlug && car.slug === data.modelSlug)
-  const promo = !!data.discountPercent && data.discountPercent > 0 && data.status !== 'sold'
+  // Availability (Р39, owner 26.11): closed (sold/reserved) → «В кошик» inactive + status label.
+  const avail = data.availability ?? (data.status === 'sold' ? 'sold' : 'in_stock')
+  const closed = avail !== 'in_stock'
+  const statusLabel = avail === 'sold' ? 'Продано' : avail === 'reserved' ? 'Заброньовано' : ''
+  const promo = !!data.discountPercent && data.discountPercent > 0 && !closed
   const oldPrice = promo ? Math.round(data.price / (1 - (data.discountPercent as number) / 100)) : 0
 
   const copy = useCallback(() => {
@@ -514,18 +518,20 @@ export function QuickView({
                 style={{ marginTop: 'var(--space-16)', gap: 'var(--space-8)' }}
               >
                 <InfoBadge>
-                  <span
-                    aria-hidden="true"
-                    style={{
-                      width: 'var(--space-8)',
-                      height: 'var(--space-8)',
-                      flexShrink: 0,
-                      borderRadius: 'var(--radius-full)',
-                      background: 'var(--color-success)',
-                      animation: 'dls-stock-pulse 1.8s ease-in-out infinite',
-                    }}
-                  />
-                  {data.city ? `В наявності, ${data.city}` : 'В наявності'}
+                  {closed ? null : (
+                    <span
+                      aria-hidden="true"
+                      style={{
+                        width: 'var(--space-8)',
+                        height: 'var(--space-8)',
+                        flexShrink: 0,
+                        borderRadius: 'var(--radius-full)',
+                        background: 'var(--color-success)',
+                        animation: 'dls-stock-pulse 1.8s ease-in-out infinite',
+                      }}
+                    />
+                  )}
+                  {closed ? statusLabel : data.city ? `В наявності, ${data.city}` : 'В наявності'}
                 </InfoBadge>
                 {warranty ? (
                   <InfoBadge>
@@ -596,7 +602,7 @@ export function QuickView({
 
               {!t ? (
                 <div className="flex" style={{ marginTop: '1.25rem', gap: 'var(--space-8)' }}>
-                  <CartButton onClick={addToCart} />
+                  <CartButton onClick={addToCart} disabled={closed} />
                   <FavButton fav={fav} onClick={toggleFav} />
                 </div>
               ) : null}
@@ -710,7 +716,7 @@ export function QuickView({
                 background: 'var(--color-neutral-white)',
               }}
             >
-              <CartButton onClick={addToCart} />
+              <CartButton onClick={addToCart} disabled={closed} />
               <FavButton fav={fav} onClick={toggleFav} />
             </div>
           ) : null}
@@ -844,12 +850,13 @@ function InfoBadge({ children }: { children: React.ReactNode }) {
   )
 }
 
-function CartButton({ onClick }: { onClick: () => void }) {
+function CartButton({ onClick, disabled = false }: { onClick: () => void; disabled?: boolean }) {
   return (
     <button
       type="button"
-      onClick={onClick}
-      className="dls-fill flex min-w-0 flex-1 cursor-pointer items-center justify-center border-0 font-sans text-16"
+      onClick={disabled ? undefined : onClick}
+      disabled={disabled}
+      className="dls-fill flex min-w-0 flex-1 items-center justify-center border-0 font-sans text-16"
       style={{
         height: 'var(--control-h-56)',
         boxSizing: 'border-box',
@@ -858,9 +865,12 @@ function CartButton({ onClick }: { onClick: () => void }) {
         borderRadius: 'var(--radius-sm)',
         fontWeight: 600,
         whiteSpace: 'nowrap',
-        backgroundColor: 'var(--color-primary)',
-        color: 'var(--color-neutral-0)',
-        ['--dls-fill' as string]: 'var(--color-primary-dark)',
+        cursor: disabled ? 'default' : 'pointer',
+        backgroundColor: disabled ? 'var(--color-neutral-200)' : 'var(--color-primary)',
+        color: disabled ? 'var(--color-neutral-500)' : 'var(--color-neutral-0)',
+        ['--dls-fill' as string]: disabled
+          ? 'var(--color-neutral-200)'
+          : 'var(--color-primary-dark)',
       }}
     >
       <span>В кошик</span>

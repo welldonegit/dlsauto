@@ -1,6 +1,6 @@
 import type { ProductCardData } from '@/components/ProductCard'
 import type { Locale } from '@/i18n/config'
-import { modelYears } from '@/lib/rules'
+import { availability, modelYears } from '@/lib/rules'
 import type { Media, Model, Product } from '@/payload-types'
 
 /**
@@ -61,6 +61,14 @@ export function toProductCardData(
     compat,
     brandLogo: brand ? brandLogo(brand.id) : null,
     status: p.status === 'sold' ? 'sold' : 'in_stock',
+    availability: (() => {
+      const a = availability({
+        status: p.status,
+        quantity: p.quantity,
+        inReserve: p.inReserve ?? 0,
+      })
+      return a === 'hidden' ? 'in_stock' : a // hidden never renders as a card
+    })(),
     featured: !!p.featured,
     popular: false, // top by salesCount — enabled in stage 6 (0 for now)
     fits: false, // "Підходить на ваше авто" — wired when the car cookie exists

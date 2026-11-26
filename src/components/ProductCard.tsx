@@ -44,6 +44,9 @@ export type ProductCardData = {
   compat?: string[]
   brandLogo?: string | null
   status: 'in_stock' | 'sold'
+  /** Availability (Р39): in_stock / reserved («Заброньовано») / sold («Продано»).
+   * Falls back to `status` when absent. Reserved uses the sold visual (owner 26.11). */
+  availability?: 'in_stock' | 'reserved' | 'sold'
   /** Warranty in days (0 = none) — quick-view shows «Гарантія N днів», Р14. */
   warrantyDays?: number
   featured?: boolean
@@ -84,10 +87,13 @@ export function ProductCard({
   // "Підходить на ваше авто" when the chosen car matches this part's model.
   const fits = !!data.fits || (!!car && !!data.modelSlug && car.slug === data.modelSlug)
 
-  const sold = data.status === 'sold'
-  const promo = !!data.discountPercent && data.discountPercent > 0 && !sold
+  const avail = data.availability ?? (data.status === 'sold' ? 'sold' : 'in_stock')
+  const sold = avail === 'sold'
+  const reserved = avail === 'reserved'
+  const closed = sold || reserved // purchase closed — reserved uses the sold visual (owner 26.11)
+  const promo = !!data.discountPercent && data.discountPercent > 0 && !closed
   const oldPrice = promo ? Math.round(data.price / (1 - (data.discountPercent as number) / 100)) : 0
-  const showPopular = !promo && !sold && !!data.popular
+  const showPopular = !promo && !closed && !!data.popular
   const photos = data.photos.length ? data.photos : ['']
   const hasCarousel = photos.length > 1
   const k = Math.min(photo, photos.length - 1)
@@ -163,9 +169,9 @@ export function ProductCard({
             loading="lazy"
             decoding="async"
             className="absolute inset-0 block h-full w-full"
-            style={{ objectFit: 'cover', opacity: sold ? 0.5 : 1 }}
+            style={{ objectFit: 'cover', opacity: closed ? 0.5 : 1 }}
           />
-          {data.featured && !sold ? <RunningFrame /> : null}
+          {data.featured && !closed ? <RunningFrame /> : null}
 
           {promo ? (
             <span
@@ -177,7 +183,7 @@ export function ProductCard({
             >
               −{data.discountPercent}%
             </span>
-          ) : sold ? (
+          ) : closed ? (
             <span
               style={{
                 ...badgeStyle,
@@ -185,7 +191,7 @@ export function ProductCard({
                 color: 'var(--color-neutral-0)',
               }}
             >
-              Продано
+              {sold ? 'Продано' : 'Заброньовано'}
             </span>
           ) : showPopular ? (
             <span
@@ -369,7 +375,7 @@ export function ProductCard({
         >
           Артикул: OEM {data.oem}
         </p>
-        {!sold ? (
+        {!closed ? (
           <p
             className="flex items-center whitespace-nowrap text-13"
             style={{
@@ -411,7 +417,7 @@ export function ProductCard({
                 {uah(oldPrice)}
               </p>
             ) : null}
-            {!sold ? (
+            {!closed ? (
               <p
                 className="whitespace-nowrap text-20"
                 style={{
@@ -437,7 +443,7 @@ export function ProductCard({
               </p>
             )}
           </div>
-          {!fullCart && !sold ? (
+          {!fullCart && !closed ? (
             <button
               type="button"
               onClick={addToCart}
@@ -456,7 +462,7 @@ export function ProductCard({
           ) : null}
         </div>
 
-        {fullCart && !sold ? (
+        {fullCart && !closed ? (
           <button
             type="button"
             onClick={addToCart}
@@ -477,7 +483,7 @@ export function ProductCard({
           </button>
         ) : null}
 
-        {sold ? (
+        {closed ? (
           <a
             href={data.href}
             aria-label={`Знайти схожу: ${data.name}`}
