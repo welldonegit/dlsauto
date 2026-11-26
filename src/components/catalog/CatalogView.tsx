@@ -12,6 +12,7 @@ import {
   type CatalogSort,
 } from '@/lib/data'
 import { toProductCardData } from '@/lib/productCard'
+import { partsLabel } from '@/lib/rules'
 import type { Media, Model } from '@/payload-types'
 
 import { CatalogFilters, type BrandOpt } from './CatalogFilters'
@@ -275,7 +276,7 @@ export async function CatalogView({
                 ) : null}
               </div>
               <div className="dls-cat-page__railName">{c.name}</div>
-              <div className="dls-cat-page__railCount">{c.partsCount} деталей</div>
+              <div className="dls-cat-page__railCount">{partsLabel(c.partsCount)}</div>
             </Link>
           ))}
         </div>

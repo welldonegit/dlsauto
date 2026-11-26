@@ -7,6 +7,7 @@ import { Container } from '@/components/ui/layout'
 import type { Locale } from '@/i18n/config'
 import { compareClear, compareItems, compareSet, useCompareCount } from '@/lib/compare'
 import { COMPARE_ROWS, type CompareColumn, type CompareData } from '@/lib/compareRows'
+import { partsLabel } from '@/lib/rules/plural'
 
 /**
  * «Порівняння» page (DLSCompare). The compared set is client-side (localStorage
@@ -68,7 +69,7 @@ export function Compare({ locale }: { locale: Locale }) {
       <Container>
         <div className="dls-cmp__head">
           <h1 className="dls-cmp__title">Порівняння</h1>
-          {count > 0 ? <span className="dls-cmp__count">{count} деталей</span> : null}
+          {count > 0 ? <span className="dls-cmp__count">{partsLabel(count)}</span> : null}
         </div>
 
         {!ready ? null : cols.length === 0 ? (
