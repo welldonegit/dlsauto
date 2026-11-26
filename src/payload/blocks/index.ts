@@ -137,6 +137,36 @@ export const categoriesBlock: Block = {
   ],
 }
 
+export const hotOffersBlock: Block = {
+  slug: 'hotOffers',
+  labels: { singular: 'Гарячі пропозиції', plural: 'Гарячі пропозиції' },
+  fields: [
+    {
+      name: 'heading',
+      type: 'text',
+      localized: true,
+      label: 'Заголовок',
+      admin: { description: 'За замовчуванням «Гарячі пропозиції».' },
+    },
+    {
+      name: 'items',
+      type: 'array',
+      label: 'Банери',
+      labels: { singular: 'Банер', plural: 'Банери' },
+      admin: {
+        description:
+          'Зображення 1040×480 (кути скруглює сайт). Посилання — необовʼязкове. Поки без зображення — картка-заглушка з назвою та підписом.',
+      },
+      fields: [
+        { name: 'image', type: 'upload', relationTo: 'media', label: 'Зображення (1040×480)' },
+        text('title', 'Назва'),
+        text('subtitle', 'Підпис'),
+        { name: 'link', type: 'text', label: 'Посилання (необовʼязково)' },
+      ],
+    },
+  ],
+}
+
 export const modelsPickerBlock: Block = {
   slug: 'modelsPicker',
   labels: { singular: 'Деталі для вашого авто', plural: 'Деталі для вашого авто' },
@@ -397,6 +427,7 @@ export const pageBlocks: Block[] = [
   statsBlock,
   categoriesBlock,
   modelsPickerBlock,
+  hotOffersBlock,
   newArrivalsBlock,
   servicesBlock,
   pickupsPartsBlock,

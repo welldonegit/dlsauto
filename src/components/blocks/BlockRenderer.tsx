@@ -7,6 +7,7 @@ import { CategoriesBentoBlock } from './CategoriesBentoBlock'
 import { CtaText } from './CtaText'
 import { FaqBlock } from './FaqBlock'
 import { HeroBlock } from './HeroBlock'
+import { HotOffersBlock } from './HotOffersBlock'
 import { ModelsPickerBlock } from './ModelsPickerBlock'
 import { NewArrivalsBlock } from './NewArrivalsBlock'
 import { PickupsBlock, SuvsBlock } from './VehiclePartsBlock'
@@ -41,6 +42,7 @@ type Registry = { [K in PageBlock['blockType']]?: BlockComponent<K> }
 const REGISTRY: Registry = {
   hero: HeroBlock,
   modelsPicker: ModelsPickerBlock,
+  hotOffers: HotOffersBlock,
   categoriesBlock: CategoriesBentoBlock,
   newArrivals: NewArrivalsBlock,
   pickupsParts: PickupsBlock,

@@ -118,6 +118,7 @@
 - `stats` — heading, items[] (eyebrow, value, text, accent).
 - `categoriesBlock` — heading, variant (`a`|`b`), categories[] (rel→categories), searchChips[] (label).
 - `modelsPicker` — heading, defaultBrand (rel→brands).
+- `hotOffers` — heading, items[] (image upload 1040×480 опц., title, subtitle, link опц.) — слайдер баннеров на главной перед категориями (Р55); без image — карточка-заглушка с title/subtitle; углы (16px) и формат скругляет сайт.
 - `newArrivals` — heading, limit, pinned[] (rel→products; остальное — автоматически, новейшие в наличии).
 - `pickupsParts` / `suvsParts` — heading, subheading, limit, video (upload).
 - `videoCheck` — heading, text, videos[] (video upload, badge, duration).

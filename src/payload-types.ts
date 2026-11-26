@@ -653,6 +653,27 @@ export interface Page {
             blockType: 'modelsPicker';
           }
         | {
+            /**
+             * За замовчуванням «Гарячі пропозиції».
+             */
+            heading?: string | null;
+            /**
+             * Зображення 1040×480 (кути скруглює сайт). Посилання — необовʼязкове. Поки без зображення — картка-заглушка з назвою та підписом.
+             */
+            items?:
+              | {
+                  image?: (number | null) | Media;
+                  title?: string | null;
+                  subtitle?: string | null;
+                  link?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hotOffers';
+          }
+        | {
             heading?: string | null;
             limit?: number | null;
             /**
@@ -1460,6 +1481,22 @@ export interface PagesSelect<T extends boolean = true> {
           | {
               heading?: T;
               defaultBrand?: T;
+              id?: T;
+              blockName?: T;
+            };
+        hotOffers?:
+          | T
+          | {
+              heading?: T;
+              items?:
+                | T
+                | {
+                    image?: T;
+                    title?: T;
+                    subtitle?: T;
+                    link?: T;
+                    id?: T;
+                  };
               id?: T;
               blockName?: T;
             };

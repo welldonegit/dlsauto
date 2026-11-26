@@ -557,6 +557,21 @@ async function run(): Promise<void> {
       defaultBrand: brandId.get('Mitsubishi'),
     },
     {
+      // «Гарячі пропозиції» banner slider (Р55, DLSAuto-Головна-B). Placeholder
+      // cards (no images yet) — the client uploads 1040×480 banners in the admin;
+      // titles/subtitles are the export's demo content.
+      blockType: 'hotOffers',
+      heading: 'Гарячі пропозиції',
+      items: [
+        { title: 'Чорна п’ятниця', subtitle: 'Знижки на запчастини до кінця тижня' },
+        { title: 'Ford Ranger', subtitle: 'Нові надходження з розборки' },
+        { title: 'Фари та ліхтарі', subtitle: 'Перевірені, з фото кожної деталі' },
+        { title: 'Mitsubishi L200', subtitle: 'Кузов, підвіска, двигун' },
+        { title: 'Гарантія до 60 днів', subtitle: 'На двигуни та КПП' },
+        { title: 'Відправка сьогодні', subtitle: 'Нова пошта по всій Україні' },
+      ],
+    },
+    {
       blockType: 'categoriesBlock',
       heading: 'Категорії запчастин',
       variant: 'a',
