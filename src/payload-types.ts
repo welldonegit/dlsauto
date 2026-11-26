@@ -1926,6 +1926,16 @@ export interface Setting {
   dispatchCutoffHour?: number | null;
   prepaymentConditions?: string | null;
   acceptBlock?: string | null;
+  /**
+   * Тексти секцій «Доставка» і «Приймаємо» на сторінці товару.
+   */
+  delivery?: {
+    novaPoshtaNote?: string | null;
+    deliveryNote?: string | null;
+    tariffNote?: string | null;
+    pickupNote?: string | null;
+    paymentNote?: string | null;
+  };
   keycrmBaseUrl?: string | null;
   quickView?: {
     services?: string | null;
@@ -1991,6 +2001,15 @@ export interface SettingsSelect<T extends boolean = true> {
   dispatchCutoffHour?: T;
   prepaymentConditions?: T;
   acceptBlock?: T;
+  delivery?:
+    | T
+    | {
+        novaPoshtaNote?: T;
+        deliveryNote?: T;
+        tariffNote?: T;
+        pickupNote?: T;
+        paymentNote?: T;
+      };
   keycrmBaseUrl?: T;
   quickView?:
     | T

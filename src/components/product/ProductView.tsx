@@ -11,6 +11,7 @@ import type { Brand, Donor, Media, Model, Product } from '@/payload-types'
 import { ProductBuyActions } from './ProductBuyActions'
 import { ProductCarFit, type BrandOpt } from './ProductCarFit'
 import { CompatValue } from './ProductCompat'
+import { ProductDelivery, type DeliveryCopy } from './ProductDelivery'
 import { ProductGallery, type Slide } from './ProductGallery'
 import { ProductRecent } from './ProductRecent'
 import { ProductRecommend, type DonorCard } from './ProductRecommend'
@@ -56,11 +57,13 @@ export function ProductView({
   brands,
   modelsByBrand,
   brandLogoById,
+  delivery,
   locale,
 }: {
   product: Product
   pool: Product[]
   category: { slug: string; name: string } | null
+  delivery: DeliveryCopy
   brands: BrandOpt[]
   modelsByBrand: Record<string, BrandOpt[]>
   brandLogoById: Map<number, string | null>
@@ -383,6 +386,12 @@ export function ProductView({
 
             {/* characteristics list — Р52/Р53 live here (owner decision 25.11) */}
             <ProductSpecList rows={specRows} />
+
+            {/* delivery + payment (texts from settings, logos static — owner 26.11) */}
+            <ProductDelivery
+              delivery={delivery}
+              pickup={pickup ? { name: pickup.name, address: pickup.address } : null}
+            />
 
             {/* bought together (boughtTogether) */}
             {withItems.length ? (

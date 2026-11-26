@@ -2148,6 +2148,91 @@
     white-space: nowrap;
   }
 
+  /* delivery + payment (owner 26.11) — texts from settings, static logos */
+  .dls-pd__deliv {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+  .dls-pd__delivList {
+    display: flex;
+    flex-direction: column;
+  }
+  .dls-pd__delivRow {
+    padding: var(--space-8) 0;
+    display: flex;
+    align-items: center;
+    gap: var(--space-16);
+  }
+  .dls-pd__delivLogo {
+    width: 4.75rem;
+    height: 1.75rem;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    color: var(--color-neutral-900);
+  }
+  .dls-pd__delivLogo img {
+    height: auto;
+    max-height: 1.75rem;
+    max-width: 100%;
+    display: block;
+  }
+  .dls-pd__delivLogo svg {
+    width: var(--icon-24);
+    height: var(--icon-24);
+  }
+  .dls-pd__delivInfo {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .dls-pd__delivInfo b {
+    font-size: var(--text-15);
+    line-height: var(--text-15--line-height);
+    font-weight: 600;
+    color: var(--color-neutral-900);
+  }
+  .dls-pd__delivInfo span {
+    font-size: var(--text-14);
+    line-height: var(--text-14--line-height);
+    color: var(--color-neutral-600);
+  }
+  .dls-pd__pay {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+  }
+  .dls-pd__payChips {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+  }
+  .dls-pd__payChip {
+    height: var(--control-h-40);
+    box-sizing: border-box;
+    padding: 0 var(--space-16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    background: var(--color-neutral-100);
+  }
+  .dls-pd__payChip img {
+    width: auto;
+    display: block;
+  }
+  .dls-pd__payNote {
+    margin: 0;
+    font-size: var(--text-14);
+    line-height: var(--text-14--line-height);
+    color: var(--color-neutral-600);
+  }
+
   /* bought together */
   .dls-pd__with {
     display: flex;

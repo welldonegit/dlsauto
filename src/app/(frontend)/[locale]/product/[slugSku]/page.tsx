@@ -6,7 +6,13 @@ import { SiteHeader } from '@/components/layout/SiteHeader'
 import { ProductView } from '@/components/product/ProductView'
 import type { BrandOpt } from '@/components/product/ProductCarFit'
 import { isLocale, type Locale } from '@/i18n/config'
-import { getBrands, getModelsGroupedByBrand, getProductBySku, getRecoPool } from '@/lib/data'
+import {
+  getBrands,
+  getModelsGroupedByBrand,
+  getProductBySku,
+  getRecoPool,
+  getSettings,
+} from '@/lib/data'
 import { breadcrumbJsonLd, localeAlternates, metadataBase } from '@/lib/meta'
 import { availability } from '@/lib/rules'
 import type { Brand, Category, Media, Product } from '@/payload-types'
@@ -64,10 +70,11 @@ export default async function ProductRoutePage({
   const product = await resolveProduct(slugSku, loc)
   if (!product) notFound()
 
-  const [pool, brandsRaw, modelsByBrand] = await Promise.all([
+  const [pool, brandsRaw, modelsByBrand, settings] = await Promise.all([
     getRecoPool(loc),
     getBrands(),
     getModelsGroupedByBrand(loc),
+    getSettings(loc),
   ])
 
   const brands: BrandOpt[] = brandsRaw
@@ -141,6 +148,7 @@ export default async function ProductRoutePage({
         brands={brands}
         modelsByBrand={modelsByBrand}
         brandLogoById={brandLogoById}
+        delivery={settings.delivery ?? null}
         locale={loc}
       />
       <Footer />

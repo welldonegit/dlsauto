@@ -492,6 +492,14 @@ async function run(): Promise<void> {
         'Карткою онлайн або готівкою при самовивозі. Для габаритних — передплата після підтвердження.',
       acceptBlock:
         'Приймаємо: готівка при самовивозі, карта онлайн (monoPay — Visa/Mastercard, Apple/Google Pay).',
+      // «Доставка» + «Приймаємо» на сторінці товара — тексти з експорту (Р55/26.11).
+      delivery: {
+        novaPoshtaNote: 'У відділення або поштомат, 1–2 дні',
+        deliveryNote: 'У відділення, 1–3 дні',
+        tariffNote: 'за тарифом перевізника',
+        pickupNote: 'Самовивіз з наших пунктів видачі',
+        paymentNote: 'Оплата при отриманні або monoPay',
+      },
       fop: { name: 'ФОП [ПІБ]', edrpou: '[ЄДРПОУ]', address: '[адреса]' },
       keycrmBaseUrl: '',
       quickView: {

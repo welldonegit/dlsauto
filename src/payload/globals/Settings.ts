@@ -121,6 +121,39 @@ export const Settings: GlobalConfig = {
               label: 'Блок «Приймаємо»',
             },
             {
+              name: 'delivery',
+              type: 'group',
+              label: 'Доставка / Приймаємо (сторінка товару)',
+              admin: { description: 'Тексти секцій «Доставка» і «Приймаємо» на сторінці товару.' },
+              fields: [
+                {
+                  name: 'novaPoshtaNote',
+                  type: 'text',
+                  localized: true,
+                  label: 'Нова пошта — рядок',
+                },
+                { name: 'deliveryNote', type: 'text', localized: true, label: 'Delivery — рядок' },
+                {
+                  name: 'tariffNote',
+                  type: 'text',
+                  localized: true,
+                  label: 'Приписка про тариф перевізника',
+                },
+                {
+                  name: 'pickupNote',
+                  type: 'text',
+                  localized: true,
+                  label: 'Самовивіз — рядок (коли нема пункту видачі)',
+                },
+                {
+                  name: 'paymentNote',
+                  type: 'text',
+                  localized: true,
+                  label: 'Приймаємо — приписка (напр. «Оплата при отриманні або monoPay»)',
+                },
+              ],
+            },
+            {
               name: 'keycrmBaseUrl',
               type: 'text',
               label: 'KeyCRM base URL (для посилань на замовлення)',
