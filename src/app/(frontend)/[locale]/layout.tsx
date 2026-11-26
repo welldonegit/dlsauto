@@ -33,6 +33,15 @@ export function generateStaticParams() {
   return locales.map((locale) => ({ locale }))
 }
 
+// Render the whole frontend per request. This layout and its pages read live
+// inventory/CMS data from Postgres (getSettings here; home, catalog, product,
+// brand/model below). The production build — CI quality `Build` and the Docker
+// `builder` stage — runs with no reachable DB by design (Dockerfile: "no DB
+// access needed"), so nothing may prerender against the DB at build time.
+// Queries stay cached via unstable_cache + tag revalidation, so this is
+// request-time rendering, not a per-request DB hit.
+export const dynamic = 'force-dynamic'
+
 // Layout sets metadataBase and a title default. Concrete
 // title/description/canonical/hreflang live on each page (home, catch-all CMS
 // pages), which set an absolute title that overrides the default. not-found.tsx
