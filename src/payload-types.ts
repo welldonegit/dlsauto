@@ -1928,7 +1928,6 @@ export interface Setting {
   acceptBlock?: string | null;
   keycrmBaseUrl?: string | null;
   quickView?: {
-    warranty?: string | null;
     services?: string | null;
   };
   fop?: {
@@ -1996,7 +1995,6 @@ export interface SettingsSelect<T extends boolean = true> {
   quickView?:
     | T
     | {
-        warranty?: T;
         services?: T;
       };
   fop?:

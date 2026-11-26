@@ -495,7 +495,6 @@ async function run(): Promise<void> {
       fop: { name: 'ФОП [ПІБ]', edrpou: '[ЄДРПОУ]', address: '[адреса]' },
       keycrmBaseUrl: '',
       quickView: {
-        warranty: 'Гарантія 14 днів',
         services: [
           'Відправка в день замовлення',
           'Обмін або повернення, якщо не підійшла',

@@ -131,12 +131,6 @@ export const Settings: GlobalConfig = {
               label: 'Швидкий перегляд (модалка товару)',
               fields: [
                 {
-                  name: 'warranty',
-                  type: 'text',
-                  localized: true,
-                  label: 'Гарантія — бейдж (тимчасово; у 3c — з warrantyDays товару)',
-                },
-                {
                   name: 'services',
                   type: 'textarea',
                   localized: true,
