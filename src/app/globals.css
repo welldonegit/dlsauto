@@ -2075,6 +2075,38 @@
     color: var(--color-neutral-900);
   }
 
+  /* compatibility (Р53) — own model + alsoFits, collapses to 3 + «ще N» */
+  .dls-pd__compat {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+  .dls-pd__compatList {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    font-size: var(--text-15);
+    line-height: 1.5;
+    color: var(--color-neutral-900);
+  }
+  .dls-pd__compatMore {
+    align-self: flex-start;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: var(--text-14);
+    line-height: var(--text-14--line-height);
+    color: var(--color-primary);
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 0.1875rem;
+  }
+
   /* bought together */
   .dls-pd__with {
     display: flex;

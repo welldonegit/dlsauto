@@ -40,6 +40,13 @@ export function toProductCardData(
   const pickup = p.pickupPoint && typeof p.pickupPoint === 'object' ? p.pickupPoint : null
   const prefix = locale === 'uk' ? '' : '/ru'
   const photos = (p.photos ?? []).map(imageUrl).filter((u): u is string => !!u)
+  // All compatible models (own model + alsoFits, no cap) for the card «Сумісність» line (Р53).
+  const compat = [
+    ...(model ? [modelShort(model)] : []),
+    ...(p.alsoFits ?? [])
+      .filter((m): m is Model => typeof m === 'object' && m !== null)
+      .map(modelShort),
+  ].filter((v, i, a) => v && a.indexOf(v) === i)
 
   return {
     id: p.sku,
@@ -50,6 +57,7 @@ export function toProductCardData(
     discountPercent: p.discountPercent ?? null,
     model: model ? modelShort(model) : '',
     modelSlug: model?.slug ?? null,
+    compat,
     brandLogo: brand ? brandLogo(brand.id) : null,
     status: p.status === 'sold' ? 'sold' : 'in_stock',
     featured: !!p.featured,

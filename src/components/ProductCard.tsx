@@ -40,6 +40,8 @@ export type ProductCardData = {
   model: string
   /** Model slug — matched against the selected car to show the "fits" pill. */
   modelSlug?: string | null
+  /** All compatible models (own model + alsoFits) for the «Сумісність» line (Р53). */
+  compat?: string[]
   brandLogo?: string | null
   status: 'in_stock' | 'sold'
   featured?: boolean
@@ -511,6 +513,16 @@ export function ProductCard({
           >
             Характеристики
           </p>
+          {data.compat?.length ? (
+            <p
+              className="text-13"
+              style={{ margin: 'var(--space-8) 0 0', color: 'var(--color-neutral-600)' }}
+            >
+              <span style={{ color: 'var(--color-neutral-900)' }}>Сумісність: </span>
+              {data.compat.slice(0, 3).join(', ')}
+              {data.compat.length > 3 ? ` · ще ${data.compat.length - 3}` : ''}
+            </p>
+          ) : null}
           <dl
             className="flex flex-col"
             style={{ margin: 'var(--space-8) 0 0', gap: 'var(--space-4)' }}

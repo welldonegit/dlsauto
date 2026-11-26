@@ -9,6 +9,7 @@ import type { Brand, Media, Model, Product } from '@/payload-types'
 
 import { ProductBuyActions } from './ProductBuyActions'
 import { ProductCarFit, type BrandOpt } from './ProductCarFit'
+import { ProductCompat } from './ProductCompat'
 import { ProductGallery, type Slide } from './ProductGallery'
 import { CartAddButton, OemCopy } from './ProductBits'
 
@@ -36,6 +37,12 @@ const mediaUrl = (m: number | Media | null | undefined): string | null =>
 function modelShort(model: Model): string {
   const years = modelYears(model)
   return years ? `${model.name} ${years}` : model.name
+}
+
+/** "Ford Ranger 2006–2012" — brand + name + years, for the «Сумісність» list (Р53). */
+function modelFull(model: Model): string {
+  const brand = model.brand && typeof model.brand === 'object' ? (model.brand as Brand) : null
+  return `${brand ? brand.name + ' ' : ''}${modelShort(model)}`.trim()
 }
 
 export function ProductView({
@@ -82,6 +89,13 @@ export function ProductView({
     ...(model?.slug ? [model.slug] : []),
     ...(product.alsoFits ?? []).map((m) => (typeof m === 'object' ? (m as Model).slug : null)),
   ].filter((s): s is string => !!s)
+  // «Сумісність» (Р53): own model + every alsoFits model, no cap, de-duplicated.
+  const compatModels = [
+    ...(model ? [modelFull(model)] : []),
+    ...(product.alsoFits ?? [])
+      .filter((m): m is Model => typeof m === 'object' && m !== null)
+      .map(modelFull),
+  ].filter((v, i, a) => v && a.indexOf(v) === i)
 
   const avail = availability({
     status: product.status,
@@ -137,6 +151,7 @@ export function ProductView({
     discountPercent: product.discountPercent ?? null,
     model: model ? modelShort(model) : '',
     modelSlug: model?.slug ?? null,
+    compat: compatModels,
     brandLogo,
     status: avail === 'sold' ? 'sold' : 'in_stock',
     photos: photoImgs.length ? photoImgs : [''],
@@ -266,6 +281,9 @@ export function ProductView({
                 <p className="dls-pd__condText">{product.conditionText}</p>
               ) : null}
             </section>
+
+            {/* compatibility (Р53) */}
+            <ProductCompat models={compatModels} />
 
             {/* bought together (boughtTogether) */}
             {withItems.length ? (
