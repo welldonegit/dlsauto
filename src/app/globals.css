@@ -3311,6 +3311,60 @@
   .dls-rec__cmpBtn:hover {
     background: var(--color-primary-tint);
   }
+  /* «На ваше авто» head — car chip + «Усі деталі на …» link */
+  .dls-rec__carHead {
+    margin-top: var(--space-24);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-12) var(--space-24);
+  }
+  .dls-rec__carChip {
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: var(--space-4) var(--space-8) var(--space-4) 0.375rem;
+    display: flex;
+    align-items: center;
+    gap: 0.375rem;
+    border-radius: var(--radius-sm);
+    background: var(--color-neutral-0);
+  }
+  .dls-rec__carChip img,
+  .dls-rec__carRing {
+    width: var(--icon-16);
+    height: var(--icon-16);
+    flex-shrink: 0;
+  }
+  .dls-rec__carChip img {
+    object-fit: contain;
+    display: block;
+  }
+  .dls-rec__carRing {
+    box-sizing: border-box;
+    border-radius: var(--radius-full);
+    border: calc(var(--border-hairline) * 1.5) solid var(--color-neutral-900);
+  }
+  .dls-rec__carName {
+    min-width: 0;
+    font-size: var(--text-13);
+    color: var(--color-neutral-600);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .dls-rec__carLink {
+    font-size: var(--text-16);
+    font-weight: 600;
+    color: var(--color-neutral-900);
+    text-decoration: underline;
+    text-underline-offset: 0.25rem;
+    text-decoration-color: var(--color-neutral-400);
+    transition: text-decoration-color 150ms ease-out;
+  }
+  .dls-rec__carLink:hover {
+    text-decoration-color: var(--color-neutral-900);
+  }
   .dls-rec__body {
     margin-top: var(--space-24);
     display: flex;

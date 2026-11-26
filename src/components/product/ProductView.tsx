@@ -425,6 +425,8 @@ export function ProductView({
         sameCar={sameCarCards}
         alternatives={altCards}
         donor={donorCard}
+        ownModelSlug={model?.slug ?? null}
+        currentSku={product.sku}
         locale={locale}
       />
 

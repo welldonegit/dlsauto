@@ -1,20 +1,23 @@
 'use client'
 
 import Link from 'next/link'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { ProductCard, type ProductCardData } from '@/components/ProductCard'
 import { Container } from '@/components/ui/layout'
 import type { Locale } from '@/i18n/config'
 import { compareItems, compareSet } from '@/lib/compare'
+import type { FavoritesData } from '@/lib/favorites'
+import { useSelectedCar } from '@/lib/selectedCar'
 
 /**
  * «Може знадобитися» (DLSRecommend) — a tabbed block on the product page:
- * «Ще з цього авто» (donor card + the donor's other in-stock parts, §10/Р50) and
+ * «Ще з цього авто» (donor card + the donor's other in-stock parts, §10/Р50),
  * «Альтернативи» (same part from other cars — OEM/cross within the type + model,
- * §12/Р44/Р52) with «Порівняти всі». Both pools come from the server (reco
- * engine). Tabs with no content aren't offered; an empty block isn't rendered.
- * The «На ваше авто» tab (car-scoped) is a follow-up.
+ * §12/Р44/Р52) with «Порівняти всі», and — when a car is selected and it differs
+ * from this part's own model — «На ваше авто» (parts for the chosen car, fetched
+ * client-side). Server pools come from the reco engine; the car pool from
+ * /api/favorites by the cookie car. Empty tabs aren't offered; empty block hidden.
  */
 
 export type DonorCard = {
@@ -26,25 +29,63 @@ export type DonorCard = {
   href: string
 }
 
+type TabKey = 'same' | 'alt' | 'car'
+
 export function ProductRecommend({
   sameCar,
   alternatives,
   donor,
+  ownModelSlug,
+  currentSku,
   locale,
 }: {
   sameCar: ProductCardData[]
   alternatives: ProductCardData[]
   donor: DonorCard | null
+  ownModelSlug: string | null
+  currentSku: string
   locale: Locale
 }) {
   const prefix = locale === 'uk' ? '' : '/ru'
+  const car = useSelectedCar()
+  const [carCards, setCarCards] = useState<ProductCardData[]>([])
+  const [carInfo, setCarInfo] = useState<{ label: string; logo: string | null } | null>(null)
+
+  // «На ваше авто»: only when a car is chosen and it isn't this part's own model
+  // (that one is already «Ще з цього авто»). Fetch the car's parts client-side.
+  const showCarTab = !!car && car.slug !== ownModelSlug
+  const carSlug = car?.slug
+  useEffect(() => {
+    if (!carSlug || carSlug === ownModelSlug) return
+    let alive = true
+    const qs = new URLSearchParams({ skus: currentSku, car: carSlug, locale })
+    fetch(`/api/favorites?${qs.toString()}`, { cache: 'no-store' })
+      .then((r) => r.json() as Promise<FavoritesData>)
+      .then((d) => {
+        if (!alive) return
+        setCarCards(d.more)
+        setCarInfo(d.car ? { label: d.car.label, logo: d.car.logo } : null)
+      })
+      .catch(() => {})
+    return () => {
+      alive = false
+    }
+  }, [carSlug, ownModelSlug, currentSku, locale])
+
   const hasSame = sameCar.length > 0 || !!donor
   const hasAlt = alternatives.length > 0
   const tabs = [
-    ...(hasSame ? [{ key: 'same' as const, label: 'Ще з цього авто', count: sameCar.length }] : []),
-    ...(hasAlt ? [{ key: 'alt' as const, label: 'Альтернативи', count: alternatives.length }] : []),
+    ...(hasSame
+      ? [{ key: 'same' as TabKey, label: 'Ще з цього авто', count: sameCar.length }]
+      : []),
+    ...(hasAlt
+      ? [{ key: 'alt' as TabKey, label: 'Альтернативи', count: alternatives.length }]
+      : []),
+    ...(showCarTab
+      ? [{ key: 'car' as TabKey, label: 'На ваше авто', count: carCards.length }]
+      : []),
   ]
-  const [tab, setTab] = useState<'same' | 'alt'>(tabs[0]?.key ?? 'same')
+  const [tab, setTab] = useState<TabKey>('same')
   const [added, setAdded] = useState(() => {
     const ids = new Set(compareItems())
     return alternatives.length > 0 && alternatives.every((c) => ids.has(c.id))
@@ -59,7 +100,7 @@ export function ProductRecommend({
   }
 
   const active = tabs.some((t) => t.key === tab) ? tab : tabs[0].key
-  const items = active === 'same' ? sameCar : alternatives
+  const items = active === 'car' ? carCards : active === 'same' ? sameCar : alternatives
 
   return (
     <section aria-labelledby="pd-rec-title" className="dls-rec">
@@ -99,6 +140,23 @@ export function ProductRecommend({
                 Порівняти всі
               </button>
             )}
+          </div>
+        ) : null}
+
+        {active === 'car' && car ? (
+          <div className="dls-rec__carHead">
+            <span className="dls-rec__carChip" title={carInfo?.label ?? car.label}>
+              {carInfo?.logo ? (
+                // eslint-disable-next-line @next/next/no-img-element -- small brand mark
+                <img src={carInfo.logo} alt="" />
+              ) : (
+                <span aria-hidden className="dls-rec__carRing" />
+              )}
+              <span className="dls-rec__carName">{carInfo?.label ?? car.label}</span>
+            </span>
+            <Link href={`${prefix}/catalog?model=${car.slug}`} className="dls-rec__carLink">
+              Усі деталі на {car.label} →
+            </Link>
           </div>
         ) : null}
       </Container>
