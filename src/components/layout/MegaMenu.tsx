@@ -1020,7 +1020,7 @@ function Drawer({
               style={{ gap: 'var(--space-12)', fontWeight: 500 }}
             >
               <a
-                href="#"
+                href={`${prefix}/favorites`}
                 className="flex items-center no-underline"
                 style={{ minHeight: 'var(--control-h-44)', color: 'var(--color-neutral-900)' }}
               >
@@ -1030,7 +1030,7 @@ function Drawer({
                 ·
               </span>
               <a
-                href="#"
+                href={`${prefix}/compare`}
                 className="flex items-center no-underline"
                 style={{ minHeight: 'var(--control-h-44)', color: 'var(--color-neutral-900)' }}
               >

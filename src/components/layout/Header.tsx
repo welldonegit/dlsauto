@@ -345,6 +345,7 @@ export function Header({
   }
   const closeMenu = useCallback(() => setMenuOpen(false), [])
   const favCount = useWishlistCount()
+  const prefix = locale === 'uk' ? '' : '/ru'
 
   const barStyle = {
     background: 'var(--color-neutral-0)',
@@ -458,7 +459,7 @@ export function Header({
               <IconAction label={`Зателефонувати: ${phone}`} href={phoneHref} size="44">
                 <PhoneIcon size="24" />
               </IconAction>
-              <IconAction label="Обране" size="44" badge={favCount}>
+              <IconAction label="Обране" href={`${prefix}/favorites`} size="44" badge={favCount}>
                 <HeartIcon size="24" />
               </IconAction>
               <a
@@ -519,7 +520,7 @@ export function Header({
                     Замовити дзвінок
                   </Button>
                 </div>
-                <IconAction label="Обране" badge={favCount}>
+                <IconAction label="Обране" href={`${prefix}/favorites`} badge={favCount}>
                   <HeartIcon size="24" />
                 </IconAction>
                 <a
