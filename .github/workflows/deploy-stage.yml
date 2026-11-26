@@ -14,6 +14,10 @@ jobs:
     permissions:
       contents: read
       packages: write
+    env:
+      # Mapped to env so the deploy step's `if:` can test it — the `secrets`
+      # context is not available in step-level `if` expressions.
+      DOKPLOY_STAGE_WEBHOOK: ${{ secrets.DOKPLOY_STAGE_WEBHOOK }}
     steps:
       - uses: actions/checkout@v4
 
@@ -57,5 +61,8 @@ jobs:
           cache-from: type=gha,scope=worker
           cache-to: type=gha,mode=max,scope=worker
 
+      # Server redeploy is skipped until the Dokploy webhook secret is set;
+      # the image is already built and pushed to GHCR, so the job stays green.
       - name: Trigger Dokploy redeploy
-        run: curl -fsSL -X POST "${{ secrets.DOKPLOY_STAGE_WEBHOOK }}"
+        if: ${{ env.DOKPLOY_STAGE_WEBHOOK != '' }}
+        run: curl -fsSL -X POST "$DOKPLOY_STAGE_WEBHOOK"
