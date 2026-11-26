@@ -28,6 +28,7 @@
     "lighthouse": "node scripts/lighthouse.mjs",
     "test": "vitest run",
     "test:watch": "vitest",
+    "quality": "pnpm generate:types && pnpm lint && pnpm typecheck && pnpm test && pnpm tokens:check && pnpm check:literals && pnpm check:container && pnpm build",
     "payload": "cross-env NODE_OPTIONS=--no-deprecation payload",
     "generate:types": "cross-env NODE_OPTIONS=--no-deprecation payload generate:types",
     "generate:importmap": "cross-env NODE_OPTIONS=--no-deprecation payload generate:importmap",
