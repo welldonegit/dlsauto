@@ -14,6 +14,7 @@ function p(o: Partial<RecoProduct> & { id: number; partTypeId: number }): RecoPr
     donorId: null,
     categoryId: 100,
     oem: [],
+    cross: [],
     conditionLabel: 'used',
     price: 1000,
     wheelKey: null,
@@ -103,6 +104,24 @@ describe('alternatives', () => {
     expect(ids).toContain(3) // same type фара, same OEM, same side
     expect(ids).not.toContain(4) // двері with the same code — different type
     expect(ids).not.toContain(2) // фара права — wrong side
+  })
+  it('cross number counts as OEM within the same type, across models (Р52)', () => {
+    // Two generators on different models: they share no OEM and no model, so they
+    // only become alternatives because A lists B's number as a cross number.
+    const genA = p({
+      id: 180,
+      partTypeId: 80,
+      position: 'none',
+      modelId: 1,
+      oem: ['G1'],
+      cross: ['G2'],
+    })
+    const genB = p({ id: 181, partTypeId: 80, position: 'none', modelId: 2, oem: ['G2'] })
+    const genC = p({ id: 182, partTypeId: 80, position: 'none', modelId: 3, oem: ['G9'] })
+    const set = [genA, genB, genC]
+    expect(alternatives(genA, set).map((x) => x.id)).toEqual([181]) // A.cross ↔ B.oem
+    expect(alternatives(genB, set).map((x) => x.id)).toEqual([180]) // symmetric: B.oem ↔ A.cross
+    expect(alternatives(genC, set).map((x) => x.id)).toEqual([]) // G9 matches nothing
   })
   it('broad types take alternatives by OEM only, across models (Р35)', () => {
     const ids = alternatives(

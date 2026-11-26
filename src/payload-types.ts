@@ -401,6 +401,16 @@ export interface Product {
       }[]
     | null;
   oemNormalized?: string[] | null;
+  /**
+   * Номери-замінники (Р52). Беруть участь у пошуку та підборі альтернатив нарівні з OEM (у межах типу).
+   */
+  crossNumbers?:
+    | {
+        number: string;
+        id?: string | null;
+      }[]
+    | null;
+  crossNormalized?: string[] | null;
   name: string;
   /**
    * URL-адреса. Генерується з назви, можна змінити вручну.
@@ -1248,6 +1258,13 @@ export interface ProductsSelect<T extends boolean = true> {
         id?: T;
       };
   oemNormalized?: T;
+  crossNumbers?:
+    | T
+    | {
+        number?: T;
+        id?: T;
+      };
+  crossNormalized?: T;
   name?: T;
   slug?: T;
   partType?: T;

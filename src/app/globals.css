@@ -1788,6 +1788,17 @@
     align-items: center;
     gap: var(--space-4);
   }
+  /* Крос-номери / замінники (Р52) — немає місця в експорті, дефолт: рядок під OEM. */
+  .dls-pd__cross {
+    margin-top: var(--space-8);
+    font-size: var(--text-14);
+    line-height: var(--text-14--line-height);
+    color: var(--color-neutral-600);
+  }
+  .dls-pd__cross b {
+    font-weight: 500;
+    color: var(--color-neutral-700);
+  }
   .dls-pd-copy {
     width: var(--control-h-32);
     height: var(--control-h-32);

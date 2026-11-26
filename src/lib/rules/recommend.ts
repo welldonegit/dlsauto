@@ -3,10 +3,10 @@
  * functions over in-memory candidate pools — the data layer fetches the pool
  * (in-stock, with the fields below) and calls these; unit-tested on fixtures.
  *
- * - Альтернативи (§12, Р44/Р35/Р10/Р49): same OEM within the same type (Р44),
- *   or same type + compatible position + compatible model; broad types → OEM
- *   only (Р35); wheels → by size, not model (Р49). Sort: checked first, then
- *   price. ≤6.
+ * - Альтернативи (§12, Р44/Р52/Р35/Р10/Р49): same OEM or cross number within the
+ *   same type (Р44/Р52), or same type + compatible position + compatible model;
+ *   broad types → number only (Р35); wheels → by size, not model (Р49). Sort:
+ *   checked first, then price. ≤6.
  * - З цим купують (§13, Р37/Р45): partType.relatedTypes with a side condition
  *   (same / opposite / any); donor first, then model. ≤3.
  * - Ще з цього авто (§10, Р50): same donor; fallback same model, category-first. ≤8.
@@ -28,6 +28,7 @@ export type RecoProduct = {
   donorId: number | null
   categoryId: number | null
   oem: string[] // normalized
+  cross: string[] // normalized cross / replacement numbers (Р52)
   conditionLabel: string
   price: number
   /** Size key for wheels (diameter+PCD / tire size) — Р49; null for non-wheels. */
@@ -44,10 +45,14 @@ function modelCompat(a: RecoProduct, b: RecoProduct): boolean {
   return b.alsoFitsIds.some((m) => A.has(m))
 }
 
-function shareOem(a: RecoProduct, b: RecoProduct): boolean {
-  if (!a.oem.length || !b.oem.length) return false
-  const set = new Set(a.oem)
-  return b.oem.some((o) => set.has(o))
+/** OEM and cross numbers match on equal footing within a type (Р44 + Р52): two
+ * parts "share a number" if any of A's OEM-or-cross equals any of B's OEM-or-cross. */
+function shareNumber(a: RecoProduct, b: RecoProduct): boolean {
+  const an = [...a.oem, ...a.cross]
+  const bn = [...b.oem, ...b.cross]
+  if (!an.length || !bn.length) return false
+  const set = new Set(an)
+  return bn.some((n) => set.has(n))
 }
 
 /** checked first, then cheapest. */
@@ -70,11 +75,11 @@ export function alternatives(target: RecoProduct, pool: RecoProduct[], limit = 6
       .slice(0, limit)
   }
 
-  // OEM within the SAME type + compatible position (Р44).
+  // OEM / cross number within the SAME type + compatible position (Р44 + Р52).
   const byOem = others.filter(
     (p) =>
       p.partTypeId === target.partTypeId &&
-      shareOem(target, p) &&
+      shareNumber(target, p) &&
       positionMatch(target.position, p.position),
   )
 

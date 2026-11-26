@@ -155,6 +155,8 @@
     "alsoFits": ["pathfinder-r51-2005"],
     "donor": "НВ-407",
     "oem": ["23100EB31A"],
+    "crossNumbers": ["4344538"],
+    "_demo_crossNumbers": true,
     "price": 2000,
     "conditionLabel": "used",
     "conditionText": {

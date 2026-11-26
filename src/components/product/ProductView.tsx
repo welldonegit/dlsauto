@@ -89,6 +89,11 @@ export function ProductView({
     inReserve: product.inReserve ?? 0,
   })
   const oem = product.oem?.[0]?.number ?? null
+  // Cross / replacement numbers (Р52). No slot in the export → default: a muted
+  // line under the OEM (placement is an open question for the owner).
+  const crossNums = (product.crossNumbers ?? [])
+    .map((c) => c.number?.trim())
+    .filter((n): n is string => !!n)
   const pickup =
     product.pickupPoint && typeof product.pickupPoint === 'object' ? product.pickupPoint : null
   const stockCity = pickup?.name ?? ''
@@ -184,6 +189,11 @@ export function ProductView({
                     OEM {oem}
                     <OemCopy value={oem} />
                   </span>
+                </div>
+              ) : null}
+              {crossNums.length ? (
+                <div className="dls-pd__cross">
+                  <b>Крос-номери:</b> {crossNums.join(', ')}
                 </div>
               ) : null}
               <div className="dls-pd__plates">

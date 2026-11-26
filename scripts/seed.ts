@@ -43,6 +43,7 @@ type FixtureProduct = {
   alsoFits: string[]
   donor: string | null
   oem: string[]
+  crossNumbers?: string[]
   price: number
   conditionLabel: string
   conditionText: { uk: string; ru: string }
@@ -420,6 +421,9 @@ async function run(): Promise<void> {
         : {}),
       ...(p.donor ? { donor: donorId.get(p.donor) } : {}),
       oem: p.oem.map((number) => ({ number })),
+      ...(p.crossNumbers?.length
+        ? { crossNumbers: p.crossNumbers.map((number) => ({ number })) }
+        : {}),
       description: richText(`${p.name.uk}. Знято з авто-донора, перевірено перед продажем.`),
       conditionLabel: p.conditionLabel,
       conditionText: p.conditionText.uk,

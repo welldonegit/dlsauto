@@ -30,7 +30,7 @@ export const Products: CollectionConfig = {
     useAsTitle: 'name',
     defaultColumns: ['sku', 'name', 'partType', 'model', 'price', 'status', 'pickupPoint'],
     group: 'Каталог',
-    listSearchableFields: ['sku', 'name', 'oemNormalized'],
+    listSearchableFields: ['sku', 'name', 'oemNormalized', 'crossNormalized'],
   },
   hooks: {
     beforeValidate: [
@@ -41,6 +41,12 @@ export const Products: CollectionConfig = {
           ? (data.oem as { number?: string }[]).map((o) => o?.number ?? '').filter(Boolean)
           : []
         data.oemNormalized = normalizeOemList(oem)
+        // Same for cross / replacement numbers (Р52) — normalized copy for search
+        // and alternatives matching.
+        const cross = Array.isArray(data.crossNumbers)
+          ? (data.crossNumbers as { number?: string }[]).map((o) => o?.number ?? '').filter(Boolean)
+          : []
+        data.crossNormalized = normalizeOemList(cross)
         // Stamp soldAt on the first transition into "sold"; keep it afterwards.
         if (data.status === 'sold' && !data.soldAt) data.soldAt = new Date().toISOString()
         // Category is derived from the part type (Р7); position rule is enforced
@@ -100,6 +106,24 @@ export const Products: CollectionConfig = {
     },
     {
       name: 'oemNormalized',
+      type: 'text',
+      hasMany: true,
+      index: true,
+      admin: { hidden: true, readOnly: true },
+    },
+    {
+      name: 'crossNumbers',
+      type: 'array',
+      label: 'Крос-номери / замінники',
+      labels: { singular: 'Крос-номер', plural: 'Крос-номери' },
+      admin: {
+        description:
+          'Номери-замінники (Р52). Беруть участь у пошуку та підборі альтернатив нарівні з OEM (у межах типу).',
+      },
+      fields: [{ name: 'number', type: 'text', required: true, label: 'Номер' }],
+    },
+    {
+      name: 'crossNormalized',
       type: 'text',
       hasMany: true,
       index: true,

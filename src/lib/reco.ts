@@ -33,6 +33,7 @@ export function toReco(p: Product): RecoProduct {
     donorId: idOf(p.donor),
     categoryId: idOf(p.category),
     oem: p.oemNormalized ?? [],
+    cross: p.crossNormalized ?? [],
     conditionLabel: p.conditionLabel,
     price: p.price,
     wheelKey: wheelKey(p),
