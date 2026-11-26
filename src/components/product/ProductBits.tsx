@@ -1,8 +1,21 @@
 'use client'
 
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
+import type { ProductCardData } from '@/components/ProductCard'
 import { showToast } from '@/components/ui/ToastHost'
+import { trackViewItem } from '@/lib/analytics'
+
+/** Fires the GA4 `view_item` once on mount (DEV_CONTEXT §8). Renders nothing. */
+export function ViewItemTracker({ item }: { item: ProductCardData }) {
+  const fired = useRef(false)
+  useEffect(() => {
+    if (fired.current) return
+    fired.current = true
+    trackViewItem(item)
+  }, [item])
+  return null
+}
 
 /** Copy-the-article button next to the OEM (DLSProduct): copies the value, flips to a
  * check for 3s and toasts «Артикул скопійовано». */

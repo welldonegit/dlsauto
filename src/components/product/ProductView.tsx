@@ -16,7 +16,7 @@ import { ProductGallery, type Slide } from './ProductGallery'
 import { ProductRecent } from './ProductRecent'
 import { ProductRecommend, type DonorCard } from './ProductRecommend'
 import { ProductSpecList, type SpecRow } from './ProductSpecList'
-import { CartAddButton, OemCopy } from './ProductBits'
+import { CartAddButton, OemCopy, ViewItemTracker } from './ProductBits'
 
 /**
  * Product page (DLSProduct) — server component. Resolves the gallery, the car-fit
@@ -228,6 +228,7 @@ export function ProductView({
 
   return (
     <main className="dls-pd">
+      <ViewItemTracker item={favItem} />
       <Container>
         <nav aria-label="Хлібні крихти" className="dls-pd__crumbs">
           <Link href={`${prefix}/`} className="dls-pd__crumbLink">

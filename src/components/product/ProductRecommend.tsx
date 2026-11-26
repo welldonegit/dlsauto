@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import { ProductCard, type ProductCardData } from '@/components/ProductCard'
 import { Container } from '@/components/ui/layout'
 import type { Locale } from '@/i18n/config'
+import { trackAddToCompare } from '@/lib/analytics'
 import { compareItems, compareSet } from '@/lib/compare'
 import type { FavoritesData } from '@/lib/favorites'
 import { useSelectedCar } from '@/lib/selectedCar'
@@ -95,7 +96,11 @@ export function ProductRecommend({
   if (!tabs.length) return null
 
   const compareAll = () => {
-    for (const c of alternatives) compareSet(c.id, true)
+    const ids = new Set(compareItems())
+    for (const c of alternatives) {
+      if (!ids.has(c.id)) trackAddToCompare(c) // only count newly-added
+      compareSet(c.id, true)
+    }
     setAdded(true)
   }
 

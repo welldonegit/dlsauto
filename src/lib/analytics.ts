@@ -62,3 +62,13 @@ export function trackSelectItem(listId: string, listName: string, item: ProductC
 export function trackAddToWishlist(item: ProductCardData): void {
   push({ event: 'add_to_wishlist', items: [toItem(item)] })
 }
+
+/** A product page was viewed (DEV_CONTEXT §8 dataLayer). */
+export function trackViewItem(item: ProductCardData): void {
+  push({ event: 'view_item', items: [toItem(item)] })
+}
+
+/** A product was added to the comparison set. */
+export function trackAddToCompare(item: ProductCardData): void {
+  push({ event: 'add_to_compare', items: [toItem(item)] })
+}
