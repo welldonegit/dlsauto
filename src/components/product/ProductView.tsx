@@ -4,13 +4,15 @@ import type { ProductCardData } from '@/components/ProductCard'
 import { Container } from '@/components/ui/layout'
 import type { Locale } from '@/i18n/config'
 import { toReco, relatedTypesOf } from '@/lib/reco'
-import { availability, boughtTogether, modelYears } from '@/lib/rules'
+import { toProductCardData } from '@/lib/productCard'
+import { alternatives, availability, boughtTogether, fromSameCar, modelYears } from '@/lib/rules'
 import type { Brand, Donor, Media, Model, Product } from '@/payload-types'
 
 import { ProductBuyActions } from './ProductBuyActions'
 import { ProductCarFit, type BrandOpt } from './ProductCarFit'
 import { CompatValue } from './ProductCompat'
 import { ProductGallery, type Slide } from './ProductGallery'
+import { ProductRecommend, type DonorCard } from './ProductRecommend'
 import { ProductSpecList, type SpecRow } from './ProductSpecList'
 import { CartAddButton, OemCopy } from './ProductBits'
 
@@ -163,6 +165,43 @@ export function ProductView({
   const defectImgs = (product.defectPhotos ?? [])
     .map((m) => (m && typeof m === 'object' ? (m.sizes?.card?.url ?? m.url ?? null) : null))
     .filter((u): u is string => !!u)
+
+  // «Може знадобитися» (5a): alternatives (OEM/cross within type + model, Р44/Р52)
+  // and the donor's other in-stock parts (fromSameCar, Р50). Mapped to card data
+  // over the in-stock pool; brand logo resolved from the id map (pool is depth 1).
+  const cardOf = (p: Product | undefined): ProductCardData | null => {
+    if (!p) return null
+    const card = toProductCardData(p, locale, () => null)
+    const m = p.model && typeof p.model === 'object' ? (p.model as Model) : null
+    const bId = m ? (typeof m.brand === 'object' ? (m.brand as Brand).id : m.brand) : null
+    card.brandLogo = bId != null ? (brandLogoById.get(bId as number) ?? null) : null
+    return card
+  }
+  const altCards = alternatives(reco, recoPool, 6)
+    .map((r) => cardOf(byId.get(r.id)))
+    .filter((c): c is ProductCardData => !!c)
+  const sameCarCards = fromSameCar(reco, recoPool, 8)
+    .map((r) => cardOf(byId.get(r.id)))
+    .filter((c): c is ProductCardData => !!c)
+  const donorIdOf = (p: Product) => (typeof p.donor === 'object' ? p.donor?.id : p.donor)
+  const donorPartsCount = donorObj ? pool.filter((p) => donorIdOf(p) === donorObj.id).length : 0
+  const donorPhoto =
+    donorObj && typeof donorObj.photo === 'object'
+      ? (donorObj.photo?.sizes?.card?.url ?? donorObj.photo?.url ?? null)
+      : null
+  const donorCard: DonorCard | null = donorObj
+    ? {
+        photo: donorPhoto,
+        title: donorLabel || donorObj.label,
+        subtitle: donorObj.year ? `${donorObj.year} рік` : null,
+        partsCount: donorPartsCount,
+        partsLabel: 'Усі деталі з цього авто',
+        href:
+          brand?.slug && model?.slug
+            ? `${prefix}/brand/${brand.slug}/${model.slug}`
+            : `${prefix}/catalog`,
+      }
+    : null
 
   const favItem: ProductCardData = {
     id: product.sku,
@@ -377,6 +416,14 @@ export function ProductView({
           </div>
         </div>
       </Container>
+
+      {/* «Може знадобитися» — alternatives (cross-aware, Р52) + donor's parts (5a) */}
+      <ProductRecommend
+        sameCar={sameCarCards}
+        alternatives={altCards}
+        donor={donorCard}
+        locale={locale}
+      />
     </main>
   )
 }

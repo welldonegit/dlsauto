@@ -3220,4 +3220,200 @@
     line-height: 1.5;
     color: var(--color-neutral-900);
   }
+
+  /* ------------------------------------------------- «Може знадобитися» (5a) */
+  .dls-rec {
+    background: var(--color-neutral-50);
+    padding: var(--space-64) 0;
+  }
+  .dls-rec__title {
+    margin: 0;
+    font-size: var(--text-28);
+    line-height: 1.15;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--color-neutral-900);
+  }
+  .dls-rec__tabs {
+    margin-top: var(--space-32);
+    display: flex;
+    gap: var(--space-8);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .dls-rec__tab {
+    flex-shrink: 0;
+    height: var(--control-h-40);
+    box-sizing: border-box;
+    padding: 0 var(--space-16);
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    border: var(--border-hairline) solid var(--color-neutral-200);
+    border-radius: var(--radius-sm);
+    background: var(--color-neutral-0);
+    color: var(--color-neutral-900);
+    font-family: inherit;
+    font-size: var(--text-14);
+    font-weight: 500;
+    white-space: nowrap;
+    cursor: pointer;
+    transition:
+      background 200ms var(--ease-brand),
+      border-color 200ms var(--ease-brand);
+  }
+  .dls-rec__tab[data-on='true'] {
+    background: var(--color-neutral-900);
+    border-color: var(--color-neutral-900);
+    color: var(--color-neutral-0);
+  }
+  .dls-rec__tabCount {
+    color: var(--color-neutral-500);
+  }
+  .dls-rec__tab[data-on='true'] .dls-rec__tabCount {
+    color: var(--color-neutral-400);
+  }
+  .dls-rec__altHead {
+    margin-top: var(--space-24);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-12) var(--space-24);
+  }
+  .dls-rec__altHead p {
+    margin: 0;
+    min-width: 0;
+    font-size: var(--text-16);
+    line-height: 1.5;
+    color: var(--color-neutral-600);
+    text-wrap: pretty;
+  }
+  .dls-rec__cmpBtn {
+    flex-shrink: 0;
+    height: var(--control-h-48);
+    box-sizing: border-box;
+    padding: 0 var(--space-24);
+    display: flex;
+    align-items: center;
+    border: var(--border-hairline) solid var(--color-primary);
+    border-radius: var(--radius-sm);
+    background: transparent;
+    font-family: inherit;
+    font-size: var(--text-16);
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background 200ms var(--ease-brand);
+  }
+  .dls-rec__cmpBtn:hover {
+    background: var(--color-primary-tint);
+  }
+  .dls-rec__body {
+    margin-top: var(--space-24);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-24);
+  }
+  .dls-rec__donor {
+    flex: 1 1 16rem;
+    max-width: 22rem;
+    box-sizing: border-box;
+    padding: var(--space-16);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    border: var(--border-hairline) solid var(--color-neutral-200);
+    border-radius: var(--radius-lg);
+    background: var(--color-neutral-0);
+  }
+  .dls-rec__donorPhoto {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: var(--color-neutral-100);
+  }
+  .dls-rec__donorPhoto img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .dls-rec__donorInfo h3 {
+    margin: 0;
+    font-size: var(--text-16);
+    line-height: 1.375;
+    font-weight: 600;
+    color: var(--color-neutral-900);
+  }
+  .dls-rec__donorSub {
+    margin: var(--space-4) 0 0;
+    font-size: var(--text-14);
+    color: var(--color-neutral-500);
+  }
+  .dls-rec__donorStats {
+    margin: var(--space-12) 0 0;
+  }
+  .dls-rec__donorStats div {
+    padding: var(--space-8) 0;
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-12);
+    border-top: var(--border-hairline) solid var(--color-neutral-200);
+    font-size: var(--text-14);
+  }
+  .dls-rec__donorStats dt {
+    color: var(--color-neutral-500);
+  }
+  .dls-rec__donorStats dd {
+    margin: 0;
+    color: var(--color-neutral-900);
+  }
+  .dls-rec__donorLink {
+    margin-top: auto;
+    height: var(--control-h-48);
+    box-sizing: border-box;
+    padding: 0 var(--space-16);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: var(--border-hairline) solid var(--color-primary);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-16);
+    font-weight: 600;
+    color: var(--color-primary);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background 200ms var(--ease-brand);
+  }
+  .dls-rec__donorLink:hover {
+    background: var(--color-primary-tint);
+  }
+  .dls-rec__rail {
+    flex: 100 1 18rem;
+    min-width: 0;
+    display: flex;
+    gap: var(--space-24);
+    overflow-x: auto;
+    scrollbar-width: none;
+    scroll-snap-type: x mandatory;
+    padding: var(--space-24) 0 10.5rem;
+    margin-bottom: -9rem;
+  }
+  .dls-rec__cardWrap {
+    position: relative;
+    flex: 0 0 14rem;
+    width: 14rem;
+    scroll-snap-align: start;
+  }
+  .dls-rec__cardWrap:hover {
+    z-index: 3;
+  }
+  .dls-rec__empty {
+    margin: var(--space-24) 0 0;
+    font-size: var(--text-16);
+    color: var(--color-neutral-600);
+  }
 }
