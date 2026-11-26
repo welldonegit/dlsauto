@@ -81,7 +81,7 @@
 **models** (поколение) — brand, name («L200»), generation («IV», «WK», опц.), yearFrom, yearTo (null = по сейчас), bodyType (`pickup` | `suv` | `passenger`, только для группировки секций главной, в UI не выводится), twinName («Pathfinder», опц.), donorPhoto (опц., не выводится пока нет у всех), sortOrder, published.
 Вычисляемые: partsCount (товары в наличии).
 
-**categories** — name, slug, photo, description, seoTitle, seoDescription, sortOrder, published, specTemplate[] (name локал., type `text` | `number` | `select`, options, unit, required, requiredForTypes[] — характеристики категории; §8, Р6). Плоские, один уровень.
+**categories** — name, slug, photo, description, seoTitle, seoDescription, sortOrder, published, specTemplate[] (name локал., type `text` | `number` | `select`, options, unit, required, requiredForTypes[] — характеристики категории; §8, Р6). Плоские, один уровень. Набор (9 категорий), порядок на сайте и привязка типов к категориям — по правкам клиента, источник правды `docs/products/CATALOG_PLAN.md` Р51 + `DLSAuto_dovidnyk_typiv.xlsx` (листы «Типи деталей», «Характеристики»); порядок задаётся `_order` коллекции (сид создаёт категории в этом порядке), т.к. коллекция `orderable`.
 
 **partTypes** (справочник типов деталей) — name (локал.), category (rel), positionRule (`lr` | `fb` | `any` | `seat` | `none`), broad (bool — у «широких» типов альтернативы только по OEM, Р35), relatedTypes[] (для «З цим купують», с условием стороны `same` | `opposite` | `any`, Р37), aliases[] (подсказка типа из названия при импорте). 107 типов, источник — `docs/products/DLSAuto_dovidnyk_typiv.xlsx`.
 

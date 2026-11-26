@@ -171,15 +171,15 @@ async function run(): Promise<void> {
   // 9 categories (CATALOG_PLAN §6) with specTemplate (dovidnyk «Характеристики»).
   // Photos are the export bento cut-outs / placeholders — real cut-outs later.
   const CAT_PHOTO: Record<string, string> = {
-    'dvygun-i-navisne': 'uploads/cat-engine2 1.png',
-    'kpp-rozdatky-mosty': 'uploads/2 1.png',
-    'pidviska-ta-khodova': 'uploads/cat-suspension2 1.png',
-    elektryka: 'uploads/cat-electric2 1.png',
-    'shyny-ta-dysky': 'uploads/cat-wheels2 1.png',
+    dvyguny: 'uploads/cat-engine2 1.png',
     'kuzovni-detali': 'uploads/part-pickup-hub2 1.png',
-    optyka: 'uploads/part-pickup-hub2 1.png',
-    salon: 'uploads/part-pickup-hub2 1.png',
-    'halmivna-systema': 'uploads/part-pickup-hub2 1.png',
+    'pidviska-ta-khodova': 'uploads/cat-suspension2 1.png',
+    'navisni-agregaty': 'uploads/cat-electric2 1.png',
+    'kpp-ta-rozdatky': 'uploads/2 1.png',
+    'palyvna-aparatura': 'uploads/cat-engine2 1.png',
+    'navisne-obladnannya': 'uploads/part-pickup-hub2 1.png',
+    'shyny-ta-dysky': 'uploads/cat-wheels2 1.png',
+    inshe: 'uploads/part-pickup-hub2 1.png',
   }
   const catId = new Map<string, number>() // slug → id
 
@@ -205,6 +205,10 @@ async function run(): Promise<void> {
     }))
   }
 
+  // CATEGORIES is in the client's Р51 site display order (Двигуни, Кузовні, Підвіска,
+  // Навісні агрегати, КПП, Паливна, Навісне обладнання, Шини та диски, Інше). The
+  // collection is `orderable` → created rows get a sequential `_order`, so insertion
+  // order IS the site order; getCategoryTree / catalog facets sort by `_order`.
   for (const c of CATEGORIES) {
     const photo = CAT_PHOTO[c.slug]
       ? await media(CAT_PHOTO[c.slug], `${c.name} — фото категорії`)
@@ -552,18 +556,18 @@ async function run(): Promise<void> {
       blockType: 'categoriesBlock',
       heading: 'Категорії запчастин',
       variant: 'a',
-      // Bento order from the Головна-B export (A layout): engine leads, then the
-      // rest row by row. The first category is the 2-wide lead card.
+      // Bento order = the client's Р51 site order (Двигуни leads as the 2-wide card,
+      // then the rest row by row). Mirrors categories.sortOrder.
       categories: [
-        'dvygun-i-navisne',
+        'dvyguny',
         'kuzovni-detali',
         'pidviska-ta-khodova',
-        'elektryka',
-        'kpp-rozdatky-mosty',
-        'optyka',
-        'halmivna-systema',
-        'salon',
+        'navisni-agregaty',
+        'kpp-ta-rozdatky',
+        'palyvna-aparatura',
+        'navisne-obladnannya',
         'shyny-ta-dysky',
+        'inshe',
       ].map((s) => catId.get(s)),
       searchChips: [
         'Фара передня',

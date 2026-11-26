@@ -133,6 +133,7 @@ export const getCategoryTree = unstable_cache(
       where: { published: { equals: true } },
       limit: 100,
       depth: 1,
+      sort: '_order', // orderable collection → insertion order = client's Р51 site order (seed)
     })
     return Promise.all(
       res.docs.map(async (c) => ({ ...c, partsCount: await countInStock('category', c.id) })),
@@ -360,7 +361,7 @@ export const getCatalog = unstable_cache(
       where: { published: { equals: true } },
       depth: 0,
       limit: 100,
-      sort: 'sortOrder',
+      sort: '_order', // orderable collection → insertion order = client's Р51 site order (rail)
     })
     const categoryFacets = cats.docs.map((c) => ({
       slug: c.slug as string,
