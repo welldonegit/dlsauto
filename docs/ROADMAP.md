@@ -11,7 +11,7 @@
 | 2 | Модель даних, Payload-колекції з локалізацією, адмінка, блоки сторінок, імпорт з Prom | ✅ прийнято | `docs/stages/STAGE_2_PROMPT.md` | `docs/stages/STAGE_2_REPORT.md` |
 | 3a | Статичні сторінки: 404, Оферта, Політика, Про компанію (блоки через BlockRenderer) | ✅ прийнято | `docs/stages/STAGE_3A_PROMPT.md` | `docs/stages/STAGE_3A_REPORT.md` |
 | 3b | Головна `/` за експортом «Головна-B»: блок за блоком через BlockRenderer | ✅ прийнято 23.11.2026 | `docs/stages/STAGE_3B_PROMPT.md` | `docs/stages/STAGE_3B_REPORT.md` |
-| 3c | Сторінки каталогу і товару + модель даних каталогу (CATALOG_PLAN §0, DEV_CONTEXT §4–5 v1.3) | 🟡 наступний | — | — |
+| 3c | Сторінки каталогу і товару + модель даних каталогу (CATALOG_PLAN §0, DEV_CONTEXT §4–5 v1.3) + правки клієнта 25–26.11 (Р51–Р56, банери, доставка) | 🟡 на перевірці | `docs/stages/STAGE_3C_PROMPT.md` | `docs/stages/STAGE_3C_REPORT.md` |
 | 3 | Купівля VPS, перший деплой на stage. Публічні сторінки без кошика | ⬜ | — | — |
 | 4 | Пошук і автокомпліт, сторінка результатів | ⬜ | — | — |
 | 5 | Кошик, чекаут, НП, Delivery, monoPay, передплата, email | ⬜ | — | — |
