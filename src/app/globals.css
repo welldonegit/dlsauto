@@ -1788,17 +1788,6 @@
     align-items: center;
     gap: var(--space-4);
   }
-  /* Крос-номери / замінники (Р52) — немає місця в експорті, дефолт: рядок під OEM. */
-  .dls-pd__cross {
-    margin-top: var(--space-8);
-    font-size: var(--text-14);
-    line-height: var(--text-14--line-height);
-    color: var(--color-neutral-600);
-  }
-  .dls-pd__cross b {
-    font-weight: 500;
-    color: var(--color-neutral-700);
-  }
   .dls-pd-copy {
     width: var(--control-h-32);
     height: var(--control-h-32);
@@ -2075,26 +2064,77 @@
     color: var(--color-neutral-900);
   }
 
-  /* compatibility (Р53) — own model + alsoFits, collapses to 3 + «ще N» */
-  .dls-pd__compat {
+  /* defect box (Р34 / owner 25.11) — only for «Б/в, з дефектами» */
+  .dls-pd__defect {
+    padding: var(--space-12) var(--space-16);
     display: flex;
-    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-8);
+    border: var(--border-hairline) solid var(--color-primary);
+    border-radius: var(--radius-sm);
+    background: var(--color-neutral-0);
+  }
+  .dls-pd__defect svg {
+    width: var(--icon-20);
+    height: var(--icon-20);
+    flex-shrink: 0;
+    color: var(--color-primary);
+  }
+  .dls-pd__defect p {
+    margin: 0;
+    font-size: var(--text-14);
+    line-height: var(--text-14--line-height);
+    color: var(--color-neutral-900);
+    text-wrap: pretty;
+  }
+  .dls-pd__defectPhotos {
+    display: flex;
+    flex-wrap: wrap;
     gap: var(--space-8);
   }
-  .dls-pd__compatList {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+  .dls-pd__defectPhotos img {
+    width: 5rem;
+    height: 5rem;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+    background: var(--color-neutral-100);
+  }
+
+  /* «Характеристики» list (owner 25.11) — same list as the quick-view */
+  .dls-pd__specs {
     display: flex;
     flex-direction: column;
-    gap: var(--space-4);
-    font-size: var(--text-15);
-    line-height: 1.5;
-    color: var(--color-neutral-900);
+    gap: var(--space-12);
   }
-  .dls-pd__compatMore {
-    align-self: flex-start;
+  .dls-pd__specList {
     margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  .dls-pd__specRow {
+    padding: 0.625rem 0;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-16);
+    border-bottom: var(--border-hairline) solid var(--color-neutral-200);
+    font-size: var(--text-14);
+    line-height: var(--text-14--line-height);
+  }
+  .dls-pd__specRow dt {
+    flex-shrink: 0;
+    color: var(--color-neutral-600);
+  }
+  .dls-pd__specRow dd {
+    margin: 0;
+    min-width: 0;
+    color: var(--color-neutral-900);
+    text-align: right;
+    text-wrap: pretty;
+  }
+  /* «Сумісність» value — collapses to 3 + «ще N» */
+  .dls-pd__compatMore {
+    margin-left: var(--space-8);
     padding: 0;
     border: none;
     background: transparent;
@@ -2105,6 +2145,7 @@
     cursor: pointer;
     text-decoration: underline;
     text-underline-offset: 0.1875rem;
+    white-space: nowrap;
   }
 
   /* bought together */

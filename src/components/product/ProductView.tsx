@@ -5,12 +5,13 @@ import { Container } from '@/components/ui/layout'
 import type { Locale } from '@/i18n/config'
 import { toReco, relatedTypesOf } from '@/lib/reco'
 import { availability, boughtTogether, modelYears } from '@/lib/rules'
-import type { Brand, Media, Model, Product } from '@/payload-types'
+import type { Brand, Donor, Media, Model, Product } from '@/payload-types'
 
 import { ProductBuyActions } from './ProductBuyActions'
 import { ProductCarFit, type BrandOpt } from './ProductCarFit'
-import { ProductCompat } from './ProductCompat'
+import { CompatValue } from './ProductCompat'
 import { ProductGallery, type Slide } from './ProductGallery'
+import { ProductSpecList, type SpecRow } from './ProductSpecList'
 import { CartAddButton, OemCopy } from './ProductBits'
 
 /**
@@ -103,8 +104,8 @@ export function ProductView({
     inReserve: product.inReserve ?? 0,
   })
   const oem = product.oem?.[0]?.number ?? null
-  // Cross / replacement numbers (Р52). No slot in the export → default: a muted
-  // line under the OEM (placement is an open question for the owner).
+  // Cross / replacement numbers (Р52) — rendered as a row in the «Характеристики»
+  // list below (owner decision 25.11).
   const crossNums = (product.crossNumbers ?? [])
     .map((c) => c.number?.trim())
     .filter((n): n is string => !!n)
@@ -141,6 +142,27 @@ export function ProductView({
         price: uah(p.price),
       }
     })
+
+  // «Характеристики» list (owner decision 25.11): Стан → характеристики категорії →
+  // Пробіг донора → Сумісність → Крос-номери → Авто-донор. Empty rows dropped by
+  // ProductSpecList. Placed under «Стан деталі».
+  const donorObj =
+    product.donor && typeof product.donor === 'object' ? (product.donor as Donor) : null
+  const donorMileage = donorObj?.mileage ? `${group(donorObj.mileage)} км` : null
+  const specRows: SpecRow[] = [
+    { k: 'Стан', v: COND_LABEL[product.conditionLabel] },
+    ...(product.specValues ?? []).map((s) => ({ k: s.label, v: s.value })),
+    ...(donorMileage ? [{ k: 'Пробіг донора', v: donorMileage }] : []),
+    ...(compatModels.length ? [{ k: 'Сумісність', v: <CompatValue models={compatModels} /> }] : []),
+    ...(crossNums.length ? [{ k: 'Крос-номери', v: crossNums.join(', ') }] : []),
+    ...(donorObj ? [{ k: 'Авто-донор', v: donorLabel }] : []),
+  ]
+  // Defect box (owner decision): shown only for «Б/в, з дефектами» — text from
+  // conditionText, photos from defectPhotos. No new field (export `critical` was demo).
+  const isDefects = product.conditionLabel === 'used_defects'
+  const defectImgs = (product.defectPhotos ?? [])
+    .map((m) => (m && typeof m === 'object' ? (m.sizes?.card?.url ?? m.url ?? null) : null))
+    .filter((u): u is string => !!u)
 
   const favItem: ProductCardData = {
     id: product.sku,
@@ -204,11 +226,6 @@ export function ProductView({
                     OEM {oem}
                     <OemCopy value={oem} />
                   </span>
-                </div>
-              ) : null}
-              {crossNums.length ? (
-                <div className="dls-pd__cross">
-                  <b>Крос-номери:</b> {crossNums.join(', ')}
                 </div>
               ) : null}
               <div className="dls-pd__plates">
@@ -277,13 +294,53 @@ export function ProductView({
                   <span className="dls-pd__condChip">{COND_LABEL[product.conditionLabel]}</span>
                 )}
               </div>
-              {product.conditionText ? (
+              {isDefects ? (
+                <>
+                  {product.conditionText ? (
+                    <div className="dls-pd__defect">
+                      <svg viewBox="0 0 24 24" aria-hidden>
+                        <circle
+                          cx="12"
+                          cy="12"
+                          r="10"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        />
+                        <path
+                          d="M12 8v4"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                          strokeLinecap="round"
+                        />
+                        <path
+                          d="M12 16h.01"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                      <p>{product.conditionText}</p>
+                    </div>
+                  ) : null}
+                  {defectImgs.length ? (
+                    <div className="dls-pd__defectPhotos">
+                      {defectImgs.map((src) => (
+                        // eslint-disable-next-line @next/next/no-img-element -- defect thumbnail
+                        <img key={src} src={src} alt="Фото дефекту деталі" />
+                      ))}
+                    </div>
+                  ) : null}
+                </>
+              ) : product.conditionText ? (
                 <p className="dls-pd__condText">{product.conditionText}</p>
               ) : null}
             </section>
 
-            {/* compatibility (Р53) */}
-            <ProductCompat models={compatModels} />
+            {/* characteristics list — Р52/Р53 live here (owner decision 25.11) */}
+            <ProductSpecList rows={specRows} />
 
             {/* bought together (boughtTogether) */}
             {withItems.length ? (
