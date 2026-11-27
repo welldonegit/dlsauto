@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Accordion } from '@/components/ui/Accordion'
 import { Container } from '@/components/ui/layout'
 import { ArrowRightIcon, TelegramIcon, TikTokIcon, ViberIcon } from '@/components/ui/icons'
-import { getPickupPoints, getSettings } from '@/lib/data'
+import { getCategoryTree, getPickupPoints, getSettings } from '@/lib/data'
 import { formatScheduleLabel } from '@/lib/schedule'
 
 import { FooterCallback } from './FooterCallback'
@@ -16,18 +16,13 @@ import { FooterCallback } from './FooterCallback'
  * them, PROJECT_CONTEXT §1).
  */
 
-const COLS: { title: string; items: { label: string; href: string }[] }[] = [
-  {
-    title: 'Каталог',
-    items: [
-      'Двигуни',
-      'КПП та роздатки',
-      'Підвіска та ходова',
-      'Кузовні деталі',
-      'Оптика',
-      'Усі категорії',
-    ].map((label) => ({ label, href: '#' })),
-  },
+type Column = { title: string; items: { label: string; href: string }[] }
+
+// The «Каталог» column is built from the categories collection at render time
+// (see Footer) so it always reflects the real Р51 set — never a hard-coded list
+// with a stale «Оптика». These three columns are static placeholders (hrefs land
+// in later stages), matching the approved export layout.
+const STATIC_COLS: Column[] = [
   {
     title: 'Марки',
     items: ['Mitsubishi', 'Ford', 'Nissan', 'Mazda', 'Jeep', 'Усі марки'].map((label) => ({
@@ -145,7 +140,23 @@ function Brand({ addresses, socials }: { addresses: Address[]; socials: SocialLi
 }
 
 export async function Footer() {
-  const [settings, points] = await Promise.all([getSettings(), getPickupPoints()])
+  const [settings, points, categories] = await Promise.all([
+    getSettings(),
+    getPickupPoints(),
+    getCategoryTree(),
+  ])
+  // «Каталог» column = the real categories (order _order) + «Усі категорії»,
+  // matching the export's item count (9 + 1). No hard-coded «Оптика».
+  const catalogCol: Column = {
+    title: 'Каталог',
+    items: [
+      ...categories
+        .filter((c) => c.slug)
+        .map((c) => ({ label: c.name, href: `/catalog/${c.slug as string}` })),
+      { label: 'Усі категорії', href: '/catalog' },
+    ],
+  }
+  const COLS: Column[] = [catalogCol, ...STATIC_COLS]
   const addresses: Address[] = points.map((p) => ({
     city: p.name,
     line: p.address,
