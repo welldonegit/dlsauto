@@ -16,9 +16,10 @@ import { useSelectedCar } from '@/lib/selectedCar'
  * «Ще з цього авто» (donor card + the donor's other in-stock parts, §10/Р50),
  * «Альтернативи» (same part from other cars — OEM/cross within the type + model,
  * §12/Р44/Р52) with «Порівняти всі», and — when a car is selected and it differs
- * from this part's own model — «На ваше авто» (parts for the chosen car, fetched
- * client-side). Server pools come from the reco engine; the car pool from
- * /api/favorites by the cookie car. Empty tabs aren't offered; empty block hidden.
+ * from this part's own model and has parts — «На ваше авто» (parts for the chosen
+ * car, fetched client-side). Server pools come from the reco engine; the car pool
+ * from /api/favorites by the cookie car. Empty tabs aren't offered (the car tab
+ * stays hidden at 0 parts, not an empty state); empty block hidden.
  */
 
 export type DonorCard = {
@@ -56,10 +57,12 @@ export function ProductRecommend({
     href: string | null
   } | null>(null)
 
-  // «На ваше авто»: only when a car is chosen and it isn't this part's own model
-  // (that one is already «Ще з цього авто»). Fetch the car's parts client-side.
-  const showCarTab = !!car && car.slug !== ownModelSlug
+  // «На ваше авто»: only when a car is chosen, it isn't this part's own model
+  // (that one is already «Ще з цього авто»), AND the car has parts to show. The
+  // fetch below still runs to learn the count; an empty tab is never offered —
+  // the tab simply stays hidden when there are 0 parts (owner decision, 27.11).
   const carSlug = car?.slug
+  const showCarTab = !!car && car.slug !== ownModelSlug && carCards.length > 0
   useEffect(() => {
     if (!carSlug || carSlug === ownModelSlug) return
     let alive = true
