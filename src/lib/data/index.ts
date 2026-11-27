@@ -480,14 +480,6 @@ export const getReviews = unstable_cache(
 
 // -------------------------------------------------------------- mega-menu
 export type MegaMenuModel = { slug: string; name: string; line: string; href: string }
-export type MegaMenuPopular = {
-  id: string
-  name: string
-  donor: string
-  price: string
-  photo: string | null
-  href: string
-}
 export type MegaMenuBrand = {
   slug: string
   name: string
@@ -495,41 +487,18 @@ export type MegaMenuBrand = {
   href: string
   total: number
   models: MegaMenuModel[]
-  /** Filled only for brands with fewer than 3 models (the export's "Популярне у" filler). */
-  popular: MegaMenuPopular[]
 }
 export type MegaMenuCategory = { slug: string; name: string; count: number; href: string }
 export type MegaMenuData = { brands: MegaMenuBrand[]; categories: MegaMenuCategory[] }
 
-function groupThousands(n: number): string {
-  return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')
-}
-
-function cardPhoto(photos: Product['photos']): string | null {
-  for (const p of photos ?? []) {
-    if (p && typeof p === 'object' && !p.mimeType?.startsWith('video/')) {
-      return p.sizes?.card?.url ?? p.url ?? null
-    }
-  }
-  return null
-}
-
-/** Donor label for a model ("Ranger 2006–2012"), no twin/generation. */
-function modelDonor(model: Model): string {
-  const years = modelYears(model)
-  return years ? `${model.name} ${years}` : model.name
-}
-
 /**
  * Everything the catalog mega-menu (DLSMegaMenu3) needs: all brands with their
- * models (so the panel can switch brand client-side), category rows, and — for
- * brands with fewer than 3 models — a few of that brand's newest in-stock parts
- * to fill the panel's "Популярне у …" slot (the export fills it with demo parts;
- * we use real ones). Hrefs are real §8 URLs; catalog pages land in 3c.
+ * models (so the panel can switch brand client-side) and category rows. Hrefs
+ * are real §8 URLs. (The export's "Популярне у …" filler for short brands was
+ * dropped on owner request, 27.11.)
  */
 export const getMegaMenu = unstable_cache(
   async (locale: Locale = 'uk'): Promise<MegaMenuData> => {
-    const payload = await getPayloadClient()
     const prefix = locale === 'uk' ? '' : '/ru'
     const brandsRaw = await getBrands()
 
@@ -550,32 +519,6 @@ export const getMegaMenu = unstable_cache(
           })
         const total = modelsFull.reduce((s, m) => s + m.partsCount, 0)
 
-        // Fill the "Популярне у {brand}" slot only when the model column is short.
-        let popular: MegaMenuPopular[] = []
-        if (models.length < 3) {
-          const res = await payload.find({
-            collection: 'products',
-            locale,
-            where: {
-              and: [{ 'model.brand.slug': { equals: slug } }, ...IN_STOCK_WHERE],
-            },
-            sort: '-createdAt',
-            limit: 3,
-            depth: 2,
-          })
-          popular = res.docs.map((p) => {
-            const model = p.model && typeof p.model === 'object' ? p.model : null
-            return {
-              id: p.sku,
-              name: p.name,
-              donor: model ? modelDonor(model) : '',
-              price: `${groupThousands(p.price)} ₴`,
-              photo: cardPhoto(p.photos),
-              href: `${prefix}/product/${p.slug ?? p.id}-${p.sku}`,
-            }
-          })
-        }
-
         const logo =
           b.logoColor && typeof b.logoColor === 'object' ? (b.logoColor.url ?? null) : null
         return {
@@ -585,7 +528,6 @@ export const getMegaMenu = unstable_cache(
           href: `${prefix}/brand/${slug}`,
           total,
           models,
-          popular,
         }
       }),
     )

@@ -622,7 +622,6 @@ const SAMPLE_MENU: MegaMenuData = {
       logo: null,
       href: '#',
       total: 226,
-      popular: [],
       models: [
         { slug: 'ranger-2006', name: 'Ranger', line: '2006–2012 — 118 деталей', href: '#' },
         { slug: 'ranger-1998', name: 'Ranger', line: '1998–2006 — 108 деталей', href: '#' },
@@ -635,24 +634,6 @@ const SAMPLE_MENU: MegaMenuData = {
       href: '#',
       total: 27,
       models: [{ slug: 'hilux-2005', name: 'Hilux', line: '2005–2015 — 27 деталей', href: '#' }],
-      popular: [
-        {
-          id: 'p1',
-          name: 'Ступиця передня',
-          donor: 'Hilux 2005–2015',
-          price: '907 ₴',
-          photo: SAMPLE_PHOTO,
-          href: '#',
-        },
-        {
-          id: 'p2',
-          name: 'Фара ліва галоген',
-          donor: 'Hilux 2005–2015',
-          price: '3 200 ₴',
-          photo: SAMPLE_PHOTO,
-          href: '#',
-        },
-      ],
     },
   ],
   categories: [

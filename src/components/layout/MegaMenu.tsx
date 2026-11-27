@@ -6,7 +6,6 @@ import { Container } from '@/components/ui/layout'
 import type { Locale } from '@/i18n/config'
 import type { MegaMenuBrand, MegaMenuData } from '@/lib/data'
 import { useSelectedCar, type SelectedCar } from '@/lib/selectedCar'
-import { showToast } from '@/components/ui/ToastHost'
 
 type CarInfo = { brand: MegaMenuBrand; modelName: string; name: string } | null
 
@@ -290,7 +289,6 @@ function WidePanel({
 
   const brand = data.brands.find((b) => b.slug === active) ?? data.brands[0]
   const models = brand.models
-  const showPopular = brand.models.length < 3 && brand.popular.length > 0
 
   return (
     <div ref={anchorRef} style={{ height: 0 }}>
@@ -417,34 +415,6 @@ function WidePanel({
                       <ModelCard key={m.slug} href={m.href} name={m.name} line={m.line} />
                     ))}
                   </div>
-
-                  {showPopular ? (
-                    <div style={{ marginTop: 'var(--space-24)' }}>
-                      <p
-                        className="text-12"
-                        style={{
-                          margin: '0 0 var(--space-12)',
-                          fontWeight: 500,
-                          letterSpacing: '0.08em',
-                          textTransform: 'uppercase',
-                          color: 'var(--color-neutral-600)',
-                        }}
-                      >
-                        Популярне у {brand.name}
-                      </p>
-                      <div
-                        className="grid"
-                        style={{
-                          gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
-                          gap: 'var(--space-12)',
-                        }}
-                      >
-                        {brand.popular.map((p) => (
-                          <PopularCard key={p.id} item={p} />
-                        ))}
-                      </div>
-                    </div>
-                  ) : null}
 
                   <div
                     className="flex"
@@ -672,91 +642,6 @@ function ModelCard({ href, name, line }: { href: string; name: string; line: str
         <Icon d={ARROW_RIGHT} size="16" />
       </span>
     </a>
-  )
-}
-
-function PopularCard({ item }: { item: MegaMenuBrand['popular'][number] }) {
-  const add = () =>
-    showToast({ title: 'Кошик — етап 5', description: 'Кошик запрацює на наступному етапі.' })
-  return (
-    <article
-      className="box-border flex min-w-0 flex-col"
-      style={{
-        padding: 'var(--space-8)',
-        gap: 'var(--space-8)',
-        border: 'var(--border-hairline) solid var(--color-neutral-200)',
-        borderRadius: 'var(--radius-md)',
-        background: 'var(--color-neutral-white)',
-      }}
-    >
-      <span
-        className="overflow-hidden"
-        style={{
-          width: '3.5rem',
-          height: '3.5rem',
-          borderRadius: 'var(--radius-sm)',
-          background: 'var(--color-neutral-100)',
-        }}
-      >
-        {item.photo ? (
-          // eslint-disable-next-line @next/next/no-img-element -- popular-part thumbnail
-          <img
-            src={item.photo}
-            alt=""
-            className="block h-full w-full"
-            style={{ objectFit: 'cover' }}
-          />
-        ) : null}
-      </span>
-      <div className="flex flex-col" style={{ gap: 'var(--space-2)' }}>
-        <a
-          href={item.href}
-          className="overflow-hidden text-13 no-underline"
-          style={{
-            fontWeight: 600,
-            color: 'var(--color-neutral-900)',
-            display: '-webkit-box',
-            WebkitLineClamp: 2,
-            WebkitBoxOrient: 'vertical',
-            minHeight: '2.25rem',
-          }}
-        >
-          {item.name}
-        </a>
-        <span
-          className="overflow-hidden text-ellipsis whitespace-nowrap text-12"
-          style={{ color: 'var(--color-neutral-600)' }}
-        >
-          {item.donor}
-        </span>
-      </div>
-      <div
-        className="flex items-center justify-between"
-        style={{ marginTop: 'auto', gap: 'var(--space-8)' }}
-      >
-        <span
-          className="whitespace-nowrap text-13"
-          style={{ fontWeight: 700, color: 'var(--color-neutral-900)' }}
-        >
-          {item.price}
-        </span>
-        <button
-          type="button"
-          onClick={add}
-          aria-label={`Додати в кошик: ${item.name}`}
-          className="dls-round-fill flex shrink-0 cursor-pointer items-center justify-center border-0"
-          style={{
-            width: '1.75rem',
-            height: '1.75rem',
-            padding: 0,
-            borderRadius: 'var(--radius-full)',
-            ['--dls-rf-color' as string]: 'var(--color-neutral-900)',
-          }}
-        >
-          <Icon d={['M12 5v14', 'M5 12h14']} size="16" width={2.5} />
-        </button>
-      </div>
-    </article>
   )
 }
 
