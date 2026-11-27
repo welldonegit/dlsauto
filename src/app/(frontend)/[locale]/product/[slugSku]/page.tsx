@@ -124,8 +124,14 @@ export default async function ProductRoutePage({
       '@type': 'Offer',
       price: product.price,
       priceCurrency: 'UAH',
+      // In stock → InStock; sold → SoldOut; reserved (and anything else) →
+      // OutOfStock (DEV_CONTEXT §5, Р39).
       availability:
-        avail === 'in_stock' ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+        avail === 'in_stock'
+          ? 'https://schema.org/InStock'
+          : avail === 'sold'
+            ? 'https://schema.org/SoldOut'
+            : 'https://schema.org/OutOfStock',
       url: `${metadataBase().origin}${prefix}${canonicalPath}`,
     },
   }

@@ -1,8 +1,11 @@
 import { getPayloadClient } from '@/lib/payload'
+import { IN_STOCK_WHERE } from '@/lib/rules'
 
 /**
  * Admin dashboard counters (STAGE_2_PROMPT §7): a stub ahead of the stage-7
  * analytics — in stock, sold in the last 30 days, leads. Server component.
+ * "В наявності" uses the same availability filter as the storefront (Р39) so
+ * reserved/quantity-sold parts are not counted as available.
  */
 export default async function BeforeDashboard() {
   const payload = await getPayloadClient()
@@ -11,7 +14,7 @@ export default async function BeforeDashboard() {
   const since = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()
 
   const [inStock, sold, leads] = await Promise.all([
-    payload.count({ collection: 'products', where: { status: { equals: 'in_stock' } } }),
+    payload.count({ collection: 'products', where: { and: [...IN_STOCK_WHERE] } }),
     payload.count({
       collection: 'products',
       where: { and: [{ status: { equals: 'sold' } }, { soldAt: { greater_than_equal: since } }] },

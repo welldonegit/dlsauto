@@ -23,6 +23,7 @@ export {
   availability,
   isAvailable,
   AVAILABILITY_LABEL,
+  IN_STOCK_WHERE,
   type Availability,
   type AvailabilityInput,
 } from './availability'

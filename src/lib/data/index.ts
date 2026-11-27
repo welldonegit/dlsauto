@@ -2,7 +2,7 @@ import { unstable_cache } from 'next/cache'
 
 import type { Locale } from '@/i18n/config'
 import { getPayloadClient } from '@/lib/payload'
-import { modelDisplayName, modelYears, partsLabel } from '@/lib/rules'
+import { IN_STOCK_WHERE, modelDisplayName, modelYears, partsLabel } from '@/lib/rules'
 import type {
   Brand,
   Category,
@@ -71,7 +71,7 @@ async function countInStock(field: 'model' | 'category', id: number): Promise<nu
   const payload = await getPayloadClient()
   const res = await payload.count({
     collection: 'products',
-    where: { and: [{ [field]: { equals: id } }, { status: { equals: 'in_stock' } }] },
+    where: { and: [{ [field]: { equals: id } }, ...IN_STOCK_WHERE] },
   })
   return res.totalDocs
 }
@@ -188,7 +188,7 @@ export const getRecoPool = unstable_cache(
     const res = await payload.find({
       collection: 'products',
       locale,
-      where: { status: { equals: 'in_stock' } },
+      where: { and: [...IN_STOCK_WHERE] },
       limit: 2000,
       depth: 1,
     })
@@ -211,7 +211,7 @@ export const getNewestProducts = unstable_cache(
     const res = await payload.find({
       collection: 'products',
       locale,
-      where: { status: { equals: 'in_stock' } },
+      where: { and: [...IN_STOCK_WHERE] },
       sort: '-createdAt', // base order = newest created (tier 3 keeps this, sort is stable)
       limit: 100, // a pool to rank; sliced to `limit` after ordering
       depth: 2, // model → brand, category, photos, pickup point
@@ -260,7 +260,7 @@ export const getVehicleModels = unstable_cache(
         const prods = await payload.find({
           collection: 'products',
           locale,
-          where: { and: [{ model: { equals: model.id } }, { status: { equals: 'in_stock' } }] },
+          where: { and: [{ model: { equals: model.id } }, ...IN_STOCK_WHERE] },
           sort: '-createdAt',
           limit: perModel,
           depth: 2,
@@ -324,7 +324,7 @@ function hasVideoPhoto(
 
 /** Build the product `where` (minus the category filter, which is layered on for facets). */
 function catalogWhere(p: CatalogParams): Record<string, unknown>[] {
-  const and: Record<string, unknown>[] = [{ status: { equals: 'in_stock' } }]
+  const and: Record<string, unknown>[] = [...IN_STOCK_WHERE]
   if (p.model) {
     and.push({
       or: [{ 'model.slug': { equals: p.model } }, { 'alsoFits.slug': { equals: p.model } }],
@@ -416,7 +416,7 @@ export const getProductsByModel = unstable_cache(
       collection: 'products',
       locale,
       where: {
-        and: [{ 'model.slug': { equals: modelSlug } }, { status: { equals: 'in_stock' } }],
+        and: [{ 'model.slug': { equals: modelSlug } }, ...IN_STOCK_WHERE],
       },
       limit,
       depth: 1,
@@ -557,7 +557,7 @@ export const getMegaMenu = unstable_cache(
             collection: 'products',
             locale,
             where: {
-              and: [{ 'model.brand.slug': { equals: slug } }, { status: { equals: 'in_stock' } }],
+              and: [{ 'model.brand.slug': { equals: slug } }, ...IN_STOCK_WHERE],
             },
             sort: '-createdAt',
             limit: 3,

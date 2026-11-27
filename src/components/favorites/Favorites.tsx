@@ -247,16 +247,21 @@ function FavoriteCard({
   onRemove: () => void
   onCart: () => void
 }) {
-  const sold = card.status === 'sold'
+  // Availability drives the closed state (Р39): both sold and reserved close the
+  // purchase and show a status badge. `card.status` collapses reserved → in_stock,
+  // so key off the richer `card.availability`.
+  const avail = card.availability ?? (card.status === 'sold' ? 'sold' : 'in_stock')
+  const closed = avail === 'sold' || avail === 'reserved'
+  const statusLabel = avail === 'reserved' ? 'Заброньовано' : 'Продано'
   const similar = card.modelSlug ? `${prefix}/catalog?model=${card.modelSlug}` : `${prefix}/catalog`
   return (
     <div className="dls-fav__cell">
       <div className="dls-fav__photo">
         {card.photos[0] ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={card.photos[0]} alt={card.name} data-sold={sold ? 'true' : 'false'} />
+          <img src={card.photos[0]} alt={card.name} data-sold={closed ? 'true' : 'false'} />
         ) : null}
-        {sold ? <span className="dls-fav__soldBadge">Продано</span> : null}
+        {closed ? <span className="dls-fav__soldBadge">{statusLabel}</span> : null}
         <button
           type="button"
           onClick={onRemove}
@@ -283,13 +288,13 @@ function FavoriteCard({
       </p>
       <p className="dls-fav__oem">Артикул: OEM {card.oem}</p>
       <div className="dls-fav__priceRow">
-        {sold ? (
+        {closed ? (
           <p className="dls-fav__gone">Деталі вже немає</p>
         ) : (
           <p className="dls-fav__price">{uah(card.price)}</p>
         )}
       </div>
-      {sold ? (
+      {closed ? (
         <Link href={similar} className="dls-fav__similar">
           Знайти схожу
         </Link>
