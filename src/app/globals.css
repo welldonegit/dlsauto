@@ -2148,11 +2148,25 @@
     white-space: nowrap;
   }
 
-  /* delivery + payment (owner 26.11) — texts from settings, static logos */
-  .dls-pd__deliv {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-12);
+  /* delivery + payment (DLSProduct) — white cards; texts from settings, static logos */
+  .dls-pd__deliv,
+  .dls-pd__pay {
+    padding: var(--space-16);
+    border: var(--border-hairline) solid var(--color-neutral-200);
+    border-radius: var(--radius-lg);
+    background: var(--color-neutral-white);
+  }
+  @media (min-width: 768px) {
+    .dls-pd__deliv,
+    .dls-pd__pay {
+      padding: var(--space-24);
+    }
+  }
+  .dls-pd__deliv .dls-pd__h2 {
+    margin-bottom: var(--space-8);
+  }
+  .dls-pd__pay .dls-pd__h2 {
+    margin-bottom: var(--space-16);
   }
   .dls-pd__delivList {
     display: flex;
@@ -2173,8 +2187,7 @@
     color: var(--color-neutral-900);
   }
   .dls-pd__delivLogo img {
-    height: auto;
-    max-height: 1.75rem;
+    width: auto;
     max-width: 100%;
     display: block;
   }
@@ -2182,27 +2195,32 @@
     width: var(--icon-24);
     height: var(--icon-24);
   }
-  .dls-pd__delivInfo {
+  .dls-pd__delivCond {
+    flex: 1;
     min-width: 0;
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-  }
-  .dls-pd__delivInfo b {
-    font-size: var(--text-15);
-    line-height: var(--text-15--line-height);
-    font-weight: 600;
-    color: var(--color-neutral-900);
-  }
-  .dls-pd__delivInfo span {
     font-size: var(--text-14);
     line-height: var(--text-14--line-height);
-    color: var(--color-neutral-600);
+    color: var(--color-neutral-900);
+    text-wrap: pretty;
   }
-  .dls-pd__pay {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-12);
+  .dls-pd__delivTariff {
+    flex-shrink: 0;
+    max-width: 40%;
+    font-size: var(--text-13);
+    line-height: var(--text-13--line-height);
+    color: var(--color-neutral-600);
+    text-align: right;
+  }
+  .dls-pd__delivFree {
+    flex-shrink: 0;
+    padding: var(--space-2) var(--space-8);
+    border-radius: var(--radius-sm);
+    background: var(--color-success);
+    font-size: var(--text-13);
+    line-height: var(--text-13--line-height);
+    font-weight: 500;
+    color: var(--color-neutral-white);
+    white-space: nowrap;
   }
   .dls-pd__payChips {
     margin: 0;
@@ -2226,11 +2244,75 @@
     width: auto;
     display: block;
   }
-  .dls-pd__payNote {
-    margin: 0;
+  .dls-pd__payApple {
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.125rem;
+  }
+  .dls-pd__payApple img:first-child {
+    height: 1.375rem;
+    margin-top: -0.1875rem;
+  }
+  .dls-pd__payApple img:last-child {
+    height: 1.5rem;
+    filter: brightness(0);
+  }
+  .dls-pd__payGoogle {
+    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .dls-pd__payGoogle img {
+    width: 1.25rem;
+    height: 1.25rem;
+  }
+  .dls-pd__payGoogle span {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: #5f6368; /* Google brand grey — logo colour from export, kept as-is */
+  }
+  .dls-pd__payPills {
+    margin: var(--space-16) 0 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+  }
+  .dls-pd__payPill {
+    min-height: var(--control-h-40);
+    box-sizing: border-box;
+    padding: var(--space-8) var(--space-16);
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    border-radius: var(--radius-sm);
+    background: var(--color-neutral-100);
     font-size: var(--text-14);
     line-height: var(--text-14--line-height);
-    color: var(--color-neutral-600);
+    color: var(--color-neutral-900);
+  }
+  .dls-pd__payPill strong {
+    font-weight: 600;
+  }
+  .dls-pd__payPillIco {
+    width: var(--icon-20);
+    height: var(--icon-20);
+    flex-shrink: 0;
+    fill: none;
+    stroke: var(--color-neutral-600);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+  .dls-pd__payRule {
+    margin: var(--space-16) 0;
+    height: 1px;
+    background: var(--color-neutral-200);
   }
 
   /* bought together */

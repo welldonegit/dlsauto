@@ -6,6 +6,7 @@ import type { Locale } from '@/i18n/config'
 import { toReco, relatedTypesOf } from '@/lib/reco'
 import { toProductCardData } from '@/lib/productCard'
 import { alternatives, availability, boughtTogether, fromSameCar, modelYears } from '@/lib/rules'
+import { formatScheduleLabel } from '@/lib/schedule'
 import type { Brand, Donor, Media, Model, Product } from '@/payload-types'
 
 import { ProductBuyActions } from './ProductBuyActions'
@@ -320,7 +321,7 @@ export function ProductView({
             <section aria-labelledby="pd-cond" className="dls-pd__cond">
               <div className="dls-pd__condHead">
                 <h2 id="pd-cond" className="dls-pd__h2">
-                  Стан деталі
+                  Опис
                 </h2>
                 {product.conditionLabel === 'used_checked' ? (
                   <span className="dls-pd__condChip dls-pd__condChip--ok">
@@ -391,7 +392,16 @@ export function ProductView({
             {/* delivery + payment (texts from settings, logos static — owner 26.11) */}
             <ProductDelivery
               delivery={delivery}
-              pickup={pickup ? { name: pickup.name, address: pickup.address } : null}
+              pickup={
+                pickup
+                  ? {
+                      name: pickup.name,
+                      address: pickup.address,
+                      hours: pickup.schedule ? formatScheduleLabel(pickup.schedule) : null,
+                    }
+                  : null
+              }
+              warrantyDays={product.warrantyDays}
             />
 
             {/* bought together (boughtTogether) */}
