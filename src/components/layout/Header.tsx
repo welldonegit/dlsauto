@@ -349,6 +349,9 @@ export function Header({
 
   const barStyle = {
     background: 'var(--color-neutral-0)',
+    // White bar sits over the dark header: rounded top corners show the dark
+    // through them (DLSHeaderHero), squared off once pinned to the top (stuck).
+    borderRadius: stuck ? '0' : 'var(--radius-sm) var(--radius-sm) 0 0',
     transform: hidden ? 'translateY(-100%)' : 'translateY(0)',
     boxShadow: stuck && !hidden ? 'var(--shadow-md)' : 'none',
     transition:
@@ -380,9 +383,10 @@ export function Header({
       {/* tablet + desktop */}
       <div className="hidden md:block">
         <Container
-          className="flex items-center justify-between"
+          className="grid items-center"
           style={{
             height: 'var(--control-h-40)',
+            gridTemplateColumns: 'minmax(0,1fr) auto minmax(0,1fr)',
             gap: 'var(--space-24)',
             fontSize: 'var(--text-14)',
             color: 'var(--color-neutral-300)',
@@ -403,7 +407,16 @@ export function Header({
               Контакти
             </Link>
           </nav>
-          <div className="flex items-center" style={{ gap: 'var(--space-16)', marginLeft: 'auto' }}>
+          {/* centred USP (DLSHeaderHero). Editorial text — no settings field yet;
+              see report. The export rotates a second USP, omitted pending a field. */}
+          <div
+            aria-live="polite"
+            className="justify-self-center overflow-hidden whitespace-nowrap text-center"
+            style={{ color: 'var(--color-neutral-0)' }}
+          >
+            Відправляємо в день замовлення
+          </div>
+          <div className="flex items-center justify-self-end" style={{ gap: 'var(--space-16)' }}>
             <span className="hidden wide:inline">{hours}</span>
             <a
               href={phoneHref}
