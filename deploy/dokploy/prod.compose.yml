@@ -33,10 +33,13 @@ services:
 
   # One-shot: apply Payload migrations, then exit. web/worker wait for this to
   # finish. Uses the worker image (full prod deps + src + config); the web
-  # standalone image has no payload CLI. Idempotent — payload tracks applied.
+  # standalone image has no payload CLI. db:migrate runs the project's
+  # non-interactive runner (src/payload/migrate.ts), not the raw CLI, so it
+  # never blocks on the dev-push confirmation prompt. Idempotent — payload
+  # tracks applied migrations.
   migrate:
     image: ${WORKER_IMAGE}
-    command: ['pnpm', 'payload', 'migrate']
+    command: ['pnpm', 'db:migrate']
     restart: 'no'
     depends_on:
       postgres:
