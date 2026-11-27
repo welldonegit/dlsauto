@@ -35,28 +35,34 @@ export function toProductCardData(
   locale: Locale,
   brandLogo: (brandId: number) => string | null,
 ): ProductCardData {
-  const model = p.model && typeof p.model === 'object' ? p.model : null
+  const ownModel = p.model && typeof p.model === 'object' ? p.model : null
+  const alsoFitsModels = (p.alsoFits ?? []).filter(
+    (m): m is Model => typeof m === 'object' && m !== null,
+  )
+  // Badge label/logo fall back to the first «також підходить» model when a part
+  // has no primary model (wheels/tyres matched by size, Р49) — never an empty
+  // chip (point C). `modelSlug` keeps the primary model only (car-fit matching).
+  const model = ownModel ?? alsoFitsModels[0] ?? null
   const brand = model && model.brand && typeof model.brand === 'object' ? model.brand : null
   const pickup = p.pickupPoint && typeof p.pickupPoint === 'object' ? p.pickupPoint : null
   const prefix = locale === 'uk' ? '' : '/ru'
   const photos = (p.photos ?? []).map(imageUrl).filter((u): u is string => !!u)
   // All compatible models (own model + alsoFits, no cap) for the card «Сумісність» line (Р53).
   const compat = [
-    ...(model ? [modelShort(model)] : []),
-    ...(p.alsoFits ?? [])
-      .filter((m): m is Model => typeof m === 'object' && m !== null)
-      .map(modelShort),
+    ...(ownModel ? [modelShort(ownModel)] : []),
+    ...alsoFitsModels.map(modelShort),
   ].filter((v, i, a) => v && a.indexOf(v) === i)
 
   return {
     id: p.sku,
     href: `${prefix}/product/${p.slug ?? p.id}-${p.sku}`,
     name: p.name,
-    oem: p.oem?.[0]?.number ?? p.sku,
+    oem: p.oem?.[0]?.number ?? null,
+    sku: p.sku,
     price: p.price,
     discountPercent: p.discountPercent ?? null,
     model: model ? modelShort(model) : '',
-    modelSlug: model?.slug ?? null,
+    modelSlug: ownModel?.slug ?? null,
     warrantyDays: p.warrantyDays ?? 0,
     compat,
     brandLogo: brand ? brandLogo(brand.id) : null,

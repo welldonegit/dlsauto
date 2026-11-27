@@ -673,6 +673,7 @@ const baseSample: ProductCardData = {
   href: '#',
   name: 'Фара ліва галоген',
   oem: 'UR56-51-040',
+  sku: 'DLS-10001',
   price: 4500,
   model: 'Ranger 2006–2012',
   brandLogo: null,

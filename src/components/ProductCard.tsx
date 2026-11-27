@@ -32,7 +32,10 @@ export type ProductCardData = {
   id: string
   href: string
   name: string
-  oem: string
+  /** Real OEM number (first), or null when the part has none — then show the SKU. */
+  oem: string | null
+  /** Article (SKU) — shown as «Артикул: …» when there is no OEM (CATALOG_PLAN §4). */
+  sku: string
   price: number
   /** Discount percent → "−N%" badge, struck old price, red current price. */
   discountPercent?: number | null
@@ -325,7 +328,7 @@ export function ProductCard({
             </svg>
             <PillText>Підходить на ваше авто</PillText>
           </Pill>
-        ) : (
+        ) : data.model ? (
           <Pill title={data.model}>
             {data.brandLogo ? (
               // eslint-disable-next-line @next/next/no-img-element -- small brand mark
@@ -348,7 +351,7 @@ export function ProductCard({
             )}
             <PillText>{data.model}</PillText>
           </Pill>
-        )}
+        ) : null}
 
         <h3
           title={data.name}
@@ -373,7 +376,7 @@ export function ProductCard({
           className="overflow-hidden text-ellipsis whitespace-nowrap text-13"
           style={{ margin: 'var(--space-4) 0 0', color: 'var(--color-neutral-600)' }}
         >
-          Артикул: OEM {data.oem}
+          {data.oem ? `OEM ${data.oem}` : `Артикул: ${data.sku}`}
         </p>
         {!closed ? (
           <p

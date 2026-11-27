@@ -159,9 +159,10 @@ export function QuickView({
       setCopied(true)
       copyT.current = setTimeout(() => setCopied(false), 2000)
     }
-    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(data.oem).then(done, done)
+    const value = data.oem ?? data.sku
+    if (navigator.clipboard?.writeText) navigator.clipboard.writeText(value).then(done, done)
     else done()
-  }, [data.oem])
+  }, [data.oem, data.sku])
 
   const addToCart = () =>
     showToast({ title: 'Кошик — етап 5', description: 'Кошик запрацює на наступному етапі.' })
@@ -475,7 +476,7 @@ export function QuickView({
                   color: 'var(--color-neutral-600)',
                 }}
               >
-                <span>OEM {data.oem}</span>
+                <span>{data.oem ? `OEM ${data.oem}` : `Артикул: ${data.sku}`}</span>
                 <span
                   aria-hidden="true"
                   style={{

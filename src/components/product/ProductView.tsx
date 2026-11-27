@@ -87,8 +87,15 @@ export function ProductView({
   const slides: Slide[] = photoImgs.map((src) => ({ src, isVideo: false }))
   if (videoSrc) slides.push({ src: photoImgs[0] ?? '', isVideo: true, videoSrc })
 
-  // Model / brand / donor labels.
-  const model = product.model && typeof product.model === 'object' ? (product.model as Model) : null
+  // Model / brand / donor labels. The brand/model badge (above the title, in the
+  // card and the sticky bar) falls back to the first «також підходить» model when
+  // the part has no primary model (wheels/tyres by size, Р49) — never empty (point C).
+  const ownModel =
+    product.model && typeof product.model === 'object' ? (product.model as Model) : null
+  const alsoFitsModelObjs = (product.alsoFits ?? []).filter(
+    (m): m is Model => typeof m === 'object' && m !== null,
+  )
+  const model = ownModel ?? alsoFitsModelObjs[0] ?? null
   const brand =
     model && model.brand && typeof model.brand === 'object' ? (model.brand as Brand) : null
   const donorLabel = model ? `${brand ? brand.name + ' ' : ''}${modelShort(model)}`.trim() : ''
@@ -212,7 +219,8 @@ export function ProductView({
     id: product.sku,
     href: `${prefix}/product/${product.slug ?? product.id}-${product.sku}`,
     name: product.name,
-    oem: oem ?? product.sku,
+    oem,
+    sku: product.sku,
     price: product.price,
     discountPercent: product.discountPercent ?? null,
     model: model ? modelShort(model) : '',

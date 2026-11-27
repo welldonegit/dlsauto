@@ -286,7 +286,7 @@ function FavoriteCard({
       <p className="dls-fav__name">
         <Link href={card.href}>{card.name}</Link>
       </p>
-      <p className="dls-fav__oem">Артикул: OEM {card.oem}</p>
+      <p className="dls-fav__oem">{card.oem ? `OEM ${card.oem}` : `Артикул: ${card.sku}`}</p>
       <div className="dls-fav__priceRow">
         {closed ? (
           <p className="dls-fav__gone">Деталі вже немає</p>
