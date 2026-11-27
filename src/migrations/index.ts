@@ -3,6 +3,7 @@ import * as migration_20261126_110531_crossnumbers from './20261126_110531_cross
 import * as migration_20261126_130537_hotoffers from './20261126_130537_hotoffers';
 import * as migration_20261126_132259_drop_quickview_warranty from './20261126_132259_drop_quickview_warranty';
 import * as migration_20261126_134617_delivery_settings from './20261126_134617_delivery_settings';
+import * as migration_20261127_115341_drop_settings_accept_prepayment from './20261127_115341_drop_settings_accept_prepayment';
 
 export const migrations = [
   {
@@ -28,6 +29,11 @@ export const migrations = [
   {
     up: migration_20261126_134617_delivery_settings.up,
     down: migration_20261126_134617_delivery_settings.down,
-    name: '20261126_134617_delivery_settings'
+    name: '20261126_134617_delivery_settings',
+  },
+  {
+    up: migration_20261127_115341_drop_settings_accept_prepayment.up,
+    down: migration_20261127_115341_drop_settings_accept_prepayment.down,
+    name: '20261127_115341_drop_settings_accept_prepayment'
   },
 ];

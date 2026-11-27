@@ -488,17 +488,16 @@ async function run(): Promise<void> {
       marketplaces: { prom: '#', avtopro: '#', olx: '#' },
       minOrder: 500,
       dispatchCutoffHour: 15,
-      prepaymentConditions:
-        'Карткою онлайн або готівкою при самовивозі. Для габаритних — передплата після підтвердження.',
-      acceptBlock:
-        'Приймаємо: готівка при самовивозі, карта онлайн (monoPay — Visa/Mastercard, Apple/Google Pay).',
-      // «Доставка» + «Приймаємо» на сторінці товара — тексти з експорту (Р55/26.11).
+      // «Доставка» + «Приймаємо» на сторінці товара. Тексти нейтральні, з
+      // PROJECT_CONTEXT §1 (відкрите питання №1): без обіцянок накладеного платежу
+      // чи безкоштовної доставки; оплата — канонічне формулювання. Не суперечать
+      // settings (відправка до 15:00, мін. 500 ₴).
       delivery: {
-        novaPoshtaNote: 'У відділення або поштомат, 1–2 дні',
-        deliveryNote: 'У відділення, 1–3 дні',
+        novaPoshtaNote: 'У відділення або поштомат по всій Україні',
+        deliveryNote: 'У відділення по всій Україні',
         tariffNote: 'за тарифом перевізника',
         pickupNote: 'Самовивіз з наших пунктів видачі',
-        paymentNote: 'Оплата при отриманні або monoPay',
+        paymentNote: 'Картка онлайн (monoPay) або готівка при самовивозі',
       },
       fop: { name: 'ФОП [ПІБ]', edrpou: '[ЄДРПОУ]', address: '[адреса]' },
       keycrmBaseUrl: '',
@@ -506,7 +505,7 @@ async function run(): Promise<void> {
         services: [
           'Відправка в день замовлення',
           'Обмін або повернення, якщо не підійшла',
-          'Оплата при отриманні або monoPay',
+          'Картка онлайн (monoPay) або готівка при самовивозі',
         ].join('\n'),
       },
       season: { current: 'none', manualOverride: false },

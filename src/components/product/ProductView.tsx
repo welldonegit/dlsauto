@@ -535,7 +535,10 @@ const BENEFITS: { text: string; icon: React.ReactNode }[] = [
     ),
   },
   {
-    text: 'Оплата при отриманні або monoPay',
+    // Payment copy follows PROJECT_CONTEXT §1/§3.1 (texts = PROJECT_CONTEXT, not
+    // the export): neutral, no cash-on-delivery promise until the client confirms
+    // it (open question №1). Export literal was «Оплата при отриманні або monoPay».
+    text: 'Картка онлайн (monoPay) або готівка при самовивозі',
     icon: (
       <svg viewBox="0 0 24 24" aria-hidden className="dls-pd__benIco">
         <rect

@@ -4,9 +4,10 @@ import { anyone, isAdmin } from '../access'
 
 /**
  * Site settings (DEV_CONTEXT §4): phones, email, messengers, socials, Prom
- * rating, marketplace links, minimum order, dispatch cutoff, prepayment terms,
- * "Приймаємо" block, ФОП details, season, KeyCRM base URL. Text conditions are
- * localized; the header, footer and "Контакти" read from here.
+ * rating, marketplace links, minimum order, dispatch cutoff, the `delivery`
+ * group (product-page «Доставка»/«Приймаємо» copy, incl. payment terms), ФОП
+ * details, season, KeyCRM base URL. Text conditions are localized; the header,
+ * footer and "Контакти" read from here.
  */
 export const Settings: GlobalConfig = {
   slug: 'settings',
@@ -109,18 +110,6 @@ export const Settings: GlobalConfig = {
               ],
             },
             {
-              name: 'prepaymentConditions',
-              type: 'textarea',
-              localized: true,
-              label: 'Умови передоплати',
-            },
-            {
-              name: 'acceptBlock',
-              type: 'textarea',
-              localized: true,
-              label: 'Блок «Приймаємо»',
-            },
-            {
               name: 'delivery',
               type: 'group',
               label: 'Доставка / Приймаємо (сторінка товару)',
@@ -149,7 +138,8 @@ export const Settings: GlobalConfig = {
                   name: 'paymentNote',
                   type: 'text',
                   localized: true,
-                  label: 'Приймаємо — приписка (напр. «Оплата при отриманні або monoPay»)',
+                  label:
+                    'Приймаємо — приписка (умови оплати, напр. «Картка онлайн або готівка при самовивозі»)',
                 },
               ],
             },

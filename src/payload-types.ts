@@ -1924,8 +1924,6 @@ export interface Setting {
   };
   minOrder?: number | null;
   dispatchCutoffHour?: number | null;
-  prepaymentConditions?: string | null;
-  acceptBlock?: string | null;
   /**
    * Тексти секцій «Доставка» і «Приймаємо» на сторінці товару.
    */
@@ -1999,8 +1997,6 @@ export interface SettingsSelect<T extends boolean = true> {
       };
   minOrder?: T;
   dispatchCutoffHour?: T;
-  prepaymentConditions?: T;
-  acceptBlock?: T;
   delivery?:
     | T
     | {
