@@ -1,5 +1,6 @@
-# DLSAuto — контекст разработки (версия 1.3, 21.11.2026)
+# DLSAuto — контекст разработки (версия 1.4, 27.11.2026)
 
+> v1.4 (26–27.11) — правки клиента и доводка 3c: категории/кросс/совместимость/импорт (Р51–Р56), блок главной `hotOffers` (§4), группа `settings.delivery` (тексты «Доставка»/«Приймаємо» товара, §4) и удаление дублей `prepaymentConditions`/`acceptBlock`, удаление `quickView.warranty` (гарантия из `products.warrantyDays`, Р14), §4 приведён к ADR 007 (порядок через `orderable`/`_order`, а не `sortOrder`), рендер фронта по запросу до этапа 9 — ADR 008.
 > v1.3 — внесены решения каталога по `docs/products/CATALOG_PLAN.md` (v5, Р1–Р50): модель данных товара (§4), правила подборов и остатков (§5), поток обмена остатками с KeyCRM/Prom (§6).
 
 Источник правды по разработке. Читать вместе с PROJECT_CONTEXT.md (продукт и дизайн) и DESIGN_RULES.md. Токены дизайна живут в коде (`src/app/globals.css`); `docs/DESIGN_TOKENS.md` генерируется из него в этапе 1. Приоритет при конфликте: явная просьба в чате → этот файл → PROJECT_CONTEXT.md → DESIGN_RULES.md.
@@ -76,12 +77,12 @@
 
 ## 4. Модель данных (Payload collections)
 
-**brands** — name, slug, logo (mono + color), sortOrder, published.
+**brands** — name, slug, logo (mono + color), published. Порядок — через `orderable` (`_order`), не числовым полем (ADR 007).
 
-**models** (поколение) — brand, name («L200»), generation («IV», «WK», опц.), yearFrom, yearTo (null = по сейчас), bodyType (`pickup` | `suv` | `passenger`, только для группировки секций главной, в UI не выводится), twinName («Pathfinder», опц.), donorPhoto (опц., не выводится пока нет у всех), sortOrder, published.
+**models** (поколение) — brand, name («L200»), generation («IV», «WK», опц.), yearFrom, yearTo (null = по сейчас), bodyType (`pickup` | `suv` | `passenger`, только для группировки секций главной, в UI не выводится), twinName («Pathfinder», опц.), donorPhoto (опц., не выводится пока нет у всех), published. Порядок — через `orderable` (`_order`), ADR 007.
 Вычисляемые: partsCount (товары в наличии).
 
-**categories** — name, slug, photo, description, seoTitle, seoDescription, sortOrder, published, specTemplate[] (name локал., type `text` | `number` | `select`, options, unit, required, requiredForTypes[] — характеристики категории; §8, Р6). Плоские, один уровень. Набор (9 категорий), порядок на сайте и привязка типов к категориям — по правкам клиента, источник правды `docs/products/CATALOG_PLAN.md` Р51 + `DLSAuto_dovidnyk_typiv.xlsx` (листы «Типи деталей», «Характеристики»); порядок задаётся `_order` коллекции (сид создаёт категории в этом порядке), т.к. коллекция `orderable`.
+**categories** — name, slug, photo, description, seoTitle, seoDescription, published, specTemplate[] (name локал., type `text` | `number` | `select`, options, unit, required, requiredForTypes[] — характеристики категории; §8, Р6). Плоские, один уровень. Набор (9 категорий), порядок на сайте и привязка типов к категориям — по правкам клиента, источник правды `docs/products/CATALOG_PLAN.md` Р51 + `DLSAuto_dovidnyk_typiv.xlsx` (листы «Типи деталей», «Характеристики»); порядок задаётся `_order` коллекции (сид создаёт категории в этом порядке), т.к. коллекция `orderable`.
 
 **partTypes** (справочник типов деталей) — name (локал.), category (rel), positionRule (`lr` | `fb` | `any` | `seat` | `none`), broad (bool — у «широких» типов альтернативы только по OEM, Р35), relatedTypes[] (для «З цим купують», с условием стороны `same` | `opposite` | `any`, Р37), aliases[] (подсказка типа из названия при импорте). 107 типов, источник — `docs/products/DLSAuto_dovidnyk_typiv.xlsx`.
 
@@ -109,7 +110,7 @@
 
 **leads** — заявки из форм: type (callback, ask-about-part, sto), name, phone, message, photo (опц.), product (опц.), utm, createdAt.
 
-**banners** — полоса над шапкой: text (uk/ru), link (опц.), variant (из набора системы: dark / light / primary-tint), season (`any` | конкретный сезон), dateFrom, dateTo, dismissible, published, sortOrder. Показывается первый подходящий по сезону и датам; закрытие запоминается в localStorage по id баннера.
+**banners** — полоса над шапкой: text (uk/ru), link (опц.), variant (из набора системы: dark / light / primary-tint), season (`any` | конкретный сезон), dateFrom, dateTo, dismissible, published. Порядок — через `orderable` (`_order`), ADR 007. Показывается первый подходящий по сезону и датам; закрытие запоминается в localStorage по id баннера.
 
 **reviews** — author, rating 1–5, text, photo (опц., одно изображение детали из отзыва), product (опц.), published (модерация), createdAt. Средняя считается по published.
 
