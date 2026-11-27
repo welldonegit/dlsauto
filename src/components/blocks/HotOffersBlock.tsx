@@ -13,13 +13,21 @@ function imageUrl(m: number | Media | null | undefined): string | null {
   return m.sizes?.gallery?.url ?? m.sizes?.card?.url ?? m.url ?? null
 }
 
-export function HotOffersBlock({ heading, items }: BlockComponentProps<'hotOffers'>) {
-  const cards: HotOfferCard[] = (items ?? []).map((it) => ({
-    src: imageUrl(it.image),
-    title: it.title ?? '',
-    subtitle: it.subtitle ?? '',
-    href: it.link?.trim() || null,
-  }))
+export function HotOffersBlock({ heading, items, locale }: BlockComponentProps<'hotOffers'>) {
+  const prefix = locale === 'uk' ? '' : '/ru'
+  // Internal links (admin enters "/catalog…") get the locale prefix so /ru cards
+  // stay on /ru; external (http) and in-page (#) links pass through unchanged.
+  const withPrefix = (link: string): string =>
+    prefix && link.startsWith('/') && !link.startsWith(`${prefix}/`) ? `${prefix}${link}` : link
+  const cards: HotOfferCard[] = (items ?? []).map((it) => {
+    const link = it.link?.trim() || null
+    return {
+      src: imageUrl(it.image),
+      title: it.title ?? '',
+      subtitle: it.subtitle ?? '',
+      href: link ? withPrefix(link) : null,
+    }
+  })
   if (!cards.length) return null
   return <HotOffers heading={heading ?? 'Гарячі пропозиції'} items={cards} />
 }

@@ -565,17 +565,39 @@ async function run(): Promise<void> {
     },
     {
       // «Гарячі пропозиції» banner slider (Р55, DLSAuto-Головна-B). Placeholder
-      // cards (no images yet) — the client uploads 1040×480 banners in the admin;
-      // titles/subtitles are the export's demo content.
+      // cards (no images yet) — the client uploads real 1040×480 banners in the
+      // admin. Titles/subtitles are facts from PROJECT_CONTEXT §1 only (no invented
+      // promos, discounts or numbers, DEV_CONTEXT §10.8); links point to existing
+      // catalog pages (never /search — stage 4).
       blockType: 'hotOffers',
       heading: 'Гарячі пропозиції',
       items: [
-        { title: 'Чорна п’ятниця', subtitle: 'Знижки на запчастини до кінця тижня' },
-        { title: 'Ford Ranger', subtitle: 'Нові надходження з розборки' },
-        { title: 'Фари та ліхтарі', subtitle: 'Перевірені, з фото кожної деталі' },
-        { title: 'Mitsubishi L200', subtitle: 'Кузов, підвіска, двигун' },
-        { title: 'Гарантія до 60 днів', subtitle: 'На двигуни та КПП' },
-        { title: 'Відправка сьогодні', subtitle: 'Нова пошта по всій Україні' },
+        {
+          title: 'Пікапи та позашляховики',
+          subtitle: 'Основа нашої розбірки',
+          link: '/catalog?body=pickup',
+        },
+        {
+          title: 'Двигуни та навісне',
+          subtitle: 'Перевірені на стенді або на авто',
+          link: '/catalog/dvyguny',
+        },
+        {
+          title: 'Кузовні деталі',
+          subtitle: 'З фото реальної деталі',
+          link: '/catalog/kuzovni-detali',
+        },
+        {
+          title: 'Підвіска та ходова',
+          subtitle: 'Для пікапів і легкових',
+          link: '/catalog/pidviska-ta-khodova',
+        },
+        { title: 'Шини та диски', subtitle: 'Підбір за розміром', link: '/catalog/shyny-ta-dysky' },
+        {
+          title: 'Відправка в день замовлення',
+          subtitle: 'При підтвердженні до 15:00',
+          link: '/catalog',
+        },
       ],
     },
     {

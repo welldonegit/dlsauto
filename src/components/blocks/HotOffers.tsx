@@ -42,7 +42,10 @@ export function HotOffers({ heading, items }: { heading: string; items: HotOffer
     const step = el?.firstElementChild
       ? el.firstElementChild.getBoundingClientRect().width + 24
       : 320
-    el?.scrollBy({ left: dir * step, behavior: 'smooth' })
+    // Honour prefers-reduced-motion: the JS `behavior` option overrides the CSS
+    // `scroll-behavior: auto` the global reduced-motion reset sets, so branch here.
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    el?.scrollBy({ left: dir * step, behavior: reduce ? 'auto' : 'smooth' })
   }
 
   if (!items.length) return null
