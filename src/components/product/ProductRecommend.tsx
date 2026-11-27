@@ -50,7 +50,11 @@ export function ProductRecommend({
   const prefix = locale === 'uk' ? '' : '/ru'
   const car = useSelectedCar()
   const [carCards, setCarCards] = useState<ProductCardData[]>([])
-  const [carInfo, setCarInfo] = useState<{ label: string; logo: string | null } | null>(null)
+  const [carInfo, setCarInfo] = useState<{
+    label: string
+    logo: string | null
+    href: string | null
+  } | null>(null)
 
   // «На ваше авто»: only when a car is chosen and it isn't this part's own model
   // (that one is already «Ще з цього авто»). Fetch the car's parts client-side.
@@ -65,7 +69,7 @@ export function ProductRecommend({
       .then((d) => {
         if (!alive) return
         setCarCards(d.more)
-        setCarInfo(d.car ? { label: d.car.label, logo: d.car.logo } : null)
+        setCarInfo(d.car ? { label: d.car.label, logo: d.car.logo, href: d.car.href } : null)
       })
       .catch(() => {})
     return () => {
@@ -159,7 +163,13 @@ export function ProductRecommend({
               )}
               <span className="dls-rec__carName">{carInfo?.label ?? car.label}</span>
             </span>
-            <Link href={`${prefix}/catalog?model=${car.slug}`} className="dls-rec__carLink">
+            {/* Model page (/brand/<brand>/<model>) once loaded; the car cookie
+                has no brand slug, so until the fetch returns carInfo.href fall
+                back to the model-scoped catalog (always valid). */}
+            <Link
+              href={carInfo?.href ?? `${prefix}/catalog?model=${car.slug}`}
+              className="dls-rec__carLink"
+            >
               Усі деталі на {car.label} →
             </Link>
           </div>

@@ -16,7 +16,7 @@ import type { Media, Model } from '@/payload-types'
 const logo = (m: number | Media | null | undefined): string | null =>
   m && typeof m === 'object' ? (m.url ?? null) : null
 
-export type CarInfo = { label: string; logo: string | null }
+export type CarInfo = { label: string; logo: string | null; href: string | null }
 export type FavoritesData = {
   cards: ProductCardData[]
   more: ProductCardData[]
@@ -70,9 +70,14 @@ export async function favoritesData(
     const m = mRes.docs[0] as Model | undefined
     if (m) {
       const brand = m.brand && typeof m.brand === 'object' ? m.brand : null
+      const prefix = locale === 'uk' ? '' : '/ru'
+      // «Усі деталі на {авто}» → the model page (/brand/<brand>/<model>), not a
+      // catalog query. Needs the brand slug, which the depth-2 lookup populates.
+      const href = brand?.slug && m.slug ? `${prefix}/brand/${brand.slug}/${m.slug}` : null
       car = {
         label: `${brand ? brand.name + ' ' : ''}${m.name}`.trim(),
         logo: brand ? logo(brand.logoMono) : null,
+        href,
       }
     }
   }
