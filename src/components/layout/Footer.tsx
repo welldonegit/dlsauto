@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { Accordion } from '@/components/ui/Accordion'
 import { Container } from '@/components/ui/layout'
 import { ArrowRightIcon, TelegramIcon, TikTokIcon, ViberIcon } from '@/components/ui/icons'
-import { getCategoryTree, getPickupPoints, getSettings } from '@/lib/data'
+import { getBrands, getCategoryTree, getPickupPoints, getSettings } from '@/lib/data'
 import { formatScheduleLabel } from '@/lib/schedule'
 
 import { FooterCallback } from './FooterCallback'
@@ -18,21 +18,17 @@ import { FooterCallback } from './FooterCallback'
 
 type Column = { title: string; items: { label: string; href: string }[] }
 
-// The «Каталог» column is built from the categories collection at render time
-// (see Footer) so it always reflects the real Р51 set — never a hard-coded list
-// with a stale «Оптика». These three columns are static placeholders (hrefs land
-// in later stages), matching the approved export layout.
+// The «Каталог» and «Марки» columns are built from collections at render time
+// (see Footer) so they always reflect the real data — never a hard-coded list.
+// «Покупцям» and «Компанія» keep the export's item set and order; each item
+// points to its page where one exists, and stays a `#` placeholder where the
+// page arrives in a later stage. Layout is unchanged — only hrefs.
 const STATIC_COLS: Column[] = [
-  {
-    title: 'Марки',
-    items: ['Mitsubishi', 'Ford', 'Nissan', 'Mazda', 'Jeep', 'Усі марки'].map((label) => ({
-      label,
-      href: '#',
-    })),
-  },
   {
     title: 'Покупцям',
     items: [
+      // No dedicated pages yet — these land in later stages (FAQ/reviews are
+      // home blocks today; delivery/warranty/СТО have no standalone page).
       'Як підібрати запчастину',
       'Оплата і доставка',
       'Гарантія та повернення',
@@ -44,14 +40,19 @@ const STATIC_COLS: Column[] = [
   {
     title: 'Компанія',
     items: [
-      { label: 'Про компанію', href: '#' },
-      { label: 'Вакансії', href: '#' },
+      { label: 'Про компанію', href: '/about' },
+      { label: 'Вакансії', href: '#' }, // no page yet
       { label: 'Контакти', href: '/contacts' },
-      { label: 'Prom.ua', href: '#' },
-      { label: 'OLX', href: '#' },
+      { label: 'Prom.ua', href: '#' }, // external link — awaits settings.marketplaces URL
+      { label: 'OLX', href: '#' }, // external link — awaits settings.marketplaces URL
     ],
   },
 ]
+
+// Export's «Марки» column: the same five labels + «Усі марки», resolved to real
+// brand pages from the brands collection. A label with no matching published
+// brand stays `#`; «Усі марки» stays `#` until a brands index page exists.
+const FOOTER_BRANDS = ['Mitsubishi', 'Ford', 'Nissan', 'Mazda', 'Jeep']
 
 type Address = { city: string; line: string; hours: string }
 type SocialLink = { label: string; href: string; Icon: typeof TelegramIcon }
@@ -140,10 +141,11 @@ function Brand({ addresses, socials }: { addresses: Address[]; socials: SocialLi
 }
 
 export async function Footer() {
-  const [settings, points, categories] = await Promise.all([
+  const [settings, points, categories, brands] = await Promise.all([
     getSettings(),
     getPickupPoints(),
     getCategoryTree(),
+    getBrands(),
   ])
   // «Каталог» column = the real categories (order _order) + «Усі категорії»,
   // matching the export's item count (9 + 1). No hard-coded «Оптика».
@@ -156,7 +158,19 @@ export async function Footer() {
       { label: 'Усі категорії', href: '/catalog' },
     ],
   }
-  const COLS: Column[] = [catalogCol, ...STATIC_COLS]
+  // «Марки» column = export's labels resolved to real brand pages.
+  const brandSlug = new Map(brands.map((b) => [b.name, b.slug]))
+  const marksCol: Column = {
+    title: 'Марки',
+    items: [
+      ...FOOTER_BRANDS.map((name) => {
+        const slug = brandSlug.get(name)
+        return { label: name, href: slug ? `/brand/${slug}` : '#' }
+      }),
+      { label: 'Усі марки', href: '#' },
+    ],
+  }
+  const COLS: Column[] = [catalogCol, marksCol, ...STATIC_COLS]
   const addresses: Address[] = points.map((p) => ({
     city: p.name,
     line: p.address,
@@ -329,12 +343,21 @@ export async function Footer() {
               className="flex flex-col flex-wrap items-start md:flex-row"
               style={{ gap: 'var(--space-12) var(--space-24)' }}
             >
-              <a href="#" className="no-underline" style={{ color: 'var(--color-neutral-600)' }}>
+              <Link
+                href="/policy"
+                className="no-underline"
+                style={{ color: 'var(--color-neutral-600)' }}
+              >
                 <span className="dls-underline">Політика конфіденційності</span>
-              </a>
-              <a href="#" className="no-underline" style={{ color: 'var(--color-neutral-600)' }}>
+              </Link>
+              <Link
+                href="/oferta"
+                className="no-underline"
+                style={{ color: 'var(--color-neutral-600)' }}
+              >
                 <span className="dls-underline">Публічна оферта</span>
-              </a>
+              </Link>
+              {/* no «Умови повернення» page yet — stays a placeholder */}
               <a href="#" className="no-underline" style={{ color: 'var(--color-neutral-600)' }}>
                 <span className="dls-underline">Умови повернення</span>
               </a>
