@@ -147,14 +147,17 @@ async function run(): Promise<void> {
     Peugeot: 'peugeot',
     'Great Wall': null,
   }
+  // Brands are created in first-seen order from MODELS; `brands` is `orderable`
+  // so insertion order becomes `_order` — the one source of order (ADR 007). No
+  // numeric `sortOrder` field exists; the data layer sorts brands/models by
+  // `_order` (Payload's defaultSort for orderable collections).
   const brandNames = [...new Set(MODELS.map((m) => m.brand))]
   const brandId = new Map<string, number>()
-  let bi = 0
   for (const name of brandNames) {
     const file = LOGO[name]
     const slug =
       file === 'mercedes' ? 'mercedes-benz' : (file ?? name.toLowerCase().replace(/\s+/g, '-'))
-    const data: Record<string, unknown> = { name, slug, sortOrder: bi, published: true }
+    const data: Record<string, unknown> = { name, slug, published: true }
     if (file) {
       data.logoMono = await media(`assets/logos/${file}.svg`, `${name} логотип`, `${file}-mono.svg`)
       data.logoColor = await media(
@@ -164,7 +167,6 @@ async function run(): Promise<void> {
       )
     }
     brandId.set(name, await upsert('brands', { slug: { equals: slug } }, data))
-    bi += 1
   }
   log(`brands: ${brandId.size}`)
 
@@ -604,7 +606,7 @@ async function run(): Promise<void> {
       heading: 'Категорії запчастин',
       variant: 'a',
       // Bento order = the client's Р51 site order (Двигуни leads as the 2-wide card,
-      // then the rest row by row). Mirrors categories.sortOrder.
+      // then the rest row by row). Mirrors the categories' `_order` (creation order).
       categories: [
         'dvyguny',
         'kuzovni-detali',

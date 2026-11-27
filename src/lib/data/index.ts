@@ -106,7 +106,7 @@ export const getModelsGroupedByBrand = unstable_cache(
       where: { published: { equals: true } },
       limit: 500,
       depth: 1, // brand → slug
-      sort: 'sortOrder',
+      sort: '_order', // orderable collection → insertion order = seed order (ADR 007); `sortOrder` was dropped
     })
     const out: Record<string, { slug: string; name: string }[]> = {}
     for (const m of res.docs) {
